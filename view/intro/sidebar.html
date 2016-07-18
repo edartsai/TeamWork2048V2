@@ -71,7 +71,7 @@
         function clicktab(index) {
             if (index < TabsList.length && TabsList[index] !== undefined) {
                 if (TabsList[index].url === "")
-                    $("#Body").load("view/intro/body.html");
+                    $("#Body").load("intro/body.html");
                 else
                     $("#Body").load(TabsList[index].url);
             }

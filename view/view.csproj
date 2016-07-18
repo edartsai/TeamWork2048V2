@@ -46,13 +46,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\jquery-ui.min.css" />
-    <Content Include="css\jquery-ui.theme.min.css" />
     <Content Include="css\style.css" />
     <Content Include="images\b_back_btn_20_p.png" />
     <Content Include="images\b_back_btn_p.png" />
     <Content Include="images\b_brefresh_20_n.png" />
     <Content Include="images\b_brefresh_n.png" />
     <Content Include="images\b_share_p.png" />
+    <Content Include="index.html" />
     <Content Include="intro\body.html" />
     <Content Include="intro\footer.html" />
     <Content Include="intro\header.html" />
