@@ -70,13 +70,16 @@
 
         function clicktab(index) {
             if (index < TabsList.length && TabsList[index] !== undefined) {
-                var game2048Name = 'game2048.html';
                 if (TabsList[index].url === "")
                     $("#Body").load("intro/body.html");
-                else if (TabsList[index].url.indexOf(game2048Name) > -1)
-                    $("#Body").load(TabsList[index].url, function() { reset(); }); //跳到 game2048.html時，重新 reset game
-                else
-                    $("#Body").load(TabsList[index].url);
+
+                else {
+                    if(TabsList[index].urltype === 0)       // load to sub div
+                        $("#Body").load(TabsList[index].url);
+
+                    else if (TabsList[index].urltype === 1) //外開
+                        window.open(TabsList[index].url);
+                }
             }
         }
 
