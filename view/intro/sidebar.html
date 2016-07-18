@@ -26,7 +26,7 @@
         var TabsList;
 
         function readmenufile() {
-            var path = "View/intro/menu.json";
+            var path = "view/intro/menu.json";
 
             $.ajax({
                 url: path,
@@ -71,7 +71,7 @@
         function clicktab(index) {
             if (index < TabsList.length && TabsList[index] !== undefined) {
                 if (TabsList[index].url === "")
-                    $("#Body").load("View/intro/body.html");
+                    $("#Body").load("view/intro/body.html");
                 else
                     $("#Body").load(TabsList[index].url);
             }
