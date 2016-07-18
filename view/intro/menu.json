@@ -3,19 +3,19 @@
     "id": 0,
     "caption": "功能特色",
     "description": "",
-    "url": "../intro/intro01.html"
+    "url": "intro01.html"
   },
   {
     "id": 1,
     "caption": "使用技術",
     "description": "",
-    "url": "../intro/intro02.html"
+    "url": "intro02.html"
   },
   {
     "id": 2,
     "caption": "問題及解決方式",
     "description": "",
-    "url": "/intro/intro03.html"
+    "url": "intro03.html"
   },
   {
     "id": 3,
@@ -27,6 +27,6 @@
     "id": 4,
     "caption": "DEMO",
     "description": "",
-    "url": "/game2048.html"
+    "url": "../game2048.html"
   }
 ]
