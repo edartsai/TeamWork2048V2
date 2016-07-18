@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>index</title>
+    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="js_lib/jquery-ui.min.js"></script>
+    <link href="css/jquery-ui.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <script type="text/javascript">
+
+        function goto2048() {
+            location.href = 'game2048.html';
+        }
+    </script>
+
+    <div id="Header">
+        <script>
+            $("#Header").load("intro/header.html");
+        </script>
+    </div>
+    <div id="Sidebar">
+        <script>
+            $("#Sidebar").load("intro/sidebar.html");
+        </script>
+    </div>
+    <div id="Body">
+        <script>
+            $("#Body").load("intro/body.html");
+        </script>
+    </div>
+    <div style='clear:both;'></div> <!--此div不可刪除-->
+    <div id="Footer">
+        <script>
+            $("#Footer").load("intro/footer.html");
+        </script>
+    </div>
+
+</body>
+</html>

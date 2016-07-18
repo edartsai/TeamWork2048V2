@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="js_lib/jquery-ui.min.js"></script>
+    <link href="css/jquery-ui.min.css" rel="stylesheet"/>
+    <script>
+        $(function () {
+            $("#problems02tabs").tabs();
+        });
+    </script>
+   
+</head>
+<body>
+<style>
+    div {
+        margin-left: 1em;
+        border-width:thin;
+        border-style:solid;
+        border-color: black;
+    }
+
+
+     img {
+         border-width:0.5px;
+         border-style:ridge;
+         border-color: gray;
+     }
+</style>
+
+
+
+
+<h2>問題與解決</h2>
+<h3 style="margin-left: 1em;">2.Github Web Page 相對路徑問題</h3>
+<div id="problems02tabs">
+    <ul>
+        <li><a href="#problems02tabs-1">1.發現問題</a></li>
+        <li><a href="#problems02tabs-2">2.聚焦</a></li>
+        <li><a href="#problems02tabs-3">3.觀察</a></li>
+        <li><a href="#problems02tabs-4">4.推測</a></li>
+        <li><a href="#problems02tabs-5">5.發現問題</a></li>
+        <li><a href="#problems02tabs-6">6.解決</a></li>
+        <li><a href="#problems02tabs-7">7.結論</a></li>
+    </ul>
+    <div id="problems02tabs-1">
+        <img src="images/problems02_01.png" alt="" />
+    </div>
+
+    <div id="problems02tabs-2">
+        <img src="images/problems02_05.png" alt=""/>
+        <p>找不到圖檔?? (其實一堆 js & css 都找不到)</p>
+    </div>
+    <div id="problems02tabs-3">
+        <p>相對路徑寫錯??</p>
+        <br/>
+        <br/>
+        <br/>
+        <img src="images/problems02_03.png" alt=""/>
+        <p>沒錯啊!</p>
+    </div>
+
+    <div id="problems02tabs-4">
+        <p>保哥說:</p>
+        <img src="images/problems02_06.png" />
+        <br/>
+        <br/>
+        <br/>
+        <p>但連 Button 圖片也出不來就不太對勁了。</p>
+    </div>
+    <div id="problems02tabs-5">
+        <p>確認 Github 上看得到這張圖</p>
+        <img src="images/problems02_02.png" alt=""/>
+        <br/>
+        <p>達叔:怎麼上下兩段網址裡的 <span style="color:red">View</span> 大小寫不同!!!</p>
+        <img src="images/problems02_05.png" alt="" />
+    </div>
+
+    <div id="problems02tabs-6">
+        <p>Github 的連結規則是直接根據上傳時的檔案結構來處理。</p>
+        <p>而 View 資料夾當初的建立是因為...</p>
+        <img src="images/problems02_04.png" alt=""/>
+        <br/>
+        <br/>
+        <br/>
+        <p>....習慣 Project Name 開頭用大寫錯了嗎 !!??</p>
+    </div>
+    <div id="problems02tabs-7">
+        <p>理解每個不同語言的 Coding Style 非常重要!!</p>
+        <p>以免發生這種慘劇。</p>
+        <br/>
+        <p>提供參考資料:</p>
+        <p >
+            <a href="http://www.w3schools.com/js/js_conventions.asp" target="_blank" style="color:blue">
+                JavaScript Style Guide and Coding Conventions
+            </a>
+        </p>
+        <p >
+            <a href="https://google.github.io/styleguide/javascriptguide.xml" target="_blank" style="color:blue">
+                Google JavaScript Style Guide
+            </a>
+        </p>
+    </div>
+</div>
+
+
+
+</body>
+</html>
