@@ -8,8 +8,8 @@
 
 
 
-#Header { width: auto; height:auto; text-align:center; line-height:60px; background-color:#0000f9; }
+#Header { width: auto; height:90px; text-align:center; line-height:80px; background-color:#aaaaff; margin-bottom:5px;}
 #Sidebar{ width:auto;float:left;height:auto;text-align:left;}
 #Body{width:auto;height:auto;text-align:left;background-color:#fffaf3;float:left;}
-#Footer{width:auto;height:200px;text-align:center;line-height:60px;background-color:#0000f9;position: relative;margin-top: -200px;}
+#Footer{width:auto;height:120px;text-align:center;line-height:40px;background-color:#aaaaff;position: absolute;margin-top:5px;}
         
