@@ -1,2 +1,3 @@
 H:\Projects\TeamWorkGame2048\TeamWork2048\View\bin\Debug\View.exe.config
 C:\Work\TeamWorkGame2048-Git\TeamWork2048\View\obj\Debug\view.csprojResolveAssemblyReference.cache
+C:\Projects\Game2048\git\TeamWork2048V2\View\obj\Debug\view.csprojResolveAssemblyReference.cache

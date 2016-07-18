@@ -3,26 +3,33 @@
     "id": 0,
     "caption": "功能特色",
     "description": "",
-    "url": "intro/intro01.html"
+    "url": "intro/feature01.html"
+  },
+  {
+    "id": 3,
+    "caption": "分工",
+    "description": "intro/collaboration01.html",
+    "url": ""
   },
   {
     "id": 1,
     "caption": "使用技術",
     "description": "",
-    "url": "intro/intro02.html"
+    "url": "intro/technics01.html"
   },
   {
     "id": 2,
-    "caption": "問題及解決方式",
+    "caption": "問題1 - 協作平台",
     "description": "",
-    "url": "intro/intro03.html"
+    "url": "intro/problems01.html"
   },
-  {
-    "id": 3,
-    "caption": "分工",
+    {
+    "id": 2,
+    "caption": "問題2 - 相對路徑",
     "description": "",
-    "url": ""
+    "url": "intro/problems02.html"
   },
+
   {
     "id": 4,
     "caption": "DEMO",
