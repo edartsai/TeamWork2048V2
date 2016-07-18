@@ -73,7 +73,7 @@
                 if (TabsList[index].url === "")
                     $("#Body").load("intro/body.html");
                 else
-                    $("#Body").load(TabsList[index].url);
+                    $("#Body").load(TabsList[index].url, function() { reset(); });
             }
         }
 
