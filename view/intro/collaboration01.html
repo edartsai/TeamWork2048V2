@@ -7,14 +7,40 @@
 </head>
 <body>
 <style>
-    #collaboration01-table { border: solid;border-width: thin;text-align: left; margin-left:1em;}
+    /*#collaboration01-table { border: solid;border-width: thin;text-align: left; margin-left:1em;}
     #collaboration01-table td{padding: 5px;}
     #collaboration01-table th{padding: 5px;}
-    .collaboration01-table-title { border: solid;border-width: thin;}
+    .collaboration01-table-title { border: solid;border-width: thin;}*/
      
+    #collaboration01-table {
+        margin-left:2em;
+        border: solid;
+        border-width: thin;
+        text-align: left;
+    }
+
+    #collaboration01-table td {
+        padding-top: 8px;
+        padding-bottom: 8px;
+        padding-right: 8px;
+        border: solid;
+        border-width: 0;
+        border-bottom-width:thin
+    }
+
+    #collaboration01-table th {
+        padding: 8px;
+        border: solid;
+        border-width: 0;
+        border-bottom-width:thin
+    }
+
+    .collaboration01-table-title {
+        border: solid;
+        border-width: thin !important;
+    }
 </style>
 
-<h2>分工</h2>
 <table id="collaboration01-table">
     <tr>
         <td class="collaboration01-table-title">姓名</td>
@@ -24,12 +50,23 @@
     <tr>
         <th>Edar.Tsai</th>
         <td>視覺總監</td>
-        <td>View畫面製作、視覺風格設計</td>
+        <td>
+            <ul>
+                <li>視覺風格設計</li>
+                <li>View 畫面製作</li>
+            </ul>
+        </td>
     </tr>
     <tr>
         <th>Jim.Liu</th>
         <td>邏輯控管</td>
-        <td>遊戲邏輯、打雜</td>
+        <td>
+            <ul>
+                <li>遊戲邏輯</li>
+                <li>技術擔綱</li>
+                <li>打雜</li>
+            </ul>
+        </td>
     </tr>
 </table>
     

@@ -1,44 +1,37 @@
 ﻿[
   {
-    "id": 0,
-    "caption": "功能特色",
-    "description": "",
+    "caption": "緣起",
     "urltype": 0,
     "url": "intro/feature01.html"
   },
   {
-    "id": 3,
+    "caption": "功能",
+    "urltype": 0,
+    "url": "intro/feature02.html"
+  },
+  {
     "caption": "分工",
-    "description": "",
     "urltype": 0,
     "url": "intro/collaboration01.html"
   },
   {
-    "id": 1,
-    "caption": "使用技術",
-    "description": "",
+    "caption": "技術",
     "urltype": 0,
     "url": "intro/technics01.html"
   },
   {
-    "id": 2,
-    "caption": "問題1 - 協作平台",
-    "description": "",
+    "caption": "問題 - 協作平台",
     "urltype": 0,
     "url": "intro/problems01.html"
   },
     {
-    "id": 2,
-    "caption": "問題2 - 相對路徑",
-    "description": "",
+    "caption": "問題 - 相對路徑",
     "urltype": 0,
     "url": "intro/problems02.html"
   },
 
   {
-    "id": 4,
     "caption": "DEMO",
-    "description": "",
     "urltype": 1,
     "url": "game2048.html"
   }

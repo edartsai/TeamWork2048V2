@@ -7,27 +7,70 @@
 </head>
 <body>
 <style>
-    #technics01-table tr { margin-top: 5px;margin-bottom: 3px;}
+    /*#technics01-table tr { margin-top: 5px;margin-bottom: 3px;}
     #technics01-table th { border: solid; border-color:black; border-width: thin;font-weight: bold;}
     #technics01-table { font-size: 20px;}
     #technics01-table span { margin-right: 3px;margin-left: 3px;}
     #technics01-table-title {border: none !important; }
-    #technics01-table-title span { font-size:larger ; font-weight: bolder;color: cornflowerblue;}
+    #technics01-table-title span { font-size:larger ; font-weight: bolder;color: cornflowerblue;}*/
+
+#technics01-table {
+        margin-left:2em;
+        border: solid;
+        border-width: thin;
+        text-align: left;
+    }
+
+    #technics01-table td {
+        padding: 8px;
+        border: solid;
+        border-width: 0;
+        border-bottom-width:thin
+    }
+
+    #technics01-table th {
+        padding: 8px;
+        border: solid;
+        border-width: 0;
+        border-bottom-width:thin
+    }
+
+    .technics01-table-title {
+        border: solid;
+        border-width: thin !important;
+    }
+
 </style>
 
 <table id="technics01-table">
-    <tr><th colspan="2" id="technics01-table-title"><span>使用技術</span></tr>
+    
     <tr>
         <th>第一階段</th>
-        <td><span>html</span>,<span>javascript</span>,<span>css</span></td>
+        <td>
+            <ul>
+                <li>html</li>
+                <li>javascript</li>
+                <li>css</li>
+            </ul>
+        </td>
     </tr>
     <tr>
         <th>第二階段</th>
-        <td><span>jquery</span>,<span>other lib</span></td>
+        <td>
+            <ul>
+                <li>jquery</li>
+                <li>bootstrap</li>
+                <li>other libs</li>
+            </ul>
+        </td>
     </tr>
     <tr>
         <th>第三階段</th>
-        <td><span>reactjs</span></td>
+        <td>
+            <ul>
+                <li>reactjs</li>
+            </ul>
+        </td>
     </tr>
 
 </table>
