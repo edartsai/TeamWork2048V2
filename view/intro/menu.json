@@ -39,7 +39,7 @@
     "id": 4,
     "caption": "DEMO",
     "description": "",
-    "urltype": 0,
+    "urltype": 1,
     "url": "game2048.html"
   }
 ]
