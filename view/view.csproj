@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1A5C72EE-8E21-4A1D-9EAC-4B3F17870A88}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>View</RootNamespace>
+    <AssemblyName>View</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <None Include="intro\menu.json" />
+    <None Include="css\StyleSheet.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="css\jquery-ui.min.css" />
+    <Content Include="css\jquery-ui.theme.min.css" />
+    <Content Include="css\style.css" />
+    <Content Include="images\b_back_btn_20_p.png" />
+    <Content Include="images\b_back_btn_p.png" />
+    <Content Include="images\b_brefresh_20_n.png" />
+    <Content Include="images\b_brefresh_n.png" />
+    <Content Include="images\b_share_p.png" />
+    <Content Include="intro\body.html" />
+    <Content Include="intro\footer.html" />
+    <Content Include="intro\header.html" />
+    <Content Include="intro\intro01.html" />
+    <Content Include="intro\intro02.html" />
+    <Content Include="intro\intro03.html" />
+    <Content Include="intro\sidebar.html" />
+    <Content Include="js\fb.js" />
+    <Content Include="js_lib\html2canvas.js" />
+    <Content Include="js\enum.js" />
+    <Content Include="js\iscando.js" />
+    <Content Include="js\merge.js" />
+    <Content Include="js\main.js" />
+    <Content Include="js\move.js" />
+    <Content Include="js\utility.js" />
+    <Content Include="js\view.js" />
+    <Content Include="game2048.html" />
+    <Content Include="js_lib\jquery-ui.min.js" />
+    <Content Include="css\StyleSheet.css">
+      <DependentUpon>StyleSheet.scss</DependentUpon>
+    </Content>
+    <Content Include="css\StyleSheet.min.css">
+      <DependentUpon>StyleSheet.css</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="css\images\" />
+    <Folder Include="css\themes\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
