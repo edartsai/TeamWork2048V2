@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\jquery-ui.min.css" />
+    <Content Include="css\sidebarstyle.css" />
     <Content Include="css\style.css" />
     <Content Include="images\b_back_btn_20_p.png" />
     <Content Include="images\b_back_btn_p.png" />
@@ -58,6 +59,7 @@
     <Content Include="images\problems02_04.png" />
     <Content Include="images\problems02_05.png" />
     <Content Include="images\problems02_06.png" />
+    <Content Include="images\problems02_07.png" />
     <Content Include="index.html" />
     <Content Include="intro\body.html" />
     <Content Include="intro\feature02.html" />

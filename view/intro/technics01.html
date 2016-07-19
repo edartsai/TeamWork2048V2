@@ -4,16 +4,19 @@
 <head>
     <meta charset="utf-8" />
     <title>使用技術</title>
+    <!--<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>-->
+    <!--<script src="js_lib/jquery-ui.min.js"></script>-->
+    <!-- <link href="../css/jquery-ui.min.css" rel="stylesheet" />-->
+    <script>
+        $(function () {
+            $("#technics01tabs").tabs();
+        });
+    </script>
+
 </head>
 <body>
 <style>
-    /*#technics01-table tr { margin-top: 5px;margin-bottom: 3px;}
-    #technics01-table th { border: solid; border-color:black; border-width: thin;font-weight: bold;}
-    #technics01-table { font-size: 20px;}
-    #technics01-table span { margin-right: 3px;margin-left: 3px;}
-    #technics01-table-title {border: none !important; }
-    #technics01-table-title span { font-size:larger ; font-weight: bolder;color: cornflowerblue;}*/
-
+    
 #technics01-table {
         margin-left:2em;
         border: solid;
@@ -21,59 +24,73 @@
         text-align: left;
     }
 
-    #technics01-table td {
-        padding: 8px;
-        border: solid;
-        border-width: 0;
-        border-bottom-width:thin
-    }
 
-    #technics01-table th {
-        padding: 8px;
-        border: solid;
-        border-width: 0;
-        border-bottom-width:thin
-    }
-
-    .technics01-table-title {
-        border: solid;
-        border-width: thin !important;
+    #technics01tabs {margin-left:2em;}
+    
+    #technics01tabs h2 {
+        color: darkblue;
     }
 
 </style>
 
-<table id="technics01-table">
-    
-    <tr>
-        <th>第一階段</th>
-        <td>
+    <div id="technics01tabs">
+        <ul>
+            <li><a href="#technics01tabs-1">第一階段:實做</a></li>
+            <li><a href="#technics01tabs-2">第二階段:美化</a></li>
+            <li><a href="#technics01tabs-3">第三階段:整合</a></li>
+        </ul>
+        <div id="technics01tabs-1">
+            <h2>實做</h2>
+            <p>目標:</p>
+            <ul>
+                <li>遊戲功能建置</li>
+                <li>展示網站建置</li>
+            </ul>
+            <p>技術:</p>
             <ul>
                 <li>html</li>
                 <li>javascript</li>
                 <li>css</li>
             </ul>
-        </td>
-    </tr>
-    <tr>
-        <th>第二階段</th>
-        <td>
+        </div>
+        <div id="technics01tabs-2">
+            <h2>美化</h2>
+            <p>目標:</p>
             <ul>
+                <li>遊戲動畫</li>
+                <li>Facebook 互動分享</li>
+                <li>網站美化工作</li>
+                <li>RWD框架</li>
+                <li>瀏覽器相容性</li>
+            </ul>
+            <p>技術:</p>
+            <ul>
+                <li>scss</li>
                 <li>jquery</li>
                 <li>bootstrap</li>
+                <li>facebook api</li>
                 <li>other libs</li>
             </ul>
-        </td>
-    </tr>
-    <tr>
-        <th>第三階段</th>
-        <td>
+        </div>
+        <div id="technics01tabs-3">
+            <h2>整合</h2>
+            <p>目標:</p>
+            <ul>
+                <li>以新前端框架技術重構遊戲及網站</li>
+                <li>使用模組整合工具達到彈性包版</li>
+                <li>SEO調校</li>
+            </ul>
+            <p>技術:</p>
             <ul>
                 <li>reactjs</li>
                 <li>webpack</li>
+                <li></li>
             </ul>
-        </td>
-    </tr>
+        </div>
 
-</table>
+        
+    </div>
+
+
 </body>
 </html>
