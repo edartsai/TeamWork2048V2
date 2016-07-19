@@ -148,33 +148,3 @@
     color: white;
     float: right; }
 
-#Header {
-  width: 100%;
-  height: 90px;
-  text-align: center;
-  line-height: 80px;
-  background-color: #aaaaff;
-  margin-bottom: 5px; }
-
-#Sidebar {
-  width: 15%;
-  float: left;
-  height: calc(100% - 210px);
-  text-align: left; }
-
-#Body {
-  width: 85%;
-  height: auto;
-  text-align: left;
-  background-color: #fffaf3;
-  float: left; }
-
-#Footer {
-  width: 100%;
-  height: 120px;
-  text-align: center;
-  line-height: 40px;
-  background-color: #aaaaff;
-  position: absolute;
-  margin-top: 5px; }
-
