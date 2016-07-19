@@ -42,9 +42,15 @@
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
     <None Include="intro\menu.json" />
-    <None Include="css\StyleSheet.scss" />
+    <None Include="css\game2048style.scss" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\game2048style.css">
+      <DependentUpon>game2048style.scss</DependentUpon>
+    </Content>
+    <Content Include="css\game2048style.min.css">
+      <DependentUpon>game2048style.css</DependentUpon>
+    </Content>
     <Content Include="css\jquery-ui.min.css" />
     <Content Include="css\sidebarstyle.css" />
     <Content Include="css\style.css" />
@@ -86,12 +92,6 @@
     <Content Include="js\view.js" />
     <Content Include="game2048.html" />
     <Content Include="js_lib\jquery-ui.min.js" />
-    <Content Include="css\StyleSheet.css">
-      <DependentUpon>StyleSheet.scss</DependentUpon>
-    </Content>
-    <Content Include="css\StyleSheet.min.css">
-      <DependentUpon>StyleSheet.css</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="css\images\" />

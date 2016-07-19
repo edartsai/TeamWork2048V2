@@ -11,7 +11,7 @@ window.fbAsyncInit = function () {
 (function () {
     var e = document.createElement('script');
     e.type = 'text/javascript';
-    e.src = '//connect.facebook.net/zh_TW/all.js';
+    e.src = 'https://connect.facebook.net/zh_TW/all.js';
     e.async = true;
     document.getElementById('fb-root').appendChild(e);
 }());

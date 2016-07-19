@@ -85,6 +85,7 @@ html, body {
     border-style:solid;
     border-radius: $box-radius;
     padding:0;
+    cursor:pointer;
 }
 
 .box-body{
@@ -128,7 +129,9 @@ html, body {
     z-index:100;
     display:inline-block;
     position:absolute;
-    margin-top:10px;
+    margin-top:65px;
+    margin-left:($main-width/2) * (-1);
+    line-height:($main-width/2) + 30;
 }
 
 
