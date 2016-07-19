@@ -4,73 +4,122 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <!--<script src="https://code.jquery.com/jquery-1.9.1.js"></script>-->
+    <!--<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">-->
 </head>
 <body>
-    <style>
-        #feature02-table {
-            margin-left: 2em;
-            border: solid;
-            border-width: thin;
-            text-align: left;
-        }
+<style>
+    #feature02-table {
+        margin-left: 2em;
+        border: solid;
+        border-width: thin;
+        text-align: left;
+    }
 
-            #feature02-table td {
-                padding: 8px;
-                border: solid;
-                border-width: 0;
-                border-bottom-width: thin;
+    #feature02-table td {
+        padding: 8px;
+        border: solid;
+        border-width: 0;
+        border-bottom-width: thin;
+    }
+
+    #feature02-table th {
+        padding: 8px;
+        border: solid;
+        border-width: 0;
+        border-bottom-width: thin;
+    }
+
+    .feature02-table-title {
+        border: solid;
+        border-width: thin !important;
+    }
+
+    .progressbar-innerdiv {
+        margin-bottom: -18px;
+        margin-left: -10px;
+        position: relative;
+        text-align: center;
+        z-index: 999;
+        color: whitesmoke;
+        font-size: smaller;
+    }
+
+    .spanBlackText {
+        color: black;
+    }
+</style>
+
+<script>
+    window.onload = function() {
+        var tdList = document.getElementsByClassName("toaddprogressbar");
+
+        if (tdList === undefined || tdList === null)
+            return;
+
+        for (var i = 0; i < tdList.length; i++) {
+            var td = tdList[i];
+            var vspan = td.firstChild.firstChild;
+            var vstring = vspan.innerText;
+            var value = 0;
+            if (vstring.length === 0)
+                value = 0;
+            else if (vstring.indexOf('%') > -1)
+                value = parseInt(vstring.substring(0, vstring.length - 1)); //移除 %
+            else
+                value = parseInt(vstring);
+
+            var progress = document.createElement("progress");
+            progress.max = 100;
+            progress.value = value;
+            td.appendChild(progress);
+
+            if (value <= progress.max * 0.4) {
+                vspan.className = "spanBlackText";
             }
-
-            #feature02-table th {
-                padding: 8px;
-                border: solid;
-                border-width: 0;
-                border-bottom-width: thin;
-            }
-
-        .feature02-table-title {
-            border: solid;
-            border-width: thin !important;
         }
-    </style>
+    };
+
+
+</script>
 
 <table id="feature02-table">
     <tr>
         <td class="feature02-table-title">功能</td>
         <td class="feature02-table-title">說明</td>
-        <td class="feature02-table-title">進度</td>
+        <td class="feature02-table-title" style="min-width: 40px;">進度</td>
     </tr>
     <tr>
         <th>遊戲邏輯</th>
         <td></td>
-        <td>99%</td>
+        <td class="toaddprogressbar"><div class="progressbar-innerdiv"><span>99%</span></div></td>
     </tr>
     <tr>
         <th>遊戲畫面</th>
         <td></td>
-        <td>99%</td>
+        <td class="toaddprogressbar "><div class="progressbar-innerdiv"><span>99%</span></div></td>
     </tr>
     <tr>
         <th>動畫效果</th>
         <td>主要由移動及結合數字兩種動作，創造流暢的體驗。</td>
-        <td>60%</td>
+        <td class="toaddprogressbar"><div class="progressbar-innerdiv"><span>60%</span></div></td>
     </tr>
     <tr>
         <th>紀錄最高分</th>
         <td>與自己競爭!!</td>
-        <td>100%</td>
+        <td class="toaddprogressbar"><div class="progressbar-innerdiv"><span>100%</span></div></td>
     </tr>
 
     <tr>
         <th>遊戲畫面截圖</th>
         <td>紀錄感動~~~</td>
-        <td>100%</td>
+        <td class="toaddprogressbar"><div class="progressbar-innerdiv"><span>100%</span></div></td>
     </tr>
 
     <tr>
         <th>FB分享</th>
         <td>將感動分享給大家。</td>
-        <td>60%</td>
+        <td class="toaddprogressbar"><div class="progressbar-innerdiv"><span>40%</span></div></td>
     </tr>
 
 </table>
