@@ -92,7 +92,9 @@
   z-index: 100;
   display: inline-block;
   position: absolute;
-  margin-top: 10px; }
+  margin-top: 65px;
+  margin-left: -115px;
+  line-height: 145px; }
 
 .FB-share {
   background: #BBADA0;
