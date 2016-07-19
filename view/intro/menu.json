@@ -30,9 +30,14 @@
     "url": "intro/problems02.html"
   },
   {
-    "caption": "問題 - 置中的問題?",
+    "caption": "問題 - 置中的問題",
     "urltype": 0,
     "url": "intro/problems03.html"
+  },
+  {
+    "caption": "問題 - 動畫",
+    "urltype": 0,
+    "url": "intro/problems04.html"
   },
 
   {

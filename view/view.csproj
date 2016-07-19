@@ -71,6 +71,7 @@
     <Content Include="intro\feature02.html" />
     <Content Include="intro\feature01.html" />
     <Content Include="intro\problems03.html" />
+    <Content Include="intro\problems04.html" />
     <Content Include="intro\technics01.html" />
     <Content Include="intro\collaboration01.html" />
     <Content Include="intro\footer.html" />
