@@ -1,0 +1,36 @@
+﻿################################################################################
+# 這個 .gitignore 檔案由 Microsoft(R) Visual Studio 自動建立。
+################################################################################
+
+/view/obj
+/view/bin
+/.vs/TeamWork2048/v14
+/.vs/config
+
+
+# 這是註解
+[Oo]bj
+[Bb]in
+[Tt]emp
+*.user
+*.suo
+*.[Cc]ache
+*.bak
+*.log 
+*.DS_Store
+[Tt]est[Rr]esult*
+[Tt]humbs.db 
+_ReSharper.*
+*.resharper
+Ankh.NoLoad
+ 
+# 如果你想忽略壓縮檔或一些大檔案
+*.7z
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+obj
+bin
