@@ -84,6 +84,7 @@
     <Content Include="intro\problems01.html" />
     <Content Include="intro\sidebar.html" />
     <Content Include="js\fb.js" />
+    <Content Include="js\initmobile.js" />
     <Content Include="js_lib\html2canvas.js" />
     <Content Include="js\enum.js" />
     <Content Include="js\iscando.js" />
