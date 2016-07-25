@@ -89,8 +89,11 @@ function Clone(nowObj, preObj) {
     preObj.Map = CloneMap(nowObj.Map, nowObj.Size); //不可以直接用 oldMap = newMap (call by ref when array)
     preObj.Score = nowObj.Score;
     preObj.IsGameOver = nowObj.IsGameOver;
+    preObj.Items = CloneItems(nowObj.Items);        //不可以直接用 oldItems = newItems (call by ref when array)
+    preObj.IdMax = nowObj.IdMax;
 }
 
+// 複製 Map Array 所有值 至新 Array
 function CloneMap(map, size) {
     var rtnMap = new Array();
     for (var i = 0; i < size; i++) {
@@ -101,6 +104,68 @@ function CloneMap(map, size) {
         rtnMap.push(rtnArr);
     }
     return rtnMap;
+}
+
+// 複製 Item 所有物件至新 Array
+function CloneItems(items) {
+    var rtn = [];
+    items.forEach(function(item) {
+        rtn.push(item);
+    });
+    return rtn;
+}
+
+
+// 從 mapObj.Items 中 根據 X,Y 座標尋找是否有此物件
+// 若有則回傳 物件
+// 若無則回傳 null
+function Find(mapObj, x, y) {
+    if (mapObj.Items === undefined || mapObj.Items.length <= 0)
+        return null;
+
+    var rtn = null;
+    mapObj.Items.forEach(function(item) {
+        if (item.X === x && item.Y === y) {
+            rtn = item;
+        }
+    });
+
+    return rtn;
+}
+
+// 從 mapObj.Items 中 根據 id 尋找是否有此物件
+// 若有則回傳 物件
+// 若無則回傳 null
+function Find(mapObj, id) {
+    if (mapObj.Items === undefined || mapObj.Items.length <= 0)
+        return null;
+
+    var rtn = null;
+    mapObj.Items.forEach(function (item) {
+        if (item.Id === id) {
+            rtn = item;
+        }
+    });
+
+    return rtn;
+}
+
+function FindXItems(mapObj, x) {
+    var rtn = [];
+    mapObj.Items.forEach(function (item) {
+        if(item.X === x)
+            rtn.push(item);
+    });
+    return rtn;
+}
+
+function FindYItems(mapObj, y) {
+    var rtn = [];
+    mapObj.Items.forEach(function (item) {
+        if (item.Y === y)
+            rtn.push(item);
+    });
+    return rtn;
 }
 
 

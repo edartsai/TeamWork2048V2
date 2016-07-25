@@ -4,18 +4,32 @@
     var boxnumbers = document.getElementsByClassName("box-number");
     var boxs = document.getElementsByClassName("box");
 
-    for (i = 0; i < mapObj.Map.length; i++) {
-        for (j = 0; j < mapObj.Map[i].length; j++) {
-            var index = i * (mapObj.Map.length) + j;
+    /************ 原方法 START *************/
+    //for (i = 0; i < mapObj.Map.length; i++) {
+    //    for (j = 0; j < mapObj.Map[i].length; j++) {
+    //        var index = i * (mapObj.Map.length) + j;
 
-            if (mapObj.Map[i][j] === 0)
-                boxnumbers[index].innerHTML = "";
-            else
-                boxnumbers[index].innerHTML = mapObj.Map[i][j];
+    //        if (mapObj.Map[i][j] === 0)
+    //            boxnumbers[index].innerHTML = "";
+    //        else
+    //            boxnumbers[index].innerHTML = GetItemValue(mapObj, i, j);
 
-            boxs[index].style.background = GetBoxBackgroundColor(mapObj.Map[i][j]);
-        }
-    }
+    //        boxs[index].style.background = GetBoxBackgroundColor(GetItemValue(mapObj, i, j));
+    //    }
+    //}
+    /************ 原方法 END *************/
+
+    /************ 新方法 START *************/
+
+    mapObj.Items.forEach(function(item) {
+        var nIndex = item.Y * (mapObj.Size) + item.X;
+        boxnumbers[nIndex].innerHTML = item.Value;
+        boxs[nIndex].style.background = GetBoxBackgroundColor(item.Value);
+    });
+        
+
+    /************ 新方法 END *************/
+
 
     document.getElementById("score").innerHTML = mapObj.Score;
 

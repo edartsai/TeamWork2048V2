@@ -4,13 +4,13 @@ function MoveArray(mapObj, direction) {
 	if (direction === DIRECTION.ALL)
 		return;
 
-	if (mapObj.Map.length <= 0)
-		return;
-	if (mapObj.Map[0].length <= 0)
-		return;
+	//if (mapObj.Map.length <= 0)
+	//	return;
+	//if (mapObj.Map[0].length <= 0)
+	//	return;
 
-	var i, j;
-
+    /************ 原方法 START ************
+     * var i, j;
 	if (direction === DIRECTION.UP) {
 	    for (i = 0 ; i < mapObj.Size; i++)
 	        MoveVertical(mapObj, direction, i);
@@ -27,6 +27,34 @@ function MoveArray(mapObj, direction) {
 	    for (j = 0 ; j < mapObj.Size; j++)
 	        MoveHorizon(mapObj, direction, j);
 	}
+    ************ 原方法 END *************/
+
+    /************ 新方法 START *************/
+
+	if (mapObj.Items.length <= 0)
+	    return;
+
+    // 先排序，因為 Move 有順序性
+	if (direction === DIRECTION.UP) {
+	    mapObj.Items = mapObj.Items.sort(function (a, b) { return a.Y - b.Y; });
+	}
+	else if (direction === DIRECTION.DOWN) {
+	    mapObj.Items = mapObj.Items.sort(function (a, b) { return b.Y - a.Y; });
+	}
+	else if (direction === DIRECTION.LEFT) {
+	    mapObj.Items = mapObj.Items.sort(function (a, b) { return a.X - b.X; });
+	}
+	else if (direction === DIRECTION.RIGHT) {
+	    mapObj.Items = mapObj.Items.sort(function (a, b) { return b.X - a.X; });
+	}
+
+	mapObj.Items.forEach(function (item) {
+	    MoveItem(mapObj, direction, item);
+	});
+
+	RemoveToDelItems(mapObj);
+
+    /************ 新方法 END *************/
 }
 
 // 移除所有 item == 0 的項目，再插入 0 補足數量 (Direction 決定插入方向)
@@ -101,6 +129,8 @@ function MoveVertical(mapObj, direction, x) {
 }
 
 
-
+function MoveItem(mapObj, direction, item) {
+    
+}
 
 

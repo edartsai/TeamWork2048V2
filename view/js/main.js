@@ -8,6 +8,8 @@ function Init(mapObj) {
         [0, 0, 0, 0],
         [0, 0, 0, 0]
     ];
+    mapObj.Items = [];
+    mapObj.IdMax = 0;
     mapObj.Score = 0;
     mapObj.IsGameOver = false;
 
@@ -23,13 +25,21 @@ function Move(mapObj, direction, prevObj) {
     var isMoved = IsCanDoMove(mapObj, direction);
 
     if (isMoved) {
-	    // 步驟: 1. 紀錄舊狀態
-	    //      2. 移動所有方塊至指定方向
-	    //      3. 進行 Merge 加總
+        // 步驟: 1. 紀錄舊狀態
+        //      2. 進行 Merge 加總
+	    //      3. 移動所有方塊至指定方向
 	    //      4. 產生新亂數
-	    Clone(mapObj, prevObj); //紀錄狀態
-	    MoveArray(mapObj, direction);
-	    MergeArray(mapObj, direction);
+        Clone(mapObj, prevObj); //紀錄狀態
+
+        /************ 原方法 START *************/
+	    //MoveArray(mapObj, direction);
+	    //MergeArray(mapObj, direction);
+        /************ 原方法 END *************/
+        /************ 新方法 START *************/
+        MergeArray(mapObj, direction);
+        MoveArray(mapObj, direction);
+        /************ 新方法 END *************/
+
 		GetRandNewItem(mapObj, false);
 
 		// 產生完亂數需判斷是否可以繼續玩
@@ -43,27 +53,64 @@ function Move(mapObj, direction, prevObj) {
 
 //從 Map 中選出一格原為 0 的位置，設為 2 or 4 的值
 function GetRandNewItem(mapObj, isValueMust2) {
-    // 取出 map 中 為 0 的位置
-    var zeroArray = [];
+    // 亂數找出 value
+    var value = (Random(0, 2) >= 2) ? 4 : 2;  // 「2」 出現的機率為 0.6667, 「4」出現的機率 0.3333
+    value = (isValueMust2) ? 2 : value;       // 若 必須為 2 時，直接設定為 2
 
-    for (var i = 0; i < mapObj.Size; i++) {
-        for (var j = 0; j < mapObj.Size; j++) {
-            if (GetItemValue(mapObj, i, j) === 0) {
-                zeroArray.push({ X: i, Y: j }); // add
+    /************ 原方法 START *************/
+    //// 取出 map 中 為 0 的位置
+    //var zeroArray = [];
+
+    //for (var i = 0; i < mapObj.Size; i++) {
+    //    for (var j = 0; j < mapObj.Size; j++) {
+    //        if (GetItemValue(mapObj, i, j) === 0) {
+    //            zeroArray.push({ X: i, Y: j }); // add
+    //        }
+    //    }
+    //}
+
+    //if (zeroArray.length > 0) {
+    //    var count = zeroArray.length - 1;
+    //    var index = Random(0, count);
+    //    if (index >= 0 && zeroArray.length > index) {
+    //        var item = zeroArray[index];
+    //        SetItemValue(mapObj, item.X, item.Y, value);
+    //    }
+    //}
+    /************ 原方法 END *************/
+
+
+    /************ 新方法 START *************/
+
+    var max = mapObj.Size * mapObj.Size;
+    var loopInterop = 100;
+    if (mapObj.Items.length < max) {
+        // 一直跑迴圈跑到找出新位置為止
+        while (true) {
+            var x = Random(0, mapObj.Size - 1);
+            var y = Random(0, mapObj.Size - 1);
+
+            if (Find(mapObj, x, y) === null) {
+                var nitem = {
+                    Id : mapObj.IdMax + 1,
+                    X: x,
+                    Y: y,
+                    Value: value,
+                    ToDel: false
+                }
+                mapObj.Items.push(nitem);
+                break;  //中斷迴圈
+            }
+
+            // 強制中斷機制
+            loopInterop--;
+            if (loopInterop <= 0) {
+                break;
             }
         }
     }
-
-    if (zeroArray.length > 0) {
-        var count = zeroArray.length - 1;
-        var index = Random(0, count);
-        var value = (Random(0, 2) >= 2) ? 4 : 2;  // 「2」 出現的機率為 0.6667, 「4」出現的機率 0.3333
-        value = (isValueMust2) ? 2 : value;       // 若 必須為 2 時，直接設定為 2
-        if (index >= 0 && zeroArray.length > index) {
-            var item = zeroArray[index];
-            SetItemValue(mapObj, item.X, item.Y, value);
-        }
-    }
+    
+    /************ 新方法 END *************/
 }
 
 
