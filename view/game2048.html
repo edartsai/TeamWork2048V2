@@ -2,6 +2,9 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="js/initmobile.js"></script>
     <script src="js_lib/html2canvas.js"></script>
     <script src="js/enum.js"></script>
     <script src="js/view.js"></script>
@@ -26,9 +29,12 @@
             [0, 0, 0, 0],
             [0, 0, 0, 0]
         ],
+        Items: [],
+        IdMax: 0,
         Score: 0,
         IsGameOver: false
     };
+    
     //遊戲上一狀態
     var prevObj = {
         Size: 4,
@@ -38,9 +44,14 @@
             [0, 0, 0, 0],
             [0, 0, 0, 0]
         ],
+        Items: [],
+        IdMax: 0,
         Score: 0,
         IsGameOver: false
     };
+
+
+
     var defaultTimesLeft = 3;
     var rollbackTimesLeft = defaultTimesLeft;
 
@@ -65,7 +76,6 @@
         }
     }
 
-
     function moveDown() {
         if (Move(mapObj, DIRECTION.DOWN, prevObj)) {
             MappingArrayData(mapObj); //重繪Array
@@ -78,6 +88,7 @@
             rollbackTimesLeft--;
         else
             return;
+
         Clone(prevObj, mapObj); //將前一狀態倒回現在狀態
         MappingArrayData(mapObj); //重繪Array
         HideGameOverMask(); //假如有 GameOver，則將 Mask 隱藏
@@ -108,9 +119,34 @@
 
     document.onkeydown = keyFunction;
 
-    window.onload = function() {
+    $(document).on("swipeleft", function() {
+        moveLeft();
+    });
+
+    $(document).on("swiperight", function () {
+        moveRight();
+    });
+
+    $(document).on("swipeup", function () {
+        moveUp();
+    });
+    $(document).on("swipedown", function () {
+        moveDown();
+    });
+
+
+    window.onload = function () {
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            //使用行動裝置
+            //InitMobile();
+        }
+        
         reset();
     };
+
+    //function InitMobile() {
+        
+    //}
 
 
     // 自行設定測試的 array 狀態
@@ -187,61 +223,61 @@
         <div class="box-body">
             <div class="box-row">
                 <div class="box">
-                    <p class="box-number">2</p>
+                    <p class="box-number"></p>
                 </div>
                 <div class="box">
-                    <p class="box-number">4</p>
+                    <p class="box-number"></p>
                 </div>
                 <div class="box">
-                    <p class="box-number">6</p>
+                    <p class="box-number"></p>
                 </div>
                 <div class="box">
-                    <p class="box-number">8</p>
-                </div>
-            </div>
-
-            <div class="box-row">
-                <div class="box">
-                    <p class="box-number">2</p>
-                </div>
-                <div class="box">
-                    <p class="box-number">4</p>
-                </div>
-                <div class="box">
-                    <p class="box-number">6</p>
-                </div>
-                <div class="box">
-                    <p class="box-number">8</p>
+                    <p class="box-number"></p>
                 </div>
             </div>
 
             <div class="box-row">
                 <div class="box">
-                    <p class="box-number">2</p>
+                    <p class="box-number"></p>
                 </div>
                 <div class="box">
-                    <p class="box-number">4</p>
+                    <p class="box-number"></p>
                 </div>
                 <div class="box">
-                    <p class="box-number">6</p>
+                    <p class="box-number"></p>
                 </div>
                 <div class="box">
-                    <p class="box-number">8</p>
+                    <p class="box-number"></p>
                 </div>
             </div>
 
             <div class="box-row">
                 <div class="box">
-                    <p class="box-number">2</p>
+                    <p class="box-number"></p>
                 </div>
                 <div class="box">
-                    <p class="box-number">4</p>
+                    <p class="box-number"></p>
                 </div>
                 <div class="box">
-                    <p class="box-number">6</p>
+                    <p class="box-number"></p>
                 </div>
                 <div class="box">
-                    <p class="box-number">8</p>
+                    <p class="box-number"></p>
+                </div>
+            </div>
+
+            <div class="box-row">
+                <div class="box">
+                    <p class="box-number"></p>
+                </div>
+                <div class="box">
+                    <p class="box-number"></p>
+                </div>
+                <div class="box">
+                    <p class="box-number"></p>
+                </div>
+                <div class="box">
+                    <p class="box-number"></p>
                 </div>
             </div>
 
