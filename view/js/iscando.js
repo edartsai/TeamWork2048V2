@@ -1,9 +1,12 @@
 ﻿
 // 判斷整張 Map 是否可以向某個方向移動或加總
 function IsCanDoMove(mapObj, direction) {
-	if (IsFullZero(mapObj)) {
-		return true;
-	}
+	//if (IsFullZero(mapObj)) {
+	//	return true;
+    //}
+    if (!IsFullMap(mapObj))
+        return true;
+
 
 	// 指定方向是否可合成
 	if (IsCanDoMerge(mapObj, direction)) {
@@ -33,6 +36,7 @@ function IsCanGoOn(mapObj) {
 
 // 判斷是否滿版
 function IsFullMap(mapObj) {
+    /************ 原方法 START ************
     for (var i = 0; i < mapObj.Size; i++) {
         for (var j = 0; j < mapObj.Size; j++) {
 			if (GetItemValue(mapObj, i, j) === 0) {
@@ -41,40 +45,47 @@ function IsFullMap(mapObj) {
 		}
 	}
 	return true;
-}
-
-function IsFullZero(mapObj) {
-    /************ 原方法 START *************/
-
-    //for (var i = 0; i < mapObj.Size; i++) {
-    //    for (var j = 0; j < mapObj.Size; j++) {
-	//		if (GetItemValue(mapObj, i, j) !== 0) {
-	//			return false;
-	//		}
-	//	}
-    //}
-    //return true;
-
-    /************ 原方法 END *************/
+    *********** 原方法 END *************/
 
     /************ 新方法 START *************/
 
-    if (mapObj.Items.length <= 0)
-        return true;
-
-    var isZero = true;
-    mapObj.Items.forEach(function(item) {
-        if (item.Value !== 0) {
-            isZero = false;
-        }
-    });
-
-    return isZero;
+    return (mapObj.Items.length === (mapObj.Size * mapObj.Size));
 
     /************ 新方法 END *************/
-
-
 }
+
+//function IsFullZero(mapObj) {
+//    /************ 原方法 START *************/
+
+//    //for (var i = 0; i < mapObj.Size; i++) {
+//    //    for (var j = 0; j < mapObj.Size; j++) {
+//	//		if (GetItemValue(mapObj, i, j) !== 0) {
+//	//			return false;
+//	//		}
+//	//	}
+//    //}
+//    //return true;
+
+//    /************ 原方法 END *************/
+
+//    /************ 新方法 START *************/
+
+//    if (mapObj.Items.length <= 0)
+//        return true;
+
+//    var isZero = true;
+//    mapObj.Items.forEach(function(item) {
+//        if (item.Value !== 0) {
+//            isZero = false;
+//        }
+//    });
+
+//    return isZero;
+
+//    /************ 新方法 END *************/
+
+
+//}
 
 // 判斷整張 Map 是否已全部貼緊某方向
 function IsComeCloseToBound(mapObj, direction) {
@@ -227,6 +238,7 @@ function IsItemCanMerge(mapObj, direction, item) {
 
 
     if (direction === DIRECTION.ALL) {
+        // 其中一個方向可以 Merger 就表示可以
         return (IsItemCanMerge(mapObj, DIRECTION.UP, item) ||
                 IsItemCanMerge(mapObj, DIRECTION.DOWN, item) ||
                 IsItemCanMerge(mapObj, DIRECTION.LEFT, item) ||
@@ -323,7 +335,7 @@ function IsItemComeCloseToBound(mapObj, direction, item) {
             return true;
 
         // 往上找一格有找到 其他 item 的話，表示已靠緊
-        nextItem = Find(mapObj, item.X , item.Y - 1);
+        nextItem = FindByXY(mapObj, item.X , item.Y - 1);
         if (nextItem !== null) { 
             return true;
         }
@@ -334,7 +346,7 @@ function IsItemComeCloseToBound(mapObj, direction, item) {
             return true;
 
         // 往下找一格有找到 其他 item 的話，表示已靠緊
-        nextItem = Find(mapObj, item.X , item.Y + 1);
+        nextItem = FindByXY(mapObj, item.X, item.Y + 1);
         if (nextItem !== null) {
             return true;
         }
@@ -345,7 +357,7 @@ function IsItemComeCloseToBound(mapObj, direction, item) {
             return true;
 
         // 往左找一格有找到 其他 item 的話，表示已靠緊
-        nextItem = Find(mapObj, item.X - 1, item.Y);
+        nextItem = FindByXY(mapObj, item.X - 1, item.Y);
         if (nextItem !== null) {
             return true;
         }
@@ -356,7 +368,7 @@ function IsItemComeCloseToBound(mapObj, direction, item) {
             return true;
 
         // 往右找一格有找到 其他 item 的話，表示已靠緊
-        nextItem = Find(mapObj, item.X + 1, item.Y);
+        nextItem = FindByXY(mapObj, item.X + 1, item.Y);
         if (nextItem !== null) {
             return true;
         }

@@ -90,7 +90,7 @@ function GetRandNewItem(mapObj, isValueMust2) {
             var x = Random(0, mapObj.Size - 1);
             var y = Random(0, mapObj.Size - 1);
 
-            if (Find(mapObj, x, y) === null) {
+            if (FindByXY(mapObj, x, y) === null) {
                 var nitem = {
                     Id : mapObj.IdMax + 1,
                     X: x,
@@ -99,6 +99,7 @@ function GetRandNewItem(mapObj, isValueMust2) {
                     ToDel: false
                 }
                 mapObj.Items.push(nitem);
+                mapObj.IdMax += 1;
                 break;  //中斷迴圈
             }
 

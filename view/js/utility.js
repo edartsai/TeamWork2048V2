@@ -119,7 +119,7 @@ function CloneItems(items) {
 // 從 mapObj.Items 中 根據 X,Y 座標尋找是否有此物件
 // 若有則回傳 物件
 // 若無則回傳 null
-function Find(mapObj, x, y) {
+function FindByXY(mapObj, x, y) {
     if (mapObj.Items === undefined || mapObj.Items.length <= 0)
         return null;
 
@@ -136,7 +136,7 @@ function Find(mapObj, x, y) {
 // 從 mapObj.Items 中 根據 id 尋找是否有此物件
 // 若有則回傳 物件
 // 若無則回傳 null
-function Find(mapObj, id) {
+function FindById(mapObj, id) {
     if (mapObj.Items === undefined || mapObj.Items.length <= 0)
         return null;
 

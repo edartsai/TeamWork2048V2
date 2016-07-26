@@ -186,17 +186,17 @@ function MergeItem(mapObj, direction, item) {
     // 若已被標註 ToDel 代表已 Merge 入其他 item
     if (!item.ToDel) {
         var i;
-        var listx, listy;
+        //var listx, listy;
+        var list;
         var listcanmerge = [];
-        var nearestItem, temp;
+        var nearestItem;
 
         if (direction === DIRECTION.UP) {
             // 找出所有 同一列(X同) 但 Y 軸小於 item 之物件，並根據 Y 軸排序
-            listx = FindXItems(mapObj, item.X).sort(function (a, b) { return a.Y - b.Y; });
-            for (i = 0; i < listx.length; i++) {
-                temp = listx[i];
-                if (item.Y > temp.Y) {
-                    listcanmerge.push(temp);
+            list = FindXItems(mapObj, item.X).sort(function (a, b) { return a.Y - b.Y; });
+            for (i = 0; i < list.length; i++) {
+                if (item.Y > list[i].Y) {
+                    listcanmerge.push(list[i]);
                 }
             }
 
@@ -204,18 +204,18 @@ function MergeItem(mapObj, direction, item) {
                 // 取最靠近的一個 (此處是最後一個)
                 nearestItem = listcanmerge.pop();
                 if (nearestItem.Value === item.Value && !nearestItem.ToDel) {
-                    item.Value = item.Value + nearestItem.Value;
-                    nearestItem.ToDel = true;  // 標注移除
+                    nearestItem.Value = item.Value + nearestItem.Value;
+                    item.ToDel = true;                  // 標注移除
+                    mapObj.Score += nearestItem.Value;  // 更新分數
                 }
             }
         }
         else if (direction === DIRECTION.DOWN) {
             // 找出所有 同一列(X同) 但 Y 軸大於 item 之物件，並根據 Y 軸排序
-            listx = FindXItems(mapObj, item.X).sort(function (a, b) { return a.Y - b.Y; });
-            for (i = 0; i < listx.length; i++) {
-                temp = listx[i];
-                if (item.Y < temp.Y) {
-                    listcanmerge.push(temp);
+            list = FindXItems(mapObj, item.X).sort(function (a, b) { return a.Y - b.Y; });
+            for (i = 0; i < list.length; i++) {
+                if (item.Y < list[i].Y) {
+                    listcanmerge.push(list[i]);
                 }
             }
 
@@ -223,18 +223,18 @@ function MergeItem(mapObj, direction, item) {
                 // 取最靠近的一個 (此處是第一個)
                 nearestItem = listcanmerge[0];
                 if (nearestItem.Value === item.Value && !nearestItem.ToDel) {
-                    item.Value = item.Value + nearestItem.Value;
-                    nearestItem.ToDel = true;  // 標注移除
+                    nearestItem.Value = item.Value + nearestItem.Value;
+                    item.ToDel = true;                  // 標注移除
+                    mapObj.Score += nearestItem.Value;  // 更新分數
                 }
             }
         }
         else if (direction === DIRECTION.LEFT) {
             // 找出所有 同一列( Y 同) 但 X 軸小於 item 之物件，並根據 X 軸排序
-            listy = FindYItems(mapObj, item.Y).sort(function (a, b) { return a.X - b.X; });
-            for (i = 0; i < listx.length; i++) {
-                temp = listx[i];
-                if (item.X > temp.X) {
-                    listcanmerge.push(temp);
+            list = FindYItems(mapObj, item.Y).sort(function (a, b) { return a.X - b.X; });
+            for (i = 0; i < list.length; i++) {
+                if (item.X > list[i].X) {
+                    listcanmerge.push(list[i]);
                 }
             }
 
@@ -242,18 +242,18 @@ function MergeItem(mapObj, direction, item) {
                 // 取最靠近的一個 (此處是最後一個)
                 nearestItem = listcanmerge.pop();
                 if (nearestItem.Value === item.Value && !nearestItem.ToDel) {
-                    item.Value = item.Value + nearestItem.Value;
-                    nearestItem.ToDel = true;  // 標注移除
+                    nearestItem.Value = item.Value + nearestItem.Value;
+                    item.ToDel = true;                  // 標注移除
+                    mapObj.Score += nearestItem.Value;  // 更新分數
                 }
             }
         }
         else if (direction === DIRECTION.RIGHT) {
             // 找出所有 同一列( Y 同) 但 X 軸大於 item 之物件，並根據 X 軸排序
-            listy = FindYItems(mapObj, item.Y).sort(function (a, b) { return a.X - b.X; });
-            for (i = 0; i < listx.length; i++) {
-                temp = listx[i];
-                if (item.X < temp.X) {
-                    listcanmerge.push(temp);
+            list = FindYItems(mapObj, item.Y).sort(function (a, b) { return a.X - b.X; });
+            for (i = 0; i < list.length; i++) {
+                if (item.X < list[i].X) {
+                    listcanmerge.push(list[i]);
                 }
             }
 
@@ -261,16 +261,12 @@ function MergeItem(mapObj, direction, item) {
                 // 取最靠近的一個 (此處是第一個)
                 nearestItem = listcanmerge[0];
                 if (nearestItem.Value === item.Value && !nearestItem.ToDel) {
-                    item.Value = item.Value + nearestItem.Value;
-                    nearestItem.ToDel = true;  // 標注移除
+                    nearestItem.Value = item.Value + nearestItem.Value;
+                    item.ToDel = true;                  // 標注移除
+                    mapObj.Score += nearestItem.Value;  // 更新分數
                 }
             }
         }
-
-
-
-
-
     }
 }
 
