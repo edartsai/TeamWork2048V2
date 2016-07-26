@@ -95,6 +95,7 @@
     <Content Include="js\view.js" />
     <Content Include="game2048.html" />
     <Content Include="js_lib\jquery-ui.min.js" />
+    <Content Include="js_lib\jquery.mobile-1.4.5.min.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="css\images\" />
