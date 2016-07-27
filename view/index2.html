@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
 Design by TEMPLATED
 http://templated.co
@@ -18,76 +18,295 @@ Released   : 20130902
 <meta name="description" content="" />
 <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
 <link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
-<link href="css/fonts.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/fonts.css" rel="stylesheet" type="text/css" media="all"/>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
 <!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
 
 </head>
 <body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#menu-ul li a").click(function () {
+            var className = 'current_page_item';
+            $('#menu-ul').children().removeClass(className);
+            $(event.target).parent().addClass(className);
+
+            //HideAllDiv();
+            //ShowDiv($(event.target));
+            
+        });
+
+    });
+    
+
+    function HideAllDiv() {
+        $("#menu-ul li a").each(function(i, obj) {
+            var divId = obj.getAttribute("href");
+            var div = GetDivByHerf(divId);
+            if (div !== undefined && div !== null) {
+                div.hide();
+            }
+        });
+
+
+    }
+
+    function ShowDiv(jqObj) {
+        var divId = jqObj.attr('href');
+        var div = GetDivByHerf(divId);
+        if (div !== undefined && div !== null) {
+            div.show();
+        }
+        else {
+            var id = $("#menu-ul li a:first").attr('href');
+            var tempdiv = GetDivByHerf(id);
+            if (tempdiv !== undefined && tempdiv !== null)
+                tempdiv.show();
+        }
+    }
+
+    function GetDivByHerf(hrefstring) {
+        var tempdiv;
+        try {
+            tempdiv = $(hrefstring);
+            return tempdiv;
+        }
+        catch (err) {
+            return undefined;
+        }
+    }
+
+</script>
+
+
+
+
 <div id="page" class="container">
-	<div id="header">
-		<div id="logo">
-			<img src="images/pic02.jpg" alt="" />
-			<h1><a href="#">Privy</a></h1>
-			<span>Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a></span>
-		</div>
-		<div id="menu">
-			<ul>
-				<li class="current_page_item"><a href="#" accesskey="1" title="">Homepage</a></li>
-				<li><a href="#" accesskey="2" title="">Our Clients</a></li>
-				<li><a href="#" accesskey="3" title="">About Us</a></li>
-				<li><a href="#" accesskey="4" title="">Careers</a></li>
-				<li><a href="#" accesskey="5" title="">Contact Us</a></li>
-			</ul>
-		</div>
-	</div>
-	<div id="main">
-		<div id="banner">
-			<img src="images/pic01.jpg" alt="" class="image-full" />
-		</div>
-		<div id="welcome">
-			<div class="title">
-				<h2>Fusce ultrices fringilla metus</h2>
-				<span class="byline">Donec leo, vivamus fermentum nibh in augue praesent a lacus at urna congue</span>
-			</div>
-			<p>This is <strong>Privy</strong>, a free, fully standards-compliant CSS template designed by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>. The photos in this template are from <a href="http://fotogrph.com/"> Fotogrph</a>. This free template is released under the <a href="http://templated.co/license">Creative Commons Attribution</a> license, so you're pretty much free to do whatever you want with it (even use it commercially) provided you give us credit for it. Have fun :) </p>
-			<ul class="actions">
-				<li><a href="#" class="button">Etiam posuere</a></li>
-			</ul>
-		</div>
-		<div id="featured">
-			<div class="title">
-				<h2>Maecenas lectus sapien</h2>
-				<span class="byline">Integer sit amet aliquet pretium</span>
-			</div>
-			<ul class="style1">
-				<li class="first">
-					<p class="date"><a href="#">Jan<b>05</b></a></p>
-					<h3>Amet sed volutpat mauris</h3>
-					<p><a href="#">Consectetuer adipiscing elit. Nam pede erat, porta eu, lobortis eget, tempus et, tellus. Etiam neque. Vivamus consequat lorem at nisl. Nullam non wisi a sem semper eleifend. Etiam non felis. Donec ut ante.</a></p>
-				</li>
-				<li>
-					<p class="date"><a href="#">Jan<b>03</b></a></p>
-					<h3>Sagittis diam dolor amet</h3>
-					<p><a href="#">Etiam non felis. Donec ut ante. In id eros. Suspendisse lacus turpis, cursus egestas at sem. Mauris quam enim, molestie. Donec leo, vivamus fermentum nibh in augue praesent congue rutrum.</a></p>
-				</li>
-				<li>
-					<p class="date"><a href="#">Jan<b>01</b></a></p>
-					<h3>Amet sed volutpat mauris</h3>
-					<p><a href="#">Consectetuer adipiscing elit. Nam pede erat, porta eu, lobortis eget, tempus et, tellus. Etiam neque. Vivamus consequat lorem at nisl. Nullam non wisi a sem semper eleifend. Etiam non felis. Donec ut ante.</a></p>
-				</li>
-				<li>
-					<p class="date"><a href="#">Dec<b>31</b></a></p>
-					<h3>Sagittis diam dolor amet</h3>
-					<p><a href="#">Etiam non felis. Donec ut ante. In id eros. Suspendisse lacus turpis, cursus egestas at sem. Mauris quam enim, molestie. Donec leo, vivamus fermentum nibh in augue praesent congue rutrum.</a></p>
-				</li>
-			</ul>
-		</div>
-		<div id="copyright">
-			<span>&copy; Untitled. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a></span>
-			<span>Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</span>
-		</div>
-	</div>
+<div id="header" style="position: fixed;">
+    <div id="logo">
+        <img src="images/pic02.jpg" alt=""/>
+        <h1><a href="#">Game2048</a>
+        </h1>
+        <span>Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a></span>
+    </div>
+    <div id="menu">
+        <ul id="menu-ul">
+            <!--<li class="current_page_item"><a href="#homepage" accesskey="1" title="">Homepage</a></li>-->
+            <li class="current_page_item"><a href="#" title="" accesskey="1" >About Us</a></li>
+            <li><a href="#features" accesskey="2" title="" >Features</a></li>
+            <li><a href="#technics" accesskey="3" title="" >Technics</a></li>
+            <li><a href="#problems" accesskey="4" title="" >Problems &amp; Solutions</a></li>
+            <li><a href="https://edartsai.github.io/TeamWork2048V2/view/game2048.html" target="_blank" title="">Demo</a></li>
+        </ul>
+    </div>
+</div>
+<div id="main">
+<div id="banner">
+    <img src="images/game-2048-2.png" alt="" class="image-full"/>
+</div>
+
+<div id="aboutus">
+    <div class="feature01">
+        <div class="title">
+            <h2>緣起</h2>
+            <span class="byline">選擇 2048 當作目標的原因</span>
+        </div>
+        <p>
+            <span style="font-size: larger;"><strong>訴求</strong></span> 儘量少用後端技術，以<span>方便前端展示、使用流暢</span>為目標。
+        </p>
+        <p>
+            <span style="font-size: larger;"><strong>決議</strong></span> 以無須Server提供資料的小遊戲為目標，因此找到 <span style="color: red; margin-right: 0;"><strong>2048</strong></span>。
+        </p>
+        <div class="title">
+            <h2>分工</h2>
+            <span class="byline">適才適用、小材大用、無才不用</span>
+        </div>
+        <ul class="style1">
+            <li class="first">
+                <p class="date" style="width: 10em;">
+                    <a href="#"><b>Edar.Tsai</b></a>
+                </p>
+                <h3>視覺總監</h3>
+                <p>
+                    視覺風格設計、
+                    View 畫面製作、
+                    喇D賽、
+                    幫出國的人整理桌面
+                </p>
+            </li>
+
+            <li>
+                <p class="date" style="width: 10em;">
+                    <a href="#"><b>Jim.Liu</b></a>
+                </p>
+                <h3>技術指導</h3>
+                <p>
+                    遊戲邏輯、
+                    打雜、
+                    喇D賽、
+                    幫扭蛋調整姿勢、
+                    早起晨跑
+                </p>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<div id="features">
+    <div class="feature02">
+        <div class="title">
+            <h2>功能</h2>
+            <span class="byline"></span>
+        </div>
+
+        <ul class="style1">
+            <li class="first">
+                <p class="date">
+                    <a href="#"><b>100%</b></a>
+                </p>
+                <h3>遊戲邏輯</h3>
+                <p>
+                    <span>基礎遊戲邏輯，已根據動畫需求重新撰寫。</span>
+                </p>
+            </li>
+
+            <li>
+                <p class="date">
+                    <a href="#"><b>100%</b></a>
+                </p>
+                <h3>遊戲畫面</h3>
+                <p>
+                    <span>簡單俐落的畫面風格。</span>
+                </p>
+            </li>
+            <li>
+                <p class="date">
+                    <a href="#"><b>70%</b></a>
+                </p>
+                <h3>動畫效果</h3>
+                <p>
+                    <span>主要由移動及結合數字兩種動作，創造流暢的體驗。</span>
+                </p>
+            </li>
+            <li>
+                <p class="date">
+                    <a href="#"><b>100%</b></a>
+                </p>
+                <h3>最高分</h3>
+                <p>
+                    <span>與最強的自己競爭!!</span>
+                </p>
+            </li>
+            <li>
+                <p class="date">
+                    <a href="#"><b>100%</b></a>
+                </p>
+                <h3>遊戲畫面截圖</h3>
+                <p>
+                    <span>紀錄感動瞬間!!</span>
+                </p>
+            </li>
+            <li>
+                <p class="date">
+                    <a href="#"><b>40%</b></a>
+                </p>
+                <h3>FB分享</h3>
+                <p>
+                    <span>將感動分享給大家。</span>
+                </p>
+            </li>
+            <li>
+                <p class="date">
+                    <a href="#"><b>50%</b></a>
+                </p>
+                <h3>展示網站</h3>
+                <p>
+                    <span>永遠分享最新最棒的資訊!!</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="technics">
+    <div class="title">
+        <h2>技術</h2>
+        <span class="byline">內外兼修、有才有德</span>
+        <h3>Stage</h3>
+        <ol class="">
+            <li>
+                <a href="#technics-stage1" style="text-decoration: none;">實做</a>
+            </li>
+            <li>
+                <a href="#technics-stage2" style="text-decoration: none;">美化</a>
+            </li>
+            <li>
+                <a href="#technics-stage3" style="text-decoration: none;">整合</a>
+            </li>
+        </ol>
+
+        <div id="technics-stage1">
+            <p >目標:</p>
+            <ul class="style1">
+                
+                <li class="first">遊戲功能建置</li>
+                <li>展示網站建置</li>
+            </ul>
+            <p>技術:</p>
+            <ul class="style1">
+                <li class="first">html</li>
+                <li>javascript</li>
+                <li>css</li>
+            </ul>
+        </div>
+        <div id="technics-stage2">
+            <p>目標:</p>
+            <ul class="style1">
+                <li>遊戲動畫</li>
+                <li>Facebook 互動分享</li>
+                <li>網站美化工作</li>
+                <li>RWD框架</li>
+                <li>瀏覽器相容性</li>
+            </ul>
+            <p>技術:</p>
+            <ul class="style1">
+                <li>scss</li>
+                <li>jquery</li>
+                <li>bootstrap</li>
+                <li>facebook api</li>
+                <li>other libs</li>
+            </ul>
+        </div>
+        <div id="technics-stage3">
+            <p>目標:</p>
+            <ul class="style1">
+                <li>以新前端框架技術重構遊戲及網站</li>
+                <li>使用模組整合工具達到彈性包版</li>
+                <li>SEO調校</li>
+            </ul>
+            <p>技術:</p>
+            <ul>
+                <li>reactjs</li>
+                <li>webpack</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="problems">
+    <div class="title">
+        <h2>問題與解決</h2>
+        <span class="byline">To be or not to be,it's a question.</span>
+    </div>
+</div>
+
+<div id="copyright">
+    <span>&copy; Untitled. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a></span>
+    <span>Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</span>
+</div>
+</div>
 </div>
 </body>
 </html>
