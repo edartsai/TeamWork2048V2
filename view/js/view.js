@@ -130,8 +130,13 @@ function boxsmove(mapObj, prevObj) {
                     var enditem = { 'left': getLeftCoordinate(5, mapObj.Items[i].X), 'top': getTopCoordinate(5, mapObj.Items[i].Y), 'background-color': 'red' };
 
 
-                    moveArray.push(startitem);
-                    moveArray.push(enditem);
+                    moveArray.push({
+                        'name': "move" + mapObj.Items[i].Id,
+                        '0%': startitem,
+                        '100%': enditem
+                    });
+                    //moveArray.push(startitem);
+                    //moveArray.push(enditem);
                     //move 
                 }
 
@@ -142,40 +147,73 @@ function boxsmove(mapObj, prevObj) {
             //}
         }
     }
+    boxAnimation(moveArray);
 }
 
-function boxAnimation() {
-    var str1 = { 'left': '0px', 'top': '50px', 'background-color': 'red' };
-    var str2 = { 'left': '200px', 'top': '50px', 'background-color': 'red' };
+function boxAnimation(moveArray) {
+    //var str1 = { 'left': '0px', 'top': '50px', 'background-color': 'red' };
+    //var str2 = { 'left': '200px', 'top': '50px', 'background-color': 'red' };
 
-    var mymovearray = new Array();
+    //var mymovearray = new Array();
 
-    mymovearray.push({
-        'name': 'test1',
-        '0%': str1,
-        '100%': str2
-    });
+    //mymovearray.push({
+    //    'name': 'test1',
+    //    '0%': str1,
+    //    '100%': str2
+    //});
+
+    //$.keyframe.define(mymovearray);
+
+    //var boxitem = "<div class='move-box'></div>"
+    //$(".box-body").append(boxitem);
+
+    //var boxs = document.getElementsByClassName("move-box")
 
 
-    $.keyframe.define(mymovearray);
+    //$(boxs[0]).playKeyframe({
+    //    name: 'test1',
+    //    duration: '5s',
+    //    timingFunction: 'linear',
+    //    iterationCount: '1',
+    //    direction: 'normal',
+    //    complete: function () {
 
-    var boxs = document.getElementsByClassName("box");
+    //        $(boxs[0]).resetKeyframe(function () {
 
-    $(boxs[0]).playKeyframe({
-        name: 'test1',
-        duration: '0.5s',
-        timingFunction: 'linear',
-        iterationCount: '1',
-        direction: 'normal',
-        complete: function () {
-            $(boxs[0]).resetKeyframe(function () {
+    //        });
+    //    }
+    //});
 
-            });
-        }
-    });
-    //for (var ind = 0; ind < moveArray.length; ind++) {
+    $.keyframe.define(moveArray);
 
-    //}
+    for (var i = 0; i < moveArray.length; i++) {
+        var boxitem = "<div class='move-box'></div>"
+        $(".box-body").append(boxitem);
+    }
+
+
+    var boxs = document.getElementsByClassName("move-box")
+
+    for (var i = 0; i < moveArray.length; i++) {
+
+        $(boxs[i]).playKeyframe({
+            name: moveArray[i].name,
+            duration: '500ms',
+            timingFunction: 'linear',
+            iterationCount: '1',
+            direction: 'normal',
+            complete: function () {
+                
+                $(boxs[i]).resetKeyframe(function () {
+                    $(boxs[i]).remove();
+                });
+            }
+        });
+    }
+
+    //$(".move-box").remove();
+
+
 }
 
 

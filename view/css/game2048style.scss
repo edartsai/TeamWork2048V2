@@ -101,7 +101,7 @@ html, body {
 .box{
     width: $box-width;
     height: $box-height;
-    background: $box-background; 
+    background: $box-background;
     text-align:center;
     float: left;
         
@@ -111,6 +111,17 @@ html, body {
     
     display: table-cell;
 }
+
+.move-box {
+    //animation-name:mymove;
+    width: $box-width;
+    height: $box-height; 
+    background: $box-background;
+    position: relative;
+    animation-direction: normal;
+    animation-iteration-count:1;
+    animation-fill-mode:both;
+  }
 
 .box-row{
   text-align:center;
