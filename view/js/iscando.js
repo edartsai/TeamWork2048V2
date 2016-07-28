@@ -286,8 +286,8 @@ function IsItemCanMerge(mapObj, direction, item) {
     else if (direction === DIRECTION.LEFT) {
         // 找出所有 同一列( Y 同) 但 X 軸小於 item 之物件，並根據 X 軸排序
         listy = FindYItems(mapObj, item.Y).sort(function (a, b) { return a.X - b.X; });
-        for (i = 0; i < listx.length; i++) {
-            temp = listx[i];
+        for (i = 0; i < listy.length; i++) {
+            temp = listy[i];
             if (item.X > temp.X) {
                 listcanmerge.push(temp);
             }
@@ -305,8 +305,8 @@ function IsItemCanMerge(mapObj, direction, item) {
     else if (direction === DIRECTION.RIGHT) {
         // 找出所有 同一列( Y 同) 但 X 軸大於 item 之物件，並根據 X 軸排序
         listy = FindYItems(mapObj, item.Y).sort(function (a, b) { return a.X - b.X; });
-        for (i = 0; i < listx.length; i++) {
-            temp = listx[i];
+        for (i = 0; i < listy.length; i++) {
+            temp = listy[i];
             if (item.X < temp.X) {
                 listcanmerge.push(temp);
             }

@@ -86,7 +86,7 @@ function Random(min, max) {
 
 function Clone(nowObj, preObj) {
     preObj.Size = nowObj.Size;
-    preObj.Map = CloneMap(nowObj.Map, nowObj.Size); //不可以直接用 oldMap = newMap (call by ref when array)
+    //preObj.Map = CloneMap(nowObj.Map, nowObj.Size); //不可以直接用 oldMap = newMap (call by ref when array)
     preObj.Score = nowObj.Score;
     preObj.IsGameOver = nowObj.IsGameOver;
     preObj.Items = CloneItems(nowObj.Items);        //不可以直接用 oldItems = newItems (call by ref when array)

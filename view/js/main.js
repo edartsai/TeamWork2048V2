@@ -1,7 +1,13 @@
-﻿
+﻿var defaultmitrixsize = 4;
+
 // 首次使用 亂數產生兩個 item
-function Init(mapObj) {
-    mapObj.Size = 4;
+function Init(mapObj, mitrixsize) {
+    if (mitrixsize <= 4)
+        mapObj.Size = defaultmitrixsize;
+    else
+        mapObj.Size = mitrixsize;
+
+    
     mapObj.Map = [
         [0, 0, 0, 0],
         [0, 0, 0, 0],
