@@ -17,7 +17,7 @@
 </head>
 <body>
     <div id="fb-root"></div>
-    <script src="js/fb.js"></script>
+    <!--<script src="js/fb.js"></script>-->
 <script>
     
     //遊戲目前狀態
@@ -96,8 +96,8 @@
         DisableRollbackButton(); //關閉「上一步」
     }
 
-    function reset() {
-        Init(mapObj);
+    function reset(mitrixsize) {
+        Init(mapObj,mitrixsize);
         rollbackTimesLeft = defaultTimesLeft; //重設 rollback time
         Clone(mapObj, prevObj); //紀錄狀態
         SetBestLabel(); //讀取最佳紀錄(from cookies)
@@ -126,7 +126,10 @@
             //使用行動裝置
             InitMobile();
         }
-        reset();
+        var e = document.getElementById("changeMitrixselect");
+        var strValue = e.options[e.selectedIndex].value;
+        changearray(strValue);
+        reset(strValue);
     };
 
     function InitMobile() {
@@ -154,6 +157,14 @@
 
     }
 
+    //按下重玩的事件
+    function resetwithdefaultmitrixsize() {
+        var e = document.getElementById("changeMitrixselect");
+        var strValue = e.options[e.selectedIndex].value;
+
+        reset(strValue);
+    }
+
     function capture() {
         var capturediv = document.getElementById("capture-range-div");  //capture 範圍
         if (capturediv === null || capturediv === undefined)
@@ -178,7 +189,25 @@
         window.open(img);
     }
 
-    
+    //jquery組合矩陣的html
+    function changearray(mitrixtype) {
+        var boxitem = "<div class='box'><p class='box-number'></p></div>"
+        $(".box-body").empty();
+        for (var i = 0 ; i < mitrixtype; i++) {
+            $(".box-body").append("<div class='box-row'>");
+            for (var j = 0 ; j < mitrixtype; j++) {
+                $(".box-body").append(boxitem);
+            }
+            $(".box-body").append("</div>");
+        }
+    }
+    //選取尺寸
+    function changeMitrixSize(mitrixtype) {
+        var e = document.getElementById("changeMitrixselect");
+        e.blur();
+        changearray(mitrixtype);
+        reset(mitrixtype);
+    }
 
 </script>
 
@@ -198,7 +227,7 @@
             </div>
             <!--重玩-->
             <div class="replay-button" >
-                <button class="back-button" id="resetbtn" type="submit" onclick="reset()">
+                <button class="back-button" id="resetbtn" type="submit" onclick="resetwithdefaultmitrixsize()">
                     <img src="images/b_brefresh_20_n.png" alt=""/>
                 </button>
             </div>
@@ -210,66 +239,6 @@
             </div>
         </div>
         <div class="box-body">
-            <div class="box-row">
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-            </div>
-
-            <div class="box-row">
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-            </div>
-
-            <div class="box-row">
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-            </div>
-
-            <div class="box-row">
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-                <div class="box">
-                    <p class="box-number"></p>
-                </div>
-            </div>
-
         </div>
     </div>
 </div>
@@ -285,10 +254,10 @@
     </div>
 </div>
 
-<select onchange="changeMitrixSize(this.value)">
-    <option value="4X4">4X4</option>
-    <option value="5X5">5X5</option>
-    <option value="6X6">6X6</option>
+<select id="changeMitrixselect" onchange="changeMitrixSize(this.value)">
+    <option value="4" selected="selected">4X4</option>
+    <option value="5">5X5</option>
+    <option value="6">6X6</option>
 </select>
 
 <!--<div id="developing-div">

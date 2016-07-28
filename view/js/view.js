@@ -104,18 +104,7 @@ function SetBestLabel() {
     document.getElementById("best-score").innerHTML = ReadBestScore();
 }
 
-//選取尺寸
-function changeMitrixSize(mitrixtype) {
-    if (mitrixtype == "4x4") {
 
-    }
-    else if (mitrixtype == "5x5") {
-
-    }
-    else if (mitrixtype == "6x6") {
-
-    }
-}
 
 //動畫
 function boxsmove(mapObj, prevObj) {
