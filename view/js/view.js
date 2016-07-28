@@ -103,3 +103,36 @@ function SetRollbackButtonStatus(times) {
 function SetBestLabel() {
     document.getElementById("best-score").innerHTML = ReadBestScore();
 }
+
+//選取尺寸
+function changeMitrixSize(mitrixtype) {
+    if (mitrixtype == "4x4") {
+
+    }
+    else if (mitrixtype == "5x5") {
+
+    }
+    else if (mitrixtype == "6x6") {
+
+    }
+}
+
+//動畫
+function boxsmove(mapObj, prevObj) {
+    //如果先前的矩陣數量 > 之後的矩陣數量
+
+
+    //如果之後的矩陣數量 > 先前的矩陣數量
+
+
+    for (var i = 0; i < mapObj.Items.length; i++) {
+        for (var j = 0; j < prevObj.Items.length; j++) {
+            if (mapObj.Items[i].Id == prevObj.Items[j].Id) {
+
+                //alert(mapObj.Items[i].X);
+            }
+        }
+    }
+
+}
+
