@@ -108,6 +108,7 @@ function SetBestLabel() {
 
 //動畫
 function boxsmove(mapObj, prevObj) {
+    var moveArray = new Array();
     //如果先前的矩陣數量 > 之後的矩陣數量
 
 
@@ -116,12 +117,84 @@ function boxsmove(mapObj, prevObj) {
 
     for (var i = 0; i < mapObj.Items.length; i++) {
         for (var j = 0; j < prevObj.Items.length; j++) {
-            if (mapObj.Items[i].Id == prevObj.Items[j].Id) {
+            if (mapObj.Items[i].Id == prevObj.Items[j].Id) {//Id相同
+                if (mapObj.Items[i].PreId == "-1" && prevObj.Items[j].PreId == "-1") {//PreId == -1
+                    //var item = {
+                    //    startX: prevObj.Items[j].X,
+                    //    startY: prevObj.Items[j].Y,
+                    //    endX: mapObj.Items[i].X,
+                    //    endY: mapObj.Items[i].Y,
+                    //    Value: prevObj.Items[j].Value,
+                    //}
+                    var startitem = { 'left': getLeftCoordinate(5, prevObj.Items[j].X), 'top': getTopCoordinate(5, prevObj.Items[j].Y), 'background-color': 'red' };
+                    var enditem = { 'left': getLeftCoordinate(5, mapObj.Items[i].X), 'top': getTopCoordinate(5, mapObj.Items[i].Y), 'background-color': 'red' };
+
+
+                    moveArray.push(startitem);
+                    moveArray.push(enditem);
+                    //move 
+                }
 
                 //alert(mapObj.Items[i].X);
             }
+            //else if (mapObj.Items[i].PreId != "-1") {
+
+            //}
         }
     }
-
 }
+
+function boxAnimation() {
+    $.keyframe.define.append("'name': 'test1','0%': { 'left': '0px', 'top': '50px', 'background-color': 'red' },'100%': { 'left': '200px', 'top': '50px', 'background-color': 'red' }");
+
+    var boxs = document.getElementsByClassName("box");
+
+    $(boxs[0]).playKeyframe({
+        name: 'test1',
+        duration: '0.5s',
+        timingFunction: 'linear',
+        iterationCount: '1',
+        direction: 'normal',
+        complete: function () {
+            $(boxs[0]).resetKeyframe(function () {
+
+            });
+        }
+    });
+    //for (var ind = 0; ind < moveArray.length; ind++) {
+
+    //}
+}
+
+
+
+//function getMatritxIndex(matrixType,x,y) {
+
+//}
+
+//取得top座標
+function getTopCoordinate(matrixType, y) {
+    var height = 50;
+    return y * height + 'px';
+}
+//取得left座標
+function getLeftCoordinate(matrixType, x) {
+    var width = 50;
+    return x * width + 'px';
+}
+
+
+
+////取得top座標
+//function getTopCoordinate(matrixType, matrixIndex) {
+//    var width = 50;
+//    var height = 50;
+//    return Math.floor(matrixIndex / matrixType) * width + 'px';
+//}
+////取得left座標
+//function getLeftCoordinate(matrixType, matrixIndex) {
+//    var width = 50;
+//    var height = 50;
+//    return (matrixIndex % matrixType) * width + 'px';
+//}
 

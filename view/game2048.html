@@ -6,6 +6,7 @@
     <!--<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
     <!--<script src="js/initmobile.js"></script>-->
     <script src="js_lib/html2canvas.js"></script>
+    <script src='js_lib/jquery.keyframes.min.js'></script>
     <script src="js/enum.js"></script>
     <script src="js/view.js"></script>
     <script src="js/utility.js"></script>
@@ -159,10 +160,12 @@
 
     //按下重玩的事件
     function resetwithdefaultmitrixsize() {
-        var e = document.getElementById("changeMitrixselect");
-        var strValue = e.options[e.selectedIndex].value;
+        //var e = document.getElementById("changeMitrixselect");
+        //var strValue = e.options[e.selectedIndex].value;
 
-        reset(strValue);
+        //reset(strValue);
+
+        boxAnimation();
     }
 
     function capture() {
