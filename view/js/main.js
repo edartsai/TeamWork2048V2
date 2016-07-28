@@ -96,6 +96,7 @@ function GetRandNewItem(mapObj, isValueMust2) {
                     X: x,
                     Y: y,
                     Value: value,
+                    PreId: -1,
                     ToDel: false
                 }
                 mapObj.Items.push(nitem);

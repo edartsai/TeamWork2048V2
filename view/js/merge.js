@@ -49,6 +49,10 @@ function MergeArray(mapObj, direction) {
 	}
 
 	mapObj.Items.forEach(function (item) {
+	    item.PreId = -1;
+	});
+
+	mapObj.Items.forEach(function (item) {
 	    MergeItem(mapObj, direction, item);
 	});
 
@@ -205,6 +209,7 @@ function MergeItem(mapObj, direction, item) {
                 nearestItem = listcanmerge.pop();
                 if (nearestItem.Value === item.Value && !nearestItem.ToDel) {
                     nearestItem.Value = item.Value + nearestItem.Value;
+                    nearestItem.PreId = item.Id;        // 紀錄已結合的前一個Item Id
                     item.ToDel = true;                  // 標注移除
                     mapObj.Score += nearestItem.Value;  // 更新分數
                 }
@@ -224,6 +229,7 @@ function MergeItem(mapObj, direction, item) {
                 nearestItem = listcanmerge[0];
                 if (nearestItem.Value === item.Value && !nearestItem.ToDel) {
                     nearestItem.Value = item.Value + nearestItem.Value;
+                    nearestItem.PreId = item.Id;        // 紀錄已結合的前一個Item Id
                     item.ToDel = true;                  // 標注移除
                     mapObj.Score += nearestItem.Value;  // 更新分數
                 }
@@ -243,6 +249,7 @@ function MergeItem(mapObj, direction, item) {
                 nearestItem = listcanmerge.pop();
                 if (nearestItem.Value === item.Value && !nearestItem.ToDel) {
                     nearestItem.Value = item.Value + nearestItem.Value;
+                    nearestItem.PreId = item.Id;        // 紀錄已結合的前一個Item Id
                     item.ToDel = true;                  // 標注移除
                     mapObj.Score += nearestItem.Value;  // 更新分數
                 }
@@ -262,6 +269,7 @@ function MergeItem(mapObj, direction, item) {
                 nearestItem = listcanmerge[0];
                 if (nearestItem.Value === item.Value && !nearestItem.ToDel) {
                     nearestItem.Value = item.Value + nearestItem.Value;
+                    nearestItem.PreId = item.Id;        // 紀錄已結合的前一個Item Id
                     item.ToDel = true;                  // 標注移除
                     mapObj.Score += nearestItem.Value;  // 更新分數
                 }

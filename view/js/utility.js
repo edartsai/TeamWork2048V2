@@ -106,11 +106,20 @@ function CloneMap(map, size) {
     return rtnMap;
 }
 
-// 複製 Item 所有物件至新 Array
+// 複製 MapItem 所有物件至新 Array
 function CloneItems(items) {
     var rtn = [];
-    items.forEach(function(item) {
-        rtn.push(item);
+    items.forEach(function (item) {
+        var nitem = {
+            Id: item.Id,
+            X: item.X,
+            Y: item.Y,
+            Value: item.Value,
+            PreId: item.PreId,
+            ToDel: item.ToDel
+        }
+
+        rtn.push(nitem);
     });
     return rtn;
 }

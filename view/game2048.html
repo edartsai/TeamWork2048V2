@@ -57,6 +57,7 @@
 
     function moveLeft() {
         if (Move(mapObj, DIRECTION.LEFT, prevObj)) {
+            boxsmove(mapObj, prevObj)
             MappingArrayData(mapObj); //重繪Array
             SetRollbackButtonStatus(rollbackTimesLeft); //「上一步」按鈕狀態控制
         }
@@ -284,7 +285,11 @@
     </div>
 </div>
 
-
+<select onchange="changeMitrixSize(this.value)">
+    <option value="4X4">4X4</option>
+    <option value="5X5">5X5</option>
+    <option value="6X6">6X6</option>
+</select>
 
 <!--<div id="developing-div">
     <br/>
