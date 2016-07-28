@@ -60,6 +60,7 @@
     <Content Include="css\jquery-ui.min.css" />
     <Content Include="css\sidebarstyle.css" />
     <Content Include="css\style.css" />
+    <Content Include="css\subtabs.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="images\b_back_btn_20_p.png" />
     <Content Include="images\b_back_btn_p.png" />
