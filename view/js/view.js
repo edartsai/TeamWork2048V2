@@ -145,7 +145,19 @@ function boxsmove(mapObj, prevObj) {
 }
 
 function boxAnimation() {
-    $.keyframe.define.append("'name': 'test1','0%': { 'left': '0px', 'top': '50px', 'background-color': 'red' },'100%': { 'left': '200px', 'top': '50px', 'background-color': 'red' }");
+    var str1 = { 'left': '0px', 'top': '50px', 'background-color': 'red' };
+    var str2 = { 'left': '200px', 'top': '50px', 'background-color': 'red' };
+
+    var mymovearray = new Array();
+
+    mymovearray.push({
+        'name': 'test1',
+        '0%': str1,
+        '100%': str2
+    });
+
+
+    $.keyframe.define(mymovearray);
 
     var boxs = document.getElementsByClassName("box");
 
