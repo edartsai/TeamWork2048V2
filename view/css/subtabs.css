@@ -13,11 +13,11 @@
 	Author: ygzhang <ygzhang.cn@msn.com><qq 97572655>
 	*/
 
-	.sub-tabs-menu{position:relative;z-index:99;clear:both;overflow:hidden;margin:auto;padding:0;height:50px;background-color:transparent;}
-	.sub-tabs-menu .sub-tabs-line{position:absolute;bottom:0;left:0;z-index:100;overflow:hidden;width:100%;height:49px;border-bottom:1px solid #ccc;}
-	.sub-tabs-menu .sub-tabs-links{position:absolute;bottom:0;left:0;z-index:101;overflow:hidden;width:100%;height:49px;text-overflow:ellipsis;}
+	.sub-tabs-menu{position:relative;z-index:1;clear:both;overflow:hidden;margin:auto;padding:0;height:50px;background-color:transparent;}
+	.sub-tabs-menu .sub-tabs-line{position:absolute;bottom:0;left:0;z-index:2;overflow:hidden;width:100%;height:49px;border-bottom:1px solid #ccc;}
+	.sub-tabs-menu .sub-tabs-links{position:absolute;bottom:0;left:0;z-index:3;overflow:hidden;width:100%;height:49px;text-overflow:ellipsis;}
 	.sub-tabs-links a,
-	.sub-tabs-links .this-title{position:relative;z-index:102;float:left;display:block;margin:0;padding:0 15px;height:49px;line-height:49px;color:#333;text-align: center;text-decoration:none;text-overflow:ellipsis;font-weight:700;font-size:14px;overflow:hidden;}
+	.sub-tabs-links .this-title{position:relative;z-index:4;float:left;display:block;margin:0;padding:0 15px;height:49px;line-height:49px;color:#333;text-align: center;text-decoration:none;text-overflow:ellipsis;font-weight:700;font-size:14px;overflow:hidden;}
 	.sub-tabs-links .this-title{font-size:16px;}
 	.sub-tabs-links a h1,
 	.sub-tabs-links a p,
@@ -27,7 +27,7 @@
 	.sub-tabs-links .this-title i{float:left;margin:8px 10px 0 0px;color:#999;font-size:18px;font-weight: normal;}
 	.sub-tabs-links .this-title i{margin:8px 10px 0 -15px;}
 	.sub-tabs-links a em,
-	.sub-tabs-links .this-title em{position:absolute;bottom:0;left:0;z-index:103;margin:0;padding:0;width:100%;height:5px;background: transparent;overflow:hidden;}
+	.sub-tabs-links .this-title em{position:absolute;bottom:0;left:0;z-index:5;margin:0;padding:0;width:100%;height:5px;background: transparent;overflow:hidden;}
 	.sub-tabs-links a:hover,
 	.sub-tabs-links a.this-hover{color: #ff9900}
 	.sub-tabs-links .this-on,

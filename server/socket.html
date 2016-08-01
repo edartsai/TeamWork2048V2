@@ -1,0 +1,150 @@
+﻿<html>
+<head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+</head>
+<body>
+    <style>
+        span {
+            margin: 5px;
+        }
+        /* table */
+        .table {
+            display: table;
+            border-collapse: collapse;
+        }
+
+        /* tr */
+        .row {
+            display: table-row;
+            border: solid 1px red;
+        }
+
+        /* td , th */
+        .cell1 {
+            display: table-cell;
+            width: 180px;
+            border-right: 1px dotted #fff;
+            background: #fcd6d6;
+        }
+
+        .cell2 {
+            display: table-cell;
+            width: 180px;
+            padding-left: 10px;
+            border-right: 1px dotted #fff;
+            background: #eff8ff;
+        }
+
+        .cell3 {
+            display: table-cell;
+            width: 180px;
+            padding-left: 10px;
+            background: #effff0;
+        }
+    </style>
+
+    <script>
+        var socket = io();
+
+        $(document).ready(function(){
+          GenRowDiv('Time', 'User', 'Message', true);
+          $('#warning0').hide();
+          $('#warning1').hide();
+          $('#send').attr('disabled', true);
+
+          socket.on('chat_message', function(data) {
+              GenRowDiv(data.time, data.user, data.msg, false);
+           });
+
+
+        });
+
+          function sendmsg(){
+            var id = getId();
+            if(id === ""){
+              alert("please enter your id to talk with others!!");
+              return;
+            }
+
+              socket.emit('chat_message', {
+                'msg': $('#text').val()
+              });
+
+              $('#text').val('');
+              $('#text').focus();
+          }
+
+           function GenRowDiv(time, user, msg, isHeader){
+             var cellClassName = "cell2";
+             if(isHeader)
+              cellClassName = "cell1";
+
+             var timespan = $("<div></div>").addClass(cellClassName).text(time);
+             var userspan = $("<div></div>").addClass(cellClassName).text(user);
+             var msgspan = $("<div></div>").addClass(cellClassName).text(msg);
+             var rowdiv = $("<div></div>").addClass("row").append(timespan, userspan, msgspan);
+             $('#msglist').append(rowdiv);
+           }
+
+           function getId(){
+             var id = $('#id').val();
+             if(id === undefined || id === null ){
+               return "";
+             }
+
+             return id;
+           }
+
+          function idOnChange(){
+              var idlength = $("#id").val().length;
+
+              if(idlength > 15 ) {
+                $('#warning0').show();
+                $('#warning1').hide();
+                $('#send').attr('disabled', true);
+                $('#login').attr('disabled', true);
+              }else if(idlength <= 0){
+                $('#warning0').hide();
+                $('#warning1').show();
+                $('#send').attr('disabled', true);
+                $('#login').attr('disabled', true);
+              }
+              else{
+                $('#warning0').hide();
+                $('#warning1').hide();
+                $('#send').attr('disabled', false);
+                $('#login').attr('disabled', false);
+              }
+          }
+
+          function login() {
+              socket.emit('user_login', {
+                'username': $('#id').val()
+              });
+
+               $('#login').attr('disabled', true);
+               $('#id').attr('disabled', true);
+          }
+
+    </script>
+    <div style="margin-bottom:10px;">
+        <span>ID:</span>
+        <input type="text" id="id" maxlength="20" onkeyup="idOnChange()"></input>
+        <span id="warning0" style="color:red">Too long(1~16 Char)</span>
+        <span id="warning1" style="color:red">Please input id</span>
+    </div>
+    <div>
+        <input type="button" value='Login' id='login' onclick="login()" />
+    </div>
+
+    <div id="msglist" class="table" style="margin-bottom:10px;">
+
+    </div>
+
+    <div>
+        <textarea id="text" style="width:400px;height:100px;"></textarea>
+        <input type="button" value='send' id='send' onclick="sendmsg()" />
+    </div>
+</body>
+</html>

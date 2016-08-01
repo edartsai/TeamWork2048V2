@@ -65,6 +65,16 @@
     }
 	
 /*********************************************************************************/
+/* body hide scrollbar but can scroll                                            */
+/* only for webkit                                                               */
+/*********************************************************************************/
+    body::-webkit-scrollbar {display:none}
+
+
+
+
+
+/*********************************************************************************/
 /* Image Style                                                                   */
 /*********************************************************************************/
 
@@ -676,3 +686,21 @@
 		color: #000;
 		background: red;
 	}
+
+
+
+    .problem-ul {
+        width:30%;
+        margin-left: auto;
+        margin-right: auto;       
+    }
+
+    .problem-ul li {
+        text-align: left;
+        list-style:square;
+    }
+
+    .problem-ul li a {
+        text-decoration: none;
+        font-size: larger;
+    }
