@@ -185,7 +185,7 @@ function boxAnimation(moveboxs) {
     for (var i = 0; i < moveboxs.length; i++) {
         $(boxs[moveboxs[i].ind]).playKeyframe({
             name: moveboxs[i].movename,
-            duration: '100ms',
+            duration: '1s',
             timingFunction: 'linear',
             iterationCount: '1',
             direction: 'normal',

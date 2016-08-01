@@ -75,22 +75,31 @@
   text-align: center;
   float: left;
   border-color: #BBADA0;
-  border-width: 1px;
+  border-width: 0px;
   border-style: solid;
   /*position: absolute;*/
-  position: relative;
-  /*animation-direction: normal;
-    animation-iteration-count:1;
-    animation-fill-mode:none ;*/ }
+  position: relative; }
 
-.move-box {
-  width: 50px;
+.box-row-border {
+  z-index: 3;
+  width: 2px;
   height: 50px;
-  background: #776E65;
-  position: relative;
-  animation-direction: normal;
-  animation-iteration-count: 1;
-  animation-fill-mode: both; }
+  background: #BBADA0;
+  text-align: center;
+  float: left;
+  border-width: 0px;
+  /*position: absolute;*/
+  position: relative; }
+
+.box-column-border {
+  z-index: 3;
+  width: 208px;
+  height: 2px;
+  background: #BBADA0;
+  text-align: center;
+  border-width: 0px;
+  /*position: absolute;*/
+  position: relative; }
 
 .box-row {
   z-index: 2;

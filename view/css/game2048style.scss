@@ -109,27 +109,39 @@ html, body {
     float: left;
         
     border-color:$border-color;
-    border-width:1px;
+    border-width:0px;
     border-style:solid;
+    
 
     /*position: absolute;*/
     position:relative;
-    /*animation-direction: normal;
-    animation-iteration-count:1;
-    animation-fill-mode:none ;*/
-    
 }
 
-.move-box {
-    //animation-name:mymove;
-    width: $box-width;
-    height: $box-height; 
-    background: $box-background;
-    position: relative;
-    animation-direction: normal;
-    animation-iteration-count:1;
-    animation-fill-mode:both;
-  }
+.box-row-border{
+    z-index:3;
+    width: 2px;
+    height: $box-height;
+    background: $border-color;
+    text-align:center;
+    float: left;
+    border-width:0px;
+        
+    /*position: absolute;*/
+    position:relative;
+}
+
+.box-column-border{
+    z-index:3;
+    width: $box-width*4+8px;
+    height: 2px;
+    background: $border-color;
+    text-align:center;
+    border-width:0px;
+        
+    /*position: absolute;*/
+    position:relative;
+}
+
 
 .box-row{
     z-index:2;
@@ -154,7 +166,6 @@ html, body {
     margin-left:($main-width/2) * (-1);
     line-height:($main-width/2) + 30;
 }
-
 
 
 .FB-share{
