@@ -62,20 +62,26 @@
   border-width: 3px;
   border-style: solid;
   border-radius: 4px;
-  /*display:table;*/
-  /*text-align:center;*/
-  display: inline-block; }
+  display: table;
+  text-align: center;
+  display: inline-block;
+  z-index: 1; }
 
 .box {
+  z-index: 3;
   width: 50px;
   height: 50px;
   background: #776E65;
   text-align: center;
   float: left;
   border-color: #BBADA0;
-  border-width: 3px;
+  border-width: 1px;
   border-style: solid;
-  display: table-cell; }
+  /*position: absolute;*/
+  position: relative;
+  /*animation-direction: normal;
+    animation-iteration-count:1;
+    animation-fill-mode:none ;*/ }
 
 .move-box {
   width: 50px;
@@ -87,8 +93,10 @@
   animation-fill-mode: both; }
 
 .box-row {
+  z-index: 2;
   text-align: center;
-  display: table-row; }
+  display: table-row;
+  background-color: #CDC1B4; }
   .box-row:after {
     content: "";
     display: block;

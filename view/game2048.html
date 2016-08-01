@@ -59,28 +59,31 @@
     function moveLeft() {
         if (Move(mapObj, DIRECTION.LEFT, prevObj)) {
             boxsmove(mapObj, prevObj)
-            MappingArrayData(mapObj); //重繪Array
+            //MappingArrayData(mapObj); //重繪Array
             SetRollbackButtonStatus(rollbackTimesLeft); //「上一步」按鈕狀態控制
         }
     }
 
     function moveRight() {
         if (Move(mapObj, DIRECTION.RIGHT, prevObj)) {
-            MappingArrayData(mapObj); //重繪Array
+            boxsmove(mapObj, prevObj)
+            //MappingArrayData(mapObj); //重繪Array
             SetRollbackButtonStatus(rollbackTimesLeft); //「上一步」按鈕狀態控制
         }
     }
 
     function moveUp() {
         if (Move(mapObj, DIRECTION.UP, prevObj)) {
-            MappingArrayData(mapObj); //重繪Array
+            boxsmove(mapObj, prevObj)
+            //MappingArrayData(mapObj); //重繪Array
             SetRollbackButtonStatus(rollbackTimesLeft); //「上一步」按鈕狀態控制
         }
     }
 
     function moveDown() {
         if (Move(mapObj, DIRECTION.DOWN, prevObj)) {
-            MappingArrayData(mapObj); //重繪Array
+            boxsmove(mapObj, prevObj)
+            //MappingArrayData(mapObj); //重繪Array
             SetRollbackButtonStatus(rollbackTimesLeft); //「上一步」按鈕狀態控制
         }
     }
@@ -129,7 +132,7 @@
         }
         var e = document.getElementById("changeMitrixselect");
         var strValue = e.options[e.selectedIndex].value;
-        changearray(strValue);
+        createMitrixDiv(strValue);
         reset(strValue);
     };
 
@@ -160,12 +163,10 @@
 
     //按下重玩的事件
     function resetwithdefaultmitrixsize() {
-        //var e = document.getElementById("changeMitrixselect");
-        //var strValue = e.options[e.selectedIndex].value;
+        var e = document.getElementById("changeMitrixselect");
+        var strValue = e.options[e.selectedIndex].value;
 
-        //reset(strValue);
-
-        boxAnimation();
+        reset(strValue);
     }
 
     function capture() {
@@ -193,22 +194,39 @@
     }
 
     //jquery組合矩陣的html
-    function changearray(mitrixtype) {
+    function createMitrixDiv(mitrixtype) {
         var boxitem = "<div class='box'><p class='box-number'></p></div>"
+        
         $(".box-body").empty();
         for (var i = 0 ; i < mitrixtype; i++) {
-            $(".box-body").append("<div class='box-row'>");
+            var tmp = "<div class='box-row'>";
             for (var j = 0 ; j < mitrixtype; j++) {
-                $(".box-body").append(boxitem);
+                //tmp += "<div class='box'><p class='box-number'></p></div>";
+                //var boxdiv = "<div class='box'" + createDivStyle(i, j) + "><p class='box-number'></p></div>";
+
+                var boxdiv = "<div class='box'><p class='box-number'></p></div>";
+
+                tmp += boxdiv;
             }
-            $(".box-body").append("</div>");
+            tmp += "</div>";
+            $(".box-body").append(tmp);
         }
     }
+
+    function createDivStyle(i,j) {
+        var topsize = i*50 + "px";
+        var leftsize = j*50 + "px";
+        var mergesize = "top:" + topsize + ";left:" + leftsize;
+
+        return "style="+mergesize;
+    }
+
+
     //選取尺寸
     function changeMitrixSize(mitrixtype) {
         var e = document.getElementById("changeMitrixselect");
         e.blur();
-        changearray(mitrixtype);
+        createMitrixDiv(mitrixtype);
         reset(mitrixtype);
     }
 

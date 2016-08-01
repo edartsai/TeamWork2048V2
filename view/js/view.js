@@ -109,142 +109,101 @@ function SetBestLabel() {
 //動畫
 function boxsmove(mapObj, prevObj) {
     var moveArray = new Array();
-    //如果先前的矩陣數量 > 之後的矩陣數量
-
-
-    //如果之後的矩陣數量 > 先前的矩陣數量
-
+    var moveboxs = new Array();
 
     for (var i = 0; i < mapObj.Items.length; i++) {
         for (var j = 0; j < prevObj.Items.length; j++) {
             if (mapObj.Items[i].Id == prevObj.Items[j].Id) {//Id相同
-                if (mapObj.Items[i].PreId == "-1" && prevObj.Items[j].PreId == "-1") {//PreId == -1
-                    //var item = {
-                    //    startX: prevObj.Items[j].X,
-                    //    startY: prevObj.Items[j].Y,
-                    //    endX: mapObj.Items[i].X,
-                    //    endY: mapObj.Items[i].Y,
-                    //    Value: prevObj.Items[j].Value,
-                    //}
-                    var startitem = { 'left': getLeftCoordinate(5, prevObj.Items[j].X), 'top': getTopCoordinate(5, prevObj.Items[j].Y), 'background-color': 'red' };
-                    var enditem = { 'left': getLeftCoordinate(5, mapObj.Items[i].X), 'top': getTopCoordinate(5, mapObj.Items[i].Y), 'background-color': 'red' };
-
+                if (mapObj.Items[i].PreId == "-1" && prevObj.Items[j].PreId == "-1") {//PreId == -1 代表沒合併
+                    var startitem = { 'left': '0px', 'top': '0px', 'z-index': '5' };
+                    var endX;
+                    var endY;
+                    if (mapObj.Items[i].X == prevObj.Items[j].X) {//
+                        endX = "0px";
+                        endY = (mapObj.Items[i].Y - prevObj.Items[j].Y)*50 + "px";
+                    } else if (mapObj.Items[i].Y == prevObj.Items[j].Y) {
+                        endX = (mapObj.Items[i].X - prevObj.Items[j].X) * 50 + "px";
+                        endY = "0px"; 
+                    }
+                    var enditem = { 'left': endX, 'top': endY, 'z-index': '5' };
 
                     moveArray.push({
                         'name': "move" + mapObj.Items[i].Id,
                         '0%': startitem,
                         '100%': enditem
                     });
-                    //moveArray.push(startitem);
-                    //moveArray.push(enditem);
-                    //move 
+
+                    moveboxs.push({
+                        'ind': prevObj.Items[j].Y * prevObj.Size + prevObj.Items[j].X,
+                        'movename': "move" + mapObj.Items[i].Id
+                    });
                 }
+                else {//合併
 
-                //alert(mapObj.Items[i].X);
+                    for (var preind = 0; preind < prevObj.Items.length; preind++) {
+                        if (prevObj.Items[preind].Id == mapObj.Items[i].PreId) {
+
+                            var startitem = { 'left': '0px', 'top': '0px', 'z-index': '5' };
+                            var endX;
+                            var endY;
+                            if (mapObj.Items[i].X == prevObj.Items[preind].X) {//
+                                endX = "0px";
+                                endY = (mapObj.Items[i].Y - prevObj.Items[preind].Y) * 50 + "px";
+                            } else if (mapObj.Items[i].Y == prevObj.Items[preind].Y) {
+                                endX = (mapObj.Items[i].X - prevObj.Items[preind].X) * 50 + "px";
+                                endY = "0px";
+                            }
+                            var enditem = { 'left': endX, 'top': endY, 'z-index': '5' };
+
+                            moveArray.push({
+                                'name': "move" + mapObj.Items[i].Id,
+                                '0%': startitem,
+                                '100%': enditem
+                            });
+
+                            moveboxs.push({
+                                'ind': prevObj.Items[preind].Y * prevObj.Size + prevObj.Items[preind].X,
+                                'movename': "move" + mapObj.Items[i].Id
+                            });
+                        }
+                    }
+
+                }
             }
-            //else if (mapObj.Items[i].PreId != "-1") {
-
-            //}
         }
     }
-    boxAnimation(moveArray);
+    $.keyframe.define(moveArray);
+    boxAnimation(moveboxs);
 }
 
-function boxAnimation(moveArray) {
-    //var str1 = { 'left': '0px', 'top': '50px', 'background-color': 'red' };
-    //var str2 = { 'left': '200px', 'top': '50px', 'background-color': 'red' };
 
-    //var mymovearray = new Array();
+function boxAnimation(moveboxs) {
+    
+    var boxs = document.getElementsByClassName("box")
 
-    //mymovearray.push({
-    //    'name': 'test1',
-    //    '0%': str1,
-    //    '100%': str2
-    //});
-
-    //$.keyframe.define(mymovearray);
-
-    //var boxitem = "<div class='move-box'></div>"
-    //$(".box-body").append(boxitem);
-
-    //var boxs = document.getElementsByClassName("move-box")
-
-
-    //$(boxs[0]).playKeyframe({
-    //    name: 'test1',
-    //    duration: '5s',
-    //    timingFunction: 'linear',
-    //    iterationCount: '1',
-    //    direction: 'normal',
-    //    complete: function () {
-
-    //        $(boxs[0]).resetKeyframe(function () {
-
-    //        });
-    //    }
-    //});
-
-    $.keyframe.define(moveArray);
-
-    for (var i = 0; i < moveArray.length; i++) {
-        var boxitem = "<div class='move-box'></div>"
-        $(".box-body").append(boxitem);
-    }
-
-
-    var boxs = document.getElementsByClassName("move-box")
-
-    for (var i = 0; i < moveArray.length; i++) {
-
-        $(boxs[i]).playKeyframe({
-            name: moveArray[i].name,
-            duration: '500ms',
+    var isrepain = false;
+    for (var i = 0; i < moveboxs.length; i++) {
+        $(boxs[moveboxs[i].ind]).playKeyframe({
+            name: moveboxs[i].movename,
+            duration: '100ms',
             timingFunction: 'linear',
             iterationCount: '1',
             direction: 'normal',
-            complete: function () {
+            fillMode:'backwards',
+            complete: function (e) {
+                for (var t = 0; t < boxs.length; t++) {
+                    $(boxs[t]).removeClass("boostKeyframe");
+                    $(boxs[t]).css("animation", "");
+                    $(boxs[t]).resumeKeyframe();
+                }
+                if (!isrepain) {
+                    MappingArrayData(mapObj); //重繪Array
+                    isrepain = true;
+                }
                 
-                $(boxs[i]).resetKeyframe(function () {
-                    $(boxs[i]).remove();
-                });
             }
         });
     }
-
-    //$(".move-box").remove();
-
-
 }
 
-
-
-//function getMatritxIndex(matrixType,x,y) {
-
-//}
-
-//取得top座標
-function getTopCoordinate(matrixType, y) {
-    var height = 50;
-    return y * height + 'px';
-}
-//取得left座標
-function getLeftCoordinate(matrixType, x) {
-    var width = 50;
-    return x * width + 'px';
-}
-
-
-
-////取得top座標
-//function getTopCoordinate(matrixType, matrixIndex) {
-//    var width = 50;
-//    var height = 50;
-//    return Math.floor(matrixIndex / matrixType) * width + 'px';
-//}
-////取得left座標
-//function getLeftCoordinate(matrixType, matrixIndex) {
-//    var width = 50;
-//    var height = 50;
-//    return (matrixIndex % matrixType) * width + 'px';
-//}
 
