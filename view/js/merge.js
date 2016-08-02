@@ -50,9 +50,6 @@ function MergeArray(mapObj, direction) {
 
 	mapObj.Items.forEach(function (item) {
 	    item.PreId = -1;
-	});
-
-	mapObj.Items.forEach(function (item) {
 	    MergeItem(mapObj, direction, item);
 	});
 

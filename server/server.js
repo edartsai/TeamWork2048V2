@@ -1,36 +1,35 @@
-﻿var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+﻿var http = require("http");
+var url = require('url');
+var fs = require('fs');
 
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/socket.html');
+var server = http.createServer(function (request, response) {
+    console.log('Connection');
+    var path = url.parse(request.url).pathname;
+
+    switch (path) {
+        case '/':
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.write('Hello, World.');
+            response.end();
+            break;
+        case '/socket.html':
+            fs.readFile(__dirname + path, function (error, data) {
+                if (error) {
+                    response.writeHead(404);
+                    response.write("opps this doesn't exist - 404");
+                } else {
+                    response.writeHead(200, { "Content-Type": "text/html" });
+                    response.write(data, "utf8");
+                }
+                response.end();
+            });
+            break;
+        default:
+            response.writeHead(404);
+            response.write("opps this doesn't exist - 404");
+            response.end();
+            break;
+    }
 });
 
-
-//指定port
-http.listen(process.env.PORT || 8001, function () {
-    console.log('listening on *:8001');
-});
-
-io.on('connection', function (socket) {
-    socket.on('user_login', function (data) {
-        socket.username = data.username;
-
-        var now = new Date();
-        var nowStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
-        console.log(nowStr + ' ' + data.username + ' Login!');
-    });
-
-
-    socket.on('chat_message', function (data) {
-        var now = new Date();
-        var nowStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
-        console.log(nowStr + ' ' + socket.username + ' ' + data.msg);
-
-        io.emit('chat_message', {
-            'time': nowStr,
-            'user': socket.username,
-            'msg': data.msg
-        });
-    });
-});
+server.listen(8001);

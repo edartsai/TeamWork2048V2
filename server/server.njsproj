@@ -30,6 +30,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="js\chatroom.js" />
     <Compile Include="js\sql.js" />
     <Compile Include="server.js" />
     <Content Include="package.json" />
