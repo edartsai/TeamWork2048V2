@@ -195,13 +195,23 @@
 
     //jquery組合矩陣的html
     function createMitrixDiv(mitrixtype) {
+        var isonetime = true;
+        var bigboxwidth = mitrixtype * 50 + (mitrixtype) * 2 + 2;
+        var bigboxwidthstr = "width:" + bigboxwidth + "px";
+
         var boxdiv = "<div class='box'><p class='box-number'></p></div>";
         var borderdiv = "<div class='box-row-border'></div>";
-        var borderdivcolumn = "<div class='box-column-border'></div>";
+        var borderdivcolumn = "<div class='box-column-border'"+"style=" + bigboxwidthstr + "></div>";
         
         $(".box-body").empty();
         for (var i = 0 ; i < mitrixtype; i++) {
             var tmp = "<div class='box-row'>";
+            if (isonetime) {
+                tmp += borderdivcolumn;
+                isonetime = false;
+            }
+            
+            tmp += borderdiv;
             for (var j = 0 ; j < mitrixtype; j++) {
                 //tmp += "<div class='box'><p class='box-number'></p></div>";
                 //var boxdiv = "<div class='box'" + createDivStyle(i, j) + "><p class='box-number'></p></div>";
