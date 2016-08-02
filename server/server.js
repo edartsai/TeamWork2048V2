@@ -1,7 +1,13 @@
 ﻿var express = require('express');
 var app = express();
 
-app.listen(8001, function() {
+var http = require('http');
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
+
+var sql = require(__dirname + '/js/sql.js');
+
+server.listen(8001, function() {
     console.log('ready on port 8001');
 });
 
@@ -17,6 +23,11 @@ app.get('/game2048.html', function (req, res) {
     res.sendFile(__dirname + '/game2048.html');
 });
 
+app.get('/queryLeaderboard.html', function (req, res) {
+    res.sendFile(__dirname + '/queryLeaderboard.html');
+});
+
+
 app.use('/css', express.static('css'));
 app.use('/fonts', express.static('fonts'));
 app.use('/images', express.static('images'));
@@ -26,58 +37,49 @@ app.use('/js_lib', express.static('js_lib'));
 
 
 
+io.on('connection', function (socket) {
+    socket.on('user_login', function (data) {
+        var rowcount = data.rowCount;
+        GetLeaderboard(socket, rowcount);
 
-//var server = http.createServer(function (request, response) {
-    //console.log('Connection');
-    //var path = url.parse(request.url).pathname;
+    });
 
-    //switch (path) {
-    //    case '/':
-    //        response.writeHead(200, { 'Content-Type': 'text/html' });
-    //        response.write('Hello, World.');
-    //        response.end();
-    //        break;
-    //    case '/index.html':
-    //        fs.readFile(__dirname + path, function (error, data) {
-    //            if (error) {
-    //                response.writeHead(404);
-    //                response.write("opps this doesn't exist - 404");
-    //            } else {
-    //                response.writeHead(200, { "Content-Type": "text/html" });
-    //                response.write(data, "utf8");
-    //            }
-    //            response.end();
-    //        });
-    //        break;
-    //    case '/index2.html':
-    //        fs.readFile(__dirname + path, function (error, data) {
-    //            if (error) {
-    //                response.writeHead(404);
-    //                response.write("opps this doesn't exist - 404");
-    //            } else {
-    //                response.writeHead(200, { "Content-Type": "text/html" });
-    //                response.write(data, "utf8");
-    //            }
-    //            response.end();
-    //        });
-    //        break;
-    //    case '/game2048.html':
-    //        fs.readFile(__dirname + path, function (error, data) {
-    //            if (error) {
-    //                response.writeHead(404);
-    //                response.write("opps this doesn't exist - 404");
-    //            } else {
-    //                response.writeHead(200, { "Content-Type": "text/html" });
-    //                response.write(data, "utf8");
-    //            }
-    //            response.end();
-    //        });
-    //        break;
-    //    default:
-    //        response.writeHead(404);
-    //        response.write("opps this doesn't exist - 404");
-    //        response.end();
-    //        break;
-    //}
-//});
+    socket.on('chat_message', function (data) {
+        var now = new Date();
+        var nowStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+        console.log(nowStr + ' ' + socket.username + ' ' + data.msg);
 
+        io.emit('chat_message', {
+            'time': nowStr,
+            'user': socket.username,
+            'msg': data.msg
+        });
+    });
+
+    socket.on('add_leaderboard', function (data) {
+        sql.addLeaderListItem(data, function(result) {
+            if (result.returnValue === 0) {
+                GetLeaderboard(socket);
+            }
+        });
+       
+    });
+
+});
+
+function GetLeaderboard(socket, rowcount) {
+    sql.getLeaderList(
+        {
+            sortType: 0,
+            startIndex: 1,
+            rowCount: rowcount
+        },
+        function (rtndata) {
+            SendLeaderboard2Client(socket, rtndata);
+        }
+    );
+}
+
+function SendLeaderboard2Client(socket, data) {
+    socket.emit('sendLeaderboard', data);
+}

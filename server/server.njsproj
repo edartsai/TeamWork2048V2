@@ -105,6 +105,7 @@
     <Content Include="intro\technics01.html" />
     <Content Include="license.txt" />
     <Content Include="package.json" />
+    <Content Include="queryLeaderboard.html" />
     <Content Include="README.md" />
     <Content Include="socket.html" />
   </ItemGroup>

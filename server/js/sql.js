@@ -4,7 +4,7 @@
 var config = {
     user: 'testuser',
     password: '123456',
-    server: 'localhost',
+    server: '10.1.4.226',
 
     options: {
         port: 12001,
@@ -40,6 +40,38 @@ module.exports = {
                 });
 
         });
+    },
+
+
+    addLeaderListItem : function (queryParams, callback) {
+        sql.connect(config, function (err) {
+            if (err) console.log(err);
+
+            var request = new sql.Request();
+
+            if (queryParams.name === undefined )
+                queryParams.name = '';
+
+            if (queryParams.score === undefined || parseInt(queryParams.score) !== queryParams.score)
+                queryParams.score = 0;
+
+            if (queryParams.movetimes === undefined || parseInt(queryParams.movetimes) !== queryParams.movetimes)
+                queryParams.movetimes = 0;
+
+            if (queryParams.ip === undefined)
+                queryParams.ip = '';
+
+            request.input("name", sql.NVarChar, queryParams.name)
+                .input("score", sql.Int, queryParams.score)
+                .input("movetimes", sql.Int, queryParams.movetimes)
+                .input("ip", sql.NChar, queryParams.ip)
+                .execute("usp_addLeaderList").then(function (result) {
+                    callback(result);
+                })
+                .catch(function (erro) {
+                    console.assert(erro);
+                });
+
+        });
     }
-    
 };
