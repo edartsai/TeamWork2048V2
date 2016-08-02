@@ -30,14 +30,93 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="js\chatroom.js" />
+    <Compile Include="js\enum.js" />
+    <Compile Include="js\fb.js" />
+    <Compile Include="js\initmobile.js" />
+    <Compile Include="js\iscando.js" />
+    <Compile Include="js\main.js" />
+    <Compile Include="js\merge.js" />
+    <Compile Include="js\move.js" />
     <Compile Include="js\sql.js" />
+    <Compile Include="js\utility.js" />
+    <Compile Include="js\view.js" />
+    <Compile Include="js_lib\html2canvas.js" />
+    <Compile Include="js_lib\jquery-ui.min.js" />
+    <Compile Include="js_lib\jquery.keyframes.min.js" />
+    <Compile Include="js_lib\jquery.mobile-1.4.5.min.js" />
     <Compile Include="server.js" />
+    <Content Include="compilerconfig.json" />
+    <Content Include="css\default.css" />
+    <Content Include="css\fonts.css" />
+    <Content Include="css\game2048style.css">
+      <SubType>Content</SubType>
+      <DependentUpon>css\game2048style.scss</DependentUpon>
+    </Content>
+    <Content Include="css\game2048style.min.css">
+      <SubType>Content</SubType>
+      <DependentUpon>css\game2048style.css</DependentUpon>
+    </Content>
+    <Content Include="css\game2048style.scss" />
+    <Content Include="css\jquery-ui.min.css" />
+    <Content Include="css\lightbox.css" />
+    <Content Include="css\sidebarstyle.css" />
+    <Content Include="css\style.css" />
+    <Content Include="css\subtabs.css" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="game2048.html" />
+    <Content Include="images\2048-icon2.png" />
+    <Content Include="images\b_back_btn_20_p.png" />
+    <Content Include="images\b_back_btn_p.png" />
+    <Content Include="images\b_brefresh_20_n.png" />
+    <Content Include="images\b_brefresh_n.png" />
+    <Content Include="images\b_share_p.png" />
+    <Content Include="images\center.jpg" />
+    <Content Include="images\favicon.ico" />
+    <Content Include="images\game-2048-2.png" />
+    <Content Include="images\problems02_01.png" />
+    <Content Include="images\problems02_02.png" />
+    <Content Include="images\problems02_03.png" />
+    <Content Include="images\problems02_04.png" />
+    <Content Include="images\problems02_05.png" />
+    <Content Include="images\problems02_06.png" />
+    <Content Include="images\problems02_07.png" />
+    <Content Include="index.html" />
+    <Content Include="index2.html" />
+    <Content Include="intro\body.html" />
+    <Content Include="intro\collaboration01.html" />
+    <Content Include="intro\feature01.html" />
+    <Content Include="intro\feature02.html" />
+    <Content Include="intro\footer.html" />
+    <Content Include="intro\header.html" />
+    <Content Include="intro\intro01.html" />
+    <Content Include="intro\intro02.html" />
+    <Content Include="intro\intro03.html" />
+    <Content Include="intro\menu.json" />
+    <Content Include="intro\problems01.html" />
+    <Content Include="intro\problems02.html" />
+    <Content Include="intro\problems03.html" />
+    <Content Include="intro\problems04.html" />
+    <Content Include="intro\sidebar.html" />
+    <Content Include="intro\technics01.html" />
+    <Content Include="license.txt" />
     <Content Include="package.json" />
     <Content Include="README.md" />
     <Content Include="socket.html" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="css\" />
+    <Folder Include="css\images\" />
+    <Folder Include="css\themes\" />
+    <Folder Include="fonts\" />
+    <Folder Include="images\" />
+    <Folder Include="intro\" />
     <Folder Include="js\" />
+    <Folder Include="js_lib\" />
     <Folder Include="typings\" />
     <Folder Include="typings\globals\" />
     <Folder Include="typings\globals\express\" />

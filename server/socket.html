@@ -48,15 +48,19 @@
         var socket = io();
 
         $(document).ready(function(){
-          GenRowDiv('Time', 'User', 'Message', true);
-          $('#warning0').hide();
-          $('#warning1').hide();
-          $('#send').attr('disabled', true);
+            GenRowDiv('Time', 'User', 'Message', true);
+            $('#warning0').hide();
+            $('#warning1').hide();
+            $('#send').attr('disabled', true);
 
-          socket.on('chat_message', function(data) {
-              GenRowDiv(data.time, data.user, data.msg, false);
-           });
+            socket.on('chat_message', function(data) {
+                GenRowDiv(data.time, data.user, data.msg, false);
+            });
 
+
+            socket.on('sendLeaderboard', function (data) {
+                alert(data);
+            });
 
         });
 
@@ -130,7 +134,7 @@
     </script>
     <div style="margin-bottom:10px;">
         <span>ID:</span>
-        <input type="text" id="id" maxlength="20" onkeyup="idOnChange()"></input>
+        <input type="text" id="id" maxlength="20" onkeyup="idOnChange()"/>
         <span id="warning0" style="color:red">Too long(1~16 Char)</span>
         <span id="warning1" style="color:red">Please input id</span>
     </div>
