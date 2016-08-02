@@ -108,6 +108,7 @@ function SetBestLabel() {
 
 //動畫
 function boxsmove(mapObj, prevObj) {
+    isCanClick = false;
     var moveArray = new Array();
     var moveboxs = new Array();
 
@@ -209,7 +210,7 @@ function boxAnimation(moveboxs) {
     for (var i = 0; i < moveboxs.length; i++) {
         $(boxs[moveboxs[i].ind]).playKeyframe({
             name: moveboxs[i].movename,
-            duration: '400ms',
+            duration: '100ms',
             timingFunction: 'linear',
             iterationCount: '1',
             direction: 'normal',
@@ -223,6 +224,7 @@ function boxAnimation(moveboxs) {
                 if (!isrepain) {
                     MappingArrayData(mapObj); //重繪Array
                     isrepain = true;
+                    isCanClick = true;
                 }
                 
             }
