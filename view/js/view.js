@@ -114,7 +114,7 @@ function boxsmove(mapObj, prevObj) {
     for (var i = 0; i < mapObj.Items.length; i++) {
         for (var j = 0; j < prevObj.Items.length; j++) {
             if (mapObj.Items[i].Id == prevObj.Items[j].Id) {//Id相同
-                if (mapObj.Items[i].PreId == "-1" && prevObj.Items[j].PreId == "-1") {//PreId == -1 代表沒合併
+                if (mapObj.Items[i].PreId == "-1" ) {//PreId == -1 代表沒合併
                     var startitem = { 'left': '0px', 'top': '0px', 'z-index': '5' };
                     var endX;
                     var endY;
@@ -139,9 +139,33 @@ function boxsmove(mapObj, prevObj) {
                     });
                 }
                 else {//合併
+                    if (mapObj.Items[i].PreId != "-1" && prevObj.Items[j].PreId == "-1") {
+                        var startitem = { 'left': '0px', 'top': '0px', 'z-index': '5' };
+                        var endX;
+                        var endY;
+                        if (mapObj.Items[i].X == prevObj.Items[j].X) {//
+                            endX = "0px";
+                            endY = (mapObj.Items[i].Y - prevObj.Items[j].Y) * 50 + "px";
+                        } else if (mapObj.Items[i].Y == prevObj.Items[j].Y) {
+                            endX = (mapObj.Items[i].X - prevObj.Items[j].X) * 50 + "px";
+                            endY = "0px";
+                        }
+                        var enditem = { 'left': endX, 'top': endY, 'z-index': '5' };
+
+                        moveArray.push({
+                            'name': "move" + mapObj.Items[i].Id,
+                            '0%': startitem,
+                            '100%': enditem
+                        });
+
+                        moveboxs.push({
+                            'ind': prevObj.Items[j].Y * prevObj.Size + prevObj.Items[j].X,
+                            'movename': "move" + mapObj.Items[i].Id
+                        });
+                    }
 
                     for (var preind = 0; preind < prevObj.Items.length; preind++) {
-                        if (prevObj.Items[preind].Id == mapObj.Items[i].PreId) {
+                        if (mapObj.Items[i].PreId == prevObj.Items[preind].Id) {
 
                             var startitem = { 'left': '0px', 'top': '0px', 'z-index': '5' };
                             var endX;
@@ -156,14 +180,14 @@ function boxsmove(mapObj, prevObj) {
                             var enditem = { 'left': endX, 'top': endY, 'z-index': '5' };
 
                             moveArray.push({
-                                'name': "move" + mapObj.Items[i].Id,
+                                'name': "move" + prevObj.Items[preind].Id,
                                 '0%': startitem,
                                 '100%': enditem
                             });
 
                             moveboxs.push({
                                 'ind': prevObj.Items[preind].Y * prevObj.Size + prevObj.Items[preind].X,
-                                'movename': "move" + mapObj.Items[i].Id
+                                'movename': "move" + prevObj.Items[preind].Id
                             });
                         }
                     }
@@ -185,7 +209,7 @@ function boxAnimation(moveboxs) {
     for (var i = 0; i < moveboxs.length; i++) {
         $(boxs[moveboxs[i].ind]).playKeyframe({
             name: moveboxs[i].movename,
-            duration: '1s',
+            duration: '400ms',
             timingFunction: 'linear',
             iterationCount: '1',
             direction: 'normal',

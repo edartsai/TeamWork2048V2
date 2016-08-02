@@ -23,7 +23,7 @@
   height: 50px;
   background: #BBADA0;
   border-color: #BBADA0;
-  border-width: 3px;
+  border-width: 2px;
   border-style: solid;
   border-radius: 4px;
   float: right; }
@@ -51,7 +51,7 @@
 .back-button {
   background: #BBADA0;
   border-color: #BBADA0;
-  border-width: 3px;
+  border-width: 2px;
   border-style: solid;
   border-radius: 4px;
   padding: 0;
@@ -59,7 +59,7 @@
 
 .box-body {
   border-color: #BBADA0;
-  border-width: 3px;
+  border-width: 2px;
   border-style: solid;
   border-radius: 4px;
   display: table;
@@ -93,7 +93,6 @@
 
 .box-column-border {
   z-index: 3;
-  width: 208px;
   height: 2px;
   background: #BBADA0;
   text-align: center;
@@ -112,15 +111,15 @@
     clear: both; }
 
 .mask-body {
-  width: 230px;
-  height: 230px;
+  width: 220px;
+  height: 220px;
   background-color: rgba(51, 26, 0, 0.3);
   z-index: 100;
   display: inline-block;
   position: absolute;
   margin-top: 65px;
-  margin-left: -115px;
-  line-height: 145px; }
+  margin-left: -110px;
+  line-height: 140px; }
 
 .FB-share {
   background: #BBADA0;
