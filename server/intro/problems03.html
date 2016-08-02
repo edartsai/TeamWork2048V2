@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <script>
+        $(function () {
+            $("#problems03tabs").tabs();
+        });
+    </script>
+
+</head>
+<body>
+    <style>
+        #problems03tabs {
+            margin-left: 2em;
+        }
+    </style>
+
+    <h3 style="margin-left: 1em;">3. 置中問題</h3>
+    <div id="problems03tabs" style="width:50%;float:left">
+        <ul>
+            <li><a href="#problems03tabs-1">1.水平置中</a></li>
+            <li><a href="#problems03tabs-2">2.垂直置中</a></li>
+        </ul>
+        <div id="problems03tabs-1">
+            <p>方法1：margin: 0px auto;</p>
+            <p>
+                <a href="https://jsfiddle.net/zoue7gdf/" target="_blank" style="color:blue">
+                    margin: 0px auto;範例
+                </a>
+            </p>
+
+            <br />
+            <p>方法2：text-align:center;</p>
+            <p>
+                <a href="https://jsfiddle.net/mkm6sa9t/" target="_blank" style="color:blue">
+                    text-align:center;範例
+                </a>
+            </p>
+            
+        </div>
+        <div id="problems03tabs-2">
+            <p>方法：偽元素的運用</p>            
+            <p>原理：</p>            
+            <p>在外框裡面塞入一個和外框等高的 inline-block 行內元素，它是不被看到的，如此一來，在外框裡面的其它高度沒有100%的行內元素也可以遵循 vertical-align: middle 的方法去排隊了</p>            
+            <p>1. :after  在元素之前插入某些內容</p>
+            <p>2. :before  在元素之後插入某些內容</p>
+
+            <p>
+                <a href="https://jsfiddle.net/89x19ppd/" target="_blank" style="color:blue">
+                    偽元素垂直置中範例
+                </a>
+            </p>
+            
+        </div>
+    </div>
+
+    <div style="width:auto;float:right">
+        <img src="images/center.jpg" alt="" />
+    </div>
+
+</body>
+</html>

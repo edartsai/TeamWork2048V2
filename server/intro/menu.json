@@ -1,0 +1,48 @@
+﻿[
+  {
+    "caption": "緣起",
+    "urltype": 0,
+    "url": "intro/feature01.html"
+  },
+  {
+    "caption": "功能",
+    "urltype": 0,
+    "url": "intro/feature02.html"
+  },
+  {
+    "caption": "分工",
+    "urltype": 0,
+    "url": "intro/collaboration01.html"
+  },
+  {
+    "caption": "技術",
+    "urltype": 0,
+    "url": "intro/technics01.html"
+  },
+  {
+    "caption": "問題 - 協作平台",
+    "urltype": 0,
+    "url": "intro/problems01.html"
+  },
+  {
+    "caption": "問題 - 相對路徑",
+    "urltype": 0,
+    "url": "intro/problems02.html"
+  },
+  {
+    "caption": "問題 - 置中的問題",
+    "urltype": 0,
+    "url": "intro/problems03.html"
+  },
+  {
+    "caption": "問題 - 動畫",
+    "urltype": 0,
+    "url": "intro/problems04.html"
+  },
+
+  {
+    "caption": "DEMO",
+    "urltype": 1,
+    "url": "https://edartsai.github.io/TeamWork2048V2/view/game2048.html"
+  }
+]
