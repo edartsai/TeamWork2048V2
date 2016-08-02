@@ -225,6 +225,13 @@
             tmp += borderdivcolumn;
             $(".box-body").append(tmp);
         }
+
+        var lineheight = bigboxwidth / 2  +30;
+        $(".mask-body").css("width", bigboxwidth );
+        $(".mask-body").css("height", bigboxwidth);
+        $(".mask-body").css("margin-top", "67px");
+        $(".mask-body").css("margin-left", bigboxwidth / 2 * (-1));
+        $(".mask-body").css("line-height", lineheight+"px");
     }
 
     function createDivStyle(i,j) {
@@ -283,6 +290,7 @@
         <div class="FB-logo">F</div>
         <p class="share-content">SHARE</p>
     </div>
+    
     <div class="Hight-scare">   
         <div class="score-best-title">BEST</div>
         <p class="score-best" id="best-score"></p>

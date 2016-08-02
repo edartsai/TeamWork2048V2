@@ -13,6 +13,7 @@ $text-color: #776E65;
 
 $bottom-box-width:100px;
 $bottom-box-height:30px;
+$button-active-color:#7C6958;
 
 html, body {  
   margin: 0;
@@ -80,12 +81,19 @@ html, body {
 
 .back-button{
     background:$border-color;
-    border-color:$border-color;
-    border-width:$box-border-width;
-    border-style:solid;
     border-radius: $box-radius;
+    border:$box-border-width solid $border-color;
     padding:0;
     cursor:pointer;
+}
+.back-button:active{
+    background:$button-active-color;
+    border-radius: $box-radius;
+    border:$box-border-width solid $border-color;
+}
+.back-button:disabled{
+    opacity: 0.75; 
+    cursor: not-allowed;
 }
 
 .box-body{
@@ -156,15 +164,16 @@ html, body {
 }
 
 .mask-body{
-    width:$main-width;
-    height:$main-width;
+    /*width:$main-width;
+    height:$main-width;*/
     background-color:rgba(20%,10%,0%,0.3);
     z-index:100;
     display:inline-block;
     position:absolute;
-    margin-top:65px;
+    border-radius: $box-radius;
+    /*margin-top:65px;
     margin-left:($main-width/2) * (-1);
-    line-height:($main-width/2) + 30;
+    line-height:($main-width/2) + 30;*/
 }
 
 
@@ -174,7 +183,7 @@ html, body {
     border-radius: $box-radius;
     width:$bottom-box-width;
     height:$bottom-box-height;
-    
+    cursor:pointer;
     float:left;
     .FB-logo
     {
@@ -203,6 +212,11 @@ html, body {
         color:white;
         float:right;
     }
+}
+
+
+.FB-share:active{
+    background:$button-active-color;
 }
 
 .Hight-scare{
