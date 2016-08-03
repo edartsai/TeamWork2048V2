@@ -102,7 +102,7 @@
     <Content Include="intro\technics01.html" />
     <Content Include="license.txt" />
     <Content Include="package.json" />
-    <Content Include="pages\queryLeaderboard.html" />
+    <Content Include="pages\leaderboard.html" />
     <Content Include="pages\screenshot.html" />
     <Content Include="README.md" />
     <Content Include="pages\socket.html" />

@@ -245,13 +245,16 @@
         return "style="+mergesize;
     }
 
-
     //選取尺寸
     function changeMitrixSize(mitrixtype) {
         var e = document.getElementById("changeMitrixselect");
         e.blur();
         createMitrixDiv(mitrixtype);
         reset(mitrixtype);
+    }
+
+    function openLeaderboard() {
+        window.open('leaderboard.html');
     }
 
 </script>
@@ -308,9 +311,13 @@
 
 <div id="developing-div">
     <br/>
-    <span> DEVELOPING </span> <br/>    
+    <span> DEVELOPING </span> <br/>
     <button id="capturebtn" type="submit" onclick="capture()">
         <span>UploadScreenshot</span>
+    </button>
+
+    <button id="leaderboardbtn" type="submit" onclick="openLeaderboard()">
+        <span>Leaderboard</span>
     </button>
 </div>
 

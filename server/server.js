@@ -27,8 +27,8 @@ app.get('/game2048.html', function (req, res) {
     res.sendFile(__dirname + '/pages/game2048.html');
 });
 
-app.get('/queryLeaderboard.html', function (req, res) {
-    res.sendFile(__dirname + '/pages/queryLeaderboard.html');
+app.get('/leaderboard.html', function (req, res) {
+    res.sendFile(__dirname + '/pages/leaderboard.html');
 });
 
 app.get('/screenshot.html', function (req, res) {
