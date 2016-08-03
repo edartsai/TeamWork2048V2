@@ -82,7 +82,7 @@ function ShowGameOverMask() {
 }
 
 function HideGameOverMask() {
-    document.getElementById("mask-body").style.visibility = "collapse";
+    document.getElementById("mask-body").style.visibility = "visible";
 }
 
 function DisableRollbackButton() {
@@ -210,7 +210,7 @@ function boxAnimation(moveboxs) {
     for (var i = 0; i < moveboxs.length; i++) {
         $(boxs[moveboxs[i].ind]).playKeyframe({
             name: moveboxs[i].movename,
-            duration: '100ms',
+            duration: boxMoveTime,
             timingFunction: 'linear',
             iterationCount: '1',
             direction: 'normal',
