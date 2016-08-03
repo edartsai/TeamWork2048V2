@@ -3,8 +3,6 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <!--<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
-    <!--<script src="js/initmobile.js"></script>-->
     <script src="js_lib/html2canvas.js"></script>
     <script src='js_lib/jquery.keyframes.min.js'></script>
     <script src="js/enum.js"></script>
@@ -26,12 +24,6 @@
     //遊戲目前狀態
     var mapObj = {
         Size: 4,
-        Map: [
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
-        ],
         Items: [],
         IdMax: 0,
         Score: 0,
@@ -41,12 +33,6 @@
     //遊戲上一狀態
     var prevObj = {
         Size: 4,
-        Map: [
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
-        ],
         Items: [],
         IdMax: 0,
         Score: 0,
@@ -140,7 +126,6 @@
 
     function InitMobile() {
         $.getScript('https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js', function () {
-        //$.getScript('js_lib/jquery.mobile-1.4.5.min.js', function () {
             $.getScript('js/initmobile.js', function () {
                 $.mobile.loading().hide();
 

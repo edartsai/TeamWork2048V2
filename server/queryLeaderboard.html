@@ -10,7 +10,6 @@
 <body>
 
     <style>
-
         /* table */
         .table {
             display: table;
@@ -21,7 +20,7 @@
         /* tr */
         .row {
             display: table-row;
-            border: solid 1px ;
+            border: solid 1px;
         }
 
         /* td , th */
@@ -51,169 +50,197 @@
 
 
 
-<script>
-    var socket = io();
-    var global_rowCount = 10;
+    <script>
+        var socket = io();
+        var global_rowCount = 10;
 
-    $(document).ready(function() {
-        
-
-        socket.on('sendLeaderboard', function(data) {
-            $('#msglist').empty();
-
-            AppendData({
-                rowid: 'Rank',
-                name: 'ID',
-                score: 'Score',
-                movetimes: 'Times',
-                ip: 'IP',
-                lbdate: 'Date'
-            }, true);
-
-            if (data === undefined || data === null || data.length <= 0)
-                return;
+        $(document).ready(function () {
 
 
-            for (var i = 0; i < data[0].length; i++) {
-                AppendData(data[0][i], false);
-            }
+            socket.on('sendLeaderboard', function (data) {
+                $('#msglist').empty();
 
-            clearInput();
+                AppendData({
+                    rowid: 'Rank',
+                    name: 'ID',
+                    mapsize: 'Size',
+                    score: 'Score',
+                    movetimes: 'Times',
+                    ip: 'IP',
+                    lbdate: 'Date'
+                }, true);
+
+                if (data === undefined || data === null || data.length <= 0)
+                    return;
+
+
+                for (var i = 0; i < data[0].length; i++) {
+                    AppendData(data[0][i], false);
+                }
+
+                clearInput();
+            });
+
+            $('#btnsend').click(function () {
+                var checkResult = checkInput();
+
+                if (checkResult.result) {
+                    socket.emit('add_leaderboard', {
+                        name: checkResult.name,
+                        mapsize: checkResult.mapsize,
+                        score: checkResult.score,
+                        movetimes: checkResult.movetimes,
+                        ip: checkResult.ip,
+                        querycount: global_rowCount
+                    });
+                }
+            });
+
+            $('#atop10').click(function () {
+                global_rowCount = 10;
+                SendLogin();
+                $('#topTitle').text('Top' + global_rowCount);
+
+                $('#atop10').attr('disabled', true);
+                $('#atop50').attr('disabled', false);
+            });
+
+            $('#atop50').click(function () {
+                global_rowCount = 50;
+                SendLogin();
+
+                $('#topTitle').text('Top' + global_rowCount);
+                $('#atop10').attr('disabled', false);
+                $('#atop50').attr('disabled', true);
+            });
+            $('#atop10').click();
+
+            $('#showsize').text($('#changeMitrixselect').val());
+            $('#changeMitrixselect').change(function() {
+                SendLogin();
+                $('#showsize').text($('#changeMitrixselect').val());
+            });
         });
-
-        $('#btnsend').click(function() {
-            var checkResult = checkInput();
-
-            if (checkResult.result) {
-                socket.emit('add_leaderboard', {
-                    name: checkResult.name,
-                    score: checkResult.score,
-                    movetimes: checkResult.movetimes,
-                    ip: checkResult.ip
-                });
-            }
-        });
-
-        $('#atop10').click(function() {
-            global_rowCount = 10;
-            SendLogin();
-            $('#topTitle').text('Top' + global_rowCount);
-
-            $('#atop10').attr('disabled', true);
-            $('#atop50').attr('disabled', false);
-        });
-
-        $('#atop50').click(function () {
-            global_rowCount = 50;
-            SendLogin();
-
-            $('#topTitle').text('Top' + global_rowCount); 
-            $('#atop10').attr('disabled', false);
-            $('#atop50').attr('disabled', true);
-        });
-
-
-
-        $('#atop10').click();
-    });
 
         function SendLogin() {
             socket.emit('user_login', {
+                mapsize: getSelectedMapsize(),
                 rowCount: global_rowCount
             });
         }
 
-    function AppendData(datarow, isHeader) {
-
-
-        var cellClassName = "cell2";
-        if (isHeader)
-            cellClassName = "cell3";
-        var nowStr = datarow.lbdate;
-        if (!isHeader) {
-            var d = new Date(datarow.lbdate);
-            nowStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+        function getSelectedMapsize() {
+            var size = $('#changeMitrixselect').val();
+            return parseInt(size);
         }
 
-        var sortspan = $("<div></div>").addClass(cellClassName).text(datarow.rowid);
-        var namespan = $("<div></div>").addClass(cellClassName).text(datarow.name);
-        var scorespan = $("<div></div>").addClass(cellClassName).text(datarow.score);
-        var movespan = $("<div></div>").addClass(cellClassName).text(datarow.movetimes);
-        var ipspan = $("<div></div>").addClass(cellClassName).text(datarow.ip);
-        var datespan = $("<div></div>").addClass(cellClassName).text(nowStr);
-        var rowdiv = $("<div></div>").addClass("row").append(sortspan, namespan, scorespan, movespan, ipspan, datespan);
-        $('#msglist').append(rowdiv);
-    }
-
-    function checkInput() {
-        var rtnObj = {
-            result: false,
-            name: '',
-            score: -1,
-            movetimes: -1,
-            ip: ''
-        };
+        function AppendData(datarow, isHeader) {
 
 
-        var name = $('#inputname').val();
-        if (name !== '')
-            rtnObj.name = name;
+            var cellClassName = "cell2";
+            if (isHeader)
+                cellClassName = "cell3";
+            var nowStr = datarow.lbdate;
+            if (!isHeader) {
+                var d = new Date(datarow.lbdate);
+                nowStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+            }
 
-        var score = $('#inputscore').val();
-        if (score !== '')
-            rtnObj.score = parseInt(score);
+            var sortspan = $("<div></div>").addClass(cellClassName).text(datarow.rowid);
+            var namespan = $("<div></div>").addClass(cellClassName).text(datarow.name);
+            var sizespan = $("<div></div>").addClass(cellClassName).text(datarow.mapsize);
+            var scorespan = $("<div></div>").addClass(cellClassName).text(datarow.score);
+            var movespan = $("<div></div>").addClass(cellClassName).text(datarow.movetimes);
+            var ipspan = $("<div></div>").addClass(cellClassName).text(datarow.ip);
+            var datespan = $("<div></div>").addClass(cellClassName).text(nowStr);
+            var rowdiv = $("<div></div>").addClass("row").append(sortspan, namespan, sizespan, scorespan, movespan, ipspan, datespan);
+            $('#msglist').append(rowdiv);
+        }
 
-        var movetimes = $('#inputtimes').val();
-        if (movetimes !== '')
-            rtnObj.movetimes = parseInt(movetimes);
+        function checkInput() {
+            var rtnObj = {
+                result: false,
+                name: '',
+                mapsize: 4,
+                score: -1,
+                movetimes: -1,
+                ip: ''
+            };
 
-        var ip = $('#inputip').val();
-        if (ip !== '')
-            rtnObj.ip = ip;
 
-        if (name !== '' && score !== -1 && movetimes !== -1 && ip !== '')
-            rtnObj.result = true;
+            var name = $('#inputname').val();
+            if (name !== '')
+                rtnObj.name = name;
 
-        return rtnObj;
-    }
+            var size = $('#changeMitrixselect').val();
+            if (size !== '')
+                rtnObj.mapsize = parseInt(size);
 
-    function clearInput() {
-        $('#inputname').val('');
-        $('#inputscore').val('');
-        $('#inputtimes').val('');
-        $('#inputip').val('');
-    }
-</script>
-<div>
-    <h4><span id="topTitle"></span></h4>
+            var score = $('#inputscore').val();
+            if (score !== '')
+                rtnObj.score = parseInt(score);
 
-    <input type="button" id="atop10" value="Top10"/>
-    <input type="button" id="atop50" value="Top50" />
-</div>
-    
-    
+            var movetimes = $('#inputtimes').val();
+            if (movetimes !== '')
+                rtnObj.movetimes = parseInt(movetimes);
+
+            var ip = $('#inputip').val();
+            if (ip !== '')
+                rtnObj.ip = ip;
+
+            if (name !== '' && score !== -1 && movetimes !== -1 && ip !== '')
+                rtnObj.result = true;
+
+            return rtnObj;
+        }
+
+        function clearInput() {
+            $('#inputname').val('');
+            $('#inputscore').val('');
+            $('#inputtimes').val('');
+            $('#inputip').val('');
+        }
+    </script>
+    <div>
+        <h4><span id="topTitle"></span></h4>
+
+        <input type="button" id="atop10" value="Top10" />
+        <input type="button" id="atop50" value="Top50" />
+
+        <select id="changeMitrixselect">
+            <option value="4" selected="selected">4X4</option>
+            <option value="5">5X5</option>
+            <option value="6">6X6</option>
+        </select>
+    </div>
+
+
     <div id="msglist" class="table" style="margin-bottom:10px;">
 
     </div>
     <div id="addMsgRow" class="table" style="margin-bottom:10px;">
         <div class="row">
             <div class="cell1">
-                
+
             </div>
             <div class="cell1">
-                <input id="inputname" type="text"/>
+                <input id="inputname" type="text" />
+            </div>
+            <div  class="cell1">
+                <span id="showsize"></span>
             </div>
             <div class="cell1">
-                <input id="inputscore" type="number"/>
+                <input id="inputscore" type="number" />
             </div>
             <div class="cell1">
-                <input id="inputtimes" type="number"/>
+                <input id="inputtimes" type="number" />
             </div>
             <div class="cell1">
-                <input id="inputip" type="text"/>
+                <input id="inputip" type="text" />
             </div>
+
             <div class="cell1">
-                <input id="btnsend" type="button" value="Send"/>
+                <input id="btnsend" type="button" value="Send" />
             </div>
         </div>
     </div>

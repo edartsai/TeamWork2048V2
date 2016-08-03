@@ -20,6 +20,9 @@ module.exports = {
 
             var request = new sql.Request();
 
+            if (queryParams.mapsize === undefined || parseInt(queryParams.mapsize) !== queryParams.mapsize)
+                queryParams.mapsize = 4;
+
             if (queryParams.sortType === undefined || parseInt(queryParams.sortType) !== queryParams.sortType)
                 queryParams.sortType = 0;
 
@@ -29,9 +32,10 @@ module.exports = {
             if (queryParams.rowCount === undefined || parseInt(queryParams.rowCount) !== queryParams.rowCount)
                 queryParams.rowCount = -1;
 
-            request.input("sortType", sql.Int, queryParams.sortType)
-                    .input("startIndex", sql.Int, queryParams.startIndex)
-                    .input("pageCount", sql.Int, queryParams.rowCount)
+            request.input("mapsize", sql.Int, queryParams.mapsize)
+                   .input("sortType", sql.Int, queryParams.sortType)
+                   .input("startIndex", sql.Int, queryParams.startIndex)
+                   .input("pageCount", sql.Int, queryParams.rowCount)
                    .execute("usp_getLeaderList").then(function (recordsets) {
                     callback(recordsets);
                 })
@@ -52,6 +56,9 @@ module.exports = {
             if (queryParams.name === undefined )
                 queryParams.name = '';
 
+            if (queryParams.mapsize === undefined || parseInt(queryParams.mapsize) !== queryParams.mapsize)
+                queryParams.mapsize = 4;
+
             if (queryParams.score === undefined || parseInt(queryParams.score) !== queryParams.score)
                 queryParams.score = 0;
 
@@ -62,10 +69,11 @@ module.exports = {
                 queryParams.ip = '';
 
             request.input("name", sql.NVarChar, queryParams.name)
-                .input("score", sql.Int, queryParams.score)
-                .input("movetimes", sql.Int, queryParams.movetimes)
-                .input("ip", sql.NChar, queryParams.ip)
-                .execute("usp_addLeaderList").then(function (result) {
+                   .input("mapsize", sql.Int, queryParams.mapsize)
+                   .input("score", sql.Int, queryParams.score)
+                   .input("movetimes", sql.Int, queryParams.movetimes)
+                   .input("ip", sql.NChar, queryParams.ip)
+                   .execute("usp_addLeaderList").then(function (result) {
                     callback(result);
                 })
                 .catch(function (erro) {

@@ -39,8 +39,7 @@ app.use('/js_lib', express.static('js_lib'));
 
 io.on('connection', function (socket) {
     socket.on('user_login', function (data) {
-        var rowcount = data.rowCount;
-        GetLeaderboard(socket, rowcount);
+        GetLeaderboard(socket, data.rowCount, data.mapsize);  // use default mapsize
 
     });
 
@@ -59,7 +58,7 @@ io.on('connection', function (socket) {
     socket.on('add_leaderboard', function (data) {
         sql.addLeaderListItem(data, function(result) {
             if (result.returnValue === 0) {
-                GetLeaderboard(socket);
+                GetLeaderboard(socket, data.querycount, data.mapsize);
             }
         });
        
@@ -67,9 +66,10 @@ io.on('connection', function (socket) {
 
 });
 
-function GetLeaderboard(socket, rowcount) {
+function GetLeaderboard(socket, rowcount, mapsize) {
     sql.getLeaderList(
         {
+            mapsize : mapsize,
             sortType: 0,
             startIndex: 1,
             rowCount: rowcount
