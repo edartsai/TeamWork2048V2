@@ -46,7 +46,6 @@ module.exports = {
         });
     },
 
-
     addLeaderListItem : function (queryParams, callback) {
         sql.connect(config, function (err) {
             if (err) console.log(err);
@@ -74,6 +73,74 @@ module.exports = {
                    .input("movetimes", sql.Int, queryParams.movetimes)
                    .input("ip", sql.NChar, queryParams.ip)
                    .execute("usp_addLeaderList").then(function (result) {
+                    callback(result);
+                })
+                .catch(function (erro) {
+                    console.assert(erro);
+                });
+
+        });
+    },
+
+    getScreenshotList: function (queryParams, callback) {
+        sql.connect(config, function (err) {
+            if (err) console.log(err);
+
+            var request = new sql.Request();
+
+            if (queryParams.startindex === undefined || parseInt(queryParams.startindex) !== queryParams.startindex)
+                queryParams.startindex = -1;
+
+            if (queryParams.rowcount === undefined || parseInt(queryParams.rowcount) !== queryParams.rowcount)
+                queryParams.rowcount = -1;
+
+            request.input("startindex", sql.Int, queryParams.startindex)
+                   .input("rowcount", sql.Int, queryParams.rowcount)
+                   .execute("usp_getScreenshotList").then(function (recordsets) {
+                    callback(recordsets);
+                })
+                .catch(function (erro) {
+                    console.assert(erro);
+                });
+
+        });
+    },
+
+    getScreenshotData: function (queryParams, callback) {
+        sql.connect(config, function (err) {
+            if (err) console.log(err);
+
+            var request = new sql.Request();
+
+            if (queryParams.ssid === undefined || parseInt(queryParams.ssid) !== queryParams.ssid)
+                callback(undefined);
+
+            request.input("ssid", sql.Int, queryParams.ssid)
+                   .execute("usp_getScreenshotData").then(function (recordsets) {
+                    callback(recordsets);
+                })
+                .catch(function (erro) {
+                    console.assert(erro);
+                });
+
+        });
+    },
+
+    addScreenshotItem : function (queryParams, callback) {
+        sql.connect(config, function (err) {
+            if (err) console.log(err);
+
+            var request = new sql.Request();
+
+            if (queryParams.datatype === undefined || parseInt(queryParams.datatype) !== queryParams.datatype)
+                queryParams.datatype = 0;
+
+            if (queryParams.data === undefined)
+                queryParams.data = "";
+
+            request.input("data", sql.NVarChar, queryParams.data)
+                   .input("datatype", sql.Int, queryParams.datatype)
+                    .execute("usp_addScreenshot").then(function (result) {
                     callback(result);
                 })
                 .catch(function (erro) {
