@@ -65,7 +65,7 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\FontAwesome.otf" />
-    <Content Include="game2048.html" />
+    <Content Include="pages\game2048.html" />
     <Content Include="images\2048-icon2.png" />
     <Content Include="images\b_back_btn_20_p.png" />
     <Content Include="images\b_back_btn_p.png" />
@@ -82,8 +82,8 @@
     <Content Include="images\problems02_05.png" />
     <Content Include="images\problems02_06.png" />
     <Content Include="images\problems02_07.png" />
-    <Content Include="index.html" />
-    <Content Include="index2.html" />
+    <Content Include="pages\index.html" />
+    <Content Include="pages\index2.html" />
     <Content Include="intro\body.html" />
     <Content Include="intro\collaboration01.html" />
     <Content Include="intro\feature01.html" />
@@ -102,9 +102,10 @@
     <Content Include="intro\technics01.html" />
     <Content Include="license.txt" />
     <Content Include="package.json" />
-    <Content Include="queryLeaderboard.html" />
+    <Content Include="pages\leaderboard.html" />
+    <Content Include="pages\screenshot.html" />
     <Content Include="README.md" />
-    <Content Include="socket.html" />
+    <Content Include="pages\socket.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="css\" />
@@ -115,6 +116,7 @@
     <Folder Include="intro\" />
     <Folder Include="js\" />
     <Folder Include="js_lib\" />
+    <Folder Include="pages\" />
     <Folder Include="typings\" />
     <Folder Include="typings\globals\" />
     <Folder Include="typings\globals\express\" />

@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="js/utility.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+<script>
+    var socket = io();
+
+    $(document).ready(function() {
+        var url = window.location.href;
+        var params = parseURLParams(url);
+
+        if (params.id === undefined || params.id === null)
+            return;
+
+        socket.emit('get_screenshotdata', {
+            id: params.id
+        });
+
+        socket.on('get_screenshotdata', function (result) {
+            if(result.length > 0 && result[0].length > 0)
+                document.getElementById("preview").src = result[0][0].data;
+        });
+
+             
+    });
+
+</script>
+
+    <img id="preview" alt=""/>
+
+</body>
+</html>

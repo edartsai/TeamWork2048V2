@@ -2,11 +2,10 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <!--<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
-    <!--<script src="js/initmobile.js"></script>-->
     <script src="js_lib/html2canvas.js"></script>
-    <script src='js_lib/jquery.keyframes.min.js'></script>
+    <script src="js_lib/jquery.keyframes.min.js"></script>
     <script src="js/enum.js"></script>
     <script src="js/view.js"></script>
     <script src="js/utility.js"></script>
@@ -20,19 +19,12 @@
     <div id="fb-root"></div>
     <!--<script src="js/fb.js"></script>-->
 <script>
-    
-    var boxMoveTime = "50ms";
+    var socket = io();
     var isCanClick = true;
 
     //遊戲目前狀態
     var mapObj = {
         Size: 4,
-        Map: [
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
-        ],
         Items: [],
         IdMax: 0,
         Score: 0,
@@ -42,12 +34,6 @@
     //遊戲上一狀態
     var prevObj = {
         Size: 4,
-        Map: [
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
-        ],
         Items: [],
         IdMax: 0,
         Score: 0,
@@ -139,9 +125,22 @@
         reset(strValue);
     };
 
+    $(document).ready(function() {
+        socket.on('add_screenshot', function (result) {
+            var r = result.result;
+            if (r.length > 0 && r[0].length > 0 ) {
+                var id = r[0][0][""];
+                window.open('screenshot.html' + '?' + 'id=' + id);
+                alert('上傳成功!');
+            } else {
+                alert('上傳失敗!');
+            }
+        });
+
+    });
+
     function InitMobile() {
         $.getScript('https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js', function () {
-        //$.getScript('js_lib/jquery.mobile-1.4.5.min.js', function () {
             $.getScript('js/initmobile.js', function () {
                 $.mobile.loading().hide();
 
@@ -192,8 +191,11 @@
         //post to fb
         //postToFbWall("Name", "Msg", "", img, "Caption", "Description");
 
-        //test
-        window.open(img);
+        //upload to sql
+        socket.emit('add_screenshot', {
+            datatype: 0,
+            data: img
+        });
     }
 
     //jquery組合矩陣的html
@@ -232,7 +234,7 @@
         $(".mask-body").css("height", bigboxwidth);
         $(".mask-body").css("margin-top", "67px");
         $(".mask-body").css("margin-left", bigboxwidth / 2 * (-1));
-        //$(".mask-body").css("line-height", lineheight+"px");
+        $(".mask-body").css("line-height", lineheight+"px");
     }
 
     function createDivStyle(i,j) {
@@ -243,7 +245,6 @@
         return "style="+mergesize;
     }
 
-
     //選取尺寸
     function changeMitrixSize(mitrixtype) {
         var e = document.getElementById("changeMitrixselect");
@@ -252,15 +253,16 @@
         reset(mitrixtype);
     }
 
+    function openLeaderboard() {
+        window.open('leaderboard.html');
+    }
+
 </script>
 
 <div class="main-contain">
 
     <div class="mask-body" id="mask-body" style="visibility: collapse">
-        <p style="font-size: 40px;">Game Over
-            <button id="savescorebutton">登入排行榜</button>
-        </p>
-        
+        <p style="font-size: 40px;">Game Over</p>
     </div>
 
     <div id="capture-range-div">
@@ -307,13 +309,17 @@
     <option value="6">6X6</option>
 </select>
 
-<!--<div id="developing-div">
+<div id="developing-div">
     <br/>
-    <span> DEVELOPING </span> <br/>    
+    <span> DEVELOPING </span> <br/>
     <button id="capturebtn" type="submit" onclick="capture()">
-        <span>CaptureGame</span>
+        <span>UploadScreenshot</span>
     </button>
-</div>-->
+
+    <button id="leaderboardbtn" type="submit" onclick="openLeaderboard()">
+        <span>Leaderboard</span>
+    </button>
+</div>
 
 </body>
 

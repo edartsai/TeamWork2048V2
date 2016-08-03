@@ -4,24 +4,6 @@
     var boxnumbers = document.getElementsByClassName("box-number");
     var boxs = document.getElementsByClassName("box");
 
-    /************ 原方法 START *************/
-    //var i, j;
-    //for (i = 0; i < mapObj.Map.length; i++) {
-    //    for (j = 0; j < mapObj.Map[i].length; j++) {
-    //        var index = i * (mapObj.Map.length) + j;
-
-    //        if (mapObj.Map[i][j] === 0)
-    //            boxnumbers[index].innerHTML = "";
-    //        else
-    //            boxnumbers[index].innerHTML = GetItemValue(mapObj, i, j);
-
-    //        boxs[index].style.background = GetBoxBackgroundColor(GetItemValue(mapObj, i, j));
-    //    }
-    //}
-    /************ 原方法 END *************/
-
-    /************ 新方法 START *************/
-
     // 清除畫面數字及重鋪底色
     for (t = 0; t < boxnumbers.length; t++) {
         boxnumbers[t].innerHTML = "";
@@ -37,9 +19,6 @@
         boxs[nIndex].style.background = GetBoxBackgroundColor(item.Value);
     });
         
-
-    /************ 新方法 END *************/
-
 
     document.getElementById("score").innerHTML = mapObj.Score;
 

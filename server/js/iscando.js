@@ -1,12 +1,6 @@
 ﻿
 // 判斷整張 Map 是否可以向某個方向移動或加總
 function IsCanDoMove(mapObj, direction) {
-	//if (IsFullZero(mapObj)) {
-	//	return true;
-    //}
-    if (!IsFullMap(mapObj))
-        return true;
-
 
 	// 指定方向是否可合成
 	if (IsCanDoMerge(mapObj, direction)) {
@@ -28,7 +22,7 @@ function IsCanGoOn(mapObj) {
 	if (!IsFullMap(mapObj))
 		return true;
 
-	return IsCanDoMove(mapObj, DIRECTION.ALL);
+    return IsCanDoMerge(mapObj, DIRECTION.ALL);
 
 }
 
@@ -36,56 +30,9 @@ function IsCanGoOn(mapObj) {
 
 // 判斷是否滿版
 function IsFullMap(mapObj) {
-    /************ 原方法 START ************
-    for (var i = 0; i < mapObj.Size; i++) {
-        for (var j = 0; j < mapObj.Size; j++) {
-			if (GetItemValue(mapObj, i, j) === 0) {
-				return false;
-			}
-		}
-	}
-	return true;
-    *********** 原方法 END *************/
-
-    /************ 新方法 START *************/
-
     return (mapObj.Items.length === (mapObj.Size * mapObj.Size));
-
-    /************ 新方法 END *************/
 }
 
-//function IsFullZero(mapObj) {
-//    /************ 原方法 START *************/
-
-//    //for (var i = 0; i < mapObj.Size; i++) {
-//    //    for (var j = 0; j < mapObj.Size; j++) {
-//	//		if (GetItemValue(mapObj, i, j) !== 0) {
-//	//			return false;
-//	//		}
-//	//	}
-//    //}
-//    //return true;
-
-//    /************ 原方法 END *************/
-
-//    /************ 新方法 START *************/
-
-//    if (mapObj.Items.length <= 0)
-//        return true;
-
-//    var isZero = true;
-//    mapObj.Items.forEach(function(item) {
-//        if (item.Value !== 0) {
-//            isZero = false;
-//        }
-//    });
-
-//    return isZero;
-
-//    /************ 新方法 END *************/
-
-
-//}
 
 // 判斷整張 Map 是否已全部貼緊某方向
 function IsComeCloseToBound(mapObj, direction) {
@@ -95,60 +42,7 @@ function IsComeCloseToBound(mapObj, direction) {
 	if (direction === DIRECTION.ALL)
 		return true;
 
-	//if (mapObj.Map.length <= 0)
-	//	return true;
-	//if (mapObj.Map[0].length <= 0)
-	//	return true;
-
-
-    /************ 原方法 START *************/
-	//var xlower = 0;
-	//var xupper = mapObj.Map.length - 1;
-	//var ylower = 0;
-	//var yupper = mapObj.Map[0].length - 1;
-
-
-	//// 設定檢查上下界
-	//if (direction === DIRECTION.UP)
-	//	ylower += 1;
-	//else if (direction === DIRECTION.DOWN)
-	//	yupper -= 1;
-	//else if (direction === DIRECTION.LEFT)
-	//	xlower += 1;
-	//else if (direction === DIRECTION.RIGHT)
-	//	xupper -= 1;
-
-	//if (xlower > xupper || ylower > yupper)
-	//	return true;
-
-	//for (var i = xlower; i <= xupper; i++) {
-	//	for (var j = ylower; j <= yupper; j++) {
-	//		var comp = null;
-	//		var target = GetItemValue(mapObj, i, j);
-	//		if (target !== 0) {  //此格有數字
-	//			if (direction === DIRECTION.UP)
-	//				comp = GetUpValue(mapObj, i, j);
-	//			else if (direction === DIRECTION.DOWN)
-	//				comp = GetDownValue(mapObj, i, j);
-	//			else if (direction === DIRECTION.LEFT)
-	//				comp = GetLeftValue(mapObj, i, j);
-	//			else if (direction === DIRECTION.RIGHT)
-	//				comp = GetRightValue(mapObj, i, j);
-
-	//			if (comp === null || comp === undefined)
-	//				continue;
-
-	//			if (comp === 0) // 待比較的方向的下一格數字為 0 (空格)
-	//				return false;
-	//		}
-	//	}
-	//}
-
-	//return true;
-    /************ 原方法 END *************/
-
-    /************ 新方法 START *************/
-
+	
 	if (mapObj.Items.length <= 0)
 	    return true;
 
@@ -159,77 +53,24 @@ function IsComeCloseToBound(mapObj, direction) {
 	}
 
 	return true;
-
-    /************ 新方法 END *************/
-
+    
 }
 
 
 // 判斷整張 Map 是否有可加總的數字
 function IsCanDoMerge(mapObj, direction) {
-    /************ 原方法 START *************/
-    //for (var i = 0; i < mapObj.Size; i++) {
-    //    for (var j = 0; j < mapObj.Size; j++) {
-	//		if (GetItemValue(mapObj, i, j) !== 0 &&
-    //            IsItemCanMerge(mapObj, direction, i, j))
-	//			return true;
-	//	}
-    //}
-    //return false;
-    /************ 原方法 END *************/
-
-    /************ 新方法 START *************/
-
+    
     for(var i = 0; i < mapObj.Items.length; i++) {
         var item = mapObj.Items[i];
         if (IsItemCanMerge(mapObj, direction, item))
             return true;
     }
     return false;
-    /************ 新方法 START *************/
-	
-}
-
-// 根據指定方向 判斷指定 Item 是否可加總
-function IsItemCanMerge(mapObj, direction, x, y) {
-	var targetValue = GetItemValue(mapObj, x, y);
-	var compareArray = [];
-
-	if (direction === DIRECTION.ALL) {
-		compareArray = [
-            GetUpValue(mapObj, x, y), GetLeftValue(mapObj, x, y),
-            GetRightValue(mapObj, x, y), GetDownValue(mapObj, x, y)
-		];
-	}
-	else if (direction === DIRECTION.UP) {
-		compareArray = [
-            GetUpValue(mapObj, x, y)
-		];
-	}
-	else if (direction === DIRECTION.DOWN) {
-		compareArray = [
-            GetDownValue(mapObj, x, y)
-		];
-	}
-	else if (direction === DIRECTION.LEFT) {
-		compareArray = [
-            GetLeftValue(mapObj, x, y)
-		];
-	}
-	else if (direction === DIRECTION.RIGHT) {
-		compareArray = [
-            GetRightValue(mapObj, x, y)
-		];
-	}
-
-	// 若有包含，代表指定方向有相同值
-    return Contains(compareArray, targetValue);
-
+   
 }
 
 // 根據指定方向 判斷指定 Item 是否可加總
 function IsItemCanMerge(mapObj, direction, item) {
-    /************ 新方法 START *************/
     var i;
     var listx ;
     var listy ;
@@ -304,7 +145,7 @@ function IsItemCanMerge(mapObj, direction, item) {
     }
     else if (direction === DIRECTION.RIGHT) {
         // 找出所有 同一列( Y 同) 但 X 軸大於 item 之物件，並根據 X 軸排序
-        listy = FindYItems(mapObj, item.Y).sort(function (a, b) { return a.X - b.X; });
+        listy = FindYItems(mapObj, item.Y).sort(function(a, b) { return a.X - b.X; });
         for (i = 0; i < listy.length; i++) {
             temp = listy[i];
             if (item.X < temp.X) {
@@ -321,8 +162,12 @@ function IsItemCanMerge(mapObj, direction, item) {
         nearestItem = listcanmerge[0];
         return (nearestItem.Value === item.Value);
     }
-
-    /************ 新方法 END *************/
+    else {
+        return (IsItemCanMerge(mapObj, DIRECTION.UP, item) ||
+            IsItemCanMerge(mapObj, DIRECTION.DOWN, item) ||
+            IsItemCanMerge(mapObj, DIRECTION.LEFT, item) ||
+            IsItemCanMerge(mapObj, DIRECTION.RIGHT, item));
+    }
 }
 
 // 根據指定方向 判斷指定 Item 是否可以移動
