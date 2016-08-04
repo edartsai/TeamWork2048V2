@@ -61,7 +61,7 @@ function ShowGameOverMask() {
 }
 
 function HideGameOverMask() {
-    document.getElementById("mask-body").style.visibility = "visible";
+    document.getElementById("mask-body").style.visibility = "collapse";
 }
 
 function DisableRollbackButton() {

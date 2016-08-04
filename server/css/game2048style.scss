@@ -174,12 +174,14 @@ html, body {
     /*margin-top:65px;
     margin-left:($main-width/2) * (-1);
     line-height:($main-width/2) + 30;*/
-    #savescorebutton{
-        background:$border-color;
-        border-color:$border-color;
-        border-radius: $box-radius;
-    }
 }
+.savescorebutton{
+    margin-top:20px;
+    background:rgba(122, 111, 113, 0.55) ;
+    border-color:rgba(39, 24, 25, 0.67);
+    border-radius: $box-radius;
+}
+
 
 
 .FB-share{
