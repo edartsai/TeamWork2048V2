@@ -21,6 +21,7 @@
 <script>
     var socket = io();
     var isCanClick = true;
+    var boxMoveTime = "100ms";
 
     //遊戲目前狀態
     var mapObj = {
@@ -233,7 +234,7 @@
         $(".mask-body").css("height", bigboxwidth);
         $(".mask-body").css("margin-top", "67px");
         $(".mask-body").css("margin-left", bigboxwidth / 2 * (-1));
-        $(".mask-body").css("line-height", lineheight+"px");
+        //$(".mask-body").css("line-height", lineheight+"px");
     }
 
     function createDivStyle(i,j) {
@@ -262,6 +263,7 @@
 
     <div class="mask-body" id="mask-body" style="visibility: collapse">
         <p style="font-size: 40px;">Game Over</p>
+        <button class="savescorebutton">登入排行榜</button>
     </div>
 
     <div id="capture-range-div">
