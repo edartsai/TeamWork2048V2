@@ -109,7 +109,7 @@ Released   : 20130902
                 $('body').css({ overflow: 'hidden' });
 
                 $('#lightbox-content>div').hide(); //全部 div hide                
-                var div = GetDivByHerf(href);
+                var div = GetDivByHerf($(this).attr("href"));
                 if (div !== null && div !== undefined) {
                     div.show();
                 }
