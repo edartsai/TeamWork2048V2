@@ -698,6 +698,7 @@
     .problem-ul li {
         text-align: left;
         list-style:square;
+        margin-top:8px;
     }
 
     .problem-ul li a {
