@@ -1,0 +1,12 @@
+﻿CODE {
+    display: block; /* fixes a strange ie margin bug */
+    font-family: Courier New;
+    font-size: 8pt;
+    overflow: auto;
+    background: #FFFFBF url(http://farm4.static.flickr.com/3019/3110651182_23122c57b7_o.gif) left top repeat-y;
+    border: 1px solid #ccc;
+    padding: 10px 10px 10px 21px;
+    max-height: 200px;
+    line-height: 1.2em;
+
+}

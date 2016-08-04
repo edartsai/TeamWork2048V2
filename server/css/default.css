@@ -704,3 +704,23 @@
         text-decoration: none;
         font-size: larger;
     }
+
+    .problem-div h3 {
+        margin: auto; 
+        font-size: 2em; 
+        font-weight:bold;
+        width: 38%;
+    }
+
+    .problem-div p {
+        margin-top:1em;
+        margin-bottom:1em;
+    }
+
+    .problem-div b {
+        font-size: larger;
+    }
+
+    .problem-div span {
+        font-weight:500;
+    }
