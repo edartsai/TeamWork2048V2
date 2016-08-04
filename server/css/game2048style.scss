@@ -91,9 +91,11 @@ html, body {
     border-radius: $box-radius;
     border:$box-border-width solid $border-color;
 }
-.back-button:disabled{
+.back-button:disabled{    
     opacity: 0.75; 
     cursor: not-allowed;
+    background:$border-color;
+    
 }
 
 .box-body{

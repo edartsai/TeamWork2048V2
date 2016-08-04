@@ -62,7 +62,8 @@
 
 .back-button:disabled {
   opacity: 0.75;
-  cursor: not-allowed; }
+  cursor: not-allowed;
+  background: #BBADA0; }
 
 .box-body {
   border-color: #BBADA0;
