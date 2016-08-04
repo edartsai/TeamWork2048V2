@@ -108,10 +108,12 @@ Released   : 20130902
                 //document.body.style.overflow = "hidden";
                 $('body').css({ overflow: 'hidden' });
 
-                $('#lightbox-content div').hide(); //全部 div hide
-                var div = GetDivByHerf($(this).attr("href"));
-                if (div !== null && div !== undefined)
+                $('#lightbox-content>div').hide(); //全部 div hide
+                var href = $(this).attr("href");
+                var div = GetDivByHerf(href);
+                if (div !== null && div !== undefined) {
                     div.show();
+                }
 
 
                 $("#lightbox-mask").show();
@@ -158,6 +160,27 @@ Released   : 20130902
             });
             /* 捲軸捲動時，自動將左側 Menu 跳到對應位置 end */
 
+
+            /* 「問題」 menu 對應 動畫效果的辛苦歷程  */
+            $("#problem08-stage-menu div a").click(function () {
+                $("#problem08-stage-menu div a").removeClass("this-on");
+                $(this).addClass("this-on");
+
+                $("#problem08-stage1").hide();
+                $("#problem08-stage2").hide();
+                $("#problem08-stage3").hide();
+                $("#problem08-stage4").hide();
+                $("#problem08-stage5").hide();
+
+                var href = $(this).attr("href");
+
+                var div = GetDivByHerf(href);
+                if (div !== null && div !== undefined) {
+                    div.show();
+                }
+            });
+            $("#problem08-stage-menu div a:nth(0)").click();
+            /* 「問題」 menu 對應 動畫效果的辛苦歷程  end*/
         });
 
         function GetDivByHerf(hrefstring) {
@@ -855,8 +878,46 @@ Released   : 20130902
 </pre>
     </div>
 
-    <div id="problem-08" class="problem-div">
-        <h3>研究css animation建立動畫效果</h3>
+        <div id="problem-08" class="problem-div">
+            <div class="title">
+                <h2>問題與解決</h2>
+                <span class="byline"></span>
+            </div>
+            <div id="problem08-stage-menu" class="sub-tabs-menu" style="width: 41%;">
+                <div class="sub-tabs-links">
+                    <a href="#problem08-stage1" onclick="javascript: return false;" style="font-size: larger;">第一階段 研究css animation建立動畫效果<em></em></a>
+                    <a href="#problem08-stage2" onclick="javascript: return false;" style="font-size: larger;">第二階段<em></em></a>
+                    <a href="#problem08-stage3" onclick="javascript: return false;" style="font-size: larger;">第三階段<em></em></a>
+                    <a href="#problem08-stage4" onclick="javascript: return false;" style="font-size: larger;">第三階段<em></em></a>
+                    <a href="#problem08-stage5" onclick="javascript: return false;" style="font-size: larger;">第三階段<em></em></a>
+                </div>
+            </div>
+            <div id="problem08-stage1" style="margin-top: 2em;">
+                <p>
+                    <b>初步練習css animation的寫法</b>
+                </p>
+                <iframe width="100%" height="300" src="//fiddle.jshell.net/quou5n69/1/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+            </div>
+            <div id="problem08-stage2" style="margin-top: 2em;">
+
+            </div>
+            <div id="problem08-stage3" style="margin-top: 2em;">
+
+            </div>
+            <div id="problem08-stage4" style="margin-top: 2em;">
+
+            </div>
+            <div id="problem08-stage5" style="margin-top: 2em;">
+
+            </div>
+
+        
+
+
+            <!--<h3>研究css animation建立動畫效果</h3>
+        <p>
+            <b>研究css animation建立動畫效果</b>
+        </p>
         <p>
             初步練習css animation的寫法<br/>
             <a href="https://fiddle.jshell.net/quou5n69/1/" target="_blank" style="color: blue">css animation 動畫範例</a>
@@ -879,8 +940,8 @@ Released   : 20130902
             a. jquery語法不熟<br/>
             b. animation參數無作用<br/>
             c. jQuery.Keyframes中的complete有時會無效<br/>
-        </p>
-    </div>
+        </p>-->
+    
     </div>
     </div>
 
