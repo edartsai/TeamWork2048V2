@@ -1,4 +1,6 @@
-	html, body
+@import url(http://fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+    html, body
 	{
 		height: 100%;
 	}
@@ -8,7 +10,8 @@
 		margin: 0px;
 		padding: 0px;
 		background: #202020;
-		font-family: 'Source Sans Pro', sans-serif;
+		/*font-family: 'Source Sans Pro', sans-serif;*/
+	    font-family: 'FontAwesome', 'Noto Sans TC', sans-serif;
 		font-size: 12pt;
 		font-weight: 300;
 		color: #444444;
