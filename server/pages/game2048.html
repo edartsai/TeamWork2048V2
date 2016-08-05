@@ -254,7 +254,20 @@
     }
 
     function openLeaderboard() {
-        window.open('leaderboard.html');
+        $.post('inputleaderboard',
+            {
+                score: mapObj.Score,
+                size: mapObj.Size,
+                isshowinput: 1
+            },
+            function (data) {
+            var win = window.open('about:blank');
+            with (win.document) {
+                open();
+                write(data);
+                close();
+            }
+        });
     }
 
 </script>
@@ -309,6 +322,11 @@
     <option value="5">5X5</option>
     <option value="6">6X6</option>
 </select>
+
+    <!--<form id="theForm" method="post" action="leaderboard.html">
+        <input type="hidden" name="score" id="hidescore" value="">
+        <input type="hidden" name="size" id="hidesize" value="">
+    </form>-->
 
 <div id="developing-div">
     <br/>
