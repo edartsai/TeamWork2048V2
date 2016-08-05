@@ -55,8 +55,7 @@
         var global_rowCount = 10;
 
         $(document).ready(function () {
-
-            socket.on('sendLeaderboard', function (data) {
+            socket.on('get_leaderboard', function (data) {
                 $('#msglist').empty();
 
                 AppendData({
@@ -78,8 +77,8 @@
                 }
 
                 clearInput();
+                selectSizeOption(data[0][0].mapsize);
             });
-
             $('#btnsend').click(function () {
                 var checkResult = checkInput();
 
@@ -94,41 +93,57 @@
                     });
                 }
             });
-
             $('#atop10').click(function () {
                 global_rowCount = 10;
-                SendLogin();
+                getleaderboard();
                 $('#topTitle').text('Top' + global_rowCount);
 
                 $('#atop10').attr('disabled', true);
                 $('#atop50').attr('disabled', false);
             });
-
             $('#atop50').click(function () {
                 global_rowCount = 50;
-                SendLogin();
+                getleaderboard();
 
                 $('#topTitle').text('Top' + global_rowCount);
                 $('#atop10').attr('disabled', false);
                 $('#atop50').attr('disabled', true);
             });
-            $('#atop10').click();
-
-           
-            $('#changeMitrixselect').change(function() {
-                SendLogin();
+            $('#changeMitrixselect').change(function () {
+                getleaderboard();
             });
 
+            selectSizeOption($('#showsize').text()); //set size dropdown
+            setInputDivVisible();
+            setUrlBar();
+            $('#atop10').click();
 
+            
+        });
+
+        function setInputDivVisible() {
             if ($('#hiddenIsshowInput').text() === '1') {
                 $('#addMsgRow').show();
             } else {
                 $('#addMsgRow').hide();
             }
-        });
+        }
 
-        function SendLogin() {
-            socket.emit('user_login', {
+        function setUrlBar() {
+            window.history.pushState('leaderboard', '', '/leaderboard.html');
+        }
+
+        function selectSizeOption(value) {
+            for (var i = 0 ; i < $('#changeMitrixselect>option').length; i++) {
+                var item = $('#changeMitrixselect>option')[i];
+                if (value === $(item).val()) {
+                    $(item).attr('selected', true);
+                }
+            }
+        }
+
+        function getleaderboard() {
+            socket.emit('get_leaderboard', {
                 mapsize: getSelectedMapsize(),
                 rowCount: global_rowCount
             });
@@ -227,7 +242,7 @@
 
         </div>
         <div class="cell1">
-            <input id="inputname" type="text"/>
+            <input id="inputname" type="text" placeholder="Player's Name..."/>
         </div>
         <div class="cell1">
             <span id="showsize">{{{size}}}</span>

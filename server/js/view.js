@@ -25,13 +25,15 @@
 
     //判斷是否 GameOver
     if (mapObj.IsGameOver) {
-        ShowGameOverMask();         //顯示 game over
+        ShowGameOverMask(); //顯示 game over
 
         var best = ReadBestScore(); //更新 best score
         if (mapObj.Score > best) {
             WriteBestScore(mapObj.Score);
             SetBestLabel();
         }
+    } else {
+        HideGameOverMask();
     }
 }
 
@@ -72,11 +74,19 @@ function EnableRollbackButton() {
     document.getElementById("rollbackbtn").disabled = false;
 }
 
-function SetRollbackButtonStatus(times) {
+function SetRollbackBtn(times) {
     if (times > 0)
         EnableRollbackButton();
     else
         DisableRollbackButton();
+}
+
+function DisableResetButton() {
+    document.getElementById("resetbtn").disabled = true;
+}
+
+function EnableResetButton() {
+    document.getElementById("resetbtn").disabled = false;
 }
 
 function SetBestLabel() {
@@ -182,8 +192,8 @@ function boxsmove(mapObj, prevObj) {
 
 
 function boxAnimation(moveboxs) {
-    
-    var boxs = document.getElementsByClassName("box")
+
+    var boxs = document.getElementsByClassName("box");
 
     var isrepain = false;
     for (var i = 0; i < moveboxs.length; i++) {
@@ -211,4 +221,51 @@ function boxAnimation(moveboxs) {
     }
 }
 
+
+//jquery組合矩陣的html
+function createMitrixDiv(mitrixtype) {
+    var isonetime = true;
+    var bigboxwidth = mitrixtype * 50 + (mitrixtype) * 2 + 2;
+    var bigboxwidthstr = "width:" + bigboxwidth + "px";
+
+    var boxdiv = "<div class='box'><p class='box-number'></p></div>";
+    var borderdiv = "<div class='box-row-border'></div>";
+    var borderdivcolumn = "<div class='box-column-border'" + "style=" + bigboxwidthstr + "></div>";
+
+    $(".box-body").empty();
+    for (var i = 0; i < mitrixtype; i++) {
+        var tmp = "<div class='box-row'>";
+        if (isonetime) {
+            tmp += borderdivcolumn;
+            isonetime = false;
+        }
+
+        tmp += borderdiv;
+        for (var j = 0; j < mitrixtype; j++) {
+            //tmp += "<div class='box'><p class='box-number'></p></div>";
+            //var boxdiv = "<div class='box'" + createDivStyle(i, j) + "><p class='box-number'></p></div>";
+
+            tmp += boxdiv;
+            tmp += borderdiv;
+        }
+        tmp += "</div>";
+        tmp += borderdivcolumn;
+        $(".box-body").append(tmp);
+    }
+
+    var lineheight = bigboxwidth / 2 + 30;
+    $(".mask-body").css("width", bigboxwidth);
+    $(".mask-body").css("height", bigboxwidth);
+    $(".mask-body").css("margin-top", "67px");
+    $(".mask-body").css("margin-left", bigboxwidth / 2 * (-1));
+    //$(".mask-body").css("line-height", lineheight+"px");
+}
+
+function createDivStyle(i, j) {
+    var topsize = i * 50 + "px";
+    var leftsize = j * 50 + "px";
+    var mergesize = "top:" + topsize + ";left:" + leftsize;
+
+    return "style=" + mergesize;
+}
 
