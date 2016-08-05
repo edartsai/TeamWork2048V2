@@ -30,7 +30,6 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="js\chatroom.js" />
     <Compile Include="js\enum.js" />
     <Compile Include="js\fb.js" />
     <Compile Include="js\initmobile.js" />
@@ -107,7 +106,6 @@
     <Content Include="pages\leaderboard.html" />
     <Content Include="pages\screenshot.html" />
     <Content Include="README.md" />
-    <Content Include="pages\socket.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="css\" />
