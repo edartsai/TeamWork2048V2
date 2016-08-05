@@ -58,7 +58,7 @@ module.exports = {
             if (queryParams.mapsize === undefined || parseInt(queryParams.mapsize) !== queryParams.mapsize)
                 queryParams.mapsize = 4;
 
-            if (queryParams.score === undefined || parseInt(queryParams.score) !== queryParams.score)
+            if (queryParams.score === undefined || parseInt(queryParams.score) !== queryParams.score || queryParams.score === -1)
                 queryParams.score = 0;
 
             if (queryParams.movetimes === undefined || parseInt(queryParams.movetimes) !== queryParams.movetimes)
