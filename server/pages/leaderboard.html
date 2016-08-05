@@ -125,6 +125,14 @@
             } else {
                 $('#addMsgRow').hide();
             }
+
+            for (var i = 0 ; i < $('#changeMitrixselect>option').length; i++) {
+                var item = $('#changeMitrixselect>option')[i];
+                if ($('#showsize').text() === $(item).val()) {
+                    $(item).attr('selected', true);
+                    $('#changeMitrixselect').trigger('change');
+                }
+            }
         });
 
         function SendLogin() {
