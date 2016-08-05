@@ -168,7 +168,7 @@
                 result: false,
                 name: '',
                 mapsize: 4,
-                score: -1,
+                score: 0,
                 movetimes: -1,
                 ip: ''
             };
@@ -177,11 +177,11 @@
             if (name !== '')
                 rtnObj.name = name;
 
-            var size = $('#showsize').val();
+            var size = $('#showsize').text();
             if (size !== '')
                 rtnObj.mapsize = parseInt(size);
 
-            var score = $('#showscore').val();
+            var score = $('#showscore').text();
             if (score !== '')
                 rtnObj.score = parseInt(score);
 

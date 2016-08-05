@@ -44,7 +44,7 @@ app.post('/inputleaderboard', function (req, res) {
     var isshow = req.body.isshowinput;
 
     if (!score)
-        score = "0";
+        score = "-1";
     if (!size)
         size = "4";
     if (!isshow)
