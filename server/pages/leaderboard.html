@@ -56,7 +56,6 @@
 
         $(document).ready(function () {
 
-
             socket.on('sendLeaderboard', function (data) {
                 $('#msglist').empty();
 
@@ -115,11 +114,17 @@
             });
             $('#atop10').click();
 
-            $('#showsize').text($('#changeMitrixselect').val());
+           
             $('#changeMitrixselect').change(function() {
                 SendLogin();
-                $('#showsize').text($('#changeMitrixselect').val());
             });
+
+
+            if ($('#hiddenIsshowInput').text() === '1') {
+                $('#addMsgRow').show();
+            } else {
+                $('#addMsgRow').hide();
+            }
         });
 
         function SendLogin() {
@@ -150,10 +155,11 @@
             var namespan = $("<div></div>").addClass(cellClassName).text(datarow.name);
             var sizespan = $("<div></div>").addClass(cellClassName).text(datarow.mapsize);
             var scorespan = $("<div></div>").addClass(cellClassName).text(datarow.score);
-            var movespan = $("<div></div>").addClass(cellClassName).text(datarow.movetimes);
-            var ipspan = $("<div></div>").addClass(cellClassName).text(datarow.ip);
+            //var movespan = $("<div></div>").addClass(cellClassName).text(datarow.movetimes);
+            //var ipspan = $("<div></div>").addClass(cellClassName).text(datarow.ip);
             var datespan = $("<div></div>").addClass(cellClassName).text(nowStr);
-            var rowdiv = $("<div></div>").addClass("row").append(sortspan, namespan, sizespan, scorespan, movespan, ipspan, datespan);
+            //var rowdiv = $("<div></div>").addClass("row").append(sortspan, namespan, sizespan, scorespan, movespan, ipspan, datespan);
+            var rowdiv = $("<div></div>").addClass("row").append(sortspan, namespan, sizespan, scorespan, datespan);
             $('#msglist').append(rowdiv);
         }
 
@@ -167,28 +173,27 @@
                 ip: ''
             };
 
-
             var name = $('#inputname').val();
             if (name !== '')
                 rtnObj.name = name;
 
-            var size = $('#changeMitrixselect').val();
+            var size = $('#showsize').val();
             if (size !== '')
                 rtnObj.mapsize = parseInt(size);
 
-            var score = $('#inputscore').val();
+            var score = $('#showscore').val();
             if (score !== '')
                 rtnObj.score = parseInt(score);
 
-            var movetimes = $('#inputtimes').val();
-            if (movetimes !== '')
-                rtnObj.movetimes = parseInt(movetimes);
+            //var movetimes = $('#inputtimes').val();
+            //if (movetimes !== '')
+            //rtnObj.movetimes = parseInt(movetimes);
 
-            var ip = $('#inputip').val();
-            if (ip !== '')
-                rtnObj.ip = ip;
+            //var ip = $('#inputip').val();
+            //if (ip !== '')
+            //    rtnObj.ip = ip;
 
-            if (name !== '' && score !== -1 && movetimes !== -1 && ip !== '')
+            if (name !== '' && score !== -1 )
                 rtnObj.result = true;
 
             return rtnObj;
@@ -196,9 +201,7 @@
 
         function clearInput() {
             $('#inputname').val('');
-            $('#inputscore').val('');
-            $('#inputtimes').val('');
-            $('#inputip').val('');
+
         }
     </script>
     <div>
@@ -218,31 +221,29 @@
     <div id="msglist" class="table" style="margin-bottom:10px;">
 
     </div>
-    <div id="addMsgRow" class="table" style="margin-bottom:10px;">
-        <div class="row">
-            <div class="cell1">
+<div id="addMsgRow" class="table" style="margin-bottom: 10px; display: none;">
+    <div class="row">
+        <div class="cell1">
 
-            </div>
-            <div class="cell1">
-                <input id="inputname" type="text" />
-            </div>
-            <div  class="cell1">
-                <span id="showsize"></span>
-            </div>
-            <div class="cell1">
-                <input id="inputscore" type="number" />
-            </div>
-            <div class="cell1">
-                <input id="inputtimes" type="number" />
-            </div>
-            <div class="cell1">
-                <input id="inputip" type="text" />
-            </div>
+        </div>
+        <div class="cell1">
+            <input id="inputname" type="text"/>
+        </div>
+        <div class="cell1">
+            <span id="showsize">{{{size}}}</span>
+        </div>
+        <div class="cell1">
+            <span id="showscore">{{{score}}}</span>
+        </div>
 
-            <div class="cell1">
-                <input id="btnsend" type="button" value="Send" />
-            </div>
+        <div class="cell1">
+            <input id="btnsend" type="button" value="Send"/>
         </div>
     </div>
+</div>
+
+<div id="hiddendiv" style="display: none;">
+    <span id="hiddenIsshowInput">{{{isshowinput}}}</span>
+</div>
 </body>
 </html>

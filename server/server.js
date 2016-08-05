@@ -1,5 +1,7 @@
 ﻿var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
+var fs = require('fs');
 
 var http = require('http');
 var server = http.createServer(app);
@@ -10,6 +12,12 @@ var sql = require(__dirname + '/js/sql.js');
 server.listen(8001, function() {
     console.log('ready on port 8001');
 });
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
+
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/pages/index2.html');
@@ -26,10 +34,40 @@ app.get('/index2.html', function (req, res) {
 app.get('/game2048.html', function (req, res) {
     res.sendFile(__dirname + '/pages/game2048.html');
 });
-
-app.get('/leaderboard.html', function (req, res) {
+app.get('/leaderboard.html', function(req, res) {
     res.sendFile(__dirname + '/pages/leaderboard.html');
 });
+
+app.post('/inputleaderboard', function (req, res) {
+    var score = req.body.score;
+    var size = req.body.size;
+    var isshow = req.body.isshowinput;
+
+    if (!score)
+        score = "0";
+    if (!size)
+        size = "4";
+    if (!isshow)
+        isshow = "0";
+
+    fs.readFile(
+        './pages/leaderboard.html',
+        { encoding: 'utf-8' },
+        function(errf, data) {
+            if (!errf) {
+                //replace special tag
+                data = data.replace(/{{{score}}}/gi, score);
+                data = data.replace(/{{{size}}}/gi, size);
+                data = data.replace(/{{{isshowinput}}}/gi, isshow);
+
+                res.send(data);
+                res.end();
+            }
+        }
+    );
+
+});
+
 
 app.get('/screenshot.html', function (req, res) {
     res.sendFile(__dirname + '/pages/screenshot.html');
