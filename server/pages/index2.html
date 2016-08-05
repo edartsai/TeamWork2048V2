@@ -169,6 +169,7 @@ Released   : 20130902
                 $("#problem08-stage2").hide();
                 $("#problem08-stage3").hide();
                 $("#problem08-stage4").hide();
+                $("#problem08-stage5").hide();
 
                 var href = $(this).attr("href");
 
@@ -888,7 +889,8 @@ Released   : 20130902
                     <a href="#problem08-stage1" onclick="javascript: return false;" style="font-size: larger;">第一階段<em></em></a>
                     <a href="#problem08-stage2" onclick="javascript: return false;" style="font-size: larger;">第二階段<em></em></a>
                     <a href="#problem08-stage3" onclick="javascript: return false;" style="font-size: larger;">第三階段<em></em></a>
-                    <a href="#problem08-stage4" onclick="javascript: return false;" style="font-size: larger;">第四階段<em></em></a>
+                    <a href="#problem08-stage4" onclick="javascript: return false;" style="font-size: larger;">程式語法問題<em></em></a>
+                    <a href="#problem08-stage5" onclick="javascript: return false;" style="font-size: larger;">產生動畫方式<em></em></a>
                 </div>
             </div>
             <div id="problem08-stage1" style="margin-top: 2em;">
@@ -953,9 +955,18 @@ Released   : 20130902
                         '100%': {'margin-left' : '600px','transform' : 'rotate(-360deg)'}
                         }]);
                 </pre>
+                <pre class="prettyprint linenums">
+                    var moveArray = new Array();
+                    moveArray.push({
+                        'name': "move" + mapObj.Items[i].Id,
+                        '0%': {'margin-left' : '0px','background-color' : 'red','transform' : 'rotate(0deg)'},
+                        '100%': {'margin-left' : '600px','transform' : 'rotate(-360deg)'}
+                    });
+                    $.keyframe.define(moveArray);
+                </pre>
                 <p>b. animation參數無作用</p>
                 <p>
-                animation-fill-mode 動畫播放前後的狀態<br>
+                animation-fill-mode 動畫播放前後的狀態<br />
                 none ：回到未播放動畫效果前的狀態<br />
                 forwards ：停在動畫的最後一個狀態上<br />
                 backwards ：停在動畫的第一個狀態上 <br />
@@ -964,7 +975,20 @@ Released   : 20130902
                 <p>c. jQuery.Keyframes中的complete有時會無效</p>
             </pre></div>
             <div id="problem08-stage5" style="margin-top: 2em;">
+                <p>
+                    <b>動態產生div，做完動畫後移除。</b>
+                </p>
+                <p>放棄原因：因為complete不明原因沒有觸發，所以放棄。</p>
 
+                <p>
+                    <b>同時產生2個陣列div，上下疊在一起。樓上的顯示目前狀態，樓下的是做動畫用，需要動畫時，將z-index設大一點，然後做動畫，動畫結束後回到原來位置。</b>
+                </p>
+                <p>放棄原因：css排版問題搞不定!</p>
+
+                <p>
+                    <b>只做一層div物件組成陣列，物件移動後再回到原位置</b>
+                </p>
+                <p>最終做法</p>
             </div>
 
         

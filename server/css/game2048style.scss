@@ -107,23 +107,17 @@ html, body {
     text-align:center;
     display:inline-block;
     z-index:1;
-    
 }
 
 .box{
     z-index:3;
     width: $box-width;
     height: $box-height;
-    background: $box-background;
     text-align:center;
     float: left;
-        
     border-color:$border-color;
     border-width:0px;
     border-style:solid;
-    
-
-    /*position: absolute;*/
     position:relative;
 }
 
@@ -135,20 +129,15 @@ html, body {
     text-align:center;
     float: left;
     border-width:0px;
-        
-    /*position: absolute;*/
     position:relative;
 }
 
 .box-column-border{
     z-index:3;
-    
     height: $box-border-width;
     background: $border-color;
     text-align:center;
     border-width:0px;
-        
-    /*position: absolute;*/
     position:relative;
 }
 
