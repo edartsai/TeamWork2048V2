@@ -227,6 +227,10 @@
             },
             function (data) {
             var win = window.open('about:blank');
+            if (win == undefined) {
+                alert("請不要封鎖彈出式視窗");
+                return;
+            }
             with (win.document) {
                 open();
                 write(data);
@@ -264,6 +268,7 @@
                 $('#viewerTitle').hide();
             }
         });
+
     }
 
     function sendMove(obj) {
