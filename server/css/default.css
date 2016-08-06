@@ -728,3 +728,8 @@
     .problem-div span {
         font-weight:500;
     }
+
+	.demosubaHovered {
+		color: #ff9900!important;
+		background-color: white!important;
+	}

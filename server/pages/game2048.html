@@ -43,52 +43,33 @@
 
     var defaultTimesLeft = 3;
     var rollbackLeft = defaultTimesLeft;
-    var isBattleMode = true;
-    var player = 0;
+    var isBattleMode = getIsBattleMode();
+
+    var groupInfo = {
+    	gid: -1,
+    	player: 0,
+		map :  undefined
+    };
 
     $(document).ready(function () {
         document.onkeydown = keyFunction;
-
-
 
         //使用行動裝置
         InitMobile();
 
         reset();
 
-
+    	// 必須放在 reset 之後
         if (isBattleMode) {
             initBattle();
-
-            //註冊接收 Server 傳來的物件
-            socket.on('send_battle', function (map) {
-                if (player === 0) {
-                    MappingArrayData(map);
-                }
-            });
         }
-
-        $(window).unload(function () {
-            if (isBattleMode) {
-                socket.emit('leave_battle');
-            }
-        });
-
-        socket.on('add_screenshot', function (result) {
-            var r = result.result;
-            if (r.length > 0 && r[0].length > 0) {
-                var id = r[0][0][""];
-                window.open('screenshot.html' + '?' + 'id=' + id);
-                alert('上傳成功!');
-            } else {
-                alert('上傳失敗!');
-            }
-        });
-
-
     });
 
-
+    $(window).unload(function () {
+    	if (isBattleMode) {
+    		socket.emit('leave_battle', groupInfo);
+    	}
+    });
 
     function moveLeft() {
         if (Move(mapObj, DIRECTION.LEFT, prevObj)) {
@@ -123,8 +104,8 @@
     }
 
     function rollback() {
-        if (rollbackTimesLeft > 0)
-            rollbackTimesLeft--;
+    	if (rollbackLeft > 0)
+    		rollbackLeft--;
         else
             return;
 
@@ -216,6 +197,17 @@
             datatype: 0,
             data: img
         });
+
+        socket.on('add_screenshot', function (result) {
+        	var r = result.result;
+        	if (r.length > 0 && r[0].length > 0) {
+        		var id = r[0][0][""];
+        		window.open('screenshot.html' + '?' + 'id=' + id);
+        		alert('上傳成功!');
+        	} else {
+        		alert('上傳失敗!');
+        	}
+        });
     }
 
     function openLeaderboard() {
@@ -245,19 +237,30 @@
         reset();
     }
 
+    function getIsBattleMode() {
+    	if ($('#isbattlemode').text() === "1") {
+		    isBattleMode = true;
+    	} else {
+		    isBattleMode = false;
+	    }
+    }
+
     function initBattle() {
-        socket.emit('init_battle', mapObj);
-        socket.on('init_battle', function(result) {
-            player = result.player;
+    	socket.emit('init_battle', mapObj);
+
+    	socket.on('init_battle', function (result) {
+		    groupInfo.gid = result.gid;
+		    groupInfo.player = result.player;
+		    groupInfo.map = result.map;
 
             // 觀戰者模式
-            if (player === 0) {
+            if (groupInfo.player === 0) {
                 isCanClick = false;     // 關閉 keycode 控制
                 DisableResetButton();   // 關閉 Button
                 DisableRollbackButton();// 關閉 Button
 
-                if (result.map !== undefined) {
-                    MappingArrayData(result.map);
+                if (groupInfo.map !== undefined) {
+                	MappingArrayData(groupInfo.map);
                 }
                 $('#viewerTitle').show();
             } else {
@@ -269,11 +272,20 @@
             }
         });
 
+    	//註冊接收 Server 傳來的物件
+        socket.on('send_battle', function (map) {
+        	if (groupInfo.player === 0) {
+        		MappingArrayData(map);
+        	}
+        });
     }
 
-    function sendMove(obj) {
-        if(isBattleMode)
-            socket.emit('send_battle', obj);
+    function sendMove(map) {
+    	if (isBattleMode) {
+		    groupInfo.map = map;
+
+		    socket.emit('send_battle', groupInfo);
+	    }
     }
 </script>
 
@@ -329,13 +341,17 @@
 </select>
 
 <div id="developing-div">
-    <br/>
-    <span> DEVELOPING </span> <br/>
-    <button id="capturebtn" type="submit" onclick="capture()">
-        <span>UploadScreenshot</span>
-    </button>
-    <br/>
-    <span id="viewerTitle" style="display:none;">You're in Viewer Mode</span>
+	<br/>
+	<span> DEVELOPING </span> <br/>
+	<button id="capturebtn" type="submit" onclick="capture()">
+		<span>UploadScreenshot</span>
+	</button>
+	<br/>
+	<span id="viewerTitle" style="display: none;">You're in Viewer Mode</span>
+</div>
+
+<div style="display: none;">
+	<span id="isbattlemode">{{{isbattlemode}}}</span>
 </div>
 
 </body>

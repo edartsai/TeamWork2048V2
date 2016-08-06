@@ -31,9 +31,41 @@ app.get('/index2.html', function (req, res) {
     res.sendFile(__dirname + '/pages/index2.html');
 });
 
-app.get('/game2048.html', function (req, res) {
-    res.sendFile(__dirname + '/pages/game2048.html');
+app.get('/game2048single', function (req, res) {
+    var isBattleMode = "0";
+    fs.readFile(
+        './pages/game2048.html',
+        { encoding: 'utf-8' },
+        function (errf, data) {
+            if (!errf) {
+                //replace special tag
+                data = data.replace(/{{{isbattlemode}}}/gi, isBattleMode);
+
+                res.send(data);
+                res.end();
+            }
+        }
+    );
 });
+
+app.get('/game2048battle', function(req, res) {
+    var isBattleMode = "1";
+    fs.readFile(
+        './pages/game2048.html',
+        { encoding: 'utf-8' },
+        function (errf, data) {
+            if (!errf) {
+                //replace special tag
+                data = data.replace(/{{{isbattlemode}}}/gi, isBattleMode);
+                
+                res.send(data);
+                res.end();
+            }
+        }
+    );
+});
+
+
 app.get('/leaderboard.html', function(req, res) {
     res.sendFile(__dirname + '/pages/leaderboard.html');
 });
@@ -82,29 +114,22 @@ app.use('/js', express.static('js'));
 app.use('/js_lib', express.static('js_lib'));
 
 
-var group = {
-    player1: undefined,
-    player2: undefined,
-    viewers: [],
-    currentmap: undefined
-};
-
+var groups = [];
 
 io.on('connection', function (socket) {
-    
     socket.on('get_leaderboard', function (data) {
-        getLeaderboard(socket, data.rowCount, data.mapsize);  
+        getLeaderboard(socket, data.rowCount, data.mapsize);
     });
 
     socket.on('add_leaderboard', function (data) {
-        sql.addLeaderListItem(data, function(result) {
+        sql.addLeaderListItem(data, function (result) {
             if (result.returnValue === 0) {
                 getLeaderboard(socket, data.querycount, data.mapsize);
             }
         });
     });
 
-    socket.on('add_screenshot', function(data) {
+    socket.on('add_screenshot', function (data) {
         sql.addScreenshotItem({
             datatype: data.datatype,
             data: data.data
@@ -122,7 +147,7 @@ io.on('connection', function (socket) {
                 ssid: ssid
             }, function (result) {
                 if (result !== undefined) {
-                    socket.emit('get_screenshotdata', result);    
+                    socket.emit('get_screenshotdata', result);
                 }
             });
         }
@@ -134,17 +159,20 @@ io.on('connection', function (socket) {
 io.sockets.on('connection', function (socket) {
 
     socket.on('init_battle', function (initmap) {
+	    var group = findEmptyGroup();
+
         if (group.player1 === undefined) {
             group.player1 = socket;
             group.currentmap = initmap;
-            socket.emit('init_battle', { player: 1, map: group.currentmap });
+            socket.emit('init_battle', { gid: group.id, player: 1,  map: group.currentmap });
         }
         //else if (group.player2 === undefined) {
-        //    group.player2 = socket;
-        //    socket.emit('init_battle', { player: 2 });
+        //group.player2 = socket;
+        //group.currentmap = initmap;
+        //socket.emit('init_battle', { gid: group.id, player: 2, map: group.currentmap });
         //}
         else {
-            socket.emit('init_battle', { player: 0, map: group.currentmap });
+            socket.emit('init_battle', { gid: group.id, player: 0,  map: group.currentmap });
             if (group.viewers.indexOf(socket) === -1)
                 group.viewers.push(socket);
         }
@@ -152,9 +180,10 @@ io.sockets.on('connection', function (socket) {
     });
 
     // 將資料送給 玩家與觀戰者
-    socket.on('send_battle', function (map) {
+    socket.on('send_battle', function (data) {
+	    var group = findGroup(data.gid);
         if (socket === group.player1 || socket === group.player2) {
-            group.currentmap = map;
+            group.currentmap = data.map;
 
             if (socket === group.player1)
                 if (group.player2 !== undefined)
@@ -162,7 +191,7 @@ io.sockets.on('connection', function (socket) {
 
             //if (socket === player2)
             //    if(player1 !== undefined)
-            //        player1.emit('send_battle', data);
+            //        player1.emit('send_battle', group.currentmap);
 
 
             group.viewers.forEach(function (item) {
@@ -172,7 +201,8 @@ io.sockets.on('connection', function (socket) {
 
     });
 
-    socket.on('leave_battle', function() {
+    socket.on('leave_battle', function (data) {
+        var group = findGroup(data.gid);
         if (group.player1 === socket)
             group.player1 = undefined;
         else if (group.player2 === socket)
@@ -187,18 +217,47 @@ io.sockets.on('connection', function (socket) {
 function getLeaderboard(socket, rowcount, mapsize) {
     sql.getLeaderList(
         {
-            mapsize : mapsize,
+            mapsize: mapsize,
             sortType: 0,
             startIndex: 1,
             rowCount: rowcount
         },
         function (rtndata) {
-            send2Client(socket, 'get_leaderboard',  rtndata);
+            send2Client(socket, 'get_leaderboard', rtndata);
         }
     );
 }
 
-
-function send2Client(socket, cmd, data) {
+function send2Client (socket, cmd, data) {
     socket.emit(cmd, data);
+}
+
+function genGroup() {
+    var group = {
+        id : -1,
+        player1: undefined,
+        player2: undefined,
+        viewers: [],
+        currentmap: undefined
+    };
+
+	return group;
+}
+
+function findEmptyGroup() {
+    groups.forEach(function (group) {
+        if (group.player1 === undefined || group.player2) {
+	        return group;
+        }
+    });
+
+	var nGroup = genGroup();
+    groups.push(nGroup);
+	nGroup.id = groups.indexOf(nGroup);
+
+	return nGroup;
+}
+
+function findGroup(gid) {
+	return groups[gid];
 }
