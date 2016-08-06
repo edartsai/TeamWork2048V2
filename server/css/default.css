@@ -729,7 +729,7 @@
         font-weight:500;
     }
 
-	.demosubaHovered {
+	.menuItemHovered {
 		color: #ff9900!important;
-		background-color: white!important;
+		background-color: #3f3f3f!important;
 	}

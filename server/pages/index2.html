@@ -181,6 +181,7 @@ Released   : 20130902
 			/* 「問題」 menu 對應 動畫效果的辛苦歷程  end*/
 
 
+			/***** mouse hover event *****/
 			$('#demolinkbtn').hover(
 				function () {
 					$('#demosubselection').show();
@@ -189,14 +190,18 @@ Released   : 20130902
 					$('#demosubselection').hide();
 				}
 			);
-			$('.demosub').hover(
-				function() {
-					$(this).addClass('demosubaHovered');
+
+			$('.menuselect').hover(
+				function () {
+					if ($(this).parent()[0].className.indexOf("current_page_item") === -1)
+						$(this).addClass('menuItemHovered');
 				},
-				function() {
-					$(this).removeClass('demosubaHovered');
+				function () {
+					if ($(this)[0].className.indexOf("menuItemHovered") > -1)
+						$(this).removeClass('menuItemHovered');
 				}
 			);
+			/***** mouse hover event END*****/
 		});
 
 		function GetDivByHerf(hrefstring) {
@@ -222,16 +227,16 @@ Released   : 20130902
 			</div>
 			<div id="menu">
 				<ul id="menu-ul">
-					<li class="current_page_item"><a href="#homepage" accesskey="1" title="">Home</a></li>
-					<li><a href="#aboutus" accesskey="2" title="">About Us</a></li>
-					<li><a href="#features" accesskey="3" title="">Features</a></li>
-					<li><a href="#technics" accesskey="4" title="">Technics</a></li>
-					<li><a href="#problems" accesskey="5" title="">Problems &amp; Solutions</a></li>
+					<li class="current_page_item"><a href="#homepage" accesskey="1" title="" class="menuselect">Home</a></li>
+					<li><a href="#aboutus"  accesskey="2" title="" class="menuselect">About Us</a></li>
+					<li><a href="#features" accesskey="3" title="" class="menuselect">Features</a></li>
+					<li><a href="#technics" accesskey="4" title="" class="menuselect">Technics</a></li>
+					<li><a href="#problems" accesskey="5" title="" class="menuselect">Problems &amp; Solutions</a></li>
 					<li id="demolinkbtn">
 						<a href="#" title="" >Demo</a>
 						<div id="demosubselection" style="display: none;">
-							<a href="game2048single" target="_blank" title="" class="demosub">Single</a>
-							<a href="game2048battle" target="_blank" title="" class="demosub">Battle</a>
+							<a href="game2048single" target="_blank" title="" class="menuselect">Single</a>
+							<a href="game2048battle" target="_blank" title="" class="menuselect">Battle</a>
 						</div>
 					</li>
 				</ul>
