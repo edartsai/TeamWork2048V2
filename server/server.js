@@ -115,6 +115,7 @@ app.use('/js_lib', express.static('js_lib'));
 
 
 var groups = [];
+var viewerMax = 2;
 
 io.on('connection', function (socket) {
     socket.on('get_leaderboard', function (data) {
@@ -160,11 +161,15 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('init_battle', function (initmap) {
 	    var group = findEmptyGroup();
+        if (group === undefined || group === null)
+            return;
 
         if (group.player1 === undefined) {
             group.player1 = socket;
             group.currentmap = initmap;
-            socket.emit('init_battle', { gid: group.id, player: 1,  map: group.currentmap });
+            socket.emit('init_battle', { gid: group.id, player: 1, map: group.currentmap });
+
+            console.log('Init - Group' + group.id + ' Player1 SocketId:' + group.player1.id);
         }
         //else if (group.player2 === undefined) {
         //group.player2 = socket;
@@ -173,45 +178,72 @@ io.sockets.on('connection', function (socket) {
         //}
         else {
             socket.emit('init_battle', { gid: group.id, player: 0,  map: group.currentmap });
-            if (group.viewers.indexOf(socket) === -1)
+	        if (group.viewers.indexOf(socket) === -1) {
                 group.viewers.push(socket);
+                console.log('Init - Group' + group.id + ' Player0 SocketId:' + socket.id);
+	        }
         }
 
     });
 
     // 將資料送給 玩家與觀戰者
     socket.on('send_battle', function (data) {
-	    var group = findGroup(data.gid);
+        var group = findGroup(data.gid);
+        if (group === undefined || group === null)
+            return;
+
         if (socket === group.player1 || socket === group.player2) {
             group.currentmap = data.map;
 
-            if (socket === group.player1)
-                if (group.player2 !== undefined)
+	        if (socket === group.player1) {
+		        if (group.player2 !== undefined) {
                     group.player2.emit('send_battle', group.currentmap);
+                    console.log('Send - Group' + group.id + ' Player2 SocketId:' + group.player2.id);
+		        }
+	        }
 
-            //if (socket === player2)
+	        //if (socket === player2)
             //    if(player1 !== undefined)
             //        player1.emit('send_battle', group.currentmap);
 
 
             group.viewers.forEach(function (item) {
                 item.emit('send_battle', group.currentmap);
+                console.log('Send - Group' + group.id + ' Player0 SocketId:' + item.id);
             });
         }
 
     });
 
     socket.on('leave_battle', function (data) {
+	    if (data === undefined || data === null || data.gid === -1)
+		    return;
+
         var group = findGroup(data.gid);
-        if (group.player1 === socket)
+	    if (group === undefined || group === null)
+		    return;
+
+	    if (group.player1 === socket) {
             group.player1 = undefined;
-        else if (group.player2 === socket)
+            console.log('Leav - Group' + group.id + ' Player1 SocketId:' + socket.id);
+	    }
+	    if (group.player2 === socket) {
             group.player2 = undefined;
-        else {
-            if (group.viewers.indexOf(socket) !== -1)
-                group.viewers.remove(socket);
+            console.log('Leav - Group' + group.id + ' Player2 SocketId:' + socket.id);
         }
+        else {
+		    var index = group.viewers.indexOf(socket);
+
+            if (index !== -1) {
+	            arrayRemove(group.viewers, index);
+                console.log('Leav - Group' + group.id + ' Player0 SocketId:' + socket.id);
+		    }
+		    
+	    }
+
     });
+
+    //todo: heartbeat 檢查斷線機制(移除已離開的玩家或觀察者)
 });
 
 function getLeaderboard(socket, rowcount, mapsize) {
@@ -245,11 +277,18 @@ function genGroup() {
 }
 
 function findEmptyGroup() {
-    groups.forEach(function (group) {
-        if (group.player1 === undefined || group.player2) {
-	        return group;
+    for (var i = 0; i < groups.length; i++) {
+	    var group = groups[i];
+        if (group.player1 === undefined ) {
+            return group;
         }
-    });
+        //else if (group.player2 === undefined) {
+        //    return group;
+        //}
+        else if (group.viewers.length < viewerMax) {
+            return group;
+        }
+    }
 
 	var nGroup = genGroup();
     groups.push(nGroup);
@@ -260,4 +299,11 @@ function findEmptyGroup() {
 
 function findGroup(gid) {
 	return groups[gid];
+}
+
+function arrayRemove(array, index) {
+	if (array.length <= index)
+        return;
+
+	array.splice(index, 1);
 }

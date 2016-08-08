@@ -43,7 +43,7 @@
 
     var defaultTimesLeft = 3;
     var rollbackLeft = defaultTimesLeft;
-    var isBattleMode = getIsBattleMode();
+    var isBattleMode;
 
     var groupInfo = {
     	gid: -1,
@@ -54,10 +54,12 @@
     $(document).ready(function () {
         document.onkeydown = keyFunction;
 
+	    isBattleMode = getIsBattleMode();
+
         //使用行動裝置
         InitMobile();
 
-        reset();
+        reset(false);
 
     	// 必須放在 reset 之後
         if (isBattleMode) {
@@ -117,13 +119,14 @@
         DisableRollbackButton();    //關閉「上一步」
     }
 
-    function reset() {
+    function reset(isNeedSend) {
         var size = $("select#matrixSize").val();
         createMitrixDiv(size);          //畫上 Grid
         resetRollbackTimes();           //重設 rollback time
         Init(mapObj, size);             //Init Data
         Clone(mapObj, prevObj);         //紀錄狀態
-        sendMove(mapObj);               //send move obj to server
+		if(isNeedSend !== undefined && isNeedSend)
+			sendMove(mapObj);               //send move obj to server
         
         MappingArrayData(mapObj);       //重繪數字
 
@@ -234,15 +237,11 @@
     //選取尺寸
     function changeMatrixSize() {
         this.blur();
-        reset();
+        reset(true);
     }
 
     function getIsBattleMode() {
-    	if ($('#isbattlemode').text() === "1") {
-		    isBattleMode = true;
-    	} else {
-		    isBattleMode = false;
-	    }
+	    return ($('#isbattlemodespan').text() === "1");
     }
 
     function initBattle() {
@@ -306,7 +305,7 @@
             </div>
             <!--重玩-->
             <div class="replay-button" >
-                <button class="back-button" id="resetbtn" type="submit" onclick="reset()">
+                <button class="back-button" id="resetbtn" type="submit" onclick="reset(true)">
                     <img src="images/b_brefresh_20_n.png" alt=""/>
                 </button>
             </div>
@@ -351,7 +350,7 @@
 </div>
 
 <div style="display: none;">
-	<span id="isbattlemode">{{{isbattlemode}}}</span>
+	<span id="isbattlemodespan">{{{isbattlemode}}}</span>
 </div>
 
 </body>
