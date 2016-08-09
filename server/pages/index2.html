@@ -924,7 +924,7 @@ Released   : 20130902
 							<p>
 								<b>因為css animation無法動態產生，改用javascript產生動畫</b>
 							</p>
-							<iframe width="100%" height="500" src="//fiddle.jshell.net/quou5n69/6/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+							<iframe width="100%" height="500" src="//fiddle.jshell.net/quou5n69/7/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 						</div>
 						<div id="problem08-stage3" style="margin-top: 2em">
 							<p>
@@ -935,13 +935,13 @@ Released   : 20130902
 							<pre class="prettyprint linenums">
     $.keyframe.define([
     {
-		name: 'roll-clockwise',
-		'0%': {'margin-left' : '0px','background-color' : 'red','transform' : 'rotate(0deg)'},
-		'100%': {'margin-left' : '600px','transform' : 'rotate(360deg)'}},
+        name: 'roll-clockwise',
+        '0%': {'margin-left' : '0px','background-color' : 'red','transform' : 'rotate(0deg)'},
+        '100%': {'margin-left' : '600px','transform' : 'rotate(360deg)'}},
     {
-		name: 'roll-anti-clockwise',
-		'0%': {'margin-left' : '0px','background-color' : 'red','transform' : 'rotate(0deg)'},
-		'100%': {'margin-left' : '600px','transform' : 'rotate(-360deg)'}
+        name: 'roll-anti-clockwise',
+        '0%': {'margin-left' : '0px','background-color' : 'red','transform' : 'rotate(0deg)'},
+        '100%': {'margin-left' : '600px','transform' : 'rotate(-360deg)'}
     }]);
                 </pre>
 
@@ -954,47 +954,60 @@ Released   : 20130902
         delay: '0s',				//[optional, default: 0s]  how long you want to wait before the animation starts
         iterationCount: 'infinite', //[optional, default:1]  how many times you want the animation to repeat
         direction: 'normal',		//[optional, default: 'normal']  which direction you want the frames to flow
-        fillMode: 'forwards',		//[optional, default: 'forward']  how to apply the styles outside the animation time, default value is forwards
+        fillMode: 'forwards',		//[optional, default: 'forward']  how to apply the styles outside the animation time
         complete: function(){}		//[optional] Function fired after the animation is complete. 
     });
                 </pre>
 						</div>
 						<div id="problem08-stage4" style="margin-top: 2em;">
 							<p>
-								<b>使用jQuery.Keyframes後遇到的阻礙</b>
-							</p>
-							<p>a. jquery語法不熟</p>
+                            <b>jquery語法不熟</b>
+                            </p>
 							<pre class="prettyprint linenums">
-            $.keyframe.define([
-                {
-                name: 'roll-clockwise',
-                '0%': {'margin-left' : '0px','background-color' : 'red','transform' : 'rotate(0deg)'},
-                '100%': {'margin-left' : '600px','transform' : 'rotate(360deg)'}},
-                {
-                name: 'roll-anti-clockwise',
-                '0%': {'margin-left' : '0px','background-color' : 'red','transform' : 'rotate(0deg)'},
-                '100%': {'margin-left' : '600px','transform' : 'rotate(-360deg)'}
-                }]);
+    $.keyframe.define([
+    {
+        name: 'roll-clockwise',
+        '0%': {'margin-left' : '0px','background-color' : 'red','transform' : 'rotate(0deg)'},
+        '100%': {'margin-left' : '600px','transform' : 'rotate(360deg)'}},
+    {
+        name: 'roll-anti-clockwise',
+        '0%': {'margin-left' : '0px','background-color' : 'red','transform' : 'rotate(0deg)'},
+        '100%': {'margin-left' : '600px','transform' : 'rotate(-360deg)'}
+    }]);
                 </pre>
 							<pre class="prettyprint linenums">
-            var moveArray = new Array();
-            moveArray.push({
-                'name': "move" + mapObj.Items[i].Id,
-                '0%': {'margin-left' : '0px','background-color' : 'red','transform' : 'rotate(0deg)'},
-                '100%': {'margin-left' : '600px','transform' : 'rotate(-360deg)'}
-            });
-            $.keyframe.define(moveArray);
+    var moveArray = new Array();
+    moveArray.push({
+        'name': "move" + mapObj.Items[i].Id,
+        '0%': {'margin-left' : '0px','background-color' : 'red','transform' : 'rotate(0deg)'},
+        '100%': {'margin-left' : '600px','transform' : 'rotate(-360deg)'}
+    });
+    $.keyframe.define(moveArray);
                 </pre>
-							<p>b. animation參數無作用</p>
+							<p>
+                                <b>animation參數無作用</b>
+                            </p>
 							<p>
 								animation-fill-mode 動畫播放前後的狀態<br />
 								none ：回到未播放動畫效果前的狀態<br />
 								forwards ：停在動畫的最後一個狀態上<br />
-								backwards ：停在動畫的第一個狀態上 <br />
+								<u>backwards ：停在動畫的第一個狀態上</u> <br />
 								both ：視 animation-direction 來決定停在哪一個狀態上。<br />
 							</p>
-							<p>c. jQuery.Keyframes中的complete有時會無效</p>
-						</div>
+							<p><b>jQuery.Keyframes中的complete有時會無效</b></p>
+                            <pre class="prettyprint linenums">
+    $(selector).playKeyframe({
+        name: 'trapdoor-sequence',	//name of the keyframe you want to bind to the selected element
+        duration: '1s',				//[optional, default: 0, in ms] how long you want it to last in milliseconds
+        timingFunction: 'linear',	//[optional, default: ease] specifies the speed curve of the animation
+        delay: '0s',				//[optional, default: 0s]  how long you want to wait before the animation starts
+        iterationCount: 'infinite', //[optional, default:1]  how many times you want the animation to repeat
+        direction: 'normal',		//[optional, default: 'normal']  which direction you want the frames to flow
+        fillMode: 'forwards',		//[optional, default: 'forward']  how to apply the styles outside the animation time
+        complete: function(){}		//[optional] Function fired after the animation is complete. 
+    });
+						    </pre>
+                        </div>
 						<div id="problem08-stage5" style="margin-top: 2em;">
 							<p>
 								<b>動態產生div，做完動畫後移除。</b>
