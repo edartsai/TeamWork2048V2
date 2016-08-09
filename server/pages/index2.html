@@ -23,9 +23,11 @@ Released   : 20130902
 	<link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
 	<link href="css/fonts.css" rel="stylesheet" type="text/css" media="all" />
 	<link href="css/lightbox.css" rel="stylesheet" />
-	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js_lib/jquery.fullPage.min.js"></script>
+    <link href="css/jquery.fullPage.css" rel="stylesheet" />
 
-	<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=Sons-Of-Obsidian"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=Sons-Of-Obsidian"></script>
 </head>
 <body>
 	<script type="text/javascript">
@@ -34,9 +36,11 @@ Released   : 20130902
 			/* 主畫面左側 menu 對應 main 大區塊  */
 			$("#menu-ul li>a").click(function () {
 				var className = 'current_page_item';
-				$('#menu-ul').children().removeClass(className);
-				$(event.target).parent().addClass(className);
+				$('#menu-ul>li').removeClass(className);
+				$(this).parent().addClass(className);
+
 			});
+			$("#menu-ul li>a:nth(0)").click();
 			/* 主畫面左側 menu 對應 main 大區塊 END */
 
 			/* 「功能」 menu 對應 三階段區塊  */
@@ -129,11 +133,13 @@ Released   : 20130902
 			/* 「問題」 sub lightbox 區塊 END */
 
 
-			/* 捲軸捲動時，自動將左側 Menu 跳到對應位置  */
+			/* 捲軸捲動  */
 			$(document).scroll(function () {
+			    var scrolloffset = $(document).scrollTop();
+			    var selected;
+
+			    /* 捲軸捲動時，自動將左側 Menu 跳到對應位置  */
 				var distance = 10000;
-				var selected;
-				var scrolloffset = $(document).scrollTop();
 
 				$(".main-menu").each(function (i, obj) {
 					var item = $(obj);
@@ -149,15 +155,16 @@ Released   : 20130902
 					return;
 
 				var className = 'current_page_item';
-				$('#menu-ul').children().removeClass(className);
+				$('#menu-ul>li').removeClass(className);
 				var selectedMenu = $("#menu-ul li>a[href='#" + selected.attr('id') + "']");
 				if (selectedMenu === undefined || selectedMenu === null)
 					return;
 
 				selectedMenu.parent().addClass(className);
-			});
-			/* 捲軸捲動時，自動將左側 Menu 跳到對應位置 end */
+			    /* 捲軸捲動時，自動將左側 Menu 跳到對應位置 end */
 
+			});
+			/* 捲軸捲動 end */
 
 			/* 「問題」 menu 對應 動畫效果的辛苦歷程  */
 			$("#problem08-stage-menu div a").click(function () {
@@ -227,7 +234,7 @@ Released   : 20130902
 			</div>
 			<div id="menu">
 				<ul id="menu-ul">
-					<li class="current_page_item"><a href="#homepage" accesskey="1" title="" class="menuselect">Home</a></li>
+					<li><a href="#homepage" accesskey="1" title="" class="menuselect">Home</a></li>
 					<li><a href="#aboutus"  accesskey="2" title="" class="menuselect">About Us</a></li>
 					<li><a href="#features" accesskey="3" title="" class="menuselect">Features</a></li>
 					<li><a href="#technics" accesskey="4" title="" class="menuselect">Technics</a></li>
@@ -242,344 +249,339 @@ Released   : 20130902
 				</ul>
 			</div>
 		</div>
-		<div id="main">
-			<div id="homepage" class="main-menu">
-				<div id="p01" class="divpage">
-					<div id="banner">
-						<a href="game2048.html" target="_blank"><img src="images/game-2048-2.png" alt="" class="image-full" /></a>
-					</div>
-					<div class="title">
-						<h2>緣起</h2>
-						<span class="byline"></span>
-					</div>
-					<p>
-						<span style="font-size: larger;"><strong>訴求</strong></span> 儘量少用後端技術，以<span>方便前端展示、使用流暢</span>為目標。
-					</p>
-					<p>
-						<span style="font-size: larger;"><strong>決議</strong></span> 以無須Server提供資料的小遊戲為目標，因此找到 <span style="color: red; margin-right: 0;"><strong>2048</strong></span>。
-					</p>
-				</div>
-			</div>
-			<div id="aboutus" class="main-menu">
-				<div id="p02" class="divpage">
-					<div class="title">
-						<h2>分工</h2>
-						<span class="byline">適才適用、小材大用、無才不用</span>
-					</div>
-					<ul class="style1">
-						<li class="first">
-							<p class="date" style="width: 10em;">
-								<a href="#"><b>Edar.Tsai</b></a>
-							</p>
-							<h3>視覺總監</h3>
-							<p>
-								視覺風格設計、
-								View 畫面製作、
-								喇D賽、
-								幫出國的人整理桌面
-							</p>
-						</li>
-						<li>
-							<p class="date" style="width: 10em;">
-								<a href="#"><b>Jim.Liu</b></a>
-							</p>
-							<h3>技術總監 & 技術顧問</h3>
-							<p>
-								遊戲邏輯、
-								網頁版型、
-								喇D賽、
-								幫扭蛋調整姿勢、
-								早起晨跑
-							</p>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div id="features" class="main-menu">
-				<div id="p03" class="divpage">
-					<div class="title">
-						<h2>功能</h2>
-						<span class="byline"></span>
-					</div>
-					<div id="feature-stage-menu" class="sub-tabs-menu" style="width: 41%;">
-						<div class="sub-tabs-links">
-							<a href="#feature-stage1" onclick="javascript: return false;" style="font-size: larger;">第一階段<em></em></a>
-							<a href="#feature-stage2" onclick="javascript: return false;" style="font-size: larger;">第二階段<em></em></a>
-							<a href="#feature-stage3" onclick="javascript: return false;" style="font-size: larger;">第三階段<em></em></a>
-						</div>
-					</div>
-					<div id="feature-stage1" style="margin-top: 2em;">
-						<ul class="style1">
-							<li class="first">
-								<p class="date">
-									<a href="#"><b>100%</b></a>
-								</p>
-								<h3>遊戲邏輯</h3>
-								<p>
-									<span>基礎遊戲邏輯，可以玩+可以計分就好。</span>
-								</p>
-							</li>
-							<li>
-								<p class="date">
-									<a href="#"><b>100%</b></a>
-								</p>
-								<h3>遊戲畫面</h3>
-								<p>
-									<span>簡單俐落的畫面風格。</span>
-								</p>
-							</li>
-							<li>
-								<p class="date">
-									<a href="#"><b>100%</b></a>
-								</p>
-								<h3>最高分</h3>
-								<p>
-									<span>與最強的自己競爭!!</span>
-								</p>
-							</li>
-							<li>
-								<p class="date">
-									<a href="#"><b>100%</b></a>
-								</p>
-								<h3>遊戲畫面截圖</h3>
-								<p>
-									<span>紀錄感動瞬間!!</span>
-								</p>
-							</li>
-							<li>
-								<p class="date">
-									<a href="#"><b>100%</b></a>
-								</p>
-								<h3>展示網站</h3>
-								<p>
-									<span>無套版，無裝飾，最純真的年代!!</span>
-								</p>
-							</li>
-						</ul>
-					</div>
-					<div id="feature-stage2" style="margin-top: 2em;">
-						<ul class="style1">
-							<!--<li class="first">
-								<p class="date">
-									<a href="#"><b>100%</b></a>
-								</p>
-								<h3>遊戲邏輯</h3>
-								<p>
-									<span>基礎遊戲邏輯，根據動畫需求重新撰寫，功能強大。</span>
-								</p>
-							</li>-->
-							<li class="first">
-								<p class="date">
-									<a href="#"><b>100%</b></a>
-								</p>
-								<h3>動畫效果</h3>
-								<p>
-									<span>由「移動」及「結合」兩種動作，創造流暢華麗的遊戲體驗。</span>
-								</p>
-							</li>
-							<li>
-								<p class="date">
-									<a href="#"><b>100%</b></a>
-								</p>
-								<h3>自訂陣列大小</h3>
-								<p>
-									<span>提供4X4，5X5，6X6三種陣列，增加遊戲可玩性!</span>
-								</p>
-							</li>
-							<li>
-								<p class="date">
-									<a href="#"><b>100%</b></a>
-								</p>
-								<h3>展示網站</h3>
-								<p>
-									<span>重新美化上線，永遠分享最新最棒的資訊!!</span>
-								</p>
-							</li>
-							<li>
-								<p class="date">
-									<a href="#"><b>90%</b></a>
-								</p>
-								<h3>螢幕截圖並產生網址</h3>
-								<p>
-									<span>紀錄完美瞬間!</span>
-								</p>
-							</li>
-							<li>
-								<p class="date">
-									<a href="#"><b>50%</b></a>
-								</p>
-								<h3>高分排行榜</h3>
-								<p>
-									<span>競爭!再競爭!</span>
-								</p>
-							</li>
+	    <div id="main">
+	        <div id="homepage" class="main-menu">
 
-						</ul>
-					</div>
-					<div id="feature-stage3" style="margin-top: 2em;">
-						<ul class="style1">
-							<li class="first">
-								<p class="date">
-									<a href="#"><b>50%</b></a>
-								</p>
-								<h3>FB分享</h3>
-								<p>
-									<span>將感動分享給大家。</span>
-								</p>
-							</li>
-							<li>
-								<p class="date">
-									<a href="#"><b>50%</b></a>
-								</p>
-								<h3>高分排行榜</h3>
-								<p>
-									<span>競爭!再競爭!</span>
-								</p>
-							</li>
-							<li>
-								<p class="date">
-									<a href="#"><b>10%</b></a>
-								</p>
-								<h3>對戰模式</h3>
-								<p>
-									<span>一個人玩，玩膩了嗎?試試對戰模式，保證讓你嗨翻天。</span>
-								</p>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div id="technics" class="main-menu">
-				<div id="p04" class="divpage">
-					<div class="title">
-						<h2>技術</h2>
-						<span class="byline"></span>
-					</div>
-					<div id="technics-stage-menu" class="sub-tabs-menu" style="width: 41%;">
-						<div class="sub-tabs-links">
-							<a href="#technics-stage1" onclick="javascript: return false;" style="font-size: larger;">第一階段<em></em></a>
-							<a href="#technics-stage2" onclick="javascript: return false;" style="font-size: larger;">第二階段<em></em></a>
-							<a href="#technics-stage3" onclick="javascript: return false;" style="font-size: larger;">第三階段<em></em></a>
-						</div>
-					</div>
-					<div id="technics-stage1" style="margin-top: 2em;">
-						<ul class="style2">
-							<li class="first">
-								<p class="date">
-									<a href="#"><b>目標</b></a>
-								</p>
-								<p><span style="font-weight: bolder;">遊戲功能建置</span></p>
-								<p><span style="font-weight: bolder;">展示網站建置</span></p>
-								<p><span style="font-weight: bolder;">基礎語言學習</span></p>
-							</li>
-							<li>
-								<p class="date">
-									<a href="#"><b>技術</b></a>
-								</p>
-								<p><span style="font-weight: bolder;">html</span></p>
-								<p><span style="font-weight: bolder;">javascript</span></p>
-								<p><span style="font-weight: bolder;">css</span></p>
-							</li>
-						</ul>
-					</div>
-					<div id="technics-stage2" style="margin-top: 2em;">
-						<ul class="style2">
-							<li class="first">
-								<p class="date">
-									<a href="#"><b>目標</b></a>
-								</p>
-								<p><span style="font-weight: bolder;">遊戲動畫</span></p>
-								<p><span style="font-weight: bolder;">網站美化工作</span></p>
-								<p><span style="font-weight: bolder;">最高分排行榜</span></p>
-							</li>
-							<li>
-								<p class="date">
-									<a href="#"><b>技術</b></a>
-								</p>
-								<p><span style="font-weight: bolder;">css/scss</span></p>
-								<p><span style="font-weight: bolder;">javascript/jquery</span></p>
-								<p><span style="font-weight: bolder;">node.js+express</span></p>
-								<p><span style="font-weight: bolder;">sql</span></p>
-							</li>
-						</ul>
-					</div>
-					<div id="technics-stage3" style="margin-top: 2em;">
-						<ul class="style2">
-							<li class="first">
-								<p class="date">
-									<a href="#"><b>目標</b></a>
-								</p>
-								<p><span style="font-weight: bolder;">RWD框架</span></p>
-								<p><span style="font-weight: bolder;">瀏覽器相容性</span></p>
-								<p><span style="font-weight: bolder;">Facebook 互動分享</span></p>
-								<p><span style="font-weight: bolder;">雙人對戰模式</span></p>
-							</li>
-							<li>
-								<p class="date">
-									<a href="#"><b>技術</b></a>
-								</p>
-								<p><span style="font-weight: bolder;">bootstrap</span></p>
-								<p><span style="font-weight: bolder;">facebook api</span></p>
-								<p><span style="font-weight: bolder;">node.js</span></p>
-								<p><span style="font-weight: bolder;">socket.io</span></p>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div id="problems" class="main-menu">
-				<div id="p05" class="divpage">
-					<div class="title">
-						<h2>問題與解決</h2>
-						<span class="byline"></span>
-					</div>
-					<div id="problem-stage-menu" class="sub-tabs-menu" style="width: 41%;">
-						<div class="sub-tabs-links">
-							<a href="#problem-stage1" onclick="javascript: return false;" style="font-size: larger;">第一階段<em></em></a>
-							<a href="#problem-stage2" onclick="javascript: return false;" style="font-size: larger;">第二階段<em></em></a>
-							<a href="#problem-stage3" onclick="javascript: return false;" style="font-size: larger;">第三階段<em></em></a>
-						</div>
-					</div>
-					<div id="problem-stage1" style="margin-top: 2em;">
-						<ul class="problem-ul">
-							<li>
-								<a href="#problem-01">協作平台</a>
-							</li>
-							<li>
-								<a href="#problem-02">相對路徑</a>
-							</li>
-							<li>
-								<a href="#problem-03">置中</a>
-							</li>
-							<li>
-								<a href="#problem-04">動畫</a>
-							</li>
-						</ul>
-					</div>
-					<div id="problem-stage2" style="margin-top: 2em;">
-						<ul class="problem-ul">
-							<li>
-								<a href="#problem-05">Mobile Swipe Solution</a>
-							</li>
-							<li>
-								<a href="#problem-06">中文輸入法 v.s. KeyPress</a>
-							</li>
-							<li>
-								<a href="#problem-07">Avoid CSS/js being Cached</a>
-							</li>
-							<li>
-								<a href="#problem-08">動畫效果的辛苦歷程</a>
-							</li>
-						</ul>
-					</div>
-					<div id="problem-stage3" style="margin-top: 2em;">
-					</div>
-				</div>
-			</div>
-			<div id="copyright">
+	        <div id="banner">
+	            <a href="game2048.html" target="_blank"><img src="images/game-2048-2.png" alt="" class="image-full"/></a>
+	        </div>
+	        <div class="title">
+	            <h2>緣起</h2>
+	            <span class="byline"></span>
+	        </div>
+	        <p>
+	            <span style="font-size: larger;"><strong>訴求</strong></span> 儘量少用後端技術，以<span>方便前端展示、使用流暢</span>為目標。
+	        </p>
+	        <p>
+	            <span style="font-size: larger;"><strong>決議</strong></span> 以無須Server提供資料的小遊戲為目標，因此找到 <span style="color: red; margin-right: 0;"><strong>2048</strong></span>。
+	        </p>
+	    </div>
+	        <div id="aboutus" class="main-menu">
+
+	        <div class="title">
+	            <h2>分工</h2>
+	            <span class="byline">適才適用、小材大用、無才不用</span>
+	        </div>
+	        <ul class="style1">
+	            <li class="first">
+	                <p class="date" style="width: 10em;">
+	                    <a href="#"><b>Edar.Tsai</b></a>
+	                </p>
+	                <h3>視覺總監</h3>
+	                <p>
+	                    視覺風格設計、
+	                    View 畫面製作、
+	                    喇D賽、
+	                    幫出國的人整理桌面
+	                </p>
+	            </li>
+	            <li>
+	                <p class="date" style="width: 10em;">
+	                    <a href="#"><b>Jim.Liu</b></a>
+	                </p>
+	                <h3>技術總監 & 技術顧問</h3>
+	                <p>
+	                    遊戲邏輯、
+	                    網頁版型、
+	                    喇D賽、
+	                    幫扭蛋調整姿勢、
+	                    早起晨跑
+	                </p>
+	            </li>
+	        </ul>
+	    </div>
+	        <div id="features" class="main-menu">
+
+	        <div class="title">
+	            <h2>功能</h2>
+	            <span class="byline"></span>
+	        </div>
+	        <div id="feature-stage-menu" class="sub-tabs-menu" style="width: 41%;">
+	            <div class="sub-tabs-links">
+	                <a href="#feature-stage1" onclick="javascript: return false;" style="font-size: larger;">第一階段<em></em></a>
+	                <a href="#feature-stage2" onclick="javascript: return false;" style="font-size: larger;">第二階段<em></em></a>
+	                <a href="#feature-stage3" onclick="javascript: return false;" style="font-size: larger;">第三階段<em></em></a>
+	            </div>
+	        </div>
+	        <div id="feature-stage1" style="margin-top: 2em;">
+	            <ul class="style1">
+	                <li class="first">
+	                    <p class="date">
+	                        <a href="#"><b>100%</b></a>
+	                    </p>
+	                    <h3>遊戲邏輯</h3>
+	                    <p>
+	                        <span>基礎遊戲邏輯，可以玩+可以計分就好。</span>
+	                    </p>
+	                </li>
+	                <li>
+	                    <p class="date">
+	                        <a href="#"><b>100%</b></a>
+	                    </p>
+	                    <h3>遊戲畫面</h3>
+	                    <p>
+	                        <span>簡單俐落的畫面風格。</span>
+	                    </p>
+	                </li>
+	                <li>
+	                    <p class="date">
+	                        <a href="#"><b>100%</b></a>
+	                    </p>
+	                    <h3>最高分</h3>
+	                    <p>
+	                        <span>與最強的自己競爭!!</span>
+	                    </p>
+	                </li>
+	                <li>
+	                    <p class="date">
+	                        <a href="#"><b>100%</b></a>
+	                    </p>
+	                    <h3>遊戲畫面截圖</h3>
+	                    <p>
+	                        <span>紀錄感動瞬間!!</span>
+	                    </p>
+	                </li>
+	                <li>
+	                    <p class="date">
+	                        <a href="#"><b>100%</b></a>
+	                    </p>
+	                    <h3>展示網站</h3>
+	                    <p>
+	                        <span>無套版，無裝飾，最純真的年代!!</span>
+	                    </p>
+	                </li>
+	            </ul>
+	        </div>
+	        <div id="feature-stage2" style="margin-top: 2em;">
+	            <ul class="style1">
+	                <!--<li class="first">
+	                    <p class="date">
+	                        <a href="#"><b>100%</b></a>
+	                    </p>
+	                    <h3>遊戲邏輯</h3>
+	                    <p>
+	                        <span>基礎遊戲邏輯，根據動畫需求重新撰寫，功能強大。</span>
+	                    </p>
+	                </li>-->
+	                <li class="first">
+	                    <p class="date">
+	                        <a href="#"><b>100%</b></a>
+	                    </p>
+	                    <h3>動畫效果</h3>
+	                    <p>
+	                        <span>由「移動」及「結合」兩種動作，創造流暢華麗的遊戲體驗。</span>
+	                    </p>
+	                </li>
+	                <li>
+	                    <p class="date">
+	                        <a href="#"><b>100%</b></a>
+	                    </p>
+	                    <h3>自訂陣列大小</h3>
+	                    <p>
+	                        <span>提供4X4，5X5，6X6三種陣列，增加遊戲可玩性!</span>
+	                    </p>
+	                </li>
+	                <li>
+	                    <p class="date">
+	                        <a href="#"><b>100%</b></a>
+	                    </p>
+	                    <h3>展示網站</h3>
+	                    <p>
+	                        <span>重新美化上線，永遠分享最新最棒的資訊!!</span>
+	                    </p>
+	                </li>
+	                <li>
+	                    <p class="date">
+	                        <a href="#"><b>90%</b></a>
+	                    </p>
+	                    <h3>螢幕截圖並產生網址</h3>
+	                    <p>
+	                        <span>紀錄完美瞬間!</span>
+	                    </p>
+	                </li>
+	                <li>
+	                    <p class="date">
+	                        <a href="#"><b>50%</b></a>
+	                    </p>
+	                    <h3>高分排行榜</h3>
+	                    <p>
+	                        <span>競爭!再競爭!</span>
+	                    </p>
+	                </li>
+
+	            </ul>
+	        </div>
+	        <div id="feature-stage3" style="margin-top: 2em;">
+	            <ul class="style1">
+	                <li class="first">
+	                    <p class="date">
+	                        <a href="#"><b>50%</b></a>
+	                    </p>
+	                    <h3>FB分享</h3>
+	                    <p>
+	                        <span>將感動分享給大家。</span>
+	                    </p>
+	                </li>
+	                <li>
+	                    <p class="date">
+	                        <a href="#"><b>50%</b></a>
+	                    </p>
+	                    <h3>高分排行榜</h3>
+	                    <p>
+	                        <span>競爭!再競爭!</span>
+	                    </p>
+	                </li>
+	                <li>
+	                    <p class="date">
+	                        <a href="#"><b>10%</b></a>
+	                    </p>
+	                    <h3>對戰模式</h3>
+	                    <p>
+	                        <span>一個人玩，玩膩了嗎?試試對戰模式，保證讓你嗨翻天。</span>
+	                    </p>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	        <div id="technics" class="main-menu">
+
+	        <div class="title">
+	            <h2>技術</h2>
+	            <span class="byline"></span>
+	        </div>
+	        <div id="technics-stage-menu" class="sub-tabs-menu" style="width: 41%;">
+	            <div class="sub-tabs-links">
+	                <a href="#technics-stage1" onclick="javascript: return false;" style="font-size: larger;">第一階段<em></em></a>
+	                <a href="#technics-stage2" onclick="javascript: return false;" style="font-size: larger;">第二階段<em></em></a>
+	                <a href="#technics-stage3" onclick="javascript: return false;" style="font-size: larger;">第三階段<em></em></a>
+	            </div>
+	        </div>
+	        <div id="technics-stage1" style="margin-top: 2em;">
+	            <ul class="style2">
+	                <li class="first">
+	                    <p class="date">
+	                        <a href="#"><b>目標</b></a>
+	                    </p>
+	                    <p><span style="font-weight: bolder;">遊戲功能建置</span></p>
+	                    <p><span style="font-weight: bolder;">展示網站建置</span></p>
+	                    <p><span style="font-weight: bolder;">基礎語言學習</span></p>
+	                </li>
+	                <li>
+	                    <p class="date">
+	                        <a href="#"><b>技術</b></a>
+	                    </p>
+	                    <p><span style="font-weight: bolder;">html</span></p>
+	                    <p><span style="font-weight: bolder;">javascript</span></p>
+	                    <p><span style="font-weight: bolder;">css</span></p>
+	                </li>
+	            </ul>
+	        </div>
+	        <div id="technics-stage2" style="margin-top: 2em;">
+	            <ul class="style2">
+	                <li class="first">
+	                    <p class="date">
+	                        <a href="#"><b>目標</b></a>
+	                    </p>
+	                    <p><span style="font-weight: bolder;">遊戲動畫</span></p>
+	                    <p><span style="font-weight: bolder;">網站美化工作</span></p>
+	                    <p><span style="font-weight: bolder;">最高分排行榜</span></p>
+	                </li>
+	                <li>
+	                    <p class="date">
+	                        <a href="#"><b>技術</b></a>
+	                    </p>
+	                    <p><span style="font-weight: bolder;">css/scss</span></p>
+	                    <p><span style="font-weight: bolder;">javascript/jquery</span></p>
+	                    <p><span style="font-weight: bolder;">node.js+express</span></p>
+	                    <p><span style="font-weight: bolder;">sql</span></p>
+	                </li>
+	            </ul>
+	        </div>
+	        <div id="technics-stage3" style="margin-top: 2em;">
+	            <ul class="style2">
+	                <li class="first">
+	                    <p class="date">
+	                        <a href="#"><b>目標</b></a>
+	                    </p>
+	                    <p><span style="font-weight: bolder;">RWD框架</span></p>
+	                    <p><span style="font-weight: bolder;">瀏覽器相容性</span></p>
+	                    <p><span style="font-weight: bolder;">Facebook 互動分享</span></p>
+	                    <p><span style="font-weight: bolder;">雙人對戰模式</span></p>
+	                </li>
+	                <li>
+	                    <p class="date">
+	                        <a href="#"><b>技術</b></a>
+	                    </p>
+	                    <p><span style="font-weight: bolder;">bootstrap</span></p>
+	                    <p><span style="font-weight: bolder;">facebook api</span></p>
+	                    <p><span style="font-weight: bolder;">node.js</span></p>
+	                    <p><span style="font-weight: bolder;">socket.io</span></p>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+            <div id="problems" class="main-menu">
+
+                <div class="title">
+                    <h2>問題與解決</h2>
+                    <span class="byline"></span>
+                </div>
+                <div id="problem-stage-menu" class="sub-tabs-menu" style="width: 41%;">
+                    <div class="sub-tabs-links">
+                        <a href="#problem-stage1" onclick="javascript: return false;" style="font-size: larger;">第一階段<em></em></a>
+                        <a href="#problem-stage2" onclick="javascript: return false;" style="font-size: larger;">第二階段<em></em></a>
+                        <a href="#problem-stage3" onclick="javascript: return false;" style="font-size: larger;">第三階段<em></em></a>
+                    </div>
+                </div>
+                <div id="problem-stage1" style="margin-top: 2em;">
+                    <ul class="problem-ul">
+                        <li>
+                            <a href="#problem-01">協作平台</a>
+                        </li>
+                        <li>
+                            <a href="#problem-02">相對路徑</a>
+                        </li>
+                        <li>
+                            <a href="#problem-03">置中</a>
+                        </li>
+                        <li>
+                            <a href="#problem-04">動畫</a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="problem-stage2" style="margin-top: 2em;">
+                    <ul class="problem-ul">
+                        <li>
+                            <a href="#problem-05">Mobile Swipe Solution</a>
+                        </li>
+                        <li>
+                            <a href="#problem-06">中文輸入法 v.s. KeyPress</a>
+                        </li>
+                        <li>
+                            <a href="#problem-07">Avoid CSS/js being Cached</a>
+                        </li>
+                        <li>
+                            <a href="#problem-08">動畫效果的辛苦歷程</a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="problem-stage3" style="margin-top: 2em;">
+                </div>
+            </div>
+	    	<div id="copyright">
 				<span>
 					<b>
-						Modify By
+						Edit By
 						<a href="mailto:edar@mitake.com.tw?Subject=aboutGame2048" target="_top">Edar #1021</a>
 						、
 						<a href="mailto:jim.liu@mitake.com.tw?Subject=aboutGame2048" target="_top">Jim #1025</a>
@@ -587,13 +589,14 @@ Released   : 20130902
 				</span>
 				<span>
 					<b>
-						Github: <a href="https://edartsai.github.io/TeamWork2048V2/" target="_top">https://edartsai.github.io/TeamWork2048V2/</a>
+                        WEBSITE: <a href="http://10.1.4.226:8001/" target="_top">http://10.1.4.226:8001/</a><br/>
+						GITHUB: &nbsp;<a href="https://github.com/edartsai/TeamWork2048V2/" target="_blank">https://github.com/edartsai/TeamWork2048V2/</a>
 					</b>
 				</span>
 				<!--<span>Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a></span>-->
 				<span><b>&copy; All rights reserved.</b></span>
 			</div>
-			<div id="lightbox-mask" class="lightbox">
+	    	<div id="lightbox-mask" class="lightbox">
 				<div id="lightbox-content" class="lightbox-content">
 					<div id="problem-01">
 						<table id="problems01-table">
