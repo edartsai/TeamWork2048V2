@@ -79,6 +79,7 @@
                 clearInput();
                 selectSizeOption(data[0][0].mapsize);
             });
+            
             $('#btnsend').click(function () {
                 var checkResult = checkInput();
 
@@ -90,6 +91,11 @@
                         movetimes: checkResult.movetimes,
                         ip: checkResult.ip,
                         querycount: global_rowCount
+                    });
+
+                    socket.on('add_leaderboard', function () {
+                        $('#hiddenIsshowInput').text('0');
+                        setInputDivVisible();
                     });
                 }
             });
@@ -130,7 +136,7 @@
         }
 
         function setUrlBar() {
-            window.history.pushState('leaderboard', '', '/leaderboard.html');
+            window.history.pushState('leaderboard', '', '/inputleaderboard');
         }
 
         function selectSizeOption(value) {
