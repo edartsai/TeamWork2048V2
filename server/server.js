@@ -34,7 +34,7 @@ app.get('/index2.html', function (req, res) {
 app.get('/game2048single', function (req, res) {
     var isBattleMode = "0";
     fs.readFile(
-        './pages/game2048.html',
+        './pages/game2048single.html',
         { encoding: 'utf-8' },
         function (errf, data) {
             if (!errf) {
@@ -64,11 +64,6 @@ app.get('/game2048battle', function(req, res) {
         }
     );
 });
-
-
-//app.get('/leaderboard.html', function(req, res) {
-//    res.sendFile(__dirname + '/pages/leaderboard.html');
-//});
 
 app.get('/inputleaderboard', function (req, res) {
     var score = "-1";
