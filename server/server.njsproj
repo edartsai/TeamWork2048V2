@@ -34,6 +34,7 @@
     <Compile Include="js\fb.js" />
     <Compile Include="js\initmobile.js" />
     <Compile Include="js\iscando.js" />
+    <Compile Include="js\log.js" />
     <Compile Include="js\main.js" />
     <Compile Include="js\merge.js" />
     <Compile Include="js\move.js" />

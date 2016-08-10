@@ -138,6 +138,7 @@ app.use('/js_lib', express.static('js_lib'));
 
 
 var groups = [];
+var consoleSockets = [];
 var viewerMax = 2;
 
 io.on('connection', function (socket) {
@@ -239,13 +240,24 @@ io.sockets.on('connection', function (socket) {
 
     });
 
-    // 將離線的玩家或觀戰者移除角色
+    socket.on('init_consoledata', function () {
+        if (consoleSockets.indexOf(socket) === -1)
+            consoleSockets.push(socket);
+    });
+
+    // 將離線的玩家或觀戰者移除角色 or 移除 console 觀察者
     socket.on('disconnect', function () {
 
         var userData = findUserBySocket(socket);
 
-        if (userData === undefined || userData === null)
+        if (userData === undefined || userData === null) {
+            var consoleIndex = consoleSockets.indexOf(socket);
+            if (consoleIndex === -1)
+                return;
+
+            consoleSockets.splice(consoleIndex, 1); //remove console list
             return;
+        }
 
         var group = userData.Group;
         if (group === undefined || group === null)
@@ -356,4 +368,13 @@ function findUserBySocket(socket) {
 
     return undefined;
 
+}
+
+function findConsoleIndexBySocket(socket) {
+    for (var i = 0; i < consoleSockets.length; i++) {
+        if (consoleSockets[i] === socket)
+            return i;
+    }
+
+    return undefined;
 }
