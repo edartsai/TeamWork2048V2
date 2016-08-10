@@ -66,8 +66,31 @@ app.get('/game2048battle', function(req, res) {
 });
 
 
-app.get('/leaderboard.html', function(req, res) {
-    res.sendFile(__dirname + '/pages/leaderboard.html');
+//app.get('/leaderboard.html', function(req, res) {
+//    res.sendFile(__dirname + '/pages/leaderboard.html');
+//});
+
+app.get('/inputleaderboard', function (req, res) {
+    var score = "-1";
+    var size = "4";
+    var isshow = "0";
+
+    fs.readFile(
+        './pages/leaderboard.html',
+        { encoding: 'utf-8' },
+        function (errf, data) {
+            if (!errf) {
+                //replace special tag
+                data = data.replace(/{{{score}}}/gi, score);
+                data = data.replace(/{{{size}}}/gi, size);
+                data = data.replace(/{{{isshowinput}}}/gi, isshow);
+
+                res.send(data);
+                res.end();
+            }
+        }
+    );
+
 });
 
 app.post('/inputleaderboard', function (req, res) {
@@ -126,6 +149,7 @@ io.on('connection', function (socket) {
         sql.addLeaderListItem(data, function (result) {
             if (result.returnValue === 0) {
                 getLeaderboard(socket, data.querycount, data.mapsize);
+                send2Client(socket, 'add_leaderboard', undefined);
             }
         });
     });
@@ -159,6 +183,7 @@ io.on('connection', function (socket) {
 
 io.sockets.on('connection', function (socket) {
 
+    // 玩家及觀戰者 online 時安排角色及初始化
     socket.on('init_battle', function (initmap) {
 	    var group = findEmptyGroup();
         if (group === undefined || group === null)
@@ -168,7 +193,6 @@ io.sockets.on('connection', function (socket) {
             group.player1 = socket;
             group.currentmap = initmap;
             socket.emit('init_battle', { gid: group.id, player: 1, map: group.currentmap });
-
             console.log('Init - Group' + group.id + ' Player1 SocketId:' + group.player1.id);
         }
         //else if (group.player2 === undefined) {
@@ -215,35 +239,38 @@ io.sockets.on('connection', function (socket) {
 
     });
 
-    socket.on('leave_battle', function (data) {
-	    if (data === undefined || data === null || data.gid === -1)
-		    return;
+    // 將離線的玩家或觀戰者移除角色
+    socket.on('disconnect', function () {
 
-        var group = findGroup(data.gid);
-	    if (group === undefined || group === null)
-		    return;
+        var userData = findUserBySocket(socket);
 
-	    if (group.player1 === socket) {
+        if (userData === undefined || userData === null)
+            return;
+
+        var group = userData.Group;
+        if (group === undefined || group === null)
+            return;
+
+        if (userData.Player === 1) {
             group.player1 = undefined;
             console.log('Leav - Group' + group.id + ' Player1 SocketId:' + socket.id);
-	    }
-	    if (group.player2 === socket) {
+        }
+        if (userData.Player === 2) {
             group.player2 = undefined;
             console.log('Leav - Group' + group.id + ' Player2 SocketId:' + socket.id);
         }
-        else {
-		    var index = group.viewers.indexOf(socket);
+        else if (userData.Player === 0) {
+            var index = group.viewers.indexOf(socket);
 
             if (index !== -1) {
-	            arrayRemove(group.viewers, index);
+                arrayRemove(group.viewers, index);
                 console.log('Leav - Group' + group.id + ' Player0 SocketId:' + socket.id);
-		    }
-		    
-	    }
+            }
+
+        }
 
     });
 
-    //todo: heartbeat 檢查斷線機制(移除已離開的玩家或觀察者)
 });
 
 function getLeaderboard(socket, rowcount, mapsize) {
@@ -260,8 +287,11 @@ function getLeaderboard(socket, rowcount, mapsize) {
     );
 }
 
-function send2Client (socket, cmd, data) {
-    socket.emit(cmd, data);
+function send2Client(socket, cmd, data) {
+    if (data !== undefined)
+        socket.emit(cmd, data);
+    else
+        socket.emit(cmd);
 }
 
 function genGroup() {
@@ -306,4 +336,24 @@ function arrayRemove(array, index) {
         return;
 
 	array.splice(index, 1);
+}
+
+function findUserBySocket(socket) {
+    for (var i = 0; i < groups.length; i++) {
+        var group = groups[i];
+        if (group.player1 === socket) {
+            return { Group: group, Player: 1 };
+        }
+        if (group.player2 === socket) {
+            return { Group: group, Player: 2 };
+        }
+        for (var j = 0; j < group.viewers.length; j++) {
+            var viewer = group.viewers[j];
+            if (viewer === socket)
+                return { Group: group, Player: 0 };
+        }
+    }
+
+    return undefined;
+
 }

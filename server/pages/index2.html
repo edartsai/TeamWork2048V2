@@ -33,18 +33,17 @@ Released   : 20130902
 		$(document).ready(function () {
 
 			/* 主畫面左側 menu 對應 main 大區塊  */
-			$("#menu-ul li>a").click(function () {
+			$("#menu-ul>li>a").click(function () {
 				var className = 'current_page_item';
 				$('#menu-ul>li').removeClass(className);
 				$(this).parent().addClass(className);
-
 			});
-			$("#menu-ul li>a:nth(0)").click();
+			$("#menu-ul>li>a:nth(0)").click();
 			/* 主畫面左側 menu 對應 main 大區塊 END */
 
 			/* 「功能」 menu 對應 三階段區塊  */
-			$("#feature-stage-menu div a").click(function () {
-				$("#feature-stage-menu div a").removeClass("this-on");
+			$("#feature-stage-menu>div>a").click(function () {
+				$("#feature-stage-menu>div>a").removeClass("this-on");
 				$(this).addClass("this-on");
 
 				$("#feature-stage1").hide();
@@ -59,12 +58,12 @@ Released   : 20130902
 				}
 
 			});
-			$("#feature-stage-menu div a:nth(1)").click();
+			$("#feature-stage-menu>div>a:nth(1)").click();
 			/* 「功能」 menu 對應 三階段區塊 END */
 
 			/* 「技術」 menu 對應 三階段區塊  */
-			$("#technics-stage-menu div a").click(function () {
-				$("#technics-stage-menu div a").removeClass("this-on");
+			$("#technics-stage-menu>div>a").click(function () {
+				$("#technics-stage-menu>div>a").removeClass("this-on");
 				$(this).addClass("this-on");
 
 				$("#technics-stage1").hide();
@@ -80,12 +79,12 @@ Released   : 20130902
 
 
 			});
-			$("#technics-stage-menu div a:nth(1)").click();
+			$("#technics-stage-menu>div>a:nth(1)").click();
 			/* 「技術」 menu 對應 三階段區塊 END */
 
 			/* 「問題」 menu 對應 三階段區塊  */
-			$("#problem-stage-menu div a").click(function () {
-				$("#problem-stage-menu div a").removeClass("this-on");
+			$("#problem-stage-menu>div>a").click(function () {
+				$("#problem-stage-menu>div>a").removeClass("this-on");
 				$(this).addClass("this-on");
 
 				$("#problem-stage1").hide();
@@ -101,12 +100,12 @@ Released   : 20130902
 					div.show();
 				}
 			});
-			$("#problem-stage-menu div a:nth(1)").click();
+			$("#problem-stage-menu>div>a:nth(1)").click();
 			/* 「問題」 menu 對應 三階段區塊 END */
 
 			/* 「問題」 sub lightbox 區塊  */
 			$("#lightbox-mask").hide();
-			$(".problem-ul li a").click(function () {
+			$(".problem-ul>li>a").click(function () {
 				//document.body.style.overflow = "hidden";
 				$('body').css({ overflow: 'hidden' });
 
@@ -131,6 +130,7 @@ Released   : 20130902
 			});
 			/* 「問題」 sub lightbox 區塊 END */
 
+			
 
 			/* 捲軸捲動  */
 			$(document).scroll(function () {
@@ -155,7 +155,7 @@ Released   : 20130902
 
 				var className = 'current_page_item';
 				$('#menu-ul>li').removeClass(className);
-				var selectedMenu = $("#menu-ul li>a[href='#" + selected.attr('id') + "']");
+				var selectedMenu = $("#menu-ul>li>a[href='#" + selected.attr('id') + "']");
 				if (selectedMenu === undefined || selectedMenu === null)
 					return;
 
@@ -166,8 +166,8 @@ Released   : 20130902
 			/* 捲軸捲動 end */
 
 			/* 「問題」 menu 對應 動畫效果的辛苦歷程  */
-			$("#problem08-stage-menu div a").click(function () {
-				$("#problem08-stage-menu div a").removeClass("this-on");
+			$("#problem08-stage-menu>div>a").click(function () {
+				$("#problem08-stage-menu>div>a").removeClass("this-on");
 				$(this).addClass("this-on");
 
 				$("#problem08-stage1").hide();
@@ -183,7 +183,7 @@ Released   : 20130902
 					div.show();
 				}
 			});
-			$("#problem08-stage-menu div a:nth(0)").click();
+			$("#problem08-stage-menu>div>a:nth(0)").click();
 			/* 「問題」 menu 對應 動畫效果的辛苦歷程  end*/
 
 
@@ -442,7 +442,7 @@ Released   : 20130902
 	                </li>
 	                <li>
 	                    <p class="date">
-	                        <a href="#"><b>10%</b></a>
+	                        <a href="#"><b>40%</b></a>
 	                    </p>
 	                    <h3>對戰模式</h3>
 	                    <p>

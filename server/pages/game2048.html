@@ -67,12 +67,6 @@
         }
     });
 
-    $(window).unload(function () {
-    	if (isBattleMode) {
-    		socket.emit('leave_battle', groupInfo);
-    	}
-    });
-
     function moveLeft() {
         if (Move(mapObj, DIRECTION.LEFT, prevObj)) {
             boxsmove(mapObj, prevObj);      //動畫+重繪數字
