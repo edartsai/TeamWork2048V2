@@ -74,6 +74,14 @@ function EnableRollbackButton() {
     document.getElementById("rollbackbtn").disabled = false;
 }
 
+function DisableReadyButton() {
+    document.getElementById("readybtn").disabled = true;
+}
+
+function EnableReadyButton() {
+    document.getElementById("readybtn").disabled = false;
+}
+
 function SetRollbackBtn(times) {
     if (times > 0)
         EnableRollbackButton();

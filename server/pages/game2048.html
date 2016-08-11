@@ -43,18 +43,14 @@
 
     var defaultTimesLeft = 3;
     var rollbackLeft = defaultTimesLeft;
-    var isBattleMode;
 
-    var groupInfo = {
-    	gid: -1,
-    	player: 0,
-		map :  undefined
+    var roomInfo = {
+    	id: -1,
+    	player: 0
     };
 
     $(document).ready(function () {
         document.onkeydown = keyFunction;
-
-	    isBattleMode = getIsBattleMode();
 
         //使用行動裝置
         InitMobile();
@@ -62,9 +58,7 @@
         reset(false);
 
     	// 必須放在 reset 之後
-        if (isBattleMode) {
-            initBattle();
-        }
+        initBattle();
     });
 
     function moveLeft() {
@@ -114,13 +108,14 @@
     }
 
     function reset(isNeedSend) {
-        var size = $("select#matrixSize").val();
+        //var size = $("select#matrixSize").val();
+        var size = 4;
         createMitrixDiv(size);          //畫上 Grid
         resetRollbackTimes();           //重設 rollback time
         Init(mapObj, size);             //Init Data
         Clone(mapObj, prevObj);         //紀錄狀態
-		if(isNeedSend !== undefined && isNeedSend)
-			sendMove(mapObj);               //send move obj to server
+		if(isNeedSend)
+			sendMove(mapObj);           //send move obj to server
         
         MappingArrayData(mapObj);       //重繪數字
 
@@ -228,57 +223,124 @@
         });
     }
 
-    //選取尺寸
-    function changeMatrixSize() {
-        this.blur();
-        reset(true);
-    }
-
-    function getIsBattleMode() {
-	    return ($('#isbattlemodespan').text() === "1");
-    }
+    ////選取尺寸
+    //function changeMatrixSize() {
+    //    this.blur();
+    //    reset(true);
+    //}
 
     function initBattle() {
-    	socket.emit('init_battle', mapObj);
+        isCanClick = false;     // 關閉 keycode 控制
+        DisableResetButton();   // 關閉 Button
+        DisableRollbackButton();// 關閉 Button
+        DisableReadyButton();   // 關閉 Button
 
-    	socket.on('init_battle', function (result) {
-		    groupInfo.gid = result.gid;
-		    groupInfo.player = result.player;
-		    groupInfo.map = result.map;
+    	socket.emit('init_room');
 
-            // 觀戰者模式
-            if (groupInfo.player === 0) {
-                isCanClick = false;     // 關閉 keycode 控制
-                DisableResetButton();   // 關閉 Button
-                DisableRollbackButton();// 關閉 Button
+        // server 回傳安排的 room & player
+    	socket.on('init_room', function (result) {
+            roomInfo.id = result.id;
+            roomInfo.player = result.player;
+        });
 
-                if (groupInfo.map !== undefined) {
-                	MappingArrayData(groupInfo.map);
-                }
-                $('#viewerTitle').show();
-            } else {
-                isCanClick = true;
-                EnableResetButton();   // 開啟 Button
-                EnableRollbackButton();// 開啟 Button
+        // server 回傳 對手進入房間
+        socket.on('init_room_opposite', function () {
+            //todo:
+            setMsg('Opposite is in room');
+        });
 
-                $('#viewerTitle').hide();
+        // server 回傳 滿房
+        socket.on('init_room_full', function () {
+            socket.emit('init_game', roomInfo);
+        });
+
+        // server 回傳 已可點擊 Ready btn
+        socket.on('init_ready', function () {
+            isCanClick = false;     // 關閉 keycode 控制
+            DisableResetButton();   // 關閉 Button
+            DisableRollbackButton();// 關閉 Button
+
+            //unlock ready btn
+            EnableReadyButton();
+        });
+
+        // 點擊送出 ready 
+        $('#readybtn').click(function() {
+            DisableReadyButton();
+            reset(false);
+            socket.emit('send_ready', { id: roomInfo.id, map: mapObj });
+        });
+
+        // server 回傳 對手 已ready
+        socket.on('send_ready_opposite', function (oppoInitmap) {
+            setMsg('opposite is ready');
+            if (oppoInitmap !== undefined) {
+                //todo:
+                //MappingArrayData_Oppo(oppoInitmap); 
             }
         });
 
-    	//註冊接收 Server 傳來的物件
-        socket.on('send_battle', function (map) {
-        	if (groupInfo.player === 0) {
-        		MappingArrayData(map);
-        	}
+        // server 回傳 第一階段倒數
+        socket.on('send_countdown1', function (secs) {
+            $('#gametimespan').text(ConvertSeconds2String(secs));
         });
+
+        // server 回傳 第一階段倒數結束 (遊戲開始可操作)
+        socket.on('send_countdown1_over', function () {
+            isCanClick = true;      // 開啟 keycode 控制
+            EnableResetButton();    // 開啟 Button
+            EnableRollbackButton(); // 開啟 Button
+        });
+
+        // server 回傳 第二階段倒數
+        socket.on('send_countdown2', function (secs) {
+            if (secs === undefined)
+                return;
+            var ss = ConvertSeconds2String(secs);
+            $('#gametimespan').text(ss);
+        });
+
+        // server 回傳 第二階段倒數
+        socket.on('send_countdown2_over', function () {
+            setMsg('Game Over!!');
+
+            isCanClick = false;     // 關閉 keycode 控制
+            DisableResetButton();   // 關閉 Button
+            DisableRollbackButton();// 關閉 Button
+
+            EnableReadyButton();
+        });
+
+        // server 回傳 比賽結果(game over)
+        socket.on('send_winner', function (data) {
+            if (data === undefined || data === null)
+                return;
+            
+            if(data.winner !== 0)
+                setMsg('winner is player' + data.winner + ' score:' + data.map[0].Score);
+            else
+                setMsg('game is tie ,score:' + data.map[0].Score);
+        });
+
+    	socket.on('send_map', function (oppoMap) {
+    	    if (oppoMap !== undefined) {
+                //todo:
+    	        //MappingArrayData_Oppo(oppoMap);
+    	    }
+    	});
+
+        socket.on('disconnect_opposite', function() {
+            setMsg('Opposite leaved');
+        });
+
     }
 
     function sendMove(map) {
-    	if (isBattleMode) {
-		    groupInfo.map = map;
+        socket.emit('send_map', { id: roomInfo.id, map: map });
+    }
 
-		    socket.emit('send_battle', groupInfo);
-	    }
+    function setMsg(msg) {
+        $('#gamemsgspan').text(msg);
     }
 </script>
 
@@ -327,11 +389,11 @@
     </div>
 </div>
 
-<select id="matrixSize" onchange="changeMatrixSize()">
+<!--<select id="matrixSize" onchange="changeMatrixSize()">
     <option value="4" selected="selected">4X4</option>
     <option value="5">5X5</option>
     <option value="6">6X6</option>
-</select>
+</select>-->
 
 <div id="developing-div">
 	<br/>
@@ -339,12 +401,16 @@
 	<button id="capturebtn" type="submit" onclick="capture()">
 		<span>UploadScreenshot</span>
 	</button>
-	<br/>
-	<span id="viewerTitle" style="display: none;">You're in Viewer Mode</span>
-</div>
-
-<div style="display: none;">
-	<span id="isbattlemodespan">{{{isbattlemode}}}</span>
+    <br/>
+    <div>
+        <span id="gametimespan" ></span>
+    </div>
+    <div>
+        <span id="gamemsgspan"></span>
+    </div>
+    <div>
+        <input type="button" id="readybtn" value="ready"/>
+    </div>
 </div>
 
 </body>

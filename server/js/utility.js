@@ -193,3 +193,34 @@ function parseURLParams(url) {
     }
     return parms;
 }
+
+
+function ConvertSeconds2String(secs) {
+    if (secs >= 0) {
+        var s = secs % 60;
+        var m = ((secs - s) / 60);
+        var sStr = FormatLength("" + s, 2, '0');
+        var mStr = FormatLength("" + m, 2, '0');
+
+        return mStr + ":" + sStr;
+    }
+
+    return "00:00";
+}
+
+function FormatLength(str, length, paddingChar) {
+    var diffLength = length - str.length;
+
+    if (diffLength <= 0)
+        return str;
+
+    var rtnStr = "";
+
+    for (var i = 0; i < diffLength; i++) {
+        rtnStr += paddingChar;
+    }
+
+    rtnStr += str;
+
+    return rtnStr;
+}
