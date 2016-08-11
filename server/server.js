@@ -6,14 +6,14 @@ var fs = require('fs');
 var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
-io.set('heartbeat timeout', 300);
 
 
 var sql = require(__dirname + '/js/sql.js');
 var clog = require(__dirname + '/js/log.js');
 
-server.listen(8001, function() {
-    clog.consoleLog('ready on port 8001');
+
+server.listen(9001, function() {
+    clog.consoleLog(1, 'listen', 'ready on port 9001');
 });
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -121,9 +121,12 @@ app.post('/inputleaderboard', function (req, res) {
 
 });
 
-
 app.get('/screenshot.html', function (req, res) {
     res.sendFile(__dirname + '/pages/screenshot.html');
+});
+
+app.get('/console', function (req, res) {
+    res.sendFile(__dirname + '/pages/console.html');
 });
 
 app.use('/pages', express.static('pages'));
@@ -191,7 +194,7 @@ io.sockets.on('connection', function (socket) {
         if (room.player1 === undefined) {
             room.player1 = socket;
             socket.emit('init_room', { id: room.id, player: 1 });
-            clog.consoleLog('init_room room:' + room.id + ' p1:' + room.player1.id);
+            clog.consoleLog(0, 'init_room', 'room:' + room.id + ' p1:' + room.player1.id);
 
             if (room.player2 !== undefined) {
                 room.player2.emit('init_room_opposite');
@@ -201,7 +204,7 @@ io.sockets.on('connection', function (socket) {
         else if (room.player2 === undefined) {
             room.player2 = socket;
             socket.emit('init_room', { id: room.id, player: 2 });
-            clog.consoleLog('init_room room:' + room.id + ' p2:' + room.player2.id);
+            clog.consoleLog(0, 'init_room', 'room:' + room.id + ' p2:' + room.player2.id);
 
             if (room.player1 !== undefined) {
                 room.player1.emit('init_room_opposite');
@@ -210,7 +213,7 @@ io.sockets.on('connection', function (socket) {
 
         if (room.player1 !== undefined && room.player2 !== undefined ) {
             sendPlayersEvent(room, 'init_room_full', undefined);
-            clog.consoleLog('init_room_full room:' + room.id );
+            clog.consoleLog(1, 'init_room_full', 'room:' + room.id );
         }
     });
 
@@ -222,18 +225,18 @@ io.sockets.on('connection', function (socket) {
 
         if (room.player1 === socket) {
             room.gamestatus.p1agreenext = true;
-            clog.consoleLog('init_game room:' + room.id + ' p1:' + room.player1.id);
+            clog.consoleLog(0, 'init_game', 'room:' + room.id + ' p1:' + room.player1.id);
         }
         else if (room.player2 === socket) {
             room.gamestatus.p2agreenext = true;
-            clog.consoleLog('init_game room:' + room.id + ' p2:' + room.player2.id);
+            clog.consoleLog(0, 'init_game', 'room:' + room.id + ' p2:' + room.player2.id);
         }
 
         if (room.gamestatus.p1agreenext && room.gamestatus.p2agreenext) {
             initGameStatus(room);
 
             sendPlayersEvent(room, 'init_ready', undefined);
-            clog.consoleLog('init_ready room:' + room.id );
+            clog.consoleLog(1, 'init_ready', 'room:' + room.id );
         }
     });
 
@@ -246,7 +249,7 @@ io.sockets.on('connection', function (socket) {
         if (socket === room.player1) {
             room.gamestatus.p1ready = true;
             room.gamestatus.p1map = data.map;
-            clog.consoleLog('send_ready room:' + room.id + ' p1:' + room.player1.id);
+            clog.consoleLog(0, 'send_ready', 'room:' + room.id + ' p1:' + room.player1.id);
 
             if (room.player2 !== undefined) {
                 room.player2.emit('send_ready_opposite', data.map);
@@ -254,7 +257,7 @@ io.sockets.on('connection', function (socket) {
         } else if (socket === room.player2) {
             room.gamestatus.p2ready = true;
             room.gamestatus.p2map = data.map;
-            clog.consoleLog('send_ready room:' + room.id + ' p2:' + room.player2.id);
+            clog.consoleLog(0, 'send_ready', 'room:' + room.id + ' p2:' + room.player2.id);
 
             if (room.player1 !== undefined) {
                 room.player1.emit('send_ready_opposite', data.map);
@@ -270,7 +273,7 @@ io.sockets.on('connection', function (socket) {
 
         if (socket === room.player1) {
             room.gamestatus.p1map = data.map;
-            clog.consoleLog('send_map room:' + room.id + ' p1:' + room.player1.id);
+            clog.consoleLog(0, 'send_map', 'room:' + room.id + ' p1:' + room.player1.id);
 		    if (room.player2 !== undefined) {
                 room.player2.emit('send_map_opposite', data.map);
 		    }
@@ -278,7 +281,7 @@ io.sockets.on('connection', function (socket) {
 
         if (socket === room.player2) {
             room.gamestatus.p2map = data.map;
-            clog.consoleLog('send_map room:' + room.id + ' p2:' + room.player2.id);
+            clog.consoleLog(0, 'send_map', 'room:' + room.id + ' p2:' + room.player2.id);
             if (room.player1 !== undefined) {
                 room.player1.emit('send_map_opposite', data.map);
             }
@@ -300,6 +303,7 @@ io.sockets.on('connection', function (socket) {
 
                     interval1 = room.gamestatus.countdown1.getTime() - nDate.getTime();
                     sendPlayersEvent(room, 'send_countdown1', Math.ceil(interval1 / 1000));
+                    clog.consoleLog(1, 'send_countdown1', 'room:' + room.id + ' game started');
                 }
                 else { //遊戲已開始
                     interval1 = room.gamestatus.countdown1.getTime() - nDate.getTime(); //in msecond
@@ -319,14 +323,14 @@ io.sockets.on('connection', function (socket) {
                         room.gamestatus.starting = false;
                         sendPlayersEvent(room, 'send_countdown2', 0);
                         sendPlayersEvent(room, 'send_countdown2_over');
-                        clog.consoleLog('send_countdown2_over room:' + room.id );
+                        clog.consoleLog(1 ,'send_countdown2_over', 'room:' + room.id );
 
                         var winnerData = getWinner(room);
                         sendPlayersEvent(room, 'send_winner', winnerData);
                         if (winnerData === undefined || winnerData === null)
-                            clog.consoleLog('send_winner room:' + room.id + ' winner: error');
+                            clog.consoleLog(1, 'send_winner', 'room:' + room.id + ' winner: error');
                         else
-                            clog.consoleLog('send_winner room:' + room.id + ' winner:' + winnerData.winner + ' score:' + winnerData.map[0].Score);
+                            clog.consoleLog(1, 'send_winner', 'room:' + room.id + ' winner:' + winnerData.winner + ' score:' + winnerData.map[0].Score);
                     }
                 }
             }
@@ -335,15 +339,15 @@ io.sockets.on('connection', function (socket) {
 
 
     // add console user
-    socket.on('add_consoleuser', function () {
-        clog.addConsoleUser(socket);
-        clog.consoleLog('add_consoleuser:' + socket.id);
+    socket.on('add_consoleuser', function (loglevel) {
+        clog.addConsoleUser(loglevel, socket);
+        clog.consoleLog(1, 'add_consoleuser', 'id:' + socket.id + ' users:' + clog.getConsoleUserCount() );
     });
 
     // 將離線的玩家移除 or remove console user
     socket.on('disconnect', function () {
         if (clog.removeConsoleUser(socket)) {
-            clog.consoleLog('disconnect console:' + socket.id + ' user left:' + clog.getConsoleUserCount());
+            clog.consoleLog(1, 'leave consoleuser', 'id:' + socket.id + ' users:' + clog.getConsoleUserCount());
             return;
         }
 
@@ -355,7 +359,7 @@ io.sockets.on('connection', function (socket) {
 
         if (room.player1 === socket) {
             room.player1 = undefined;
-            clog.consoleLog('disconnect room:' + room.id + ' p1:' + socket.id);
+            clog.consoleLog(1, 'disconnect', 'room:' + room.id + ' p1:' + socket.id);
 
             if (room.player2 !== undefined) {
                 room.player2.emit('disconnect_opposite');
@@ -363,7 +367,7 @@ io.sockets.on('connection', function (socket) {
         }
         if (room.player2 === socket) {
             room.player2 = undefined;
-            clog.consoleLog('disconnect room:' + room.id + ' p2:' + socket.id);
+            clog.consoleLog(1, 'disconnect', 'room:' + room.id + ' p2:' + socket.id);
 
             if (room.player1 !== undefined) {
                 room.player1.emit('disconnect_opposite');
