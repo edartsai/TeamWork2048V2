@@ -1,0 +1,7 @@
+﻿@import url(http://fonts.googleapis.com/earlyaccess/notosanstc.css);
+	body
+	{
+		/*font-family: 'Source Sans Pro', sans-serif;*/
+	    font-family: 'Noto Sans TC', sans-serif,'FontAwesome';
+        font-weight: 300;
+	}

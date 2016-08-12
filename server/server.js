@@ -2,7 +2,6 @@
 var bodyParser = require('body-parser');
 var app = express();
 var fs = require('fs');
-
 var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
@@ -32,6 +31,10 @@ app.get('/index.html', function (req, res) {
 
 app.get('/index2.html', function (req, res) {
     res.sendFile(__dirname + '/pages/index2.html');
+});
+
+app.get('/index3.html', function (req, res) {
+    res.sendFile(__dirname + '/pages/index3.html');
 });
 
 app.get('/game2048single', function (req, res) {
