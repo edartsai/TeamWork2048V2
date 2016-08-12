@@ -1,0 +1,71 @@
+﻿	
+	.transition-duration,
+	.transition-duration a,
+	.transition-duration img{
+		-webkit-transition-duration: 0.4s;
+		-moz-transition-duration: 0.4s;
+		-o-transition-duration: 0.4s;
+	}
+	/*
+	纯CSS常用Sub Tab扁平化导航菜单，兼容IE7+
+	Copyright  (c) 2006-2015 [DR] Kunming Dongring INC  All rights reserved.
+	www.dongring.com 
+	Author: ygzhang <ygzhang.cn@msn.com><qq 97572655>
+	*/
+
+	.sub-tabs-menu{position:relative;z-index:1;clear:both;overflow:hidden;margin:auto;padding:0;height:50px;background-color:transparent;}
+	.sub-tabs-menu .sub-tabs-line{position:absolute;bottom:0;left:0;z-index:2;overflow:hidden;width:100%;height:49px;border-bottom:1px solid #ccc;}
+	.sub-tabs-menu .sub-tabs-links{position:absolute;bottom:0;left:0;z-index:3;overflow:hidden;width:100%;height:49px;text-overflow:ellipsis;}
+	.sub-tabs-links a,
+	.sub-tabs-links .this-title{position:relative;z-index:4;float:left;display:block;margin:0;padding:0 15px;height:49px;line-height:49px;color:#333;text-align: center;text-decoration:none;text-overflow:ellipsis;font-weight:700;font-size:14px;overflow:hidden;}
+	.sub-tabs-links .this-title{font-size:16px;}
+	.sub-tabs-links a h1,
+	.sub-tabs-links a p,
+	.sub-tabs-links .this-title h1,
+	.sub-tabs-links .this-title p{margin: 0;padding: 0;text-align: center;}
+	.sub-tabs-links a i,
+	.sub-tabs-links .this-title i{float:left;margin:8px 10px 0 0px;color:#999;font-size:18px;font-weight: normal;}
+	.sub-tabs-links .this-title i{margin:8px 10px 0 -15px;}
+	.sub-tabs-links a em,
+	.sub-tabs-links .this-title em{position:absolute;bottom:0;left:0;z-index:5;margin:0;padding:0;width:100%;height:5px;background: transparent;overflow:hidden;}
+	.sub-tabs-links a:hover,
+	.sub-tabs-links a.this-hover{color: #ff9900}
+	.sub-tabs-links .this-on,
+	.sub-tabs-links .this-on:hover{color:#2980b9;}
+
+	.sub-tabs-links a:hover em,
+	.sub-tabs-links a.this-hover em{background: #ff9900}
+	.sub-tabs-links .this-on em,
+	.sub-tabs-links .this-on:hover em,
+	.sub-tabs-links .this-title-on{background: #2980b9;color: #fff}
+
+
+	.sub-tabs-menu-rows{height:65px;}
+	.sub-tabs-menu-rows .sub-tabs-line{height:64px;}
+	.sub-tabs-menu-rows .sub-tabs-links{height:64px;}
+	.sub-tabs-menu-rows .sub-tabs-links a,
+	.sub-tabs-menu-rows .sub-tabs-links .this-title{height:64px;line-height:80px;font-size:16px;}	
+	.sub-tabs-menu-rows .sub-tabs-links a h1{height:36px;line-height: 36px;font-size:16px;}
+	.sub-tabs-menu-rows .sub-tabs-links a p{height:16px;line-height: 16px;font-size:12px;}
+	.sub-tabs-menu-rows .sub-tabs-links .this-title h1{height:36px;line-height: 36px;font-size:16px;}
+	.sub-tabs-menu-rows .sub-tabs-links .this-title p{height:16px;line-height: 16px;font-size:12px;}
+	/*
+	纯CSS常用Sub Tab扁平化导航菜单，兼容IE7+
+	Copyright  (c) 2006-2015 [DR] Kunming Dongring INC  All rights reserved.
+	www.dongring.com 
+	Author: ygzhang <ygzhang.cn@msn.com><qq 97572655>
+	*/
+	.sub-tabs-menu-left{width:200px;height:100%;}
+	.sub-tabs-menu-left .sub-tabs-line{width:199px;height:100%;border-bottom: none;border-right: 1px solid #ccc}
+	.sub-tabs-menu-left .sub-tabs-links{width:199px;height:100%;}
+	.sub-tabs-menu-left .sub-tabs-links a,
+	.sub-tabs-menu-left .sub-tabs-links .this-title{float:none;height:49px;line-height:49px;font-size:16px;}	
+	.sub-tabs-menu-left .sub-tabs-links a h1{height:36px;line-height: 36px;font-size:16px;}
+	.sub-tabs-menu-left .sub-tabs-links a p{height:16px;line-height: 16px;font-size:12px;}
+	.sub-tabs-menu-left .sub-tabs-links .this-title h1{height:36px;line-height: 36px;font-size:16px;}
+	.sub-tabs-menu-left .sub-tabs-links .this-title p{height:16px;line-height: 16px;font-size:12px;}
+	.sub-tabs-menu-left .sub-tabs-links a em,
+	.sub-tabs-menu-left .sub-tabs-links .this-title em{bottom:0;left:auto;right:0;width:5px;height:100%;}
+
+	.sub-tabs-menu-rows.sub-tabs-menu-left .sub-tabs-links a,
+	.sub-tabs-menu-rows.sub-tabs-menu-left .sub-tabs-links .this-title{float:none;height:64px;line-height:80px;font-size:16px;}

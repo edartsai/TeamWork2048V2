@@ -1,0 +1,742 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by TEMPLATED
+http://templated.co
+Released for free under the Creative Commons Attribution License
+
+Name       : Skeleton
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20130902
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Game 2048 Demo Website v2</title>
+	<link rel="shortcut icon" href="images/favicon.ico" />      
+
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+	<link href="css/subtabs.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="css/fonts.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="css/lightbox.css" rel="stylesheet" />
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function () {
+
+			/* 主畫面左側 menu 對應 main 大區塊  */
+			$("#menu-ul li a").click(function () {
+				var className = 'current_page_item';
+				$('#menu-ul').children().removeClass(className);
+				$(event.target).parent().addClass(className);
+			});
+			/* 主畫面左側 menu 對應 main 大區塊 END */
+
+			/* 「功能」 menu 對應 三階段區塊  */
+			$("#feature-stage-menu div a").click(function () {
+				$("#feature-stage-menu div a").removeClass("this-on");
+				$(this).addClass("this-on");
+
+				$("#feature-stage1").hide();
+				$("#feature-stage2").hide();
+				$("#feature-stage3").hide();
+
+				var href = $(this).attr("href");
+
+				var div = GetDivByHerf(href);
+				if (div !== null && div !== undefined) {
+					div.show();
+				}
+
+
+			});
+			$("#feature-stage-menu div a:first").click();
+			/* 「功能」 menu 對應 三階段區塊 END */
+
+			/* 「技術」 menu 對應 三階段區塊  */
+			$("#technics-stage-menu div a").click(function () {
+				$("#technics-stage-menu div a").removeClass("this-on");
+				$(this).addClass("this-on");
+
+				$("#technics-stage1").hide();
+				$("#technics-stage2").hide();
+				$("#technics-stage3").hide();
+
+				var href = $(this).attr("href");
+
+				var div = GetDivByHerf(href);
+				if (div !== null && div !== undefined) {
+					div.show();
+				}
+
+
+			});
+			$("#technics-stage-menu div a:first").click();
+			/* 「技術」 menu 對應 三階段區塊 END */
+
+			/* 「問題」 menu 對應 三階段區塊  */
+			$("#problem-stage-menu div a").click(function () {
+				$("#problem-stage-menu div a").removeClass("this-on");
+				$(this).addClass("this-on");
+
+				$("#problem-stage1").hide();
+				$("#problem-stage2").hide();
+				$("#problem-stage3").hide();
+				$("#problem-stage4").hide();
+				$("#problem-stage5").hide();
+
+				var href = $(this).attr("href");
+
+				var div = GetDivByHerf(href);
+				if (div !== null && div !== undefined) {
+					div.show();
+				}
+			});
+			$("#problem-stage-menu div a:first").click();
+			/* 「問題」 menu 對應 三階段區塊 END */
+
+			/* 「問題」 sub lightbox 區塊  */
+			$("#lightbox-mask").hide();
+			$(".problem-ul li a").click(function () {
+				document.body.style.overflow = "hidden";
+
+				$('#lightbox-content div').hide(); //全部 div hide
+				var div = GetDivByHerf($(this).attr("href"));
+				if (div !== null && div !== undefined)
+					div.show();
+
+
+				$("#lightbox-mask").show();
+				return false;
+			});
+
+			//點視窗任何區域時
+			$(window).click(function (event) {
+				if (event.target === $("#lightbox-mask")[0]) {
+					$("#lightbox-mask").hide();
+					document.body.style.overflow = "scroll";
+				}
+			});
+			/* 「問題」 sub lightbox 區塊 END */
+
+
+			/* 捲軸捲動時，自動將左側 Menu 跳到對應位置  */
+			$(document).scroll(function () {
+				var distance = 10000;
+				var selected;
+				var scrolloffset = $(document).scrollTop();
+
+				$(".main-menu").each(function (i, obj) {
+					var item = $(obj);
+					var position = item.position().top;
+					var d = scrolloffset - position;
+					if (d > -130 && d < distance) {  // -130 為寬容值 (滑動會比較 smooth)
+						selected = item;
+						distance = d;
+					}
+				});
+
+				if (selected === undefined)
+					return;
+
+				var className = 'current_page_item';
+				$('#menu-ul').children().removeClass(className);
+				var selectedMenu = $("#menu-ul li a[href='#" + selected.attr('id') + "']");
+				if (selectedMenu === undefined || selectedMenu === null)
+					return;
+
+				selectedMenu.parent().addClass(className);
+			});
+			/* 捲軸捲動時，自動將左側 Menu 跳到對應位置 end */
+
+		});
+
+		function GetDivByHerf(hrefstring) {
+			var tempdiv;
+			try {
+				tempdiv = $(hrefstring);
+				return tempdiv;
+			}
+			catch (err) {
+				return undefined;
+			}
+		}
+
+	</script>
+
+	<div id="page" class="container">
+		<div id="header" style="position: fixed;">
+			<div id="logo">
+				<img src="images/2048-icon2.png" alt="" height="45" width="45" />
+				<h1>
+					<a href="#">Game2048</a>
+				</h1>
+			</div>
+			<div id="menu">
+				<ul id="menu-ul">
+					<li class="current_page_item"><a href="#aboutus" title="" accesskey="1">About Us</a></li>
+					<li><a href="#features" accesskey="2" title="">Features</a></li>
+					<li><a href="#technics" accesskey="3" title="">Technics</a></li>
+					<li><a href="#problems" accesskey="4" title="">Problems &amp; Solutions</a></li>
+					<li><a href="game2048.html" target="_blank" title="">Demo</a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="main">
+			<div id="aboutus" class="main-menu">
+				<div id="p01" class="divpage">
+					<div id="banner">
+						<img src="images/game-2048-2.png" alt="" class="image-full" />
+					</div>
+					<div class="title">
+						<h2>緣起</h2>
+						<span class="byline"></span>
+					</div>
+					<p>
+						<span style="font-size: larger;"><strong>訴求</strong></span> 儘量少用後端技術，以<span>方便前端展示、使用流暢</span>為目標。
+					</p>
+					<p>
+						<span style="font-size: larger;"><strong>決議</strong></span> 以無須Server提供資料的小遊戲為目標，因此找到 <span style="color: red; margin-right: 0;"><strong>2048</strong></span>。
+					</p>
+				</div>
+				<div id="p02" class="divpage">
+					<div class="title">
+						<h2>分工</h2>
+						<span class="byline">適才適用、小材大用、無才不用</span>
+					</div>
+					<ul class="style1">
+						<li class="first">
+							<p class="date" style="width: 10em;">
+								<a href="#"><b>Edar.Tsai</b></a>
+							</p>
+							<h3>視覺總監</h3>
+							<p>
+								視覺風格設計、
+								View 畫面製作、
+								喇D賽、
+								幫出國的人整理桌面
+							</p>
+						</li>
+						<li>
+							<p class="date" style="width: 10em;">
+								<a href="#"><b>Jim.Liu</b></a>
+							</p>
+							<h3>技術總監 & 技術顧問</h3>
+							<p>
+								遊戲邏輯、
+								打雜、
+								喇D賽、
+								幫扭蛋調整姿勢、
+								早起晨跑
+							</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="features" class="main-menu">
+				<div id="p03" class="divpage">
+					<div class="title">
+						<h2>功能</h2>
+						<span class="byline"></span>
+					</div>
+					<div id="feature-stage-menu" class="sub-tabs-menu" style="width: 41%;">
+						<div class="sub-tabs-links">
+							<a href="#feature-stage1" onclick="javascript: return false;" style="font-size: larger;">第一階段<em></em></a>
+							<a href="#feature-stage2" onclick="javascript: return false;" style="font-size: larger;">第二階段<em></em></a>
+							<a href="#feature-stage3" onclick="javascript: return false;" style="font-size: larger;">第三階段<em></em></a>
+						</div>
+					</div>
+					<div id="feature-stage1">
+						<ul class="style1">
+							<li class="first">
+								<p class="date">
+									<a href="#"><b>100%</b></a>
+								</p>
+								<h3>遊戲邏輯</h3>
+								<p>
+									<span>基礎遊戲邏輯，可以玩+可以計分就好。</span>
+								</p>
+							</li>
+							<li>
+								<p class="date">
+									<a href="#"><b>100%</b></a>
+								</p>
+								<h3>遊戲畫面</h3>
+								<p>
+									<span>簡單俐落的畫面風格。</span>
+								</p>
+							</li>
+							<li>
+								<p class="date">
+									<a href="#"><b>100%</b></a>
+								</p>
+								<h3>最高分</h3>
+								<p>
+									<span>與最強的自己競爭!!</span>
+								</p>
+							</li>
+							<li>
+								<p class="date">
+									<a href="#"><b>100%</b></a>
+								</p>
+								<h3>遊戲畫面截圖</h3>
+								<p>
+									<span>紀錄感動瞬間!!</span>
+								</p>
+							</li>
+							<li>
+								<p class="date">
+									<a href="#"><b>100%</b></a>
+								</p>
+								<h3>展示網站</h3>
+								<p>
+									<span>無套版，無裝飾，最純真的年代!!</span>
+								</p>
+							</li>
+						</ul>
+					</div>
+					<div id="feature-stage2">
+						<ul class="style1">
+							<li class="first">
+								<p class="date">
+									<a href="#"><b>100%</b></a>
+								</p>
+								<h3>遊戲邏輯</h3>
+								<p>
+									<span>基礎遊戲邏輯，根據動畫需求重新撰寫，功能強大。</span>
+								</p>
+							</li>
+							<li>
+								<p class="date">
+									<a href="#"><b>100%</b></a>
+								</p>
+								<h3>動畫效果</h3>
+								<p>
+									<span>由「移動」及「結合」兩種動作，創造流暢華麗的遊戲體驗。</span>
+								</p>
+							</li>
+							<li>
+								<p class="date">
+									<a href="#"><b>40%</b></a>
+								</p>
+								<h3>FB分享</h3>
+								<p>
+									<span>將感動分享給大家。</span>
+								</p>
+							</li>
+							<li>
+								<p class="date">
+									<a href="#"><b>50%</b></a>
+								</p>
+								<h3>高分排行榜</h3>
+								<p>
+									<span>競爭!再競爭!</span>
+								</p>
+							</li>
+                            <li>
+                                <p class="date">
+                                    <a href="#"><b>100%</b></a>
+                                </p>
+                                <h3>自訂陣列大小</h3>
+                                <p>
+                                    <span>提供4X4，5X5，6X6三種陣列，增加遊戲可玩性!</span>
+                                </p>
+                            </li>
+							<li>
+								<p class="date">
+									<a href="#"><b>100%</b></a>
+								</p>
+								<h3>展示網站</h3>
+								<p>
+									<span>重新美化上線，永遠分享最新最棒的資訊!!</span>
+								</p>
+							</li>
+						</ul>
+					</div>
+					<div id="feature-stage3">
+						<ul class="style1">
+							<li class="first">
+								<p class="date">
+									<a href="#"><b>40%</b></a>
+								</p>
+								<h3>FB分享</h3>
+								<p>
+									<span>將感動分享給大家。</span>
+								</p>
+							</li>
+                            <li>
+                                <p class="date">
+                                    <a href="#"><b>0%</b></a>
+                                </p>
+                                <h3>對戰模式</h3>
+                                <p>
+                                    <span>一個人玩，玩膩了嗎?試試對戰模式，保證讓你嗨翻天。</span>
+                                </p>
+                            </li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div id="technics" class="main-menu">
+				<div id="p04" class="divpage">
+					<div class="title">
+						<h2>技術</h2>
+						<span class="byline"></span>
+					</div>
+					<div id="technics-stage-menu" class="sub-tabs-menu" style="width: 41%;">
+						<div class="sub-tabs-links">
+							<a href="#technics-stage1" onclick="javascript: return false;" style="font-size: larger;">第一階段<em></em></a>
+							<a href="#technics-stage2" onclick="javascript: return false;" style="font-size: larger;">第二階段<em></em></a>
+							<a href="#technics-stage3" onclick="javascript: return false;" style="font-size: larger;">第三階段<em></em></a>
+						</div>
+					</div>
+					<div id="technics-stage1" style="margin-top: 2em;">
+						<ul class="style2">
+							<li class="first">
+								<p class="date">
+									<a href="#"><b>目標</b></a>
+								</p>
+								<p><span style="font-weight: bolder;">遊戲功能建置</span></p>
+								<p><span style="font-weight: bolder;">展示網站建置</span></p>
+								<p><span style="font-weight: bolder;">基礎語言學習</span></p>
+							</li>
+							<li>
+								<p class="date">
+									<a href="#"><b>技術</b></a>
+								</p>
+								<p><span style="font-weight: bolder;">html</span></p>
+								<p><span style="font-weight: bolder;">javascript</span></p>
+								<p><span style="font-weight: bolder;">css</span></p>
+							</li>
+						</ul>
+					</div>
+					<div id="technics-stage2" style="margin-top: 2em;">
+						<ul class="style2">
+							<li class="first">
+								<p class="date">
+									<a href="#"><b>目標</b></a>
+								</p>
+								<p><span style="font-weight: bolder;">遊戲動畫</span></p>
+								<p><span style="font-weight: bolder;">網站美化工作</span></p>
+								<p><span style="font-weight: bolder;">最高分排行榜</span></p>
+							</li>
+							<li>
+								<p class="date">
+									<a href="#"><b>技術</b></a>
+								</p>
+								<p><span style="font-weight: bolder;">css/scss</span></p>
+								<p><span style="font-weight: bolder;">javascript/jquery</span></p>
+								<p><span style="font-weight: bolder;">node.js</span></p>
+								<p><span style="font-weight: bolder;">sql</span></p>
+							</li>
+						</ul>
+					</div>
+					<div id="technics-stage3" style="margin-top: 2em;">
+						<ul class="style2">
+							<li class="first">
+								<p class="date">
+									<a href="#"><b>目標</b></a>
+								</p>
+								<p><span style="font-weight: bolder;">RWD框架</span></p>
+								<p><span style="font-weight: bolder;">瀏覽器相容性</span></p>
+								<!--<p><span style="font-weight: bolder;">以新框架技術重構遊戲及網站</span></p>-->
+								<p><span style="font-weight: bolder;">Facebook 互動分享</span></p>
+								<p><span style="font-weight: bolder;">雙人對戰模式</span></p>
+							</li>
+							<li>
+								<p class="date">
+									<a href="#"><b>技術</b></a>
+								</p>
+								<p><span style="font-weight: bolder;">bootstrap</span></p>
+								<!--<p><span style="font-weight: bolder;">reactjs</span></p>-->
+								<p><span style="font-weight: bolder;">facebook api</span></p>
+								<p><span style="font-weight: bolder;">node.js</span></p>
+								<p><span style="font-weight: bolder;">socket.io</span></p>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div id="problems" class="main-menu">
+				<div id="p05" class="divpage">
+					<div class="title">
+						<h2>問題與解決</h2>
+						<span class="byline"></span>
+					</div>
+					<div id="problem-stage-menu" class="sub-tabs-menu" style="width: 41%;">
+						<div class="sub-tabs-links">
+							<a href="#problem-stage1" onclick="javascript: return false;" style="font-size: larger;">第一階段<em></em></a>
+							<a href="#problem-stage2" onclick="javascript: return false;" style="font-size: larger;">第二階段<em></em></a>
+							<a href="#problem-stage3" onclick="javascript: return false;" style="font-size: larger;">第三階段<em></em></a>
+						</div>
+					</div>
+					<div id="problem-stage1" style="margin-top: 2em;">
+						<ul class="problem-ul">
+							<li>
+								<a href="#problem-01">協作平台</a>
+							</li>
+							<li>
+								<a href="#problem-02">相對路徑</a>
+							</li>
+							<li>
+								<a href="#problem-03">置中</a>
+							</li>
+							<li>
+								<a href="#problem-04">動畫</a>
+							</li>
+						</ul>
+					</div>
+					<div id="problem-stage2" style="margin-top: 2em;">
+						<ul class="problem-ul">
+							<li>
+								<a href="#problem-05"></a>
+							</li>
+							<li>
+								<a href="#problem-06"></a>
+							</li>
+							<li>
+								<a href="#problem-07"></a>
+							</li>
+							<li>
+								<a href="#problem-08"></a>
+							</li>
+						</ul>
+					</div>
+					<div id="problem-stage3" style="margin-top: 2em;">
+					</div>
+				</div>
+			</div>
+			<div id="copyright">
+				<span>
+					<b>
+						Modify By
+						<a href="mailto:edar@mitake.com.tw?Subject=aboutGame2048" target="_top">Edar #1021</a>
+						、
+						<a href="mailto:jim.liu@mitake.com.tw?Subject=aboutGame2048" target="_top">Jim #1025</a>
+					</b>
+				</span>
+				<span>
+					<b>
+						Github: <a href="https://edartsai.github.io/TeamWork2048V2/" target="_top">https://edartsai.github.io/TeamWork2048V2/</a>
+					</b>
+				</span>
+				<!--<span>Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a></span>-->
+				<span><b>&copy; All rights reserved.</b></span>
+			</div>
+			<div id="lightbox-mask" class="lightbox">
+				<div id="lightbox-content" class="lightbox-content">
+					<div id="problem-01">
+						<table id="problems01-table">
+							<tr>
+								<td class="problems01-table-title">✓</td>
+								<td class="problems01-table-title">平台</td>
+								<td class="problems01-table-title">優點</td>
+								<td class="problems01-table-title">缺點</td>
+							</tr>
+							<tr>
+								<td></td>
+								<th>Github</th>
+								<td>
+									<ul>
+										<li>可直接 publish webpage to everyone</li>
+									</ul>
+								</td>
+								<td>
+									<ul>
+										<li>不清楚協作方式</li>
+									</ul>
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<th>Team Services+Azure</th>
+								<td>
+									<ul>
+										<li> 熟悉介面</li>
+										<li> 版控思維類似SVN</li>
+										<li> 整合VS2015</li>
+										<li> 微軟的 Total Solution<br />可一鍵完成 commit, build, test, publish</li>
+									</ul>
+								</td>
+								<td>
+									<ul>
+										<li> Team Services 本身無法 publish 成公開網頁<br />需搭配 Azure</li>
+										<li> Azure功能太多、設定不易</li>
+										<li> Azure要錢....</li>
+									</ul>
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<th>Team Services+IIS</th>
+								<td>
+									<ul>
+										<li> 熟悉介面</li>
+										<li> 版控思維類似SVN</li>
+										<li> 整合VS2015</li>
+										<li> 直接使用 local 檔案系統，publish快</li>
+									</ul>
+								</td>
+								<td>
+									<ul>
+										<li> 會議室連不到 IIS...</li>
+									</ul>
+								</td>
+							</tr>
+							<tr>
+								<td>✓</td>
+								<th>Github</th>
+								<td>
+									<ul>
+										<li> 協作方便</li>
+										<li> 可直接建立公開網頁</li>
+										<li> Github desktop GUI</li>
+									</ul>
+								</td>
+								<td>
+									<ul>
+										<li> push-code to webpage 有時間差</li>
+									</ul>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div id="problem-02">
+						<ul>
+							<li><a href="#problems02tabs-1">1.發現問題</a></li>
+							<li><a href="#problems02tabs-2">2.聚焦</a></li>
+							<li><a href="#problems02tabs-3">3.觀察</a></li>
+							<li><a href="#problems02tabs-4">4.推測</a></li>
+							<li><a href="#problems02tabs-5">5.發現問題</a></li>
+							<li><a href="#problems02tabs-6">6.解決</a></li>
+							<li><a href="#problems02tabs-7">7.結論</a></li>
+						</ul>
+						<div id="problems02tabs-1">
+							<img src="images/problems02_01.png" alt="" />
+						</div>
+						<div id="problems02tabs-2">
+							<img src="images/problems02_05.png" alt="" />
+							<p>找不到圖檔?? (其實一堆 js & css 都找不到)</p>
+						</div>
+						<div id="problems02tabs-3">
+							<p>相對路徑寫錯??</p>
+							<br />
+							<br />
+							<br />
+							<img src="images/problems02_03.png" alt="" />
+							<p>沒錯啊!</p>
+						</div>
+						<div id="problems02tabs-4">
+							<p>保哥說:</p>
+							<img src="images/problems02_06.png" />
+							<br />
+							<br />
+							<br />
+							<p style="font-size: larger; color: red;">但連 Button 圖片也出不來就不太對勁了。</p>
+						</div>
+						<div id="problems02tabs-5">
+							<p>確認 Github 直接連結時可以看得到圖。</p>
+							<img src="images/problems02_02.png" alt="" />
+							<br />
+							<p>神達叔:怎麼上下兩段網址裡的 <span style="color:red">View</span> 大小寫不同!!!</p>
+							<img src="images/problems02_05.png" alt="" />
+						</div>
+						<div id="problems02tabs-6">
+							<p>
+								原來， Github 的連結直接根據上傳時的檔案結構來產生，<br />
+								而 View 資料夾當初的建立是根據 ProjectName而來。
+							</p>
+							<img src="images/problems02_04.png" alt="" />
+							<br />
+							<br />
+							<br />
+							<p>....習慣 ProjectName 開頭大寫錯了嗎 !!??</p>
+						</div>
+						<div id="problems02tabs-7">
+							<p>理解每個不同語言的 Coding Style 非常重要!!</p>
+							<p>以免發生這種慘劇。</p>
+							<br />
+							<p>提供參考資料:</p>
+							<p>
+								<a href="http://www.w3schools.com/js/js_conventions.asp" target="_blank" style="color:blue">
+									JavaScript Style Guide and Coding Conventions
+								</a>
+							</p>
+							<p>
+								<a href="https://google.github.io/styleguide/javascriptguide.xml" target="_blank" style="color:blue">
+									Google JavaScript Style Guide
+								</a>
+							</p>
+						</div>
+					</div>
+					<div id="problem-03">
+						<div id="problems03tabs" style="width:50%;float:left">
+							<ul>
+								<li><a href="#problems03tabs-1">1.水平置中</a></li>
+								<li><a href="#problems03tabs-2">2.垂直置中</a></li>
+							</ul>
+							<div id="problems03tabs-1">
+								<p>方法1：margin: 0px auto;</p>
+								<p>
+									<a href="https://jsfiddle.net/zoue7gdf/" target="_blank" style="color:blue">
+										margin: 0px auto;範例
+									</a>
+								</p>
+
+								<br />
+								<p>方法2：text-align:center;</p>
+								<p>
+									<a href="https://jsfiddle.net/mkm6sa9t/" target="_blank" style="color:blue">
+										text-align:center;範例
+									</a>
+								</p>
+
+							</div>
+							<div id="problems03tabs-2">
+								<p>方法：偽元素的運用</p>
+								<p>原理：</p>
+								<p>在外框裡面塞入一個和外框等高的 inline-block 行內元素，它是不被看到的，如此一來，在外框裡面的其它高度沒有100%的行內元素也可以遵循 vertical-align: middle 的方法去排隊了</p>
+								<p>1. :after  在元素之前插入某些內容</p>
+								<p>2. :before  在元素之後插入某些內容</p>
+
+								<p>
+									<a href="https://jsfiddle.net/89x19ppd/" target="_blank" style="color:blue">
+										偽元素垂直置中範例
+									</a>
+								</p>
+
+							</div>
+						</div>
+
+						<div style="width:auto;float:right">
+							<img src="images/center.jpg" alt="" />
+						</div>
+
+					</div>
+					<div id="problem-04">
+						<p style="margin-left: 1em;">下一個階段要加入的動畫效果，動畫部分由css負責，動畫需要帶入起始位置和終點位置，由於一開始開發沒考慮這點，所以邏輯判斷部分需做修改。</p>
+						<p style="margin-left: 1em;">
+							<a href="https://fiddle.jshell.net/quou5n69/3/" target="_blank" style="color: blue">
+								css animation 動畫範例
+							</a>
+						</p>
+					</div>
+
+					<div id="problem-05"></div>
+					<div id="problem-06"></div>
+					<div id="problem-07"></div>
+					<div id="problem-08"></div>
+					<div id="problem-09"></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</body>
+</html>

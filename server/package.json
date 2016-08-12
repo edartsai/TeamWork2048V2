@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "description": "server",
+  "main": "server.js",
+  "keywords": [
+    "socketio",
+    "nodejs"
+  ],
+  "author": {
+    "name": "jim.liu"
+  },
+  "dependencies": {
+    "socket.io": "*",
+    "express": "*",
+    "mssql": "3.3.0",
+    "body-parser": "1.15.2"
+  }
+}

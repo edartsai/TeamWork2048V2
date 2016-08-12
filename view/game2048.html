@@ -1,0 +1,300 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js_lib/html2canvas.js"></script>
+    <script src='js_lib/jquery.keyframes.min.js'></script>
+    <script src="js/enum.js"></script>
+    <script src="js/view.js"></script>
+    <script src="js/utility.js"></script>
+    <script src="js/iscando.js"></script>
+    <script src="js/merge.js"></script>
+    <script src="js/move.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="css/game2048style.min.css">
+</head>
+<body>
+    <div id="fb-root"></div>
+    <!--<script src="js/fb.js"></script>-->
+<script>
+    
+    var isCanClick = true;
+
+    //遊戲目前狀態
+    var mapObj = {
+        Size: 4,
+        Items: [],
+        IdMax: 0,
+        Score: 0,
+        IsGameOver: false
+    };
+    
+    //遊戲上一狀態
+    var prevObj = {
+        Size: 4,
+        Items: [],
+        IdMax: 0,
+        Score: 0,
+        IsGameOver: false
+    };
+
+
+
+    var defaultTimesLeft = 3;
+    var rollbackTimesLeft = defaultTimesLeft;
+
+    function moveLeft() {
+        if (Move(mapObj, DIRECTION.LEFT, prevObj)) {
+            boxsmove(mapObj, prevObj);
+            //MappingArrayData(mapObj); //重繪Array
+            SetRollbackButtonStatus(rollbackTimesLeft); //「上一步」按鈕狀態控制
+        }
+    }
+
+    function moveRight() {
+        if (Move(mapObj, DIRECTION.RIGHT, prevObj)) {
+            boxsmove(mapObj, prevObj);
+            //MappingArrayData(mapObj); //重繪Array
+            SetRollbackButtonStatus(rollbackTimesLeft); //「上一步」按鈕狀態控制
+        }
+    }
+
+    function moveUp() {
+        if (Move(mapObj, DIRECTION.UP, prevObj)) {
+            boxsmove(mapObj, prevObj);
+            //MappingArrayData(mapObj); //重繪Array
+            SetRollbackButtonStatus(rollbackTimesLeft); //「上一步」按鈕狀態控制
+        }
+    }
+
+    function moveDown() {
+        if (Move(mapObj, DIRECTION.DOWN, prevObj)) {
+            boxsmove(mapObj, prevObj);
+            //MappingArrayData(mapObj); //重繪Array
+            SetRollbackButtonStatus(rollbackTimesLeft); //「上一步」按鈕狀態控制
+        }
+    }
+
+    function rollback() {
+        if (rollbackTimesLeft > 0)
+            rollbackTimesLeft--;
+        else
+            return;
+
+        Clone(prevObj, mapObj);                 //將前一狀態倒回現在狀態
+        MappingArrayData(mapObj);               //重繪Array
+        HideGameOverMask();                     //假如有 GameOver，則將 Mask 隱藏
+        DisableRollbackButton();                //關閉「上一步」
+    }
+
+    function reset(mitrixsize) {
+        Init(mapObj,mitrixsize);
+        rollbackTimesLeft = defaultTimesLeft;   //重設 rollback time
+        Clone(mapObj, prevObj);                 //紀錄狀態
+        SetBestLabel();                         //讀取最佳紀錄(from cookies)
+        MappingArrayData(mapObj);               //重繪Array
+        HideGameOverMask();                     //關閉GameOver Mask
+        DisableRollbackButton();                //關閉「上一步」
+    }
+
+    function keyFunction() {
+        if (event.keyCode === 37 && isCanClick === true) {
+            moveLeft();
+        } else if (event.keyCode === 38 && isCanClick === true) {
+            moveUp();
+        } else if (event.keyCode === 39 && isCanClick === true) {
+            moveRight();
+        } else if (event.keyCode === 40 && isCanClick === true) {
+            moveDown();
+        }
+    }
+
+    document.onkeydown = keyFunction;
+    
+
+    window.onload = function () {
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            //使用行動裝置
+            InitMobile();
+        }
+        var e = document.getElementById("changeMitrixselect");
+        var strValue = e.options[e.selectedIndex].value;
+        createMitrixDiv(strValue);
+        reset(strValue);
+    };
+
+    function InitMobile() {
+        $.getScript('https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js', function () {
+            $.getScript('js/initmobile.js', function () {
+                $.mobile.loading().hide();
+
+                $(document).on("swipeleft", function () {
+                    moveLeft();
+                });
+
+                $(document).on("swiperight", function () {
+                    moveRight();
+                });
+
+                $(document).on("swipeup", function () {
+                    moveUp();
+                });
+                $(document).on("swipedown", function () {
+                    moveDown();
+                });
+            });
+        });
+
+    }
+
+    //按下重玩的事件
+    function resetwithdefaultmitrixsize() {
+        var e = document.getElementById("changeMitrixselect");
+        var strValue = e.options[e.selectedIndex].value;
+
+        reset(strValue);
+    }
+
+    function capture() {
+        var capturediv = document.getElementById("capture-range-div");  //capture 範圍
+        if (capturediv === null || capturediv === undefined)
+            return;
+        capturePhoto(capturediv, onCaptureCompleted);
+    }
+
+
+    function onCaptureCompleted(arg) {
+        if (arg === undefined || arg === null)
+            return;
+
+        var img = arg.detail.image;
+
+        if (img === undefined || img === null)
+            return;
+
+        //post to fb
+        //postToFbWall("Name", "Msg", "", img, "Caption", "Description");
+
+        //test
+        window.open(img);
+    }
+
+    //jquery組合矩陣的html
+    function createMitrixDiv(mitrixtype) {
+        var isonetime = true;
+        var bigboxwidth = mitrixtype * 50 + (mitrixtype) * 2 + 2;
+        var bigboxwidthstr = "width:" + bigboxwidth + "px";
+
+        var boxdiv = "<div class='box'><p class='box-number'></p></div>";
+        var borderdiv = "<div class='box-row-border'></div>";
+        var borderdivcolumn = "<div class='box-column-border'"+"style=" + bigboxwidthstr + "></div>";
+        
+        $(".box-body").empty();
+        for (var i = 0 ; i < mitrixtype; i++) {
+            var tmp = "<div class='box-row'>";
+            if (isonetime) {
+                tmp += borderdivcolumn;
+                isonetime = false;
+            }
+            
+            tmp += borderdiv;
+            for (var j = 0 ; j < mitrixtype; j++) {
+                //tmp += "<div class='box'><p class='box-number'></p></div>";
+                //var boxdiv = "<div class='box'" + createDivStyle(i, j) + "><p class='box-number'></p></div>";
+
+                tmp += boxdiv;
+                tmp += borderdiv;
+            }
+            tmp += "</div>";
+            tmp += borderdivcolumn;
+            $(".box-body").append(tmp);
+        }
+
+        var lineheight = bigboxwidth / 2  +30;
+        $(".mask-body").css("width", bigboxwidth );
+        $(".mask-body").css("height", bigboxwidth);
+        $(".mask-body").css("margin-top", "67px");
+        $(".mask-body").css("margin-left", bigboxwidth / 2 * (-1));
+        $(".mask-body").css("line-height", lineheight+"px");
+    }
+
+    function createDivStyle(i,j) {
+        var topsize = i*50 + "px";
+        var leftsize = j*50 + "px";
+        var mergesize = "top:" + topsize + ";left:" + leftsize;
+
+        return "style="+mergesize;
+    }
+
+    //選取尺寸
+    function changeMitrixSize(mitrixtype) {
+        var e = document.getElementById("changeMitrixselect");
+        e.blur();
+        createMitrixDiv(mitrixtype);
+        reset(mitrixtype);
+    }
+
+</script>
+
+<div class="main-contain">
+
+    <div class="mask-body" id="mask-body" style="visibility: collapse">
+        <p style="font-size: 40px;">Game Over</p>
+    </div>
+
+    <div id="capture-range-div">
+        <div class="box-header" style="height: 55px">
+            <span class="title">2048</span>
+            <!--分數-->
+            <div class="box-score">
+                <p class="score-title">SCORE</p>
+                <p class="score-content" id="score">0</p>
+            </div>
+            <!--重玩-->
+            <div class="replay-button" >
+                <button class="back-button" id="resetbtn" type="submit" onclick="resetwithdefaultmitrixsize()">
+                    <img src="images/b_brefresh_20_n.png" alt=""/>
+                </button>
+            </div>
+            <!--上一步-->
+            <div class="upstep-button" >
+                <button class="back-button" id="rollbackbtn" type="submit" onclick="rollback()">
+                    <img src="images/b_back_btn_20_p.png" alt=""/>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+        </div>
+    </div>
+</div>
+
+<div class="box-down">
+    <div class="FB-share">
+        <div class="FB-logo">F</div>
+        <p class="share-content">SHARE</p>
+    </div>
+    
+    <div class="Hight-scare">   
+        <div class="score-best-title">BEST</div>
+        <p class="score-best" id="best-score"></p>
+    </div>
+</div>
+
+<select id="changeMitrixselect" onchange="changeMitrixSize(this.value)">
+    <option value="4" selected="selected">4X4</option>
+    <option value="5">5X5</option>
+    <option value="6">6X6</option>
+</select>
+
+<!--<div id="developing-div">
+    <br/>
+    <span> DEVELOPING </span> <br/>    
+    <button id="capturebtn" type="submit" onclick="capture()">
+        <span>CaptureGame</span>
+    </button>
+</div>-->
+
+</body>
+
+</html>

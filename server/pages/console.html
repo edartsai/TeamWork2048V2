@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Console Window</title>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+<style>
+    #css_table {
+      display:table;
+    }
+    .css_tr {
+          display: table-row;
+      }
+    .css_td {
+          display: table-cell;
+    }
+    .css_td span {
+          margin: 1em;
+    }
+
+</style>
+<script>
+    var socket = io();
+
+
+
+    $(document).ready(function() {
+        var loglevel = getLoglevel();
+
+        socket.emit('add_consoleuser', loglevel);
+
+
+        socket.on('send_consoledata', function (data) {
+            prepandRow(data);
+        });
+    });
+
+    function getLoglevel() {
+        var href = document.location.href.split('?');
+        var loglevel = 1;  //default
+        if (href.length > 1) {
+            var params = href[1];
+            var plist = params.split('&');
+            for (var i = 0; i < plist.length; i++) {
+                var clist = plist[i].split('=');
+                if (clist.length !== 2)
+                    continue;
+
+                if (clist[0] === 'loglevel') {
+                    loglevel = parseInt(clist[1]);
+                }
+            }
+        }
+
+        return loglevel;
+    }
+
+    function prepandRow(data) {
+        if (data === undefined || data === null)
+            return;
+
+        var d = new Date(data.time);
+        var timStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+
+        var trdiv = $(document.createElement("div")).addClass("css_tr");
+
+        var lvldiv = $(document.createElement("div")).addClass("css_td").append("<span>" + data.lvl + "</span>");
+        var cmddiv = $(document.createElement("div")).addClass("css_td").append("<span>" + data.cmd + "</span>");
+        var msgdiv = $(document.createElement("div")).addClass("css_td").append("<span>" + data.msg + "</span>");
+        var timdiv = $(document.createElement("div")).addClass("css_td").append("<span>" + timStr + "</span>");
+        trdiv.append(lvldiv, cmddiv, msgdiv, timdiv);
+
+        $('#css_table').prepend(trdiv);
+    }
+
+</script>
+
+<div id="css_table"></div>
+</body>
+</html>
