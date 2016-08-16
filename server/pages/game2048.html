@@ -13,7 +13,9 @@
     <script src="js/merge.js"></script>
     <script src="js/move.js"></script>
     <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/game2048style.min.css">
+    <link rel="stylesheet" href="css/game2048battlestyle.min.css">
+    <!--<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
     <div id="fb-root"></div>
@@ -110,7 +112,7 @@
     function reset(isNeedSend) {
         //var size = $("select#matrixSize").val();
         var size = 4;
-        createMitrixDiv(size);          //畫上 Grid
+        //createMitrixDiv(size);          //畫上 Grid
         resetRollbackTimes();           //重設 rollback time
         Init(mapObj, size);             //Init Data
         Clone(mapObj, prevObj);         //紀錄狀態
@@ -119,7 +121,7 @@
         
         MappingArrayData(mapObj);       //重繪數字
 
-        SetBestLabel();                 //讀取最佳紀錄(from cookies)
+        //SetBestLabel();                 //讀取最佳紀錄(from cookies)
         HideGameOverMask();             //關閉GameOver Mask
         DisableRollbackButton();        //關閉「上一步」
     }
@@ -344,64 +346,209 @@
     }
 </script>
 
-<div class="main-contain">
+<div class="main-contain" >
 
     <div class="mask-body" id="mask-body" style="visibility: collapse">
         <p style="font-size: 40px;">Game Over</p>
         <button class="savescorebutton" onclick="openLeaderboard()">登入排行榜</button>
     </div>
 
+    <h2>2048</h2>
+    <p>第一對戰房</p>
+
     <div id="capture-range-div">
-        <div class="box-header" style="height: 55px">
-            <span class="title">2048</span>
-            <!--分數-->
-            <div class="box-score">
-                <p class="score-title">SCORE</p>
-                <p class="score-content" id="score">0</p>
-            </div>
-            <!--重玩-->
-            <div class="replay-button" >
-                <button class="back-button" id="resetbtn" type="submit" onclick="reset(true)">
-                    <img src="images/b_brefresh_20_n.png" alt=""/>
+
+        <div>
+            
+            <div id="block1-detaildata" style="height: 55px">
+                <!--倒數計時器-->
+                <div id="timer-div">
+                    <p>00:00</p>
+                </div>
+                <!--分數-->
+                <div id="player1-scare">
+                    <p class="score-title">SCORE</p>
+                    <p class="score-content" id="score">0</p>
+                </div>
+                <!--player 1-->
+                <div id="player1-name">
+                    <p>NAME</p>
+                </div>
+                
+                <!--重玩-->
+                <button class="back-button" id="resetbtn" type="submit" onclick="reset(true)" style="float:right">
+                    <img src="images/b_brefresh_20_n.png" alt="" />
+                </button>
+                <!--上一步-->
+                <button class="back-button" id="rollbackbtn" type="submit" onclick="rollback()" style="float:right">
+                    <img src="images/b_back_btn_20_p.png" alt="" />
                 </button>
             </div>
-            <!--上一步-->
-            <div class="upstep-button" >
-                <button class="back-button" id="rollbackbtn" type="submit" onclick="rollback()">
-                    <img src="images/b_back_btn_20_p.png" alt=""/>
-                </button>
+
+            <div id="play1divcss">
+                <!--<div style="height: 55px">
+                    
+                    <div class="base-box-score" style="float:left;width:40%">
+                        <p class="score-title">SCORE</p>
+                        <p class="score-content" id="score">0</p>
+                    </div>
+                    <div class="base-border" style="float:left;width:40%;height:50px;margin-left:2px">
+                        <p>NAME</p>
+                    </div>
+                    
+                    <div class="replay-button">
+                        <button class="back-button" id="resetbtn" type="submit" onclick="reset(true)">
+                            <img src="images/b_brefresh_20_n.png" alt="" />
+                        </button>
+                    </div>
+                    
+                    <div class="upstep-button">
+                        <button class="back-button" id="rollbackbtn" type="submit" onclick="rollback()">
+                            <img src="images/b_back_btn_20_p.png" alt="" />
+                        </button>
+                    </div>
+                </div>-->
+
+                <div class="box-body">
+                    <div class='box-row'>
+                        <div class='box-column-border'></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                    </div>
+                    <div class='box-row'>
+                        <div class='box-column-border'></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                    </div>
+                    <div class='box-row'>
+                        <div class='box-column-border'></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                    </div>
+                    <div class='box-row'>
+                        <div class='box-column-border'></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class='box-row-border'></div>
+                    </div>
+                    <div class='box-column-border'></div>
+                </div>
+
             </div>
-        </div>
-        <div class="box-body">
+
+            <div id="play2divcss">
+                <div>
+                    <!--分數-->
+                    <div class="base-box-score" style="float:left;width:46%;height:52px;margin-bottom:2px">
+                        <p class="score-title">SCORE</p>
+                        <p class="score-content" id="score">0</p>
+                    </div>
+                    <div class="base-border" style="float:left;width:46%;height:50px;margin-left:2px;height:52px;margin-bottom:2px">
+                        <p>NAME</p>
+                    </div>
+                    <div style="clear:both;"></div>
+
+                    <div class="box-body" id="player2-box-body">
+                        <div class='box-row'>
+                            <div class='box2-column-border'></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                        </div>
+                        <div class='box-row'>
+                            <div class='box2-column-border'></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                        </div>
+                        <div class='box-row'>
+                            <div class='box2-column-border'></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                        </div>
+                        <div class='box-row'>
+                            <div class='box2-column-border'></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class='box2-row-border'></div>
+                        </div>
+                        <div class='box2-column-border'></div>
+                    </div>
+
+                </div>
+            </div>
+
+            
         </div>
     </div>
-</div>
 
-<div class="box-down">
-    <div class="FB-share">
-        <div class="FB-logo">F</div>
-        <p class="share-content">SHARE</p>
+    <div style="height:50px">
+        <div class="base-border" style="float:left;margin-top:2px;width:70%">MESSAGE</div>
+        <div style="float:left;margin-top:2px;margin-left:2px;width:28%">
+            <input type="button" id="readybtn" value="ready" />
+        </div>
     </div>
     
-    <div class="Hight-scare">   
-        <div class="score-best-title">BEST</div>
-        <p class="score-best" id="best-score"></p>
-    </div>
+
 </div>
 
-<!--<select id="matrixSize" onchange="changeMatrixSize()">
-    <option value="4" selected="selected">4X4</option>
-    <option value="5">5X5</option>
-    <option value="6">6X6</option>
-</select>-->
 
-<div id="developing-div">
+<!--<div id="developing-div">
 	<br/>
 	<span> DEVELOPING </span> <br/>
-	<button id="capturebtn" type="submit" onclick="capture()">
-		<span>UploadScreenshot</span>
-	</button>
-    <br/>
+	
     <div>
         <span id="gametimespan" ></span>
     </div>
@@ -411,7 +558,7 @@
     <div>
         <input type="button" id="readybtn" value="ready"/>
     </div>
-</div>
+</div>-->
 
 </body>
 
