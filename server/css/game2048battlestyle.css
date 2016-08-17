@@ -141,11 +141,14 @@
 
 #timer-div {
   width: 41%;
-  font-size: x-large;
-  font-weight: bold;
   margin-bottom: 2px;
   margin-left: 2px;
   float: right; }
+  #timer-div #timer-p {
+    font-size: x-large;
+    font-weight: bold;
+    background-color: red;
+    margin-top: 10px; }
 
 #player1-scare {
   float: left;

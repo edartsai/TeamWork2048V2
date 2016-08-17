@@ -185,16 +185,22 @@ html, body {
         color:white;
      }
 }
+ 
 
  //倒數計時器
  #timer-div{
      @extend .base-border;
      width:41%;
-     font-size:x-large;
-     font-weight:bold;
+     
      margin-bottom:2px;
      margin-left:2px;
      float:right;
+     #timer-p{
+         font-size:x-large;
+         font-weight:bold;
+         background-color:red;
+         margin-top:10px;
+    }
  }
  //player 1 分數
  #player1-scare{
