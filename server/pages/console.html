@@ -4,30 +4,19 @@
 <head>
     <meta charset="utf-8" />
     <title>Console Window</title>
-
-    <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <link href="css/console.css" rel="stylesheet" />
+    <script src="/socket.io/socket.io.js"></script>
+    
 </head>
 <body>
 <style>
-    #css_table {
-      display:table;
-    }
-    .css_tr {
-          display: table-row;
-      }
-    .css_td {
-          display: table-cell;
-    }
-    .css_td span {
-          margin: 1em;
-    }
+
 
 </style>
 <script>
     var socket = io();
-
-
 
     $(document).ready(function() {
         var loglevel = getLoglevel();
@@ -37,7 +26,8 @@
 
         socket.on('send_consoledata', function (data) {
             prepandRow(data);
-        });
+            hideCursors();
+        });       
     });
 
     function getLoglevel() {
@@ -73,13 +63,18 @@
         var cmddiv = $(document.createElement("div")).addClass("css_td").append("<span>" + data.cmd + "</span>");
         var msgdiv = $(document.createElement("div")).addClass("css_td").append("<span>" + data.msg + "</span>");
         var timdiv = $(document.createElement("div")).addClass("css_td").append("<span>" + timStr + "</span>");
-        trdiv.append(lvldiv, cmddiv, msgdiv, timdiv);
+        var cursor = $(document.createElement("div")).addClass("css_td").append("<span>&#9646;</span>").addClass("cursors");
+        trdiv.append(lvldiv, cmddiv, msgdiv, timdiv, cursor);
 
-        $('#css_table').prepend(trdiv);
+        $('.css_table').prepend(trdiv);
     }
 
+    function hideCursors() {
+        $(".cursors").hide();
+        $(".cursors:first").show();
+    }
 </script>
 
-<div id="css_table"></div>
+<div class="css_table" id="cmd"></div>
 </body>
 </html>

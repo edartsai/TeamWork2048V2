@@ -71,6 +71,10 @@ app.get('/game2048battle', function(req, res) {
     );
 });
 
+app.get('/game2048viewer', function(req, res) {
+    res.sendFile(__dirname + '/pages/game2048viewer.html');
+});
+
 app.get('/inputleaderboard', function (req, res) {
     var score = "-1";
     var size = "4";
@@ -202,7 +206,12 @@ io.sockets.on('connection', function (socket) {
             if (room.player2 !== undefined) {
                 room.player2.emit('init_room_opposite');
             }
-            
+
+            if (room.viewers !== undefined) {
+                room.viewers.forEach(function(viewer) {
+                    viewer.emit('init_room_opposite', { player: 1 });
+                });
+            }
         }
         else if (room.player2 === undefined) {
             room.player2 = socket;
@@ -211,6 +220,12 @@ io.sockets.on('connection', function (socket) {
 
             if (room.player1 !== undefined) {
                 room.player1.emit('init_room_opposite');
+            }
+
+            if (room.viewers !== undefined) {
+                room.viewers.forEach(function (viewer) {
+                    viewer.emit('init_room_opposite', { player: 2 });
+                });
             }
         }
 
@@ -257,6 +272,11 @@ io.sockets.on('connection', function (socket) {
             if (room.player2 !== undefined) {
                 room.player2.emit('send_ready_opposite', data.map);
             }
+            if (room.viewers !== undefined) {
+                room.viewers.forEach(function (viewer) {
+                    viewer.emit('send_ready_opposite', { player: 1 , map: data.map });
+                });
+            }
         } else if (socket === room.player2) {
             room.gamestatus.p2ready = true;
             room.gamestatus.p2map = data.map;
@@ -264,6 +284,12 @@ io.sockets.on('connection', function (socket) {
 
             if (room.player1 !== undefined) {
                 room.player1.emit('send_ready_opposite', data.map);
+            }
+
+            if (room.viewers !== undefined) {
+                room.viewers.forEach(function (viewer) {
+                    viewer.emit('send_ready_opposite', { player: 2, map: data.map });
+                });
             }
         }
     });
@@ -278,8 +304,14 @@ io.sockets.on('connection', function (socket) {
             room.gamestatus.p1map = data.map;
             clog.consoleLog(0, 'send_map', 'room:' + room.id + ' p1:' + room.player1.id);
 		    if (room.player2 !== undefined) {
-                room.player2.emit('send_map_opposite', data.map);
-		    }
+                room.player2.emit('send_map', data.map);
+            }
+
+            if (room.viewers !== undefined) {
+                room.viewers.forEach(function (viewer) {
+                    viewer.emit('send_map', { player: 1, map: data.map });
+                });
+            }
 	    }
 
         if (socket === room.player2) {
@@ -287,6 +319,12 @@ io.sockets.on('connection', function (socket) {
             clog.consoleLog(0, 'send_map', 'room:' + room.id + ' p2:' + room.player2.id);
             if (room.player1 !== undefined) {
                 room.player1.emit('send_map_opposite', data.map);
+            }
+
+            if (room.viewers !== undefined) {
+                room.viewers.forEach(function (viewer) {
+                    viewer.emit('send_map', { player: 2, map: data.map });
+                });
             }
         }
     });
@@ -367,17 +405,63 @@ io.sockets.on('connection', function (socket) {
             if (room.player2 !== undefined) {
                 room.player2.emit('disconnect_opposite');
             }
+
+            if (room.viewers !== undefined) {
+                room.viewers.forEach(function (viewer) {
+                    viewer.emit('disconnect_opposite', { player: 1 });
+                });
+            }
         }
-        if (room.player2 === socket) {
+        else if (room.player2 === socket) {
             room.player2 = undefined;
             clog.consoleLog(1, 'disconnect', 'room:' + room.id + ' p2:' + socket.id);
 
             if (room.player1 !== undefined) {
                 room.player1.emit('disconnect_opposite');
             }
+
+            if (room.viewers !== undefined) {
+                room.viewers.forEach(function (viewer) {
+                    viewer.emit('disconnect_opposite', { player: 2 });
+                });
+            }
+        }
+        else if (room.viewers.indexOf(socket) > -1) {
+            if (removeViewer(room, socket)) {
+                clog.consoleLog(1, 'disconnect', 'room:' + room.id + ' viewer:' + socket.id);
+            }
         }
 
     });
+
+
+    socket.on('init_viewer', function() {
+        socket.emit('send_rooms', { rooms: getRoomsData()} );
+    });
+
+    socket.on('viewer_changeroom', function (data) {
+        if (data === undefined || data === null)
+            return;
+
+        var id = data.roomid;
+        var nroom = findRoom(id);
+        if (nroom === undefined || nroom === null)
+            return;
+
+        //leave room
+        rooms.forEach(function (oroom) {
+            if (removeViewer(oroom, socket)) {
+                clog.consoleLog(1, 'viewer_leaveroom', 'room:' + oroom.id + ' user:' + socket.id);
+            }
+        });
+
+        // goto new room
+        if (nroom.viewers.indexOf(socket) === -1) {
+            nroom.viewers.push(socket);
+            clog.consoleLog(1, 'viewer_inroom', 'room:' + nroom.id + ' user:' + socket.id);
+        }
+    });
+
 });
 
 function getLeaderboard(socket, rowcount, mapsize) {
@@ -406,6 +490,7 @@ function genRoom() {
         id: -1,
         player1: undefined,
         player2: undefined,
+        viewers:[],
         gamestatus: genGameStatus()
     };
 
@@ -443,6 +528,14 @@ function findEmptyRoom() {
     rooms.push(nroom);
     nroom.id = rooms.indexOf(nroom);
 
+    // 當有新room開啟時，告訴所有 viewer 讓他們的下拉選單可以選到此 room 
+    // (目前不保證有 player 在玩)
+    rooms.forEach(function(room) {
+        room.viewers.forEach(function(viewer) {
+            viewer.emit('send_room', { rooms: getRoomsData() });
+        });
+    });
+
     return nroom;
 }
 
@@ -458,6 +551,9 @@ function findRoomByUserSocket(socket) {
     for (var i = 0; i < rooms.length; i++) {
         var room = rooms[i];
         if (room.player1 === socket || room.player2 === socket) {
+            return room;
+        }
+        else if (room.viewers.indexOf(socket) > -1) {
             return room;
         }
     }
@@ -477,11 +573,18 @@ function sendPlayersEvent(room, eventName, data) {
             room.player1.emit(eventName);
         if (room.player2 !== undefined)
             room.player2.emit(eventName);
+        room.viewers.forEach(function(viewer) {
+            viewer.emit(eventName);
+        });
+
     } else {
         if (room.player1 !== undefined)
             room.player1.emit(eventName, data);
         if (room.player2 !== undefined)
             room.player2.emit(eventName, data);
+        room.viewers.forEach(function (viewer) {
+            viewer.emit(eventName, data);
+        });
     }
 }
 
@@ -505,4 +608,28 @@ function getWinner(room) {
         return { winner: 0, map: [room.gamestatus.p1map, room.gamestatus.p2map] };  //tie
     }
 
+    return undefined;
+
+}
+
+function removeViewer(room, socket) {
+    var index = room.viewers.indexOf(socket);
+    if (index <= -1)
+        return false;
+
+    room.viewers[index] = undefined;
+    room.viewers.splice(index, 1); 
+    return true;
+}
+
+function getRoomsData() {
+    var data = [];
+    rooms.forEach(function(room) {
+        var d = { id: room.id };
+        if (data.indexOf(d) === -1) {
+            data.push(d);
+        }
+    });
+
+    return data;
 }

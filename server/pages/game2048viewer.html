@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <script src="js_lib/jquery.keyframes.min.js"></script>
+    <script src="js/enum.js"></script>
+    <script src="js/view.js"></script>
+    <script src="js/utility.js"></script>
+    <script src="js/iscando.js"></script>
+    <script src="js/merge.js"></script>
+    <script src="js/move.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="css/game2048style.min.css">
+</head>
+<body>
+
+    <script>
+    var socket = io();
+    var boxMoveTime = "100ms";
+    var selectedRoom = undefined;
+
+    $(document).ready(function () {
+        var size = 4;
+        createMitrixDiv(size);          //畫上 Grid
+        initViewer();
+
+    });
+
+    function initViewer() {
+        socket.emit('init_viewer');
+
+        // server 回傳 rooms
+        socket.on('send_rooms', function (result) {
+            updateDDL(result.rooms);
+        });
+
+        $('#select-rooms').change(function () {
+            var id = getSelectedRoomId();
+            socket.emit('viewer_changeroom', { roomid:  id});
+            $(this).blur();
+            selectedRoom = id;
+        });
+
+
+        // server 回傳 player進入房間
+        socket.on('init_room_opposite', function (data) {
+            //todo:
+            setMsg('player' + data.player + ' is in room');
+        });
+
+        // server 回傳 player 已ready
+        socket.on('send_ready_opposite', function (data) {
+            setMsg('player' + data.player + ' is ready');
+            if (data.map !== undefined) {
+                //todo:
+                //MappingArrayData_Oppo(data.player, data.map);
+            }
+        });
+
+        // server 回傳 第一階段倒數
+        socket.on('send_countdown1', function (secs) {
+            $('#gametimespan').text(ConvertSeconds2String(secs));
+        });
+
+        // server 回傳 第一階段倒數結束 (遊戲開始可操作)
+        socket.on('send_countdown1_over', function () {
+        });
+
+        // server 回傳 第二階段倒數
+        socket.on('send_countdown2', function (secs) {
+            if (secs === undefined)
+                return;
+            var ss = ConvertSeconds2String(secs);
+            $('#gametimespan').text(ss);
+        });
+
+        // server 回傳 第二階段倒數
+        socket.on('send_countdown2_over', function () {
+            setMsg('Game Over!!');
+
+        });
+
+        // server 回傳 比賽結果(game over)
+        socket.on('send_winner', function (data) {
+            if (data === undefined || data === null)
+                return;
+
+            if(data.winner !== 0)
+                setMsg('winner is player' + data.winner + ' score:' + data.map[0].Score);
+            else
+                setMsg('game is tie ,score:' + data.map[0].Score);
+        });
+
+    	socket.on('send_map', function (data) {
+    	    if (data !== undefined) {
+                //todo:
+    	        //MappingArrayData(data.player, data.map);
+    	    }
+    	});
+
+    	socket.on('disconnect_opposite', function (data) {
+	        setMsg("player" + data.player + "is left");
+	    });
+    }
+
+    function setMsg(msg) {
+        $('#gamemsgspan').text(msg);
+    }
+
+    function updateDDL(rooms) {
+        //add room options to #select-rooms
+        $('#select-rooms').empty();
+
+        rooms.forEach(function(room) {
+            $("#select-rooms").append($("<option></option>").attr("value", room.id).text(room.id));
+        });
+        $('#select-rooms')[0].selectedIndex = -1;
+
+        if (selectedRoom !== undefined) {
+            var prevSelected = $("#select-rooms option[value=" + selectedRoom + "]");
+            if (prevSelected != undefined && prevSelected.length > 0) {
+                prevSelected.selected = true;
+            } else {
+                $("#select-rooms option")[0].selected = true;
+            }
+        }
+        else {
+            $("#select-rooms option")[0].selected = true;
+        }
+
+        $('#select-rooms').change();
+    }
+
+    function getSelectedRoomId() {
+        return $("select#select-rooms").val();;
+    }
+    </script>
+
+<div class="main-contain">
+
+    <div class="mask-body" id="mask-body" style="visibility: collapse">
+        <p style="font-size: 40px;">Game Over</p>
+    </div>
+
+    <div class="box-header" style="height: 55px">
+        <span class="title">2048</span>
+        <!--分數-->
+        <div class="box-score">
+            <p class="score-title">SCORE</p>
+            <p class="score-content" id="score">0</p>
+        </div>
+
+    </div>
+
+    <div class="box-body">
+    </div>
+
+    <select id="select-rooms">
+    </select>
+</div>
+
+    <div id="developing-div">
+        <br />
+        <span> DEVELOPING </span> <br />
+        <div>
+            <span id="gametimespan"></span>
+        </div>
+        <div>
+            <span id="gamemsgspan"></span>
+        </div>
+    </div>
+</body>
+
+</html>

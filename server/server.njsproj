@@ -53,6 +53,7 @@
     </Content>
     <Content Include="css\bootstrap.css" />
     <Content Include="css\code.css" />
+    <Content Include="css\console.css" />
     <Content Include="css\default.css" />
     <Content Include="css\default3.css" />
     <Content Include="css\fonts.css" />
@@ -81,6 +82,7 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="images\flowchart.png" />
     <Content Include="images\game-2048-3.png" />
     <Content Include="images\inputEvent01.png" />
     <Content Include="images\problems08-01.jpg" />
@@ -104,6 +106,7 @@
     <Content Include="images\problems02_06.png" />
     <Content Include="images\problems02_07.png" />
     <Content Include="pages\game2048single.html" />
+    <Content Include="pages\game2048viewer.html" />
     <Content Include="pages\index.html" />
     <Content Include="pages\index2.html" />
     <Content Include="intro\body.html" />
@@ -144,16 +147,22 @@
     <Folder Include="typings\globals\body-parser\" />
     <Folder Include="typings\globals\bootstrap\" />
     <Folder Include="typings\globals\express\" />
+    <Folder Include="typings\globals\mime\" />
     <Folder Include="typings\globals\mssql\" />
+    <Folder Include="typings\globals\node-sass\" />
     <Folder Include="typings\globals\node\" />
+    <Folder Include="typings\globals\serve-static\" />
     <Folder Include="typings\globals\socket.io\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="typings\globals\body-parser\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\bootstrap\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\express\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\mime\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\mssql\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\node-sass\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\serve-static\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\socket.io\index.d.ts" />
     <TypeScriptCompile Include="typings\index.d.ts" />
   </ItemGroup>
