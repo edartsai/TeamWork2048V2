@@ -1,7 +1,7 @@
 ﻿$box-width: 50px;
 $box-height: 50px;
-$box2-width: 35px;
-$box2-height: 35px;
+$box2-width: 36px;
+$box2-height: 36px;
 $box-radius: 4px;
 $box-margin: 5px;
 $box-background:#776E65;
@@ -10,7 +10,7 @@ $box-border-width:2px;
 $root-background:#FAF8EF;
 
 
-$player1-main-color:#8F574D;
+$player1-main-color:#BB4444;
 $player2-main-color:#50798B;
 
 $smallbox-width:30px;
@@ -20,6 +20,7 @@ $text-color: #776E65;
 $bottom-box-width:100px;
 $bottom-box-height:30px;
 $button-active-color:#7C6958;
+
 
 html, body {  
   margin: 0;
@@ -36,8 +37,7 @@ html, body {
   margin-top:50px;
 }
 
-
-
+//上一步和重玩按鈕的狀態
 .back-button{
     background:$player1-main-color;
     border-radius: $box-radius;
@@ -58,6 +58,7 @@ html, body {
     background:$border-color;
 }
 
+//base css
 .box-body{
     border-color:$border-color;
     border-width:$box-border-width;
@@ -66,7 +67,32 @@ html, body {
     z-index:1;
 }
 
-
+ .base-border{
+     border-width:$box-border-width;
+     border-style:solid;
+     border-radius: $box-radius;
+     height:$box-height;
+ }
+ //分數 score base css
+ .base-box-score{
+     @extend .base-border;
+     .score-title
+     {
+        height:$box-height/2;
+        line-height:$box-height/2;
+        font-size:10px;
+        content:"Score";
+        margin:auto;
+        color:white;
+     }
+     .score-content
+     {
+        height:$box-height/2;
+        margin:auto;
+        font-weight: bold;
+        color:white;
+     }
+}
 
 .box-row-border{
     z-index:3;
@@ -109,7 +135,7 @@ html, body {
 //player 1 分數
  #player1-scare{
      @extend .base-box-score;
-     background:$border-color;
+     background:$player1-main-color;
      border-color:$player1-main-color;
      float:left;
       width:20%;
@@ -117,11 +143,14 @@ html, body {
  //player 1 名稱
  #player1-name{
      @extend .base-border;
-     background:$border-color;
+     background:$player1-main-color;
      border-color:$player1-main-color;
      float:left;
      width:27%;
      margin-left:2px;
+     padding:0px;
+     text-align:center;
+     line-height:50px;
  }
  .box{
     z-index:3;
@@ -135,6 +164,8 @@ html, body {
     position:relative;
 }
 //player 1 object css ------  end
+
+
 
 
 
@@ -158,21 +189,21 @@ html, body {
 //player 2 分數
  #player2-scare{
      @extend .base-box-score;
-     background:$border-color;
+     background:$player2-main-color;
      border-color:$player2-main-color;
      float:left;
       width:46%;
-      margin-bottom:2px;
+      margin-bottom:1px;
  }
  //player 2 名稱
  #player2-name{
      @extend .base-border;
-     background:$border-color;
+     background:$player2-main-color;
      border-color:$player2-main-color;
      float:left;
-     width:46%;
+     width:47%;
      margin-left:2px;
-     margin-bottom:2px;
+     margin-bottom:1px;
  }
 
  .box2{
@@ -186,7 +217,63 @@ html, body {
     border-style:solid;
     position:relative;
 }
+
+ .box2-number{
+     margin-top:8px;
+ }
 //player 2 object css ------  end
+
+
+
+
+
+//player 2 viewer object css  ------  start
+#play2viewer-box-column-border{
+    @extend .box-column-border;
+    width:$box-width*4 + 4*$box-border-width + 2px;
+    background:$player2-main-color;
+}
+#play2viewer-box-row-border{
+    @extend .box-row-border;
+    height: $box-height;
+    background:$player2-main-color;
+}
+#play1viewerdivcss{
+    float:left;
+}
+#play2viewerdivcss{
+    float:left;
+}
+.box2viewer{
+    z-index:3;
+    width: $box-width;
+    height: $box-height;
+    text-align:center;
+    float: left;
+    border-color:$border-color;
+    border-width:0px;
+    border-style:solid;
+    position:relative;
+}
+#player1viewer-scare{
+     @extend .base-box-score;
+     background:$player1-main-color;
+     border-color:$player1-main-color;
+     float:left;
+      width:46%;
+      margin-bottom:1px;
+ }
+//player 1 名稱
+ #player1viewer-name{
+     @extend .base-border;
+     background:$player1-main-color;
+     border-color:$player1-main-color;
+     float:left;
+     width:49%;
+     margin-left:2px;
+     margin-bottom:1px;
+ }
+//player 2 viewer object css ------  end
 
 
 .box-row{
@@ -222,36 +309,7 @@ html, body {
 
  
 
- // base border css
- .base-border{
-     /*background:$border-color;
-     border-color:$border-color;*/
-     border-width:$box-border-width;
-     border-style:solid;
-     border-radius: $box-radius;
-     height:$box-height;
- }
- //分數 score base css
- .base-box-score{
-     @extend .base-border;
-      
-     .score-title
-     {
-        height:$box-height/2;
-        line-height:$box-height/2;
-        font-size:10px;
-        content:"Score";
-        margin:auto;
-        color:white;
-     }
-     .score-content
-     {
-        height:$box-height/2;
-        margin:auto;
-        font-weight: bold;
-        color:white;
-     }
-}
+ 
  
 
  //倒數計時器
@@ -309,7 +367,7 @@ html, body {
 	text-shadow:0px 1px 0px #4d3534;
 
     float:left;
-     margin-top:2px;
+     margin-top:4px;
      margin-left:2px;
      width:28%;
      height:30px;
@@ -325,36 +383,43 @@ html, body {
 }
 
 
+
+
+
  //縮放到480px以下，UI調整
  @media only screen and (max-width: 480px){
 #timer-div{
-         float:none;
-         width:100%;
-     }
+    float:none;
+    width:98%;
+}
 #player1-scare{
     width:41%;
-    }
+}
 #player1-name{
     width:41%;
-    }
+}
  #play1divcss{
-     float:none;
-     margin-top:57px;
-     }
+    float:none;
+    margin-top:57px;
+}
 
  #play2divcss{
-     float:none;
-     margin-top:2px;
-     }
+    float:none;
+    margin-top:2px;
+}
  #play2-box-body{
      display:none;
  }
+
+ #player2-name{
+     width:49%;
+ }
  #readybtn{
-     width:100%;
+     width:98%;
      background-color:red;
  }
  #gamemsgspan{
-     width:100%;
+     width:98%;
  }
 }
  

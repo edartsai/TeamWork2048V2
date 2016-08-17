@@ -12,18 +12,18 @@
   margin-top: 50px; }
 
 .back-button {
-  background: #8F574D;
+  background: #BB4444;
   border-radius: 4px;
   border: 2px solid #BBADA0;
   padding: 0;
   cursor: pointer;
-  border-color: #8F574D; }
+  border-color: #BB4444; }
 
 .back-button:active {
   background: #7C6958;
   border-radius: 4px;
   border: 2px solid #BBADA0;
-  border-color: #8F574D; }
+  border-color: #BB4444; }
 
 .back-button:disabled {
   opacity: 0.75;
@@ -37,7 +37,27 @@
   border-radius: 4px;
   z-index: 1; }
 
-.box-row-border, #play1-box-row-border, #play2-box-row-border {
+.base-border, .base-box-score, #player1-scare, #player2-scare, #player1viewer-scare, #player1-name, #player2-name, #player1viewer-name, #timer-div, #gamemsgspan {
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 4px;
+  height: 50px; }
+
+.base-box-score .score-title, #player1-scare .score-title, #player2-scare .score-title, #player1viewer-scare .score-title {
+  height: 25px;
+  line-height: 25px;
+  font-size: 10px;
+  content: "Score";
+  margin: auto;
+  color: white; }
+
+.base-box-score .score-content, #player1-scare .score-content, #player2-scare .score-content, #player1viewer-scare .score-content {
+  height: 25px;
+  margin: auto;
+  font-weight: bold;
+  color: white; }
+
+.box-row-border, #play1-box-row-border, #play2-box-row-border, #play2viewer-box-row-border {
   z-index: 3;
   width: 2px;
   height: 50px;
@@ -47,7 +67,7 @@
   border-width: 0px;
   position: relative; }
 
-.box-column-border, #play1-box-column-border, #play2-box-column-border {
+.box-column-border, #play1-box-column-border, #play2-box-column-border, #play2viewer-box-column-border {
   z-index: 3;
   height: 2px;
   background: #BBADA0;
@@ -57,27 +77,30 @@
 
 #play1-box-column-border {
   width: 210px;
-  background: #8F574D; }
+  background: #BB4444; }
 
 #play1-box-row-border {
   height: 50px;
-  background: #8F574D; }
+  background: #BB4444; }
 
 #play1-box-body {
-  border-color: #8F574D; }
+  border-color: #BB4444; }
 
 #player1-scare {
-  background: #BBADA0;
-  border-color: #8F574D;
+  background: #BB4444;
+  border-color: #BB4444;
   float: left;
   width: 20%; }
 
 #player1-name {
-  background: #BBADA0;
-  border-color: #8F574D;
+  background: #BB4444;
+  border-color: #BB4444;
   float: left;
   width: 27%;
-  margin-left: 2px; }
+  margin-left: 2px;
+  padding: 0px;
+  text-align: center;
+  line-height: 50px; }
 
 .box {
   z-index: 3;
@@ -91,41 +114,84 @@
   position: relative; }
 
 #play2-box-column-border {
-  width: 150px;
+  width: 154px;
   background: #50798B; }
 
 #play2-box-row-border {
-  height: 35px;
+  height: 36px;
   background: #50798B; }
 
 #play2-box-body {
   border-color: #50798B; }
 
 #player2-scare {
-  background: #BBADA0;
+  background: #50798B;
   border-color: #50798B;
   float: left;
   width: 46%;
-  margin-bottom: 2px; }
+  margin-bottom: 1px; }
 
 #player2-name {
-  background: #BBADA0;
+  background: #50798B;
   border-color: #50798B;
   float: left;
-  width: 46%;
+  width: 47%;
   margin-left: 2px;
-  margin-bottom: 2px; }
+  margin-bottom: 1px; }
 
 .box2 {
   z-index: 3;
-  width: 35px;
-  height: 35px;
+  width: 36px;
+  height: 36px;
   text-align: center;
   float: left;
   border-color: #BBADA0;
   border-width: 0px;
   border-style: solid;
   position: relative; }
+
+.box2-number {
+  margin-top: 8px; }
+
+#play2viewer-box-column-border {
+  width: 210px;
+  background: #50798B; }
+
+#play2viewer-box-row-border {
+  height: 50px;
+  background: #50798B; }
+
+#play1viewerdivcss {
+  float: left; }
+
+#play2viewerdivcss {
+  float: left; }
+
+.box2viewer {
+  z-index: 3;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  float: left;
+  border-color: #BBADA0;
+  border-width: 0px;
+  border-style: solid;
+  position: relative; }
+
+#player1viewer-scare {
+  background: #BB4444;
+  border-color: #BB4444;
+  float: left;
+  width: 46%;
+  margin-bottom: 1px; }
+
+#player1viewer-name {
+  background: #BB4444;
+  border-color: #BB4444;
+  float: left;
+  width: 49%;
+  margin-left: 2px;
+  margin-bottom: 1px; }
 
 .box-row {
   z-index: 2;
@@ -148,28 +214,6 @@
   /*margin-top:65px;
     margin-left:($main-width/2) * (-1);
     line-height:($main-width/2) + 30;*/ }
-
-.base-border, #player1-name, #player2-name, .base-box-score, #player1-scare, #player2-scare, #timer-div, #gamemsgspan {
-  /*background:$border-color;
-     border-color:$border-color;*/
-  border-width: 2px;
-  border-style: solid;
-  border-radius: 4px;
-  height: 50px; }
-
-.base-box-score .score-title, #player1-scare .score-title, #player2-scare .score-title {
-  height: 25px;
-  line-height: 25px;
-  font-size: 10px;
-  content: "Score";
-  margin: auto;
-  color: white; }
-
-.base-box-score .score-content, #player1-scare .score-content, #player2-scare .score-content {
-  height: 25px;
-  margin: auto;
-  font-weight: bold;
-  color: white; }
 
 #timer-div {
   width: 41%;
@@ -214,7 +258,7 @@
   text-decoration: none;
   text-shadow: 0px 1px 0px #4d3534;
   float: left;
-  margin-top: 2px;
+  margin-top: 4px;
   margin-left: 2px;
   width: 28%;
   height: 30px; }
@@ -231,7 +275,7 @@
 @media only screen and (max-width: 480px) {
   #timer-div {
     float: none;
-    width: 100%; }
+    width: 98%; }
   #player1-scare {
     width: 41%; }
   #player1-name {
@@ -244,9 +288,11 @@
     margin-top: 2px; }
   #play2-box-body {
     display: none; }
+  #player2-name {
+    width: 49%; }
   #readybtn {
-    width: 100%;
+    width: 98%;
     background-color: red; }
   #gamemsgspan {
-    width: 100%; } }
+    width: 98%; } }
 
