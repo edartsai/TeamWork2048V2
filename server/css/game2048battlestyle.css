@@ -12,28 +12,72 @@
   margin-top: 50px; }
 
 .back-button {
-  background: #BBADA0;
+  background: #8F574D;
   border-radius: 4px;
   border: 2px solid #BBADA0;
   padding: 0;
-  cursor: pointer; }
+  cursor: pointer;
+  border-color: #8F574D; }
 
 .back-button:active {
   background: #7C6958;
   border-radius: 4px;
-  border: 2px solid #BBADA0; }
+  border: 2px solid #BBADA0;
+  border-color: #8F574D; }
 
 .back-button:disabled {
   opacity: 0.75;
   cursor: not-allowed;
   background: #BBADA0; }
 
-.box-body {
+.box-body, #play1-box-body, #play2-box-body {
   border-color: #BBADA0;
   border-width: 2px;
   border-style: solid;
   border-radius: 4px;
   z-index: 1; }
+
+.box-row-border, #play1-box-row-border, #play2-box-row-border {
+  z-index: 3;
+  width: 2px;
+  height: 50px;
+  background: #BBADA0;
+  text-align: center;
+  float: left;
+  border-width: 0px;
+  position: relative; }
+
+.box-column-border, #play1-box-column-border, #play2-box-column-border {
+  z-index: 3;
+  height: 2px;
+  background: #BBADA0;
+  text-align: center;
+  border-width: 0px;
+  position: relative; }
+
+#play1-box-column-border {
+  width: 210px;
+  background: #8F574D; }
+
+#play1-box-row-border {
+  height: 50px;
+  background: #8F574D; }
+
+#play1-box-body {
+  border-color: #8F574D; }
+
+#player1-scare {
+  background: #BBADA0;
+  border-color: #8F574D;
+  float: left;
+  width: 20%; }
+
+#player1-name {
+  background: #BBADA0;
+  border-color: #8F574D;
+  float: left;
+  width: 27%;
+  margin-left: 2px; }
 
 .box {
   z-index: 3;
@@ -46,23 +90,41 @@
   border-style: solid;
   position: relative; }
 
-.box-row-border {
-  z-index: 3;
-  width: 2px;
-  height: 50px;
+#play2-box-column-border {
+  width: 150px;
+  background: #50798B; }
+
+#play2-box-row-border {
+  height: 35px;
+  background: #50798B; }
+
+#play2-box-body {
+  border-color: #50798B; }
+
+#player2-scare {
   background: #BBADA0;
+  border-color: #50798B;
+  float: left;
+  width: 46%;
+  margin-bottom: 2px; }
+
+#player2-name {
+  background: #BBADA0;
+  border-color: #50798B;
+  float: left;
+  width: 46%;
+  margin-left: 2px;
+  margin-bottom: 2px; }
+
+.box2 {
+  z-index: 3;
+  width: 35px;
+  height: 35px;
   text-align: center;
   float: left;
+  border-color: #BBADA0;
   border-width: 0px;
-  position: relative; }
-
-.box-column-border {
-  width: 210px;
-  z-index: 3;
-  height: 2px;
-  background: #BBADA0;
-  text-align: center;
-  border-width: 0px;
+  border-style: solid;
   position: relative; }
 
 .box-row {
@@ -87,45 +149,15 @@
     margin-left:($main-width/2) * (-1);
     line-height:($main-width/2) + 30;*/ }
 
-.box2-column-border {
-  width: 150px;
-  z-index: 3;
-  height: 2px;
-  background: #BBADA0;
-  text-align: center;
-  border-width: 0px;
-  position: relative; }
-
-.box2-row-border {
-  z-index: 3;
-  width: 2px;
-  height: 35px;
-  background: #BBADA0;
-  text-align: center;
-  float: left;
-  border-width: 0px;
-  position: relative; }
-
-.box2 {
-  z-index: 3;
-  width: 35px;
-  height: 35px;
-  text-align: center;
-  float: left;
-  border-color: #BBADA0;
-  border-width: 0px;
-  border-style: solid;
-  position: relative; }
-
-.base-border, .base-box-score, #player1-scare, #timer-div, #player1-name {
-  background: #BBADA0;
-  border-color: #BBADA0;
+.base-border, #player1-name, #player2-name, .base-box-score, #player1-scare, #player2-scare, #timer-div, #gamemsgspan {
+  /*background:$border-color;
+     border-color:$border-color;*/
   border-width: 2px;
   border-style: solid;
   border-radius: 4px;
   height: 50px; }
 
-.base-box-score .score-title, #player1-scare .score-title {
+.base-box-score .score-title, #player1-scare .score-title, #player2-scare .score-title {
   height: 25px;
   line-height: 25px;
   font-size: 10px;
@@ -133,7 +165,7 @@
   margin: auto;
   color: white; }
 
-.base-box-score .score-content, #player1-scare .score-content {
+.base-box-score .score-content, #player1-scare .score-content, #player2-scare .score-content {
   height: 25px;
   margin: auto;
   font-weight: bold;
@@ -141,23 +173,24 @@
 
 #timer-div {
   width: 41%;
+  background: #BBADA0;
+  border-color: #BBADA0;
   margin-bottom: 2px;
   margin-left: 2px;
   float: right; }
-  #timer-div #timer-p {
-    font-size: x-large;
+  #timer-div #gametimespan {
+    font-size: xx-large;
     font-weight: bold;
-    background-color: red;
-    margin-top: 10px; }
+    margin-top: 8px; }
 
-#player1-scare {
+#gamemsgspan {
   float: left;
-  width: 20%; }
-
-#player1-name {
-  float: left;
-  width: 27%;
-  margin-left: 2px; }
+  margin-top: 2px;
+  width: 70%;
+  height: 30px;
+  line-height: 30px;
+  background: #BBADA0;
+  border-color: #BBADA0; }
 
 #play1divcss {
   float: left; }
@@ -165,6 +198,35 @@
 #play2divcss {
   margin-left: 2px;
   float: left; }
+
+#readybtn {
+  box-shadow: inset 0px 1px 0px 0px #a6827e;
+  background: linear-gradient(to bottom, #7d5d3b 5%, #634b30 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d5d3b', endColorstr='#634b30',GradientType=0);
+  background-color: #7d5d3b;
+  border-radius: 3px;
+  border: 1px solid #54381e;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 13px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #4d3534;
+  float: left;
+  margin-top: 2px;
+  margin-left: 2px;
+  width: 28%;
+  height: 30px; }
+
+#readybtn:hover {
+  background: linear-gradient(to bottom, #634b30 5%, #7d5d3b 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#634b30', endColorstr='#7d5d3b',GradientType=0);
+  background-color: #634b30; }
+
+#readybtn:active {
+  position: relative;
+  top: 1px; }
 
 @media only screen and (max-width: 480px) {
   #timer-div {
@@ -180,6 +242,11 @@
   #play2divcss {
     float: none;
     margin-top: 2px; }
-  #player2-box-body {
-    display: none; } }
+  #play2-box-body {
+    display: none; }
+  #readybtn {
+    width: 100%;
+    background-color: red; }
+  #gamemsgspan {
+    width: 100%; } }
 

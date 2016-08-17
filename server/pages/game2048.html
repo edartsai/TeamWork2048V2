@@ -267,7 +267,7 @@
         });
 
         // 點擊送出 ready 
-        $('#readybtn').click(function() {
+        $('#readybtn').click(function () {
             DisableReadyButton();
             reset(false);
             socket.emit('send_ready', { id: roomInfo.id, map: mapObj });
@@ -278,7 +278,7 @@
             setMsg('opposite is ready');
             if (oppoInitmap !== undefined) {
                 //todo:
-                //MappingArrayData_Oppo(oppoInitmap); 
+                MappingArrayData_Oppo(oppoInitmap); 
             }
         });
 
@@ -327,7 +327,7 @@
     	socket.on('send_map', function (oppoMap) {
     	    if (oppoMap !== undefined) {
                 //todo:
-    	        //MappingArrayData_Oppo(oppoMap);
+    	        MappingArrayData_Oppo(oppoMap);
     	    }
     	});
 
@@ -363,7 +363,7 @@
             <div id="block1-detaildata" style="height: 55px">
                 <!--倒數計時器-->
                 <div id="timer-div">
-                    <p>00:00</p>
+                    <p id="gametimespan">00:00</p>
                 </div>
                 <!--分數-->
                 <div id="player1-scare">
@@ -386,79 +386,58 @@
             </div>
 
             <div id="play1divcss">
-                <!--<div style="height: 55px">
-                    
-                    <div class="base-box-score" style="float:left;width:40%">
-                        <p class="score-title">SCORE</p>
-                        <p class="score-content" id="score">0</p>
-                    </div>
-                    <div class="base-border" style="float:left;width:40%;height:50px;margin-left:2px">
-                        <p>NAME</p>
-                    </div>
-                    
-                    <div class="replay-button">
-                        <button class="back-button" id="resetbtn" type="submit" onclick="reset(true)">
-                            <img src="images/b_brefresh_20_n.png" alt="" />
-                        </button>
-                    </div>
-                    
-                    <div class="upstep-button">
-                        <button class="back-button" id="rollbackbtn" type="submit" onclick="rollback()">
-                            <img src="images/b_back_btn_20_p.png" alt="" />
-                        </button>
-                    </div>
-                </div>-->
+                
 
-                <div class="box-body">
+                <div id="play1-box-body">
                     <div class='box-row'>
-                        <div class='box-column-border'></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-column-border"></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                     </div>
                     <div class='box-row'>
-                        <div class='box-column-border'></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-column-border"></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                     </div>
                     <div class='box-row'>
-                        <div class='box-column-border'></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-column-border"></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                     </div>
                     <div class='box-row'>
-                        <div class='box-column-border'></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-column-border"></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                         <div class='box'><p class='box-number'></p></div>
-                        <div class='box-row-border'></div>
+                        <div id="play1-box-row-border"></div>
                     </div>
-                    <div class='box-column-border'></div>
+                    <div id="play1-box-column-border"></div>
                 </div>
 
             </div>
@@ -466,65 +445,65 @@
             <div id="play2divcss">
                 <div>
                     <!--分數-->
-                    <div class="base-box-score" style="float:left;width:46%;height:52px;margin-bottom:2px">
+                    <div id="player2-scare">
                         <p class="score-title">SCORE</p>
-                        <p class="score-content" id="score">0</p>
+                        <p class="score-content" id="score2">0</p>
                     </div>
-                    <div class="base-border" style="float:left;width:46%;height:50px;margin-left:2px;height:52px;margin-bottom:2px">
+                    <div id="player2-name">
                         <p>NAME</p>
                     </div>
                     <div style="clear:both;"></div>
 
-                    <div class="box-body" id="player2-box-body">
+                    <div id="play2-box-body">
                         <div class='box-row'>
-                            <div class='box2-column-border'></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-column-border"></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                         </div>
                         <div class='box-row'>
-                            <div class='box2-column-border'></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-column-border"></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                         </div>
                         <div class='box-row'>
-                            <div class='box2-column-border'></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-column-border"></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                         </div>
                         <div class='box-row'>
-                            <div class='box2-column-border'></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-column-border"></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                             <div class='box2'><p class='box2-number'></p></div>
-                            <div class='box2-row-border'></div>
+                            <div id="play2-box-row-border"></div>
                         </div>
-                        <div class='box2-column-border'></div>
+                        <div id="play2-box-column-border"></div>
                     </div>
 
                 </div>
@@ -535,10 +514,8 @@
     </div>
 
     <div style="height:50px">
-        <div class="base-border" style="float:left;margin-top:2px;width:70%">MESSAGE</div>
-        <div style="float:left;margin-top:2px;margin-left:2px;width:28%">
-            <input type="button" id="readybtn" value="ready" />
-        </div>
+        <span id="gamemsgspan" ></span>
+        <input id="readybtn" type="button" value="READY" />
     </div>
     
 

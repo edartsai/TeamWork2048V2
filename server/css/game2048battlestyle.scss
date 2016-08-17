@@ -39,16 +39,18 @@ html, body {
 
 
 .back-button{
-    background:$border-color;
+    background:$player1-main-color;
     border-radius: $box-radius;
     border:$box-border-width solid $border-color;
     padding:0;
     cursor:pointer;
+    border-color:$player1-main-color;
 }
 .back-button:active{
     background:$button-active-color;
     border-radius: $box-radius;
     border:$box-border-width solid $border-color;
+    border-color:$player1-main-color;
 }
 .back-button:disabled{    
     opacity: 0.75; 
@@ -62,20 +64,9 @@ html, body {
     border-style:solid;
     border-radius: $box-radius;
     z-index:1;
-    
 }
 
-.box{
-    z-index:3;
-    width: $box-width;
-    height: $box-height;
-    text-align:center;
-    float: left;
-    border-color:$border-color;
-    border-width:0px;
-    border-style:solid;
-    position:relative;
-}
+
 
 .box-row-border{
     z-index:3;
@@ -89,7 +80,6 @@ html, body {
 }
 
 .box-column-border{
-    width:$box-width*4 + 4*$box-border-width + 2px;
     z-index:3;
     height: $box-border-width;
     background: $border-color;
@@ -97,6 +87,106 @@ html, body {
     border-width:0px;
     position:relative;
 }
+
+//player 1 object css  ------  start
+//主要矩陣的邊框
+#play1-box-column-border{
+    @extend .box-column-border;
+    width:$box-width*4 + 4*$box-border-width + 2px;
+    background:$player1-main-color;
+}
+//主要矩陣的邊框
+#play1-box-row-border{
+    @extend .box-row-border;
+    height: $box-height;
+    background:$player1-main-color;
+}
+//主要矩陣的邊框
+#play1-box-body{
+    @extend .box-body;
+    border-color:$player1-main-color;
+}
+//player 1 分數
+ #player1-scare{
+     @extend .base-box-score;
+     background:$border-color;
+     border-color:$player1-main-color;
+     float:left;
+      width:20%;
+ }
+ //player 1 名稱
+ #player1-name{
+     @extend .base-border;
+     background:$border-color;
+     border-color:$player1-main-color;
+     float:left;
+     width:27%;
+     margin-left:2px;
+ }
+ .box{
+    z-index:3;
+    width: $box-width;
+    height: $box-height;
+    text-align:center;
+    float: left;
+    border-color:$border-color;
+    border-width:0px;
+    border-style:solid;
+    position:relative;
+}
+//player 1 object css ------  end
+
+
+
+//player 2 object css  ------  start
+#play2-box-column-border{
+    @extend .box-column-border;
+    width:$box2-width*4 + 4*$box-border-width + 2px;
+    background:$player2-main-color;
+}
+
+#play2-box-row-border{
+    @extend .box-row-border;
+    height: $box2-height;
+    background:$player2-main-color;
+}
+
+#play2-box-body{
+    @extend .box-body;
+    border-color:$player2-main-color;
+}
+//player 2 分數
+ #player2-scare{
+     @extend .base-box-score;
+     background:$border-color;
+     border-color:$player2-main-color;
+     float:left;
+      width:46%;
+      margin-bottom:2px;
+ }
+ //player 2 名稱
+ #player2-name{
+     @extend .base-border;
+     background:$border-color;
+     border-color:$player2-main-color;
+     float:left;
+     width:46%;
+     margin-left:2px;
+     margin-bottom:2px;
+ }
+
+ .box2{
+    z-index:3;
+    width: $box2-width;
+    height: $box2-height;
+    text-align:center;
+    float: left;
+    border-color:$border-color;
+    border-width:0px;
+    border-style:solid;
+    position:relative;
+}
+//player 2 object css ------  end
 
 
 .box-row{
@@ -125,44 +215,17 @@ html, body {
 }
 
 
-.box2-column-border{
-    width:$box2-width*4 + 4*$box-border-width + 2px;
-    z-index:3;
-    height: $box-border-width;
-    background: $border-color;
-    text-align:center;
-    border-width:0px;
-    position:relative;
-}
 
 
- .box2-row-border{
-    z-index:3;
-    width: $box-border-width;
-    height: $box2-height;
-    background: $border-color;
-    text-align:center;
-    float: left;
-    border-width:0px;
-    position:relative;
-}
 
- .box2{
-    z-index:3;
-    width: $box2-width;
-    height: $box2-height;
-    text-align:center;
-    float: left;
-    border-color:$border-color;
-    border-width:0px;
-    border-style:solid;
-    position:relative;
-}
+ 
+
+ 
 
  // base border css
  .base-border{
-     background:$border-color;
-     border-color:$border-color;
+     /*background:$border-color;
+     border-color:$border-color;*/
      border-width:$box-border-width;
      border-style:solid;
      border-radius: $box-radius;
@@ -195,32 +258,30 @@ html, body {
  #timer-div{
      @extend .base-border;
      width:41%;
-     
+     background:$border-color;
+     border-color:$border-color;
      margin-bottom:2px;
      margin-left:2px;
      float:right;
-     #timer-p{
-         font-size:x-large;
+     #gametimespan{
+         font-size:xx-large;
          font-weight:bold;
-         background-color:red;
-         margin-top:10px;
+         margin-top:8px;
     }
  }
- //player 1 分數
- #player1-scare{
-     @extend .base-box-score;
-     float:left;
-      width:20%;
- }
- //player 1 名稱
- #player1-name{
+ 
+ #gamemsgspan{
      @extend .base-border;
      float:left;
-     width:27%;
-     margin-left:2px;
+     margin-top:2px;
+     width:70%;
+     height:30px;
+     line-height:30px;
+     background:$border-color;
+     border-color:$border-color;
  }
- 
 
+ 
 
  #play1divcss{
      float:left;
@@ -229,6 +290,40 @@ html, body {
       margin-left:2px;
       float:left;
  }
+
+
+ #readybtn{
+	box-shadow:inset 0px 1px 0px 0px #a6827e;
+	background:linear-gradient(to bottom, #7d5d3b 5%, #634b30 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d5d3b', endColorstr='#634b30',GradientType=0);
+	background-color:#7d5d3b;
+	border-radius:3px;
+	border:1px solid #54381e;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:13px;
+	
+	text-decoration:none;
+	text-shadow:0px 1px 0px #4d3534;
+
+    float:left;
+     margin-top:2px;
+     margin-left:2px;
+     width:28%;
+     height:30px;
+}
+#readybtn:hover {
+	background:linear-gradient(to bottom, #634b30 5%, #7d5d3b 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#634b30', endColorstr='#7d5d3b',GradientType=0);
+	background-color:#634b30;
+}
+#readybtn:active {
+	position:relative;
+	top:1px;
+}
+
 
  //縮放到480px以下，UI調整
  @media only screen and (max-width: 480px){
@@ -251,7 +346,17 @@ html, body {
      float:none;
      margin-top:2px;
      }
- #player2-box-body{
+ #play2-box-body{
      display:none;
  }
+ #readybtn{
+     width:100%;
+     background-color:red;
+ }
+ #gamemsgspan{
+     width:100%;
+ }
 }
+ 
+
+ 

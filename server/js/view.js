@@ -37,6 +37,28 @@
     }
 }
 
+function MappingArrayData_Oppo(oppoInitmap) {
+    var t;
+    var boxnumbers = document.getElementsByClassName("box2-number");
+    var boxs = document.getElementsByClassName("box2");
+    
+    // 清除畫面數字及重鋪底色
+    for (t = 0; t < boxnumbers.length; t++) {
+        boxnumbers[t].innerHTML = "";
+    }
+    for (t = 0; t < boxs.length; t++) {
+        boxs[t].style.background = GetBoxBackgroundColor(0); // 預設底色
+    }
+    
+    // 畫上新數字
+    oppoInitmap.Items.forEach(function (item) {
+        var nIndex = item.Y * (oppoInitmap.Size) + item.X;
+        boxnumbers[nIndex].innerHTML = item.Value;
+        boxs[nIndex].style.background = GetBoxBackgroundColor(item.Value);
+    });
+
+    document.getElementById("score2").innerHTML = mapObj.Score;
+}
 
 function GetBoxBackgroundColor(num) {
     var mergeStr = "a" + num;
