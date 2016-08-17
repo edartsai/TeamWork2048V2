@@ -24,11 +24,54 @@
         }
     </style>
 
+<script>
+    $(document).ready(function() {
+        $("#bs-navbar-1>ul>li>a").click(function() {
+            var href = $(this).attr("href");
+            href = href.substring(1);
+            showMainDiv(href);
+        });
 
-    <nav class="navbar navbar-default navbar-fixed-top">
+        navFromTag();
+    });
+
+    function showMainDiv(id) {
+        hideMainDiv();
+
+        var objs = $(".main-menu[id=" + id + "]");
+        if (objs === undefined || objs === null || objs.length <= 0) {
+            return;
+        }
+
+        objs.show();
+    }
+
+    function hideMainDiv() {
+        $("#homepage").hide();
+        $("#aboutus").hide();
+        $("#features").hide();
+        $("#technics").hide();
+        $("#problems").hide();
+    }
+
+    function navFromTag() {
+        var index = location.href.indexOf('#');
+
+        if (index > -1 && index < location.href.length) {
+            var href = location.href.substring(location.href.indexOf('#'));
+            href = href.substring(1);
+            showMainDiv(href);
+        } else {
+            $("#bs-navbar-1>ul>li>a:first").click();
+        }
+    }
+
+</script>
+    
+<nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -40,7 +83,7 @@
                 </a>
             </div>
 
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="collapse navbar-collapse" id="bs-navbar-1">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#homepage">HOME <span class="sr-only">(current)</span></a></li>
                     <li><a href="#aboutus">ABOUT US</a></li>
@@ -555,7 +598,7 @@
 			</div>
 		</div>
 
-    <div class="modal fade" id="problem-02">
+        <div class="modal fade" id="problem-02">
 	    <div class="modal-dialog">
 		    <div class="modal-content">
 			    <div class="modal-header">

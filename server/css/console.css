@@ -1,0 +1,48 @@
+﻿body {
+  background: black;
+  color: #bae4d6;
+  font-size: 24px;
+}
+
+#cmd .css_tr .cursors {
+  font-size: 24px;
+  -webkit-animation-direction: normal;
+  -webkit-animation-duration: 1.5s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-name: blink;
+  -webkit-animation-timing-function: ease;
+}
+
+
+    .css_table {
+      display:table;
+    }
+    .css_tr {
+          display: table-row;
+      }
+    .css_td {
+          display: table-cell;
+          
+    }
+    .css_td span {
+        margin-right: 1em;
+    }
+
+
+@-webkit-keyframes 'blink' {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
