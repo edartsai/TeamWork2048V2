@@ -47,12 +47,25 @@
     <Compile Include="js_lib\jquery.mobile-1.4.5.min.js" />
     <Compile Include="server.js" />
     <Content Include="compilerconfig.json" />
+    <Content Include="compilerconfig.json.defaults">
+      <SubType>Content</SubType>
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </Content>
     <Content Include="css\bootstrap.css" />
     <Content Include="css\code.css" />
     <Content Include="css\console.css" />
     <Content Include="css\default.css" />
     <Content Include="css\default3.css" />
     <Content Include="css\fonts.css" />
+    <Content Include="css\game2048battlestyle.css">
+      <SubType>Content</SubType>
+      <DependentUpon>css\game2048battlestyle.scss</DependentUpon>
+    </Content>
+    <Content Include="css\game2048battlestyle.min.css">
+      <SubType>Content</SubType>
+      <DependentUpon>css\game2048battlestyle.css</DependentUpon>
+    </Content>
+    <Content Include="css\game2048battlestyle.scss" />
     <Content Include="css\game2048style.css" />
     <Content Include="css\game2048style.min.css">
       <SubType>Content</SubType>

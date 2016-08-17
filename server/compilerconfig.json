@@ -1,16 +1,10 @@
 ﻿[
   {
     "outputFile": "css/game2048style.css",
-    "inputFile": "css/game2048style.scss",
-    "minify": {
-      "enabled": true
-    }
+    "inputFile": "css/game2048style.scss"
   },
   {
-    "outputFile": "css/console.css",
-    "inputFile": "css/console.scss",
-    "options": {
-
-    }
+    "outputFile": "css/game2048battlestyle.css",
+    "inputFile": "css/game2048battlestyle.scss"
   }
 ]

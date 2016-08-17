@@ -1,0 +1,257 @@
+﻿$box-width: 50px;
+$box-height: 50px;
+$box2-width: 35px;
+$box2-height: 35px;
+$box-radius: 4px;
+$box-margin: 5px;
+$box-background:#776E65;
+$border-color:#BBADA0;
+$box-border-width:2px;
+$root-background:#FAF8EF;
+
+
+$player1-main-color:#8F574D;
+$player2-main-color:#50798B;
+
+$smallbox-width:30px;
+$main-width:$box-width*4+$box-border-width*10;
+$text-color: #776E65;
+
+$bottom-box-width:100px;
+$bottom-box-height:30px;
+$button-active-color:#7C6958;
+
+html, body {  
+  margin: 0;
+  padding: 0;
+  background: $root-background;  
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 18px;
+  text-align:center;
+  display:inline-block;
+}
+
+.main-contain{
+  text-align:center;
+  margin-top:50px;
+}
+
+
+
+.back-button{
+    background:$border-color;
+    border-radius: $box-radius;
+    border:$box-border-width solid $border-color;
+    padding:0;
+    cursor:pointer;
+}
+.back-button:active{
+    background:$button-active-color;
+    border-radius: $box-radius;
+    border:$box-border-width solid $border-color;
+}
+.back-button:disabled{    
+    opacity: 0.75; 
+    cursor: not-allowed;
+    background:$border-color;
+}
+
+.box-body{
+    border-color:$border-color;
+    border-width:$box-border-width;
+    border-style:solid;
+    border-radius: $box-radius;
+    z-index:1;
+    
+}
+
+.box{
+    z-index:3;
+    width: $box-width;
+    height: $box-height;
+    text-align:center;
+    float: left;
+    border-color:$border-color;
+    border-width:0px;
+    border-style:solid;
+    position:relative;
+}
+
+.box-row-border{
+    z-index:3;
+    width: $box-border-width;
+    height: $box-height;
+    background: $border-color;
+    text-align:center;
+    float: left;
+    border-width:0px;
+    position:relative;
+}
+
+.box-column-border{
+    width:$box-width*4 + 4*$box-border-width + 2px;
+    z-index:3;
+    height: $box-border-width;
+    background: $border-color;
+    text-align:center;
+    border-width:0px;
+    position:relative;
+}
+
+
+.box-row{
+    z-index:2;
+  text-align:center;
+  display: table-row;
+  background-color:#CDC1B4;
+  &:after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+}
+
+.mask-body{
+    /*width:$main-width;
+    height:$main-width;*/
+    background-color:rgba(20%,10%,0%,0.3);
+    z-index:100;
+    display:inline-block;
+    position:absolute;
+    border-radius: $box-radius;
+    /*margin-top:65px;
+    margin-left:($main-width/2) * (-1);
+    line-height:($main-width/2) + 30;*/
+}
+
+
+.box2-column-border{
+    width:$box2-width*4 + 4*$box-border-width + 2px;
+    z-index:3;
+    height: $box-border-width;
+    background: $border-color;
+    text-align:center;
+    border-width:0px;
+    position:relative;
+}
+
+
+ .box2-row-border{
+    z-index:3;
+    width: $box-border-width;
+    height: $box2-height;
+    background: $border-color;
+    text-align:center;
+    float: left;
+    border-width:0px;
+    position:relative;
+}
+
+ .box2{
+    z-index:3;
+    width: $box2-width;
+    height: $box2-height;
+    text-align:center;
+    float: left;
+    border-color:$border-color;
+    border-width:0px;
+    border-style:solid;
+    position:relative;
+}
+
+ // base border css
+ .base-border{
+     background:$border-color;
+     border-color:$border-color;
+     border-width:$box-border-width;
+     border-style:solid;
+     border-radius: $box-radius;
+     height:$box-height;
+ }
+ //分數 score base css
+ .base-box-score{
+     @extend .base-border;
+      
+     .score-title
+     {
+        height:$box-height/2;
+        line-height:$box-height/2;
+        font-size:10px;
+        content:"Score";
+        margin:auto;
+        color:white;
+     }
+     .score-content
+     {
+        height:$box-height/2;
+        margin:auto;
+        font-weight: bold;
+        color:white;
+     }
+}
+ 
+
+ //倒數計時器
+ #timer-div{
+     @extend .base-border;
+     width:41%;
+     
+     margin-bottom:2px;
+     margin-left:2px;
+     float:right;
+     #timer-p{
+         font-size:x-large;
+         font-weight:bold;
+         background-color:red;
+         margin-top:10px;
+    }
+ }
+ //player 1 分數
+ #player1-scare{
+     @extend .base-box-score;
+     float:left;
+      width:20%;
+ }
+ //player 1 名稱
+ #player1-name{
+     @extend .base-border;
+     float:left;
+     width:27%;
+     margin-left:2px;
+ }
+ 
+
+
+ #play1divcss{
+     float:left;
+ }
+ #play2divcss{
+      margin-left:2px;
+      float:left;
+ }
+
+ //縮放到480px以下，UI調整
+ @media only screen and (max-width: 480px){
+#timer-div{
+         float:none;
+         width:100%;
+     }
+#player1-scare{
+    width:41%;
+    }
+#player1-name{
+    width:41%;
+    }
+ #play1divcss{
+     float:none;
+     margin-top:57px;
+     }
+
+ #play2divcss{
+     float:none;
+     margin-top:2px;
+     }
+ #player2-box-body{
+     display:none;
+ }
+}
