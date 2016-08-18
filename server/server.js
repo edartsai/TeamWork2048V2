@@ -143,7 +143,7 @@ app.use('/images', express.static('images'));
 app.use('/intro', express.static('intro'));
 app.use('/js', express.static('js'));
 app.use('/js_lib', express.static('js_lib'));
-
+app.use('/js_out', express.static('js_out'));
 
 var rooms = [];
 var countdown1Interval = 5;     //in sec

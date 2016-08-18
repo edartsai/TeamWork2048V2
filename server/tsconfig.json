@@ -1,0 +1,23 @@
+﻿{
+  "compilerOptions": {
+    "rootDir": "ts/",
+    "outDir": "js_out/",
+    "sourceMap": true
+  }
+  ,
+  "exclude": [
+    "bin",
+    "css",
+    "fonts",
+    "images",
+    "intro",
+    "js",
+    "js_lib",
+    "node_modules",
+    "obj",
+    "pages",
+    "typings"
+  ]
+
+
+}
