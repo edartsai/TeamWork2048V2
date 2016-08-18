@@ -57,7 +57,7 @@ function MappingArrayData_Oppo(oppoInitmap) {
         boxs[nIndex].style.background = GetBoxBackgroundColor(item.Value);
     });
 
-    document.getElementById("score2").innerHTML = mapObj.Score;
+    document.getElementById("score2").innerHTML = oppoInitmap.Score;
 }
 
 function GetBoxBackgroundColor(num) {
@@ -123,11 +123,13 @@ function SetBestLabel() {
     document.getElementById("best-score").innerHTML = ReadBestScore();
 }
 
-
+function setNickname_Oppo(nickname) {
+    document.getElementById("player2-name-p").innerHTML = nickname;
+}
 
 //動畫
 function boxsmove(mapObj, prevObj) {
-    isCanClick = false;
+    isAnimationComplete = false;
     var moveArray = new Array();
     var moveboxs = new Array();
 
@@ -243,7 +245,7 @@ function boxAnimation(moveboxs) {
                 if (!isrepain) {
                     MappingArrayData(mapObj); //重繪Array
                     isrepain = true;
-                    isCanClick = true;
+                    isAnimationComplete = true;
                 }
                 
             }
@@ -299,3 +301,6 @@ function createDivStyle(i, j) {
     return "style=" + mergesize;
 }
 
+function setMsg(msg) {
+    $('#gamemsgspan').text(msg);
+}
