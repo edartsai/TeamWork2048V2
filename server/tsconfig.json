@@ -3,8 +3,7 @@
     "rootDir": "ts/",
     "outDir": "js_out/",
     "sourceMap": true
-  }
-  ,
+  },
   "exclude": [
     "bin",
     "css",
@@ -17,7 +16,10 @@
     "obj",
     "pages",
     "typings"
+  ],
+  "files" : [
+    "app.ts",
+    "test.ts"
   ]
-
 
 }

@@ -28,7 +28,7 @@
   cursor: not-allowed;
   background: #BBADA0; }
 
-.box-body, #play1-box-body, .play2-box-body {
+.box-body, #play1-box-body, #play2-box-body {
   border-color: #BBADA0;
   border-width: 2px;
   border-style: solid;
@@ -55,7 +55,7 @@
   font-weight: bold;
   color: white; }
 
-.box-row-border, .play1-box-row-border, .play2-box-row-border, #play2viewer-box-row-border {
+.box-row-border, .play1-box-row-border, .play2-box-row-border, .play2viewer-box-row-border {
   z-index: 3;
   width: 2px;
   height: 50px;
@@ -65,7 +65,7 @@
   border-width: 0px;
   position: relative; }
 
-.box-column-border, .play1-box-column-border, .play2-box-column-border, #play2viewer-box-column-border {
+.box-column-border, .play1-box-column-border, .play2-box-column-border, .play2viewer-box-column-border {
   z-index: 3;
   height: 2px;
   background: #BBADA0;
@@ -119,7 +119,7 @@
   height: 36px;
   background: #50798B; }
 
-.play2-box-body {
+#play2-box-body {
   border-color: #50798B; }
 
 #player2-scare {
@@ -151,11 +151,11 @@
 .box2-number {
   margin-top: 8px; }
 
-#play2viewer-box-column-border {
+.play2viewer-box-column-border {
   width: 210px;
   background: #50798B; }
 
-#play2viewer-box-row-border {
+.play2viewer-box-row-border {
   height: 50px;
   background: #50798B; }
 

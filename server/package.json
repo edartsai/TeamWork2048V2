@@ -15,7 +15,9 @@
     "socket.io": "*",
     "mssql": "3.3.0",
     "body-parser": "1.15.2",
-    "typescript": "1.8.10",
+    "typescript": "^1.8.10",
+    "typings": "^1.3.2",
     "vue": "^1.0.26"
+
   }
 }

@@ -162,8 +162,6 @@
     <Folder Include="typings\globals\vue\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="ts\test.ts" />
-    <TypeScriptCompile Include="ts\app.ts" />
     <TypeScriptCompile Include="typings\globals\body-parser\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\express\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\mssql\index.d.ts" />

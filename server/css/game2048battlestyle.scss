@@ -181,7 +181,7 @@ html, body {
     background:$player2-main-color;
 }
 
-.play2-box-body{
+#play2-box-body{
     @extend .box-body;
     border-color:$player2-main-color;
 }
@@ -227,12 +227,12 @@ html, body {
 
 
 //player 2 viewer object css  ------  start
-#play2viewer-box-column-border{
+.play2viewer-box-column-border{
     @extend .box-column-border;
     width:$box-width*4 + 4*$box-border-width + 2px;
     background:$player2-main-color;
 }
-#play2viewer-box-row-border{
+.play2viewer-box-row-border{
     @extend .box-row-border;
     height: $box-height;
     background:$player2-main-color;
