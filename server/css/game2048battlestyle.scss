@@ -381,7 +381,10 @@ html, body {
 	top:1px;
 }
 
-
+#readybtn:disabled{
+    opacity: 0.75;
+    cursor: not-allowed;
+}
 
 
 

@@ -4,7 +4,7 @@
 <head>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="js_lib/html2canvas.js"></script>
+
     <script src="js_lib/jquery.keyframes.min.js"></script>
     <script src="js/enum.js"></script>
     <script src="js/view.js"></script>
@@ -14,7 +14,6 @@
     <script src="js/move.js"></script>
     <script src="js/main.js"></script>
     <link rel="stylesheet" href="css/game2048battlestyle.min.css">
-    <!--<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -23,6 +22,7 @@
 <script>
     var socket = io();
     var isCanClick = true;
+    var isAnimationComplete = true;
     var boxMoveTime = "100ms";
 
     //遊戲目前狀態
@@ -43,9 +43,6 @@
         IsGameOver: false
     };
 
-    var defaultTimesLeft = 3;
-    var rollbackLeft = defaultTimesLeft;
-
     var roomInfo = {
     	id: -1,
     	player: 0
@@ -57,16 +54,13 @@
         //使用行動裝置
         InitMobile();
 
-        reset(false);
-
-    	// 必須放在 reset 之後
         initBattle();
     });
 
     function moveLeft() {
         if (Move(mapObj, DIRECTION.LEFT, prevObj)) {
             boxsmove(mapObj, prevObj);      //動畫+重繪數字
-            SetRollbackBtn(rollbackLeft);   //「上一步」按鈕狀態控制
+            EnableRollbackButton();         //「上一步」按鈕狀態控制
             sendMove(mapObj);               //send move obj to server
         }
     }
@@ -74,7 +68,7 @@
     function moveRight() {
         if (Move(mapObj, DIRECTION.RIGHT, prevObj)) {
             boxsmove(mapObj, prevObj);      //動畫+重繪數字
-            SetRollbackBtn(rollbackLeft);   //「上一步」按鈕狀態控制
+            EnableRollbackButton();         //「上一步」按鈕狀態控制
             sendMove(mapObj);               //send move obj to server
         }
     }
@@ -82,7 +76,7 @@
     function moveUp() {
         if (Move(mapObj, DIRECTION.UP, prevObj)) {
             boxsmove(mapObj, prevObj);      //動畫+重繪數字
-            SetRollbackBtn(rollbackLeft);   //「上一步」按鈕狀態控制
+            EnableRollbackButton();         //「上一步」按鈕狀態控制
             sendMove(mapObj);               //send move obj to server
         }
     }
@@ -90,56 +84,44 @@
     function moveDown() {
         if (Move(mapObj, DIRECTION.DOWN, prevObj)) {
             boxsmove(mapObj, prevObj);      //動畫+重繪數字
-            SetRollbackBtn(rollbackLeft);   //「上一步」按鈕狀態控制
+            EnableRollbackButton();         //「上一步」按鈕狀態控制
             sendMove(mapObj);               //send move obj to server
         }
     }
 
     function rollback() {
-    	if (rollbackLeft > 0)
-    		rollbackLeft--;
-        else
-            return;
-
         Clone(prevObj, mapObj);     //將前一狀態倒回現在狀態
-        sendMove(mapObj);               //send move obj to server
+        sendMove(mapObj);           //send move obj to server
 
         MappingArrayData(mapObj);   //重繪Array
         HideGameOverMask();         //假如有 GameOver，則將 Mask 隱藏
         DisableRollbackButton();    //關閉「上一步」
     }
 
-    function reset(isNeedSend) {
-        //var size = $("select#matrixSize").val();
+    function reset() {
         var size = 4;
-        //createMitrixDiv(size);          //畫上 Grid
-        resetRollbackTimes();           //重設 rollback time
+        //createMitrixDiv(size);        //畫上 Grid
         Init(mapObj, size);             //Init Data
         Clone(mapObj, prevObj);         //紀錄狀態
-		if(isNeedSend)
-			sendMove(mapObj);           //send move obj to server
         
         MappingArrayData(mapObj);       //重繪數字
 
-        //SetBestLabel();                 //讀取最佳紀錄(from cookies)
         HideGameOverMask();             //關閉GameOver Mask
         DisableRollbackButton();        //關閉「上一步」
     }
 
-    function resetRollbackTimes() {
-        rollbackLeft = defaultTimesLeft;
-    }
-
     function keyFunction() {
-        if (event.keyCode === 37 && isCanClick === true) {
+        if (isCanSendKey()) {
+            if (event.keyCode === 37 ) {
             moveLeft();
-        } else if (event.keyCode === 38 && isCanClick === true) {
+            } else if (event.keyCode === 38 ) {
             moveUp();
-        } else if (event.keyCode === 39 && isCanClick === true) {
+            } else if (event.keyCode === 39 ) {
             moveRight();
-        } else if (event.keyCode === 40 && isCanClick === true) {
+            } else if (event.keyCode === 40 ) {
             moveDown();
         }
+    }
     }
 
     function InitMobile() {
@@ -163,73 +145,9 @@
                         moveDown();
                     });
                 });
-            });
-        }
-    }
-
-    function capture() {
-        var capturediv = document.getElementById("capture-range-div");  //capture 範圍
-        if (capturediv === null || capturediv === undefined)
-            return;
-        capturePhoto(capturediv, onCaptureCompleted);
-    }
-
-    function onCaptureCompleted(arg) {
-        if (arg === undefined || arg === null)
-            return;
-
-        var img = arg.detail.image;
-
-        if (img === undefined || img === null)
-            return;
-
-        //post to fb
-        //postToFbWall("Name", "Msg", "", img, "Caption", "Description");
-
-        //upload to sql
-        socket.emit('add_screenshot', {
-            datatype: 0,
-            data: img
-        });
-
-        socket.on('add_screenshot', function (result) {
-        	var r = result.result;
-        	if (r.length > 0 && r[0].length > 0) {
-        		var id = r[0][0][""];
-        		window.open('screenshot.html' + '?' + 'id=' + id);
-        		alert('上傳成功!');
-        	} else {
-        		alert('上傳失敗!');
-        	}
         });
     }
-
-    function openLeaderboard() {
-        $.post('inputleaderboard',
-            {
-                score: mapObj.Score,
-                size: mapObj.Size,
-                isshowinput: 1
-            },
-            function (data) {
-            var win = window.open('about:blank');
-            if (win == undefined) {
-                alert("請不要封鎖彈出式視窗");
-                return;
-            }
-            with (win.document) {
-                open();
-                write(data);
-                close();
-            }
-        });
     }
-
-    ////選取尺寸
-    //function changeMatrixSize() {
-    //    this.blur();
-    //    reset(true);
-    //}
 
     function initBattle() {
         isCanClick = false;     // 關閉 keycode 控制
@@ -270,7 +188,7 @@
         // 點擊送出 ready 
         $('#readybtn').click(function () {
             DisableReadyButton();
-            reset(false);
+            reset();
             socket.emit('send_ready', { id: roomInfo.id, map: mapObj });
         });
 
@@ -278,7 +196,6 @@
         socket.on('send_ready_opposite', function (oppoInitmap) {
             setMsg('opposite is ready');
             if (oppoInitmap !== undefined) {
-                //todo:
                 MappingArrayData_Oppo(oppoInitmap); 
             }
         });
@@ -325,9 +242,9 @@
                 setMsg('game is tie ,score:' + data.map[0].Score);
         });
 
+        // make a move
     	socket.on('send_map', function (oppoMap) {
     	    if (oppoMap !== undefined) {
-                //todo:
     	        MappingArrayData_Oppo(oppoMap);
     	    }
     	});
@@ -336,14 +253,26 @@
             setMsg('Opposite leaved');
         });
 
+        // on nickname changed
+        $('#player1-name').blur(function() {
+
+            var nickename = $('#player1-name').val();
+            socket.emit('send_nickname', { id: roomInfo.id, nickname: nickename });
+
+        });
+
+        // when oppo change nickname
+        socket.on('send_nickname_opposite', function(data) {
+            setNickname_Oppo(data.nickname);
+        });
     }
 
     function sendMove(map) {
         socket.emit('send_map', { id: roomInfo.id, map: map });
     }
 
-    function setMsg(msg) {
-        $('#gamemsgspan').text(msg);
+    function isCanSendKey() {
+        return isCanClick && isAnimationComplete;
     }
 
     function setPlayColorMode(player) {
@@ -426,7 +355,7 @@
 
     <div class="mask-body" id="mask-body" style="visibility: collapse">
         <p style="font-size: 40px;">Game Over</p>
-        <button class="savescorebutton" onclick="openLeaderboard()">登入排行榜</button>
+        <!--<button class="savescorebutton" onclick="openLeaderboard()">登入排行榜</button>-->
     </div>
 
     <p style="font-size:50px;font-weight:bold">2048</p>
@@ -448,7 +377,7 @@
                 </div>
                 <!--player 1-->
                 <!--<div id="player1-name">-->
-                <input type="text" id="player1-name" size=2 placeholder="請輸入對戰暱稱" >
+                    <input type="text" id="player1-name" size=2 placeholder="請輸入對戰暱稱" >
                 
                 
                 <!--重玩-->
@@ -462,7 +391,7 @@
             </div>
 
             <div id="play1divcss">
-
+                
                 <div id="play1-box-body">
                     <div class='box-row'>
                         <div class="play1-box-column-border"></div>
@@ -525,7 +454,7 @@
                         <p class="score-content" id="score2">0</p>
                     </div>
                     <div id="player2-name">
-                        <p>NAME</p>
+                        <p id="player2-name-p">NAME</p>
                     </div>
                     <div style="clear:both;"></div>
 
@@ -590,7 +519,7 @@
 
     <div style="height:50px">
         <span id="gamemsgspan" ></span>
-        <input id="readybtn" type="button" value="READY" />
+        <input id="readybtn" type="button" value="READY"/>
     </div>
     
 

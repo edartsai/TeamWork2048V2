@@ -147,7 +147,7 @@ app.use('/js_out', express.static('js_out'));
 
 var rooms = [];
 var countdown1Interval = 5;     //in sec
-var countdown2Interval = 30;   //in sec
+var countdown2Interval = 60;   //in sec
 
 io.on('connection', function (socket) {
     socket.on('get_leaderboard', function (data) {
@@ -318,7 +318,7 @@ io.sockets.on('connection', function (socket) {
             room.gamestatus.p2map = data.map;
             clog.consoleLog(0, 'send_map', 'room:' + room.id + ' p2:' + room.player2.id);
             if (room.player1 !== undefined) {
-                room.player1.emit('send_map_opposite', data.map);
+                room.player1.emit('send_map', data.map);
             }
 
             if (room.viewers !== undefined) {
@@ -462,6 +462,43 @@ io.sockets.on('connection', function (socket) {
         }
     });
 
+    socket.on('send_nickname', function(data) {
+        if (data === undefined || data === null)
+            return;
+
+        var room = findRoom(data.id);
+        if (room === undefined || room === null)
+            return;
+
+        if (socket === room.player1) {
+            socket.nickname = data.nickname;
+            clog.consoleLog(1, 'send_nickname', 'player1 set name:' + socket.nickname);
+
+            if (room.player2 !== undefined) {
+                room.player2.emit('send_nickname_opposite', { nickname: socket.nickname });
+            }
+            
+            if (room.viewers !== undefined) {
+                room.viewers.forEach(function (viewer) {
+                    viewer.emit('send_nickname_opposite', { player: 1, nickname: socket.nickname });
+                });
+            }
+        }
+        else if (socket === room.player2) {
+            socket.nickname = data.nickname;
+            clog.consoleLog(1, 'send_nickname', 'player2 set name:' + socket.nickname);
+            
+            if (room.player1 !== undefined) {
+                room.player1.emit('send_nickname_opposite', { nickname: socket.nickname });
+            }
+            
+            if (room.viewers !== undefined) {
+                room.viewers.forEach(function (viewer) {
+                    viewer.emit('send_nickname_opposite', { player: 2, nickname: socket.nickname });
+                });
+            }
+        }
+    });
 });
 
 function getLeaderboard(socket, rowcount, mapsize) {

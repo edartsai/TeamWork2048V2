@@ -6,6 +6,8 @@
 /view/bin
 /.vs/TeamWork2048/v14
 /.vs/config
+/server/.ntvs_analysis.dat
+/server/.ntvs_analysis.dat.tmp
 
 
 # 這是註解
@@ -34,3 +36,4 @@ Ankh.NoLoad
 *.zip
 obj
 bin
+.ntvs_analysis.dat.tmp
