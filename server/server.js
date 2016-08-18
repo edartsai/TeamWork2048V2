@@ -460,6 +460,10 @@ io.sockets.on('connection', function (socket) {
             nroom.viewers.push(socket);
             clog.consoleLog(1, 'viewer_inroom', 'room:' + nroom.id + ' user:' + socket.id);
         }
+
+        var p1Nickname = (nroom.player1 === undefined || nroom.player1.nickname === undefined) ? "" : nroom.player1.nickname;
+        var p2Nickname = (nroom.player2 === undefined || nroom.player2.nickname === undefined) ? "" : nroom.player2.nickname;
+        socket.emit('viewer_changeroom_suc', { roomid: nroom.id, p1name: p1Nickname, p2name: p2Nickname });
     });
 
     socket.on('send_nickname', function(data) {
