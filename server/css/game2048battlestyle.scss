@@ -25,7 +25,7 @@ $button-active-color:#7C6958;
 html, body {  
   margin: 0;
   padding: 0;
-  background: $root-background;  
+  
   font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
   font-size: 18px;
   text-align:center;
@@ -34,7 +34,6 @@ html, body {
 
 .main-contain{
   text-align:center;
-  margin-top:50px;
 }
 
 //上一步和重玩按鈕的狀態
@@ -116,13 +115,13 @@ html, body {
 
 //player 1 object css  ------  start
 //主要矩陣的邊框
-#play1-box-column-border{
+.play1-box-column-border{
     @extend .box-column-border;
     width:$box-width*4 + 4*$box-border-width + 2px;
     background:$player1-main-color;
 }
 //主要矩陣的邊框
-#play1-box-row-border{
+.play1-box-row-border{
     @extend .box-row-border;
     height: $box-height;
     background:$player1-main-color;
@@ -138,7 +137,7 @@ html, body {
      background:$player1-main-color;
      border-color:$player1-main-color;
      float:left;
-      width:20%;
+      width:21%;
  }
  //player 1 名稱
  #player1-name{
@@ -170,19 +169,19 @@ html, body {
 
 
 //player 2 object css  ------  start
-#play2-box-column-border{
+.play2-box-column-border{
     @extend .box-column-border;
     width:$box2-width*4 + 4*$box-border-width + 2px;
     background:$player2-main-color;
 }
 
-#play2-box-row-border{
+.play2-box-row-border{
     @extend .box-row-border;
     height: $box2-height;
     background:$player2-main-color;
 }
 
-#play2-box-body{
+.play2-box-body{
     @extend .box-body;
     border-color:$player2-main-color;
 }

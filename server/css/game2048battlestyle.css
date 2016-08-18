@@ -1,15 +1,13 @@
 ﻿html, body {
   margin: 0;
   padding: 0;
-  background: #FAF8EF;
   font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
   font-size: 18px;
   text-align: center;
   display: inline-block; }
 
 .main-contain {
-  text-align: center;
-  margin-top: 50px; }
+  text-align: center; }
 
 .back-button {
   background: #BB4444;
@@ -30,7 +28,7 @@
   cursor: not-allowed;
   background: #BBADA0; }
 
-.box-body, #play1-box-body, #play2-box-body {
+.box-body, #play1-box-body, .play2-box-body {
   border-color: #BBADA0;
   border-width: 2px;
   border-style: solid;
@@ -57,7 +55,7 @@
   font-weight: bold;
   color: white; }
 
-.box-row-border, #play1-box-row-border, #play2-box-row-border, #play2viewer-box-row-border {
+.box-row-border, .play1-box-row-border, .play2-box-row-border, #play2viewer-box-row-border {
   z-index: 3;
   width: 2px;
   height: 50px;
@@ -67,7 +65,7 @@
   border-width: 0px;
   position: relative; }
 
-.box-column-border, #play1-box-column-border, #play2-box-column-border, #play2viewer-box-column-border {
+.box-column-border, .play1-box-column-border, .play2-box-column-border, #play2viewer-box-column-border {
   z-index: 3;
   height: 2px;
   background: #BBADA0;
@@ -75,11 +73,11 @@
   border-width: 0px;
   position: relative; }
 
-#play1-box-column-border {
+.play1-box-column-border {
   width: 210px;
   background: #BB4444; }
 
-#play1-box-row-border {
+.play1-box-row-border {
   height: 50px;
   background: #BB4444; }
 
@@ -90,7 +88,7 @@
   background: #BB4444;
   border-color: #BB4444;
   float: left;
-  width: 20%; }
+  width: 21%; }
 
 #player1-name {
   background: #BB4444;
@@ -113,15 +111,15 @@
   border-style: solid;
   position: relative; }
 
-#play2-box-column-border {
+.play2-box-column-border {
   width: 154px;
   background: #50798B; }
 
-#play2-box-row-border {
+.play2-box-row-border {
   height: 36px;
   background: #50798B; }
 
-#play2-box-body {
+.play2-box-body {
   border-color: #50798B; }
 
 #player2-scare {
