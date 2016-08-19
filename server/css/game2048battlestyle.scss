@@ -22,6 +22,9 @@ $bottom-box-height:30px;
 $button-active-color:#7C6958;
 
 
+$box-width-viewer:70px;
+$box-height-viewer:70px;
+
 html, body {  
   margin: 0;
   padding: 0;
@@ -181,7 +184,7 @@ html, body {
     background:$player2-main-color;
 }
 
-.play2-box-body{
+#play2-box-body{
     @extend .box-body;
     border-color:$player2-main-color;
 }
@@ -227,16 +230,28 @@ html, body {
 
 
 //player 2 viewer object css  ------  start
-#play2viewer-box-column-border{
+.play2viewer-box-column-border{
     @extend .box-column-border;
-    width:$box-width*4 + 4*$box-border-width + 2px;
+    width:$box-width-viewer*4 + 4*$box-border-width + 2px;
     background:$player2-main-color;
 }
-#play2viewer-box-row-border{
+.play2viewer-box-row-border{
     @extend .box-row-border;
-    height: $box-height;
+    height: $box-height-viewer;
     background:$player2-main-color;
 }
+
+.play1viewer-box-column-border{
+    @extend .box-column-border;
+    width:$box-width-viewer*4 + 4*$box-border-width + 2px;
+    background:$player1-main-color;
+}
+.play1viewer-box-row-border{
+    @extend .box-row-border;
+    height: $box-height-viewer;
+    background:$player1-main-color;
+}
+
 #play1viewerdivcss{
     float:left;
 }
@@ -245,8 +260,19 @@ html, body {
 }
 .box2viewer{
     z-index:3;
-    width: $box-width;
-    height: $box-height;
+    width: $box-width-viewer;
+    height: $box-height-viewer;
+    text-align:center;
+    float: left;
+    border-color:$border-color;
+    border-width:0px;
+    border-style:solid;
+    position:relative;
+}
+.box1viewer{
+    z-index:3;
+    width: $box-width-viewer;
+    height: $box-height-viewer;
     text-align:center;
     float: left;
     border-color:$border-color;
@@ -268,10 +294,36 @@ html, body {
      background:$player1-main-color;
      border-color:$player1-main-color;
      float:left;
-     width:49%;
+     width:50%;
      margin-left:2px;
      margin-bottom:1px;
  }
+
+ //倒數計時器
+ #timerviewer-div{
+     @extend .base-border;
+     width:50%;
+     margin: 0px auto;
+     background:$border-color;
+     border-color:$border-color;
+     margin-bottom:5px;
+     #gametimespanviewer{
+         font-size:xx-large;
+         font-weight:bold;
+         margin-top:8px;
+    }
+ }
+ //player 2 名稱
+ #player2viewer-name{
+     @extend .base-border;
+     background:$player2-main-color;
+     border-color:$player2-main-color;
+     float:left;
+     width:50%;
+     margin-left:2px;
+     margin-bottom:1px;
+ }
+
 //player 2 viewer object css ------  end
 
 
@@ -386,7 +438,19 @@ html, body {
     cursor: not-allowed;
 }
 
-
+.css_table {
+      display:table;
+    }
+    .css_tr {
+          display: table-row;
+      }
+    .css_td {
+          display: table-cell;
+          
+    }
+    .css_td span {
+        margin-right: 1em;
+    }
 
  //縮放到480px以下，UI調整
  @media only screen and (max-width: 480px){

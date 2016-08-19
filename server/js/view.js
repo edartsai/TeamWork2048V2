@@ -60,6 +60,55 @@ function MappingArrayData_Oppo(oppoInitmap) {
     document.getElementById("score2").innerHTML = oppoInitmap.Score;
 }
 
+function MappingArrayData_viewmode(player,mapObj) {
+    if (player == 1) {
+        var t;
+        var boxnumbers = document.getElementsByClassName("box1view-number");
+        var boxs = document.getElementsByClassName("box1viewer");
+        
+        // 清除畫面數字及重鋪底色
+        for (t = 0; t < boxnumbers.length; t++) {
+            boxnumbers[t].innerHTML = "";
+        }
+        for (t = 0; t < boxs.length; t++) {
+            boxs[t].style.background = GetBoxBackgroundColor(0); // 預設底色
+        }
+        
+        // 畫上新數字
+        mapObj.Items.forEach(function (item) {
+            var nIndex = item.Y * (mapObj.Size) + item.X;
+            boxnumbers[nIndex].innerHTML = item.Value;
+            boxs[nIndex].style.background = GetBoxBackgroundColor(item.Value);
+        });
+        
+        document.getElementById("score1view").innerHTML = mapObj.Score;
+    }
+    else {
+        var t;
+        var boxnumbers = document.getElementsByClassName("box2view-number");
+        var boxs = document.getElementsByClassName("box2viewer");
+        
+        // 清除畫面數字及重鋪底色
+        for (t = 0; t < boxnumbers.length; t++) {
+            boxnumbers[t].innerHTML = "";
+        }
+        for (t = 0; t < boxs.length; t++) {
+            boxs[t].style.background = GetBoxBackgroundColor(0); // 預設底色
+        }
+        
+        // 畫上新數字
+        mapObj.Items.forEach(function (item) {
+            var nIndex = item.Y * (mapObj.Size) + item.X;
+            boxnumbers[nIndex].innerHTML = item.Value;
+            boxs[nIndex].style.background = GetBoxBackgroundColor(item.Value);
+        });
+        
+        document.getElementById("score2view").innerHTML = mapObj.Score;
+    }
+}
+
+
+
 function GetBoxBackgroundColor(num) {
     var mergeStr = "a" + num;
     var boxbackgroungArray = {
