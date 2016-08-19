@@ -35,7 +35,7 @@
   border-radius: 4px;
   z-index: 1; }
 
-.base-border, .base-box-score, #player1-scare, #player2-scare, #player1viewer-scare, #player1-name, #player2-name, #player1viewer-name, #timer-div, #gamemsgspan {
+.base-border, .base-box-score, #player1-scare, #player2-scare, #player1viewer-scare, #player1-name, #player2-name, #player1viewer-name, #timerviewer-div, #player2viewer-name, #timer-div, #gamemsgspan {
   border-width: 2px;
   border-style: solid;
   border-radius: 4px;
@@ -55,7 +55,7 @@
   font-weight: bold;
   color: white; }
 
-.box-row-border, .play1-box-row-border, .play2-box-row-border, .play2viewer-box-row-border {
+.box-row-border, .play1-box-row-border, .play2-box-row-border, .play2viewer-box-row-border, .play1viewer-box-row-border {
   z-index: 3;
   width: 2px;
   height: 50px;
@@ -65,7 +65,7 @@
   border-width: 0px;
   position: relative; }
 
-.box-column-border, .play1-box-column-border, .play2-box-column-border, .play2viewer-box-column-border {
+.box-column-border, .play1-box-column-border, .play2-box-column-border, .play2viewer-box-column-border, .play1viewer-box-column-border {
   z-index: 3;
   height: 2px;
   background: #BBADA0;
@@ -152,12 +152,20 @@
   margin-top: 8px; }
 
 .play2viewer-box-column-border {
-  width: 210px;
+  width: 290px;
   background: #50798B; }
 
 .play2viewer-box-row-border {
-  height: 50px;
+  height: 70px;
   background: #50798B; }
+
+.play1viewer-box-column-border {
+  width: 290px;
+  background: #BB4444; }
+
+.play1viewer-box-row-border {
+  height: 70px;
+  background: #BB4444; }
 
 #play1viewerdivcss {
   float: left; }
@@ -167,8 +175,19 @@
 
 .box2viewer {
   z-index: 3;
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
+  text-align: center;
+  float: left;
+  border-color: #BBADA0;
+  border-width: 0px;
+  border-style: solid;
+  position: relative; }
+
+.box1viewer {
+  z-index: 3;
+  width: 70px;
+  height: 70px;
   text-align: center;
   float: left;
   border-color: #BBADA0;
@@ -187,7 +206,26 @@
   background: #BB4444;
   border-color: #BB4444;
   float: left;
-  width: 49%;
+  width: 50%;
+  margin-left: 2px;
+  margin-bottom: 1px; }
+
+#timerviewer-div {
+  width: 50%;
+  margin: 0px auto;
+  background: #BBADA0;
+  border-color: #BBADA0;
+  margin-bottom: 5px; }
+  #timerviewer-div #gametimespanviewer {
+    font-size: xx-large;
+    font-weight: bold;
+    margin-top: 8px; }
+
+#player2viewer-name {
+  background: #50798B;
+  border-color: #50798B;
+  float: left;
+  width: 50%;
   margin-left: 2px;
   margin-bottom: 1px; }
 
@@ -273,6 +311,18 @@
 #readybtn:disabled {
   opacity: 0.75;
   cursor: not-allowed; }
+
+.css_table {
+  display: table; }
+
+.css_tr {
+  display: table-row; }
+
+.css_td {
+  display: table-cell; }
+
+.css_td span {
+  margin-right: 1em; }
 
 @media only screen and (max-width: 480px) {
   #timer-div {
