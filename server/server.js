@@ -174,7 +174,8 @@ io.on('connection', function (socket) {
             data: data.data
         }, function (result) {
             socket.emit('add_screenshot', {
-                result: result
+                result: result, 
+                time: new Date()
             });
         });
     });
@@ -205,37 +206,37 @@ io.sockets.on('connection', function (socket) {
 
         if (room.player1 === undefined) {
             room.player1 = socket;
-            socket.emit('init_room', { id: room.id, player: 1 });
+            socket.emit('init_room', { id: room.id, player: 1 , time: new Date()});
             clog.consoleLog(0, 'init_room', 'room:' + room.id + ' p1:' + room.player1.id);
 
             if (room.player2 !== undefined) {
-                room.player2.emit('init_room_opposite');
+                room.player2.emit('init_room_opposite', { time: new Date() });
             }
 
             if (room.viewers !== undefined) {
                 room.viewers.forEach(function(viewer) {
-                    viewer.emit('init_room_opposite', { player: 1 });
+                    viewer.emit('init_room_opposite', { player: 1 , time: new Date()});
                 });
             }
         }
         else if (room.player2 === undefined) {
             room.player2 = socket;
-            socket.emit('init_room', { id: room.id, player: 2 });
+            socket.emit('init_room', { id: room.id, player: 2 , time: new Date()});
             clog.consoleLog(0, 'init_room', 'room:' + room.id + ' p2:' + room.player2.id);
 
             if (room.player1 !== undefined) {
-                room.player1.emit('init_room_opposite');
+                room.player1.emit('init_room_opposite', { time: new Date()});
             }
 
             if (room.viewers !== undefined) {
                 room.viewers.forEach(function (viewer) {
-                    viewer.emit('init_room_opposite', { player: 2 });
+                    viewer.emit('init_room_opposite', { player: 2 ,time: new Date()});
                 });
             }
         }
 
         if (room.player1 !== undefined && room.player2 !== undefined ) {
-            sendPlayersEvent(room, 'init_room_full', undefined);
+            sendPlayersEvent(room, 'init_room_full', { time: new Date() });
             clog.consoleLog(1, 'init_room_full', 'room:' + room.id );
         }
     });
@@ -258,7 +259,7 @@ io.sockets.on('connection', function (socket) {
         if (room.gamestatus.p1agreenext && room.gamestatus.p2agreenext) {
             initGameStatus(room);
 
-            sendPlayersEvent(room, 'init_ready', undefined);
+            sendPlayersEvent(room, 'init_ready', { time: new Date() });
             clog.consoleLog(1, 'init_ready', 'room:' + room.id );
         }
     });
@@ -275,11 +276,11 @@ io.sockets.on('connection', function (socket) {
             clog.consoleLog(0, 'send_ready', 'room:' + room.id + ' p1:' + room.player1.id);
 
             if (room.player2 !== undefined) {
-                room.player2.emit('send_ready_opposite', data.map);
+                room.player2.emit('send_ready_opposite', { map: data.map, time: new Date() });
             }
             if (room.viewers !== undefined) {
                 room.viewers.forEach(function (viewer) {
-                    viewer.emit('send_ready_opposite', { player: 1 , map: data.map });
+                    viewer.emit('send_ready_opposite', { player: 1 , map: data.map , time: new Date()});
                 });
             }
         } else if (socket === room.player2) {
@@ -288,12 +289,12 @@ io.sockets.on('connection', function (socket) {
             clog.consoleLog(0, 'send_ready', 'room:' + room.id + ' p2:' + room.player2.id);
 
             if (room.player1 !== undefined) {
-                room.player1.emit('send_ready_opposite', data.map);
+                room.player1.emit('send_ready_opposite', { map: data.map , time: new Date()});
             }
 
             if (room.viewers !== undefined) {
                 room.viewers.forEach(function (viewer) {
-                    viewer.emit('send_ready_opposite', { player: 2, map: data.map });
+                    viewer.emit('send_ready_opposite', { player: 2, map: data.map, time: new Date() });
                 });
             }
         }
@@ -309,12 +310,12 @@ io.sockets.on('connection', function (socket) {
             room.gamestatus.p1map = data.map;
             clog.consoleLog(0, 'send_map', 'room:' + room.id + ' p1:' + room.player1.id);
 		    if (room.player2 !== undefined) {
-                room.player2.emit('send_map', data.map);
+                room.player2.emit('send_map', { map: data.map , time: new Date()});
             }
 
             if (room.viewers !== undefined) {
                 room.viewers.forEach(function (viewer) {
-                    viewer.emit('send_map', { player: 1, map: data.map });
+                    viewer.emit('send_map', { player: 1, map: data.map, time: new Date() });
                 });
             }
 	    }
@@ -323,12 +324,12 @@ io.sockets.on('connection', function (socket) {
             room.gamestatus.p2map = data.map;
             clog.consoleLog(0, 'send_map', 'room:' + room.id + ' p2:' + room.player2.id);
             if (room.player1 !== undefined) {
-                room.player1.emit('send_map', data.map);
+                room.player1.emit('send_map', { map: data.map, time: new Date() });
             }
 
             if (room.viewers !== undefined) {
                 room.viewers.forEach(function (viewer) {
-                    viewer.emit('send_map', { player: 2, map: data.map });
+                    viewer.emit('send_map', { player: 2, map: data.map, time: new Date() });
                 });
             }
         }
@@ -348,7 +349,7 @@ io.sockets.on('connection', function (socket) {
                     room.gamestatus.starting = true;
 
                     interval1 = room.gamestatus.countdown1.getTime() - nDate.getTime();
-                    sendPlayersEvent(room, 'send_countdown1', Math.ceil(interval1 / 1000));
+                    sendPlayersEvent(room, 'send_countdown1', { secs: Math.ceil(interval1 / 1000), time: new Date() });
                     clog.consoleLog(1, 'send_countdown1', 'room:' + room.id + ' game started');
                 }
                 else { //遊戲已開始
@@ -356,19 +357,19 @@ io.sockets.on('connection', function (socket) {
                     interval2 = room.gamestatus.countdown2.getTime() - nDate.getTime(); //in msecond
 
                     if (interval1 >= 0) { //倒數準備開始
-                        sendPlayersEvent(room, 'send_countdown1', Math.ceil(interval1 / 1000));
+                        sendPlayersEvent(room, 'send_countdown1', { secs: Math.ceil(interval1 / 1000), time: new Date() });
                         if (interval1 >= 0 && interval1 < 1000 ) { // game start!! 
-                            sendPlayersEvent(room, 'send_countdown1_over');
+                            sendPlayersEvent(room, 'send_countdown1_over', { time: new Date() });
                         }
                     }
                     else if (interval1 < 0 && interval2 >= 0) { //遊戲中
-                        sendPlayersEvent(room, 'send_countdown2', Math.ceil(interval2 / 1000));
+                        sendPlayersEvent(room, 'send_countdown2', { secs: Math.ceil(interval2 / 1000), time: new Date() });
                     } else { //countdown2 <= 0  // 遊戲時間到
                         room.gamestatus.p1ready = false;
                         room.gamestatus.p2ready = false;
                         room.gamestatus.starting = false;
-                        sendPlayersEvent(room, 'send_countdown2', 0);
-                        sendPlayersEvent(room, 'send_countdown2_over');
+                        sendPlayersEvent(room, 'send_countdown2', {secs:0, time: new Date()});
+                        sendPlayersEvent(room, 'send_countdown2_over', { time: new Date()});
                         clog.consoleLog(1 ,'send_countdown2_over', 'room:' + room.id );
 
                         var winnerData = getWinner(room);
@@ -408,12 +409,12 @@ io.sockets.on('connection', function (socket) {
             clog.consoleLog(1, 'disconnect', 'room:' + room.id + ' p1:' + socket.id);
 
             if (room.player2 !== undefined) {
-                room.player2.emit('disconnect_opposite');
+                room.player2.emit('disconnect_opposite', { time: new Date()});
             }
 
             if (room.viewers !== undefined) {
                 room.viewers.forEach(function (viewer) {
-                    viewer.emit('disconnect_opposite', { player: 1 });
+                    viewer.emit('disconnect_opposite', { player: 1 , time: new Date()});
                 });
             }
         }
@@ -422,12 +423,12 @@ io.sockets.on('connection', function (socket) {
             clog.consoleLog(1, 'disconnect', 'room:' + room.id + ' p2:' + socket.id);
 
             if (room.player1 !== undefined) {
-                room.player1.emit('disconnect_opposite');
+                room.player1.emit('disconnect_opposite', { time: new Date()});
             }
 
             if (room.viewers !== undefined) {
                 room.viewers.forEach(function (viewer) {
-                    viewer.emit('disconnect_opposite', { player: 2 });
+                    viewer.emit('disconnect_opposite', { player: 2, time: new Date() });
                 });
             }
         }
@@ -441,7 +442,7 @@ io.sockets.on('connection', function (socket) {
 
 
     socket.on('init_viewer', function() {
-        socket.emit('send_rooms', { rooms: getRoomsData()} );
+        sendRoomsInfo(socket);
     });
 
     socket.on('viewer_changeroom', function (data) {
@@ -468,7 +469,7 @@ io.sockets.on('connection', function (socket) {
 
         var p1Nickname = (nroom.player1 === undefined || nroom.player1.nickname === undefined) ? "" : nroom.player1.nickname;
         var p2Nickname = (nroom.player2 === undefined || nroom.player2.nickname === undefined) ? "" : nroom.player2.nickname;
-        socket.emit('viewer_changeroom_suc', { roomid: nroom.id, p1name: p1Nickname, p2name: p2Nickname });
+        socket.emit('viewer_changeroom_suc', { roomid: nroom.id, p1name: p1Nickname, p2name: p2Nickname, time: new Date() });
     });
 
     socket.on('send_nickname', function(data) {
@@ -484,12 +485,12 @@ io.sockets.on('connection', function (socket) {
             clog.consoleLog(1, 'send_nickname', 'player1 set name:' + socket.nickname);
 
             if (room.player2 !== undefined) {
-                room.player2.emit('send_nickname_opposite', { nickname: socket.nickname });
+                room.player2.emit('send_nickname_opposite', { nickname: socket.nickname, time: new Date() });
             }
             
             if (room.viewers !== undefined) {
                 room.viewers.forEach(function (viewer) {
-                    viewer.emit('send_nickname_opposite', { player: 1, nickname: socket.nickname });
+                    viewer.emit('send_nickname_opposite', { player: 1, nickname: socket.nickname, time: new Date() });
                 });
             }
         }
@@ -498,12 +499,12 @@ io.sockets.on('connection', function (socket) {
             clog.consoleLog(1, 'send_nickname', 'player2 set name:' + socket.nickname);
             
             if (room.player1 !== undefined) {
-                room.player1.emit('send_nickname_opposite', { nickname: socket.nickname });
+                room.player1.emit('send_nickname_opposite', { nickname: socket.nickname, time: new Date() });
             }
             
             if (room.viewers !== undefined) {
                 room.viewers.forEach(function (viewer) {
-                    viewer.emit('send_nickname_opposite', { player: 2, nickname: socket.nickname });
+                    viewer.emit('send_nickname_opposite', { player: 2, nickname: socket.nickname, time: new Date() });
                 });
             }
         }
@@ -578,7 +579,7 @@ function findEmptyRoom() {
     // (目前不保證有 player 在玩)
     rooms.forEach(function(room) {
         room.viewers.forEach(function(viewer) {
-            viewer.emit('send_room', { rooms: getRoomsData() });
+            sendRoomsInfo(viewer);
         });
     });
 
@@ -641,20 +642,20 @@ function getWinner(room) {
         room.gamestatus.p2map === undefined || room.gamestatus.p2map === null ||
         room.gamestatus.p1map.Score === undefined || room.gamestatus.p1map.Score === null ||
         room.gamestatus.p2map.Score === undefined || room.gamestatus.p2map.Score === null ) {
-        return undefined;
+        return { time: new Date()};
     }
 
     if (room.gamestatus.p1map.Score > room.gamestatus.p2map.Score) {
-        return { winner: 1, map: [room.gamestatus.p1map] };  //p1 win
+        return { winner: 1, map: [room.gamestatus.p1map], time: new Date() };  //p1 win
     }
     if (room.gamestatus.p1map.Score < room.gamestatus.p2map.Score) {
-        return { winner: 2, map: [room.gamestatus.p2map] };  //p2 win
+        return { winner: 2, map: [room.gamestatus.p2map], time: new Date() };  //p2 win
     }
     if (room.gamestatus.p1map.Score === room.gamestatus.p2map.Score) {
-        return { winner: 0, map: [room.gamestatus.p1map, room.gamestatus.p2map] };  //tie
+        return { winner: 0, map: [room.gamestatus.p1map, room.gamestatus.p2map], time: new Date() };  //tie
     }
 
-    return undefined;
+    return { time: new Date()};
 
 }
 
@@ -678,4 +679,8 @@ function getRoomsData() {
     });
 
     return data;
+}
+
+function sendRoomsInfo(socket) {
+    socket.emit('send_rooms', { rooms: getRoomsData(), time: new Date() });
 }

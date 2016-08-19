@@ -34,11 +34,13 @@
         selectedRoom = index;
     }
 
+    
     function initViewer() {
         socket.emit('init_viewer');
 
         // server 回傳 rooms
         socket.on('send_rooms', function (result) {
+            //todo:result.time
             //updateDDL(result.rooms);
         });
 
@@ -49,15 +51,23 @@
             selectedRoom = id;
         });
 
+        socket.on('viewer_changeroom_suc', function(data) {
+            //todo:data.time
+            //todo:data.roomid
+            //todo:data.p1name
+            //todo:data.p2name
+        });
 
         // server 回傳 player進入房間
         socket.on('init_room_opposite', function (data) {
-            //todo:
+            //todo:data.time
             setMsg('player' + data.player + ' is in room');
         });
 
         // server 回傳 player 已ready
         socket.on('send_ready_opposite', function (data) {
+            //todo: data.time
+
             setMsg('player' + data.player + ' is ready');
             if (data.map !== undefined) {
                 //todo:
@@ -66,16 +76,21 @@
         });
 
         // server 回傳 第一階段倒數
-        socket.on('send_countdown1', function (secs) {
+        socket.on('send_countdown1', function (data) {
+            //todo:data.time
+            var secs = data.secs;
             $('#gametimespan').text(ConvertSeconds2String(secs));
         });
 
         // server 回傳 第一階段倒數結束 (遊戲開始可操作)
-        socket.on('send_countdown1_over', function () {
+        socket.on('send_countdown1_over', function (data) {
+            //todo:data.time
         });
 
         // server 回傳 第二階段倒數
-        socket.on('send_countdown2', function (secs) {
+        socket.on('send_countdown2', function (data) {
+            //todo: data.time
+            var secs = data.secs;
             if (secs === undefined)
                 return;
             var ss = ConvertSeconds2String(secs);
@@ -83,7 +98,8 @@
         });
 
         // server 回傳 第二階段倒數
-        socket.on('send_countdown2_over', function () {
+        socket.on('send_countdown2_over', function (data) {
+            //todo:data.time
             setMsg('Game Over!!');
 
         });
@@ -93,20 +109,23 @@
             if (data === undefined || data === null)
                 return;
 
+            //todo:data.time
             if(data.winner !== 0)
                 setMsg('winner is player' + data.winner + ' score:' + data.map[0].Score);
             else
                 setMsg('game is tie ,score:' + data.map[0].Score);
         });
 
-    	socket.on('send_map', function (data) {
+        socket.on('send_map', function (data) {
+            //todo:data.time
     	    if (data !== undefined) {
                 //todo:
     	        //MappingArrayData(data.player, data.map);
     	    }
     	});
 
-    	socket.on('disconnect_opposite', function (data) {
+        socket.on('disconnect_opposite', function (data) {
+            //todo:data.time
 	        setMsg("player" + data.player + "is left");
     	});
 
@@ -114,6 +133,7 @@
             if (data === undefined || data === null)
                 return;
 
+            //todo:data.time
             if (data.player === 1) {
                 $("#p1-name-p").text(data.nickname);
             }

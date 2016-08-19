@@ -3,6 +3,21 @@
 var app = new Vue({
     el: "#app",
     data: {
-        message : 'Hello World, Vue.js!!'
+        newTodo:"",
+        todos: [
+            { text: "Add some todos" }
+        ]
+    },
+    methods: {
+       addTodo() {
+           var text = this.newTodo.trim();
+           if (text) {
+               this.todos.push({ text: text });
+               this.newTodo = "";
+           }
+        },
+        removeTodo(index) {
+            this.todos.splice(index, 1);
+        }
     }
 });
