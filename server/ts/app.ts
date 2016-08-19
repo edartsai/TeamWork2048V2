@@ -1,8 +1,8 @@
 ﻿///<reference path="../typings/globals/vue/index.d.ts" />
 
 var app = new Vue({
-    el: "#my-app",
+    el: "#app",
     data: {
-        title : 'Hello World'
+        message : 'Hello World, Vue.js!!'
     }
 });

@@ -136,6 +136,10 @@ app.get('/console', function (req, res) {
     res.sendFile(__dirname + '/pages/console.html');
 });
 
+app.get('/vuepage', function (req, res) {
+    res.sendFile(__dirname + '/pages/vue.html');
+});
+
 app.use('/pages', express.static('pages'));
 app.use('/css', express.static('css'));
 app.use('/fonts', express.static('fonts'));
@@ -144,6 +148,7 @@ app.use('/intro', express.static('intro'));
 app.use('/js', express.static('js'));
 app.use('/js_lib', express.static('js_lib'));
 app.use('/js_out', express.static('js_out'));
+app.use('/typings', express.static('typings'));
 
 var rooms = [];
 var countdown1Interval = 5;     //in sec
@@ -460,6 +465,10 @@ io.sockets.on('connection', function (socket) {
             nroom.viewers.push(socket);
             clog.consoleLog(1, 'viewer_inroom', 'room:' + nroom.id + ' user:' + socket.id);
         }
+
+        var p1Nickname = (nroom.player1 === undefined || nroom.player1.nickname === undefined) ? "" : nroom.player1.nickname;
+        var p2Nickname = (nroom.player2 === undefined || nroom.player2.nickname === undefined) ? "" : nroom.player2.nickname;
+        socket.emit('viewer_changeroom_suc', { roomid: nroom.id, p1name: p1Nickname, p2name: p2Nickname });
     });
 
     socket.on('send_nickname', function(data) {
