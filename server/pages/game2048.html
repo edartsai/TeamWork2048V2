@@ -98,6 +98,11 @@
         DisableRollbackButton();    //關閉「上一步」
     }
 
+    function clickreset() {
+        reset();
+        sendMove(mapObj);
+    }
+
     function reset() {
         var size = 4;
         //createMitrixDiv(size);        //畫上 Grid
@@ -381,7 +386,7 @@
                 
                 
                 <!--重玩-->
-                <button class="back-button" id="resetbtn" type="submit" onclick="reset(true)" style="float:right;margin-bottom:1px">
+                <button class="back-button" id="resetbtn" type="submit" onclick="clickreset()" style="float:right;margin-bottom:1px">
                     <img src="images/b_brefresh_20_n.png" alt="" />
                 </button>
                 <!--上一步-->
