@@ -136,6 +136,10 @@ app.get('/console', function (req, res) {
     res.sendFile(__dirname + '/pages/console.html');
 });
 
+app.get('/vuepage', function (req, res) {
+    res.sendFile(__dirname + '/pages/vue.html');
+});
+
 app.use('/pages', express.static('pages'));
 app.use('/css', express.static('css'));
 app.use('/fonts', express.static('fonts'));
@@ -144,6 +148,7 @@ app.use('/intro', express.static('intro'));
 app.use('/js', express.static('js'));
 app.use('/js_lib', express.static('js_lib'));
 app.use('/js_out', express.static('js_out'));
+app.use('/typings', express.static('typings'));
 
 var rooms = [];
 var countdown1Interval = 5;     //in sec
