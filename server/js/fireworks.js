@@ -15,6 +15,7 @@
 
 startIntervalId = 0;
 stopIntervalId = 0;
+fireworksmode = 0;
 
 canvas.style.position = "absolute";
 canvas.style.top = "0px";
@@ -48,10 +49,20 @@ $(document).ready(function () {
 
 function launch() {
     //launchFrom(mousePos.x);
-    launchFrom(Math.random()*SCREEN_WIDTH);
+    if (fireworksmode == "0") {
+        launchFrom(Math.random() * SCREEN_WIDTH);
+    }
+    else if (fireworksmode == "1") {
+        launchFrom(Math.random() * SCREEN_WIDTH/2);
+    }
+    else if (fireworksmode == "2") {
+        launchFrom(SCREEN_WIDTH / 2 + Math.random() * SCREEN_WIDTH / 2);
+    }
+    
 }
 
-function StartVictoryGo() {
+function StartVictoryGo(mode) {
+    fireworksmode = mode;
     startIntervalId = setInterval(launch, 200);
     stopIntervalId = setInterval(loop, 1000 / 50);
 }

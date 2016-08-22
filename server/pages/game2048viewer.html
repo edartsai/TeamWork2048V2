@@ -13,6 +13,7 @@
     <script src="js/merge.js"></script>
     <script src="js/move.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/fireworks.js"></script>
     <link rel="stylesheet" href="css/game2048battlestyle.min.css">
 </head>
 <body>
@@ -42,6 +43,7 @@
         socket.on('send_rooms', function (result) {
             //todo:result.time
             updateDDL(result.rooms);
+            
         });
 
         $('#select-rooms').change(function () {
@@ -51,7 +53,14 @@
             selectedRoom = id;
         });
 
-        socket.on('viewer_changeroom_suc', function(data) {
+        socket.on('viewer_changeroom_suc', function (data) {
+            if (data.roomid != "-1") {
+                var value = parseInt(data.roomid, 10) + 1;
+                $('#titlestr').text("2048第" + value + "房觀戰");
+            }
+            else {
+                $('#titlestr').text("2048觀戰");
+            }
             //todo:data.time
             //todo:data.roomid
             //todo:data.p1name
@@ -62,12 +71,13 @@
         socket.on('init_room_opposite', function (data) {
             //todo:data.time
             setMsg('player' + data.player + ' is in room');
+            StopVictoryGo();
         });
 
         // server 回傳 player 已ready
         socket.on('send_ready_opposite', function (data) {
             //todo: data.time
-
+            StopVictoryGo();
             setMsg('player' + data.player + ' is ready');
             if (data.map !== undefined) {
                 //todo:
@@ -110,8 +120,18 @@
                 return;
 
             //todo:data.time
-            if(data.winner !== 0)
+            if (data.winner !== 0) {
+                if (data.winner == "1") {
+                    StartVictoryGo(1);
+                }
+                else if (data.winner == "2") {
+                    StartVictoryGo(2);
+                }
+                else {
+                    StartVictoryGo(0);
+                }
                 setMsg('winner is player' + data.winner + ' score:' + data.map[0].Score);
+            }
             else
                 setMsg('game is tie ,score:' + data.map[0].Score);
         });
@@ -201,7 +221,7 @@
 
         <select id="select-rooms">
         </select>-->
-        <h1>2048觀戰</h1>
+        <h1 id="titlestr"></h1>
         <div id="timerviewer-div">
             <p id="gametimespanviewer">00:00</p>
         </div>

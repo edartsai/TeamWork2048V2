@@ -271,14 +271,14 @@
                     if (data.winner == "1") {
                         $('#2048id').css("color", "#BB4444");
                         $('#roomid').css("color", "#BB4444");
-                        StartVictoryGo();
+                        StartVictoryGo(0);
                     }
                 }
                 else {
                     if (data.winner == "2") {
                         $('#2048id').css("color", "#50798B");
                         $('#roomid').css("color", "#50798B");
-                        StartVictoryGo();
+                        StartVictoryGo(0);
                     }
                 }
                 setMsg('winner is player' + data.winner + ' score:' + data.map[0].Score);
@@ -322,7 +322,7 @@
                 
             }
             
-            StartVictoryGo();
+            StartVictoryGo(0);
         });
         $('#test2btn').click(function () {
             $('#2048id').css("color", "black");
