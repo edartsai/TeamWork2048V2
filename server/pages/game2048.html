@@ -13,6 +13,7 @@
     <script src="js/merge.js"></script>
     <script src="js/move.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/fireworks.js"></script>
     <link rel="stylesheet" href="css/game2048battlestyle.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -167,6 +168,13 @@
             roomInfo.id = result.id;
             roomInfo.player = result.player;
             setPlayColorMode(result.player);
+            
+            if (roomInfo.id != "-1") {
+                var value = parseInt(roomInfo.id, 10) + 1;
+                
+                $('#roomid').text("第" + value  + "對戰房");
+            }
+
         });
 
         // server 回傳 對手進入房間
@@ -192,6 +200,10 @@
 
         // 點擊送出 ready 
         $('#readybtn').click(function () {
+            $('#2048id').css("color", "black");
+            $('#roomid').css("color", "black");
+            StopVictoryGo();
+
             DisableReadyButton();
             reset();
             socket.emit('send_ready', { id: roomInfo.id, map: mapObj });
@@ -241,8 +253,23 @@
             if (data === undefined || data === null)
                 return;
             
-            if(data.winner !== 0)
+            if (data.winner !== 0) {
+                if (roomInfo.player == "1") {//player 1 玩家
+                    if (data.winner == "1") {
+                        $('#2048id').css("color", "#BB4444");
+                        $('#roomid').css("color", "#BB4444");
+                        StartVictoryGo();
+                    }
+                }
+                else {
+                    if (data.winner == "2") {
+                        $('#2048id').css("color", "#50798B");
+                        $('#roomid').css("color", "#50798B");
+                        StartVictoryGo();
+                    }
+                }
                 setMsg('winner is player' + data.winner + ' score:' + data.map[0].Score);
+            }
             else
                 setMsg('game is tie ,score:' + data.map[0].Score);
         });
@@ -269,6 +296,21 @@
         // when oppo change nickname
         socket.on('send_nickname_opposite', function(data) {
             setNickname_Oppo(data.nickname);
+        });
+
+        $('#testbtn').click(function () {
+            if (roomInfo.player == "1") {//player 1 玩家
+                $('#2048id').css("color", "#BB4444");
+                $('#roomid').css("color", "#BB4444");
+                
+            }
+            
+            StartVictoryGo();
+        });
+        $('#test2btn').click(function () {
+            $('#2048id').css("color", "black");
+            $('#roomid').css("color", "black");
+            StopVictoryGo();
         });
     }
 
@@ -358,13 +400,15 @@
 <div class="main-contain" >
 
     <div class="mask-body" id="mask-body" style="visibility: collapse">
-        <p style="font-size: 40px;">Game Over</p>
+        <p style="font-size: 40px">Game Over</p>
         <!--<button class="savescorebutton" onclick="openLeaderboard()">登入排行榜</button>-->
     </div>
 
-    <p style="font-size:50px;font-weight:bold">2048</p>
-    <p style="font-size:larger">第一對戰房</p>
+    <p id="2048id" style="font-size:50px;font-weight:bold">2048</p>
+    <p id="roomid" style="font-size:larger"></p>
 
+    <!--<input id="testbtn" type="button" value="Start" />
+    <input id="test2btn" type="button" value="Stop" />-->
     <div id="capture-range-div">
 
         <div>
