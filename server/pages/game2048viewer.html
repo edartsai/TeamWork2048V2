@@ -23,8 +23,8 @@
     var selectedRoom = undefined;
 
     $(document).ready(function () {
-        //var size = 4;
-        //createMitrixDiv(size);          //畫上 Grid
+        var size = 4;
+        createMitrixDiv(size);          //畫上 Grid
         initViewer();
 
     });
@@ -34,12 +34,14 @@
         selectedRoom = index;
     }
 
+    
     function initViewer() {
         socket.emit('init_viewer');
 
         // server 回傳 rooms
         socket.on('send_rooms', function (result) {
-            updateDDL(result.rooms);
+            //todo:result.time
+            //updateDDL(result.rooms);
         });
 
         $('#select-rooms').change(function () {
@@ -49,41 +51,55 @@
             selectedRoom = id;
         });
 
+        socket.on('viewer_changeroom_suc', function(data) {
+            //todo:data.time
+            //todo:data.roomid
+            //todo:data.p1name
+            //todo:data.p2name
+        });
 
         // server 回傳 player進入房間
         socket.on('init_room_opposite', function (data) {
-            //todo:
+            //todo:data.time
             setMsg('player' + data.player + ' is in room');
         });
 
         // server 回傳 player 已ready
         socket.on('send_ready_opposite', function (data) {
+            //todo: data.time
+
             setMsg('player' + data.player + ' is ready');
             if (data.map !== undefined) {
                 //todo:
-                MappingArrayData_viewmode(data.player, data.map);
+                //MappingArrayData_Oppo(data.player, data.map);
             }
         });
 
         // server 回傳 第一階段倒數
-        socket.on('send_countdown1', function (secs) {
-            $('#gametimespanviewer').text(ConvertSeconds2String(secs));
+        socket.on('send_countdown1', function (data) {
+            //todo:data.time
+            var secs = data.secs;
+            $('#gametimespan').text(ConvertSeconds2String(secs));
         });
 
         // server 回傳 第一階段倒數結束 (遊戲開始可操作)
-        socket.on('send_countdown1_over', function () {
+        socket.on('send_countdown1_over', function (data) {
+            //todo:data.time
         });
 
         // server 回傳 第二階段倒數
-        socket.on('send_countdown2', function (secs) {
+        socket.on('send_countdown2', function (data) {
+            //todo: data.time
+            var secs = data.secs;
             if (secs === undefined)
                 return;
             var ss = ConvertSeconds2String(secs);
-            $('#gametimespanviewer').text(ss);
+            $('#gametimespan').text(ss);
         });
 
         // server 回傳 第二階段倒數
-        socket.on('send_countdown2_over', function () {
+        socket.on('send_countdown2_over', function (data) {
+            //todo:data.time
             setMsg('Game Over!!');
 
         });
@@ -93,20 +109,23 @@
             if (data === undefined || data === null)
                 return;
 
+            //todo:data.time
             if(data.winner !== 0)
                 setMsg('winner is player' + data.winner + ' score:' + data.map[0].Score);
             else
                 setMsg('game is tie ,score:' + data.map[0].Score);
         });
 
-    	socket.on('send_map', function (data) {
+        socket.on('send_map', function (data) {
+            //todo:data.time
     	    if (data !== undefined) {
                 //todo:
-    	        MappingArrayData_viewmode(data.player, data.map);
+    	        //MappingArrayData(data.player, data.map);
     	    }
     	});
 
-    	socket.on('disconnect_opposite', function (data) {
+        socket.on('disconnect_opposite', function (data) {
+            //todo:data.time
 	        setMsg("player" + data.player + "is left");
     	});
 
@@ -114,6 +133,7 @@
             if (data === undefined || data === null)
                 return;
 
+            //todo:data.time
             if (data.player === 1) {
                 $("#p1-name-p").text(data.nickname);
             }
@@ -124,37 +144,32 @@
     }
 
     function setMsg(msg) {
-        var trdiv = $(document.createElement("div")).addClass("css_tr");
-        var timdiv = $(document.createElement("div")).addClass("css_td").append("<span>" + "00:00:00" + "</span>");
-        var msgdiv = $(document.createElement("div")).addClass("css_td").append("<span>" + msg + "</span>");
-        trdiv.append(timdiv, msgdiv);
-
-        $('#gamemsgspan').prepend(trdiv);
+        $('#gamemsgspan').text(msg);
     }
 
-    function updateDDL(rooms) {
-        //add room options to #select-rooms
-        $('#select-rooms').empty();
+    //function updateDDL(rooms) {
+    //    //add room options to #select-rooms
+    //    $('#select-rooms').empty();
 
-        rooms.forEach(function(room) {
-            $("#select-rooms").append($("<option></option>").attr("value", room.id).text(room.id));
-        });
-        $('#select-rooms')[0].selectedIndex = -1;
+    //    rooms.forEach(function(room) {
+    //        $("#select-rooms").append($("<option></option>").attr("value", room.id).text(room.id));
+    //    });
+    //    $('#select-rooms')[0].selectedIndex = -1;
 
-        if (selectedRoom !== undefined) {
-            var prevSelected = $("#select-rooms option[value=" + selectedRoom + "]");
-            if (prevSelected != undefined && prevSelected.length > 0) {
-                prevSelected.selected = true;
-            } else {
-                $("#select-rooms option")[0].selected = true;
-            }
-        }
-        else {
-            $("#select-rooms option")[0].selected = true;
-        }
+    //    if (selectedRoom !== undefined) {
+    //        var prevSelected = $("#select-rooms option[value=" + selectedRoom + "]");
+    //        if (prevSelected != undefined && prevSelected.length > 0) {
+    //            prevSelected.selected = true;
+    //        } else {
+    //            $("#select-rooms option")[0].selected = true;
+    //        }
+    //    }
+    //    else {
+    //        $("#select-rooms option")[0].selected = true;
+    //    }
 
-        $('#select-rooms').change();
-    }
+    //    $('#select-rooms').change();
+    //}
 
     function getSelectedRoomId() {
         return $("select#select-rooms").val();;
@@ -185,14 +200,10 @@
 
     <h1>2048觀戰</h1>
 
-    <div id="timerviewer-div">
-        <p id="gametimespanviewer">00:00</p>
-    </div>
-
     <div id="play1viewerdivcss">
         <div id="player1viewer-scare">
             <p class="score-title">SCORE</p>
-            <p class="score-content" id="score1view">0</p>
+            <p class="score-content" id="score1">0</p>
         </div>
         <div id="player1viewer-name">
             <p id="p1-name-p">NAME</p>
@@ -200,54 +211,54 @@
         <div style="clear:both;"></div>
         <div id="play1-box-body">
             <div class='box-row'>
-                <div class="play1viewer-box-column-border"></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
+                <div class="play1-box-column-border"></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
             </div>
             <div class='box-row'>
-                <div class="play1viewer-box-column-border"></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
+                <div class="play1-box-column-border"></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
             </div>
             <div class='box-row'>
-                <div class="play1viewer-box-column-border"></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
+                <div class="play1-box-column-border"></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
             </div>
             <div class='box-row'>
-                <div class="play1viewer-box-column-border"></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
-                <div class="box1viewer"><p class='box1view-number'></p></div>
-                <div class="play1viewer-box-row-border"></div>
+                <div class="play1-box-column-border"></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
+                <div class='box'><p class='box-number'></p></div>
+                <div class="play1-box-row-border"></div>
             </div>
-            <div class="play1viewer-box-column-border"></div>
+            <div class="play1-box-column-border"></div>
         </div>
 
     </div>
@@ -257,9 +268,9 @@
     <div id="play2viewerdivcss">
         <div id="player2-scare">
             <p class="score-title">SCORE</p>
-            <p class="score-content" id="score2view">0</p>
+            <p class="score-content" id="score2">0</p>
         </div>
-        <div id="player2viewer-name">
+        <div id="player2-name" style="width:49%">
             <p id="p2-name-p">NAME</p>
         </div>
         <div style="clear:both;"></div>
@@ -268,74 +279,68 @@
             <div class='box-row'>
                 <div class="play2viewer-box-column-border"></div>
                 <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
                 <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
                 <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
                 <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
-                <div class="play2viewer-box-row-border"></div>
-            </div>
-            <div class='box-row'>
-                <div class="play2viewer-box-column-border"></div>
-                <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
-                <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
-                <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
-                <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
                 <div class="play2viewer-box-row-border"></div>
             </div>
             <div class='box-row'>
                 <div class="play2viewer-box-column-border"></div>
                 <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
                 <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
                 <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
                 <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
                 <div class="play2viewer-box-row-border"></div>
             </div>
             <div class='box-row'>
                 <div class="play2viewer-box-column-border"></div>
                 <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
                 <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
                 <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
                 <div class="play2viewer-box-row-border"></div>
-                <div class='box2viewer'><p class='box2view-number'></p></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
                 <div class="play2viewer-box-row-border"></div>
             </div>
-            <div class="play2viewer-box-column-border"></div>
+            <div class='box-row'>
+                <div class="play2viewer-box-column-border"></div>
+                <div class="play2viewer-box-row-border"></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
+                <div class="play2viewer-box-row-border"></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
+                <div class="play2viewer-box-row-border"></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
+                <div class="play2viewer-box-row-border"></div>
+                <div class='box2viewer'><p class='box2-number'></p></div>
+                <div class="play2viewer-box-row-border"></div>
+            </div>
+            <div id="play2viewer-box-column-border"></div>
         </div>
-
     </div>
 
 
-    <div style="clear:both;"></div>
 
-    <div style="margin-top:10px;width:100%;height:200px;overflow:auto" id="gamemsgspan">
-        <!--<span id="gamemsgspan" style="width:100%;height:200px"></span>-->
+    <div id="developing-div">
+        <br/>
+        <span> DEVELOPING </span> <br/>
+        <div>
+            <span id="gametimespan"></span>
+        </div>
+        <div>
+            <span id="gamemsgspan"></span>
+        </div>
     </div>
 
-    <select id="select-rooms"></select>
-        <!--<div id="developing-div">
-            <br/>
-            <span> DEVELOPING </span> <br/>
-            <div>
-                <span id="gametimespan"></span>
-            </div>
-            <div>
-                <span id="gamemsgspan"></span>
-            </div>
-        </div>-->
 </div>
 </body>
 

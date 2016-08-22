@@ -165,6 +165,7 @@
 
         // server 回傳安排的 room & player
     	socket.on('init_room', function (result) {
+            //todo: result.time
             roomInfo.id = result.id;
             roomInfo.player = result.player;
             setPlayColorMode(result.player);
@@ -178,18 +179,21 @@
         });
 
         // server 回傳 對手進入房間
-        socket.on('init_room_opposite', function () {
-            //todo:
+        socket.on('init_room_opposite', function (data) {
+            //todo: data.time
             setMsg('Opposite is in room');
         });
 
         // server 回傳 滿房
-        socket.on('init_room_full', function () {
+        socket.on('init_room_full', function (data) {
+            //todo: data.time
             socket.emit('init_game', roomInfo);
         });
 
         // server 回傳 已可點擊 Ready btn
-        socket.on('init_ready', function () {
+        socket.on('init_ready', function (data) {
+            //todo: data.time
+
             isCanClick = false;     // 關閉 keycode 控制
             DisableResetButton();   // 關閉 Button
             DisableRollbackButton();// 關閉 Button
@@ -210,27 +214,35 @@
         });
 
         // server 回傳 對手 已ready
-        socket.on('send_ready_opposite', function (oppoInitmap) {
+        socket.on('send_ready_opposite', function (data) {
+            //todo:data.time
+
+            var oppoInitMap = data.map;
             setMsg('opposite is ready');
-            if (oppoInitmap !== undefined) {
-                MappingArrayData_Oppo(oppoInitmap); 
+            if (oppoInitMap !== undefined) {
+                MappingArrayData_Oppo(oppoInitMap); 
             }
         });
 
         // server 回傳 第一階段倒數
-        socket.on('send_countdown1', function (secs) {
+        socket.on('send_countdown1', function (data) {
+            //todo: data.time
+            var secs = data.secs;
             $('#gametimespan').text(ConvertSeconds2String(secs));
         });
 
         // server 回傳 第一階段倒數結束 (遊戲開始可操作)
-        socket.on('send_countdown1_over', function () {
+        socket.on('send_countdown1_over', function (data) {
+            //todo: data.time
             isCanClick = true;      // 開啟 keycode 控制
             EnableResetButton();    // 開啟 Button
             EnableRollbackButton(); // 開啟 Button
         });
 
         // server 回傳 第二階段倒數
-        socket.on('send_countdown2', function (secs) {
+        socket.on('send_countdown2', function (data) {
+            //todo:data.time
+            var secs = data.secs;
             if (secs === undefined)
                 return;
             var ss = ConvertSeconds2String(secs);
@@ -238,7 +250,8 @@
         });
 
         // server 回傳 第二階段倒數
-        socket.on('send_countdown2_over', function () {
+        socket.on('send_countdown2_over', function (data) {
+            //todo:data.time
             setMsg('Game Over!!');
 
             isCanClick = false;     // 關閉 keycode 控制
@@ -275,13 +288,16 @@
         });
 
         // make a move
-    	socket.on('send_map', function (oppoMap) {
+        socket.on('send_map', function (data) {
+            //todo:data.time
+            var oppoMap = data.map;
     	    if (oppoMap !== undefined) {
     	        MappingArrayData_Oppo(oppoMap);
     	    }
     	});
 
-        socket.on('disconnect_opposite', function() {
+        socket.on('disconnect_opposite', function (data) {
+            //todo:data.time
             setMsg('Opposite leaved');
         });
 
@@ -294,7 +310,8 @@
         });
 
         // when oppo change nickname
-        socket.on('send_nickname_opposite', function(data) {
+        socket.on('send_nickname_opposite', function (data) {
+            //todo:data.time
             setNickname_Oppo(data.nickname);
         });
 
