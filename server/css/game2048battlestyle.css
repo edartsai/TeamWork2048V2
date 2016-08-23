@@ -240,11 +240,12 @@
     clear: both; }
 
 .mask-body {
-  /*width:$main-width;
-    height:$main-width;*/
+  width: 214px;
+  height: 214px;
   background-color: rgba(51, 26, 0, 0.3);
   z-index: 100;
-  display: inline-block;
+  line-height: 214px;
+  margin: 0 auto;
   position: absolute;
   border-radius: 4px;
   /*margin-top:65px;
@@ -274,6 +275,18 @@
 
 #play1divcss {
   float: left; }
+
+#play1divcss:before,
+#play1divcss:after {
+  content: "";
+  display: table; }
+
+#play1divcss:after {
+  clear: both; }
+
+#play1divcss {
+  *zoom: 1;
+  /*For IE 6&7 only*/ }
 
 #play2divcss {
   margin-left: 2px;
@@ -346,5 +359,18 @@
     width: 98%;
     background-color: red; }
   #gamemsgspan {
-    width: 98%; } }
+    width: 98%;
+    float: none; } }
+
+#capture-range-div:before,
+#capture-range-div:after {
+  content: "";
+  display: table; }
+
+#capture-range-div:after {
+  clear: both; }
+
+#capture-range-div {
+  *zoom: 1;
+  /*For IE 6&7 only*/ }
 

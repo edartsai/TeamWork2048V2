@@ -14,7 +14,7 @@ $player1-main-color:#BB4444;
 $player2-main-color:#50798B;
 
 $smallbox-width:30px;
-$main-width:$box-width*4+$box-border-width*10;
+$main-width:$box-width*4+$box-border-width*7;
 $text-color: #776E65;
 
 $bottom-box-width:100px;
@@ -340,19 +340,18 @@ html, body {
 }
 
 .mask-body{
-    /*width:$main-width;
-    height:$main-width;*/
+    width:$main-width;
+    height:$main-width;
     background-color:rgba(20%,10%,0%,0.3);
     z-index:100;
-    display:inline-block;
+    line-height:$main-width;
+    margin:0 auto;
     position:absolute;
     border-radius: $box-radius;
     /*margin-top:65px;
     margin-left:($main-width/2) * (-1);
     line-height:($main-width/2) + 30;*/
 }
-
-
 
 
 
@@ -395,6 +394,21 @@ html, body {
  #play1divcss{
      float:left;
  }
+
+#play1divcss:before,
+#play1divcss:after {
+  content: "";
+  display:table;
+}
+#play1divcss:after {
+  clear: both;
+}
+#play1divcss {
+  *zoom: 1; /*For IE 6&7 only*/
+}
+
+
+
  #play2divcss{
       margin-left:2px;
       float:left;
@@ -486,8 +500,20 @@ html, body {
  }
  #gamemsgspan{
      width:98%;
+     float:none;
  }
 }
  
+#capture-range-div:before,
+#capture-range-div:after {
+  content: "";
+  display:table;
+}
+#capture-range-div:after {
+  clear: both;
+}
+#capture-range-div {
+  *zoom: 1; /*For IE 6&7 only*/
+}
 
  
