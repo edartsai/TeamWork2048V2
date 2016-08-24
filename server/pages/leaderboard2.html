@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    
+</head>
+<body>
+
+
+<div id="lb2">
+    <div style="display: table-row">
+        <div style="display: table-cell;"><span style="margin-left: 1em;">名次</span></div>
+        <div style="display: table-cell;"><span style="margin-left: 1em;">size</span></div>
+        <div style="display: table-cell;"><span style="margin-left: 1em;">暱稱</span></div>
+        <div style="display: table-cell;"><span style="margin-left: 1em;">分數</span></div>
+        <div style="display: table-cell;"><span style="margin-left: 1em;">時間</span></div>
+    </div>
+
+    <template v-for="lb in lbs">
+        <div style="display: table-row">
+            <div style="display: table-cell;"><span style="margin-left: 1em;">{{lb.rowid}}</span></div>
+            <div style="display: table-cell;"><span style="margin-left: 1em;">{{lb.mapsize}}</span></div>
+            <div style="display: table-cell;"><span style="margin-left: 1em;">{{lb.name}}</span></div>
+            <div style="display: table-cell;"><span style="margin-left: 1em;">{{lb.score}}</span></div>
+            <div style="display: table-cell;"><span style="margin-left: 1em;">{{lb.time}}</span></div>
+        </div>
+    </template>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/leaderboard2.js"></script>
+
+<script>
+    $(document).ready(() => {
+        // socket.io
+        var socket = io();
+
+        socket.on('get_leaderboard', function(data)  {
+            vm.restoreArray(data);
+        });
+
+
+        socket.emit('get_leaderboard', {
+            mapsize: 4,
+            rowCount: 50
+        });
+    });
+
+
+</script>
+
+</body>
+</html>

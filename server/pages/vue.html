@@ -14,10 +14,10 @@
     <ul>
         <li v-for="todo in todos">
             <span>{{ todo.text }}</span>
-            <button v-on:click="removeTodo({$index})">X</button>
+            <button v-on:click="removeTodo($index)">X</button>
         </li>
     </ul>
-    <button v-on:click="reverseMessage">Reverse Message</button>
+   
 </div>
 
 

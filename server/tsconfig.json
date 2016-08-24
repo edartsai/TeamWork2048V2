@@ -3,16 +3,15 @@
   "compilerOptions": {
     "rootDir": "ts/",
     "outDir": "js_out/",
-    "sourceMap": true
-  }
-  //,"exclude": [
-  //  "node_modules",
-  //  "typings"
-
-  //],
-  ,"files": [
-    "ts/app.ts"
-
+    "sourceMap": false
+  },
+  "files": [
+    "ts/app.ts",
+    "ts/leaderboard2.ts"
+  ],
+  "types": [
+    "jquery",
+    "vue"
   ]
 
 

@@ -98,6 +98,10 @@ app.get('/inputleaderboard', function (req, res) {
 
 });
 
+app.get('/leaderboard2', function(req, res) {
+    res.sendFile(__dirname + '/pages/leaderboard2.html');
+});
+
 app.post('/inputleaderboard', function (req, res) {
     var score = req.body.score;
     var size = req.body.size;
@@ -520,7 +524,7 @@ function getLeaderboard(socket, rowcount, mapsize) {
             rowCount: rowcount
         },
         function (rtndata) {
-            send2Client(socket, 'get_leaderboard', rtndata);
+            send2Client(socket, 'get_leaderboard', rtndata[0]);
         }
     );
 }
