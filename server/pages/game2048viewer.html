@@ -70,15 +70,17 @@
         // server 回傳 player進入房間
         socket.on('init_room_opposite', function (data) {
             //todo:data.time
-            setMsg('player' + data.player + ' is in room');
+            setMsg(data.time,'player' + data.player + ' is in room');
             StopVictoryGo();
+            $('#titlestr').css("color", "black");
         });
 
         // server 回傳 player 已ready
         socket.on('send_ready_opposite', function (data) {
             //todo: data.time
             StopVictoryGo();
-            setMsg('player' + data.player + ' is ready');
+            $('#titlestr').css("color", "black");
+            setMsg(data.time, 'player' + data.player + ' is ready');
             if (data.map !== undefined) {
                 //todo:
                 MappingArrayData_viewmode(data.player, data.map);
@@ -110,7 +112,7 @@
         // server 回傳 第二階段倒數
         socket.on('send_countdown2_over', function (data) {
             //todo:data.time
-            setMsg('Game Over!!');
+            setMsg(data.time, 'Game Over!!');
 
         });
 
@@ -122,18 +124,20 @@
             //todo:data.time
             if (data.winner !== 0) {
                 if (data.winner == "1") {
+                    $('#titlestr').css("color", "#BB4444");
                     StartVictoryGo(1);
                 }
                 else if (data.winner == "2") {
+                    $('#titlestr').css("color", "#50798B");
                     StartVictoryGo(2);
                 }
                 else {
                     StartVictoryGo(0);
                 }
-                setMsg('winner is player' + data.winner + ' score:' + data.map[0].Score);
+                setMsg(data.time, 'winner is player' + data.winner + ' score:' + data.map[0].Score);
             }
             else
-                setMsg('game is tie ,score:' + data.map[0].Score);
+                setMsg(data.time, 'game is tie ,score:' + data.map[0].Score);
         });
 
         socket.on('send_map', function (data) {
@@ -146,7 +150,7 @@
 
         socket.on('disconnect_opposite', function (data) {
             //todo:data.time
-	        setMsg("player" + data.player + "is left");
+            setMsg(data.time, "player" + data.player + "is left");
     	});
 
         socket.on('send_nickname_opposite', function(data) {
@@ -163,15 +167,33 @@
         });
     }
 
-    function setMsg(msg) {
+    function setMsg(msgtime, msg) {
+        //var d = new Date(msgtime);
+        //var timStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+        //var aa = new Date();
+        //var bb = aa.format("m/dd/yy");
+
         var trdiv = $(document.createElement("div")).addClass("css_tr");
-        var timdiv = $(document.createElement("div")).addClass("css_td").append("<span>" + "00:00:00" + "</span>");
+        var timdiv = $(document.createElement("div")).addClass("css_td").append("<span>" + timeMsgStr(msgtime) + "</span>");
         var msgdiv = $(document.createElement("div")).addClass("css_td").append("<span>" + msg + "</span>");
         trdiv.append(timdiv, msgdiv);
 
         $('#gamemsgspan').prepend(trdiv);
     }
+    function timeMsgStr(msgtime) {
+        var date = new Date(msgtime);
+        
+        var yyyy = date.toLocaleDateString().slice(0,4)
+        var MM = (date.getMonth()+1<10 ? '0' : '')+(date.getMonth()+1);
+        var dd = (date.getDate()<10 ? '0' : '')+date.getDate();
+        var h = (date.getHours()<10 ? '0' : '')+date.getHours();
+        var m = (date.getMinutes()<10 ? '0' : '')+date.getMinutes();
+        var s = (date.getSeconds()<10 ? '0' : '')+date.getSeconds(); 
+        //yyyy + "" + MM + "" + dd + "" + 
+        return h + ":" + m + ":" + s;
+    }
 
+    
     function updateDDL(rooms) {
         //add room options to #select-rooms
         $('#select-rooms').empty();
@@ -202,25 +224,7 @@
     </script>
 
     <div class="main-contain">
-        <!--<div class="mask-body" id="mask-body" style="visibility: collapse">
-            <p style="font-size: 40px;">Game Over</p>
-        </div>
-
-        <div class="box-header" style="height: 55px">
-            <span class="title">2048</span>
-
-            <div class="box-score">
-                <p class="score-title">SCORE</p>
-                <p class="score-content" id="score">0</p>
-            </div>
-
-        </div>
-
-        <div class="box-body">
-        </div>
-
-        <select id="select-rooms">
-        </select>-->
+        
         <h1 id="titlestr"></h1>
         <div id="timerviewer-div">
             <p id="gametimespanviewer">00:00</p>
