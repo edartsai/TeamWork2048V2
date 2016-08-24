@@ -4,30 +4,42 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
-    
+    <link href="css/leaderboard.css" rel="stylesheet" />
 </head>
 <body>
 
 
-<div id="lb2">
-    <div style="display: table-row">
-        <div style="display: table-cell;"><span style="margin-left: 1em;">名次</span></div>
-        <div style="display: table-cell;"><span style="margin-left: 1em;">size</span></div>
-        <div style="display: table-cell;"><span style="margin-left: 1em;">暱稱</span></div>
-        <div style="display: table-cell;"><span style="margin-left: 1em;">分數</span></div>
-        <div style="display: table-cell;"><span style="margin-left: 1em;">時間</span></div>
+<div id="lb2" class="table">
+    <div id="header" class="row" v-show="isshowheader">
+        <div v-for="value of lbs[0]" class="cell1"><span> {{ $key }} </span></div>
     </div>
 
-    <template v-for="lb in lbs">
-        <div style="display: table-row">
-            <div style="display: table-cell;"><span style="margin-left: 1em;">{{lb.rowid}}</span></div>
-            <div style="display: table-cell;"><span style="margin-left: 1em;">{{lb.mapsize}}</span></div>
-            <div style="display: table-cell;"><span style="margin-left: 1em;">{{lb.name}}</span></div>
-            <div style="display: table-cell;"><span style="margin-left: 1em;">{{lb.score}}</span></div>
-            <div style="display: table-cell;"><span style="margin-left: 1em;">{{lb.time}}</span></div>
+    <template v-for="lb of lbs">
+        <div class="row">
+            <div v-for="value of lb" class="cell2"><span>{{ value }}</span></div>
         </div>
     </template>
+
+    <div class="row" v-show="isshowinput">
+        <div class="cell3">
+
+        </div>
+        <div class="cell3">
+            <input id="inputname" type="text" placeholder="Player's Name..." />
+        </div>
+        <div class="cell3">
+            <span id="showsize"></span>
+        </div>
+        <div class="cell3">
+            <span id="showscore"></span>
+        </div>
+
+        <div class="cell3">
+            <input id="btnsend" type="button" value="Send" />
+        </div>
     </div>
+
+</div>
 
 
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>

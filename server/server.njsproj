@@ -90,6 +90,7 @@
     </Content>
     <Content Include="css\game2048style.scss" />
     <Content Include="css\jquery-ui.min.css" />
+    <Content Include="css\leaderboard.css" />
     <Content Include="css\lightbox.css" />
     <Content Include="css\sidebarstyle.css" />
     <Content Include="css\style.css" />
