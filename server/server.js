@@ -22,7 +22,11 @@ app.use(bodyParser.json());
 
 
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/pages/index2.html');
+    res.sendFile(__dirname + '/pages/index3.html');
+});
+
+app.get('/console', function (req, res) {
+    res.sendFile(__dirname + '/pages/console.html');
 });
 
 app.get('/index.html', function (req, res) {
@@ -75,29 +79,6 @@ app.get('/game2048viewer', function(req, res) {
     res.sendFile(__dirname + '/pages/game2048viewer.html');
 });
 
-//app.get('/inputleaderboard', function (req, res) {
-//    var score = "-1";
-//    var size = "4";
-//    var isshow = "0";
-
-//    fs.readFile(
-//        './pages/leaderboard.html',
-//        { encoding: 'utf-8' },
-//        function (errf, data) {
-//            if (!errf) {
-//                //replace special tag
-//                data = data.replace(/{{{score}}}/gi, score);
-//                data = data.replace(/{{{size}}}/gi, size);
-//                data = data.replace(/{{{isshowinput}}}/gi, isshow);
-
-//                res.send(data);
-//                res.end();
-//            }
-//        }
-//    );
-
-//});
-
 app.get('/leaderboard', function(req, res) {
     res.sendFile(__dirname + '/pages/leaderboard2.html');
 });
@@ -123,44 +104,10 @@ app.post('/inputleaderboarddata', function (req, res) {
     });
 });
 
-
-//app.post('/inputleaderboard', function (req, res) {
-//    var score = req.body.score;
-//    var size = req.body.size;
-//    var isshow = req.body.isshowinput;
-
-//    if (!score)
-//        score = "-1";
-//    if (!size)
-//        size = "4";
-//    if (!isshow)
-//        isshow = "0";
-
-//    fs.readFile(
-//        './pages/leaderboard.html',
-//        { encoding: 'utf-8' },
-//        function(errf, data) {
-//            if (!errf) {
-//                //replace special tag
-//                data = data.replace(/{{{score}}}/gi, score);
-//                data = data.replace(/{{{size}}}/gi, size);
-//                data = data.replace(/{{{isshowinput}}}/gi, isshow);
-
-//                res.send(data);
-//                res.end();
-//            }
-//        }
-//    );
-
-//});
-
 app.get('/screenshot.html', function (req, res) {
     res.sendFile(__dirname + '/pages/screenshot.html');
 });
 
-app.get('/console', function (req, res) {
-    res.sendFile(__dirname + '/pages/console.html');
-});
 
 
 
@@ -179,19 +126,7 @@ var countdown1Interval = 5;     //in sec
 var countdown2Interval = 60;    //in sec
 
 io.on('connection', function (socket) {
-    //socket.on('get_leaderboard', function (data) {
-    //    getLeaderboardBySocket(socket, data.rowCount, data.mapsize);
-    //});
-
-    //socket.on('add_leaderboard', function (data) {
-    //    sql.addLeaderListItem(data, function (result) {
-    //        if (result.returnValue === 0) {
-    //            getLeaderboardBySocket(socket, data.querycount, data.mapsize);
-    //            send2Client(socket, 'add_leaderboard', undefined);
-    //        }
-    //    });
-    //});
-
+   
     socket.on('add_screenshot', function (data) {
         sql.addScreenshotItem({
             datatype: data.datatype,
@@ -218,7 +153,6 @@ io.on('connection', function (socket) {
     });
 
 });
-
 
 io.sockets.on('connection', function (socket) {
 
@@ -535,20 +469,6 @@ io.sockets.on('connection', function (socket) {
     });
 });
 
-function getLeaderboardBySocket(socket, rowcount, mapsize) {
-    sql.getLeaderList(
-        {
-            mapsize: mapsize,
-            sortType: 0,
-            startIndex: 1,
-            rowCount: rowcount
-        },
-        function (rtndata) {
-            send2Client(socket, 'get_leaderboard', rtndata[0]);
-        }
-    );
-}
-
 function getLeaderboard(response, rowcount, mapsize) {
     sql.getLeaderList(
         {
@@ -564,13 +484,6 @@ function getLeaderboard(response, rowcount, mapsize) {
                 response.json({ data: undefined });
         }
     );
-}
-
-function send2Client(socket, cmd, data) {
-    if (data !== undefined)
-        socket.emit(cmd, data);
-    else
-        socket.emit(cmd);
 }
 
 function genRoom() {

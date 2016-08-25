@@ -10,6 +10,8 @@
 
 
 <div id="lb2" class="table">
+    <img-component v-bind:src="imgpath"></img-component>
+
     <div id="header" class="row" v-show="isshowheader">
         <div v-for="value of lbs[0]" class="cell1"><span> {{ $key }} </span></div>
     </div>
@@ -19,26 +21,6 @@
             <div v-for="value of lb" class="cell2"><span>{{ value }}</span></div>
         </div>
     </template>
-
-    <div class="row" v-show="isshowinput">
-        <div class="cell3">
-
-        </div>
-        <div class="cell3">
-            <input id="inputname" type="text" placeholder="Player's Name..." />
-        </div>
-        <div class="cell3">
-            <span id="showsize"></span>
-        </div>
-        <div class="cell3">
-            <span id="showscore"></span>
-        </div>
-
-        <div class="cell3">
-            <input id="btnsend" type="button" value="Send" />
-        </div>
-    </div>
-
 </div>
 
 

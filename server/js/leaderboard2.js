@@ -1,8 +1,14 @@
 ﻿/// <reference path="../node_modules/@types/vue/index.d.ts"/>
 
+var ImgComponent = Vue.extend({
+    props: ["src"],
+    template: "<img v-bind:src='src' alt=''/>"
+});
+
 var vm = new Vue({
     el: "#lb2",
     data: {
+        imgpath: '/images/game-2048-3.png',
         lbs: []
     },
     computed: {
@@ -11,10 +17,6 @@ var vm = new Vue({
                 return false;
 
             return (this.lbs.length > 0) ;
-        },
-
-        isshowinput : function() {
-            return false;
         }
     },
     methods: {
@@ -52,8 +54,14 @@ var vm = new Vue({
                 });
             }
         }
+    },
+    components: {
+        'img-component': ImgComponent
     }
 });
+
+
+
 
 
 
