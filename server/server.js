@@ -75,62 +75,84 @@ app.get('/game2048viewer', function(req, res) {
     res.sendFile(__dirname + '/pages/game2048viewer.html');
 });
 
-app.get('/inputleaderboard', function (req, res) {
-    var score = "-1";
-    var size = "4";
-    var isshow = "0";
+//app.get('/inputleaderboard', function (req, res) {
+//    var score = "-1";
+//    var size = "4";
+//    var isshow = "0";
 
-    fs.readFile(
-        './pages/leaderboard.html',
-        { encoding: 'utf-8' },
-        function (errf, data) {
-            if (!errf) {
-                //replace special tag
-                data = data.replace(/{{{score}}}/gi, score);
-                data = data.replace(/{{{size}}}/gi, size);
-                data = data.replace(/{{{isshowinput}}}/gi, isshow);
+//    fs.readFile(
+//        './pages/leaderboard.html',
+//        { encoding: 'utf-8' },
+//        function (errf, data) {
+//            if (!errf) {
+//                //replace special tag
+//                data = data.replace(/{{{score}}}/gi, score);
+//                data = data.replace(/{{{size}}}/gi, size);
+//                data = data.replace(/{{{isshowinput}}}/gi, isshow);
 
-                res.send(data);
-                res.end();
-            }
-        }
-    );
+//                res.send(data);
+//                res.end();
+//            }
+//        }
+//    );
 
-});
+//});
 
-app.get('/leaderboard2', function(req, res) {
+app.get('/leaderboard', function(req, res) {
     res.sendFile(__dirname + '/pages/leaderboard2.html');
 });
 
-app.post('/inputleaderboard', function (req, res) {
-    var score = req.body.score;
-    var size = req.body.size;
-    var isshow = req.body.isshowinput;
+app.post('/getleaderboarddata', function(req, res) {
+    var rowcount = req.body.rowcount;
+    var mapsize = req.body.mapsize;
 
-    if (!score)
-        score = "-1";
-    if (!size)
-        size = "4";
-    if (!isshow)
-        isshow = "0";
-
-    fs.readFile(
-        './pages/leaderboard.html',
-        { encoding: 'utf-8' },
-        function(errf, data) {
-            if (!errf) {
-                //replace special tag
-                data = data.replace(/{{{score}}}/gi, score);
-                data = data.replace(/{{{size}}}/gi, size);
-                data = data.replace(/{{{isshowinput}}}/gi, isshow);
-
-                res.send(data);
-                res.end();
-            }
-        }
-    );
-
+    getLeaderboard(res, rowcount, mapsize);
 });
+
+app.post('/inputleaderboarddata', function (req, res) {
+    var data = {
+        score: parseInt(req.body.score),
+        mapsize: parseInt(req.body.size),
+        name: req.body.name,
+        movetimes: 0,
+        ip: ''
+    };
+    
+    sql.addLeaderListItem(data, function (result) {
+        res.json({ result: (result.returnValue === 0) });
+    });
+});
+
+
+//app.post('/inputleaderboard', function (req, res) {
+//    var score = req.body.score;
+//    var size = req.body.size;
+//    var isshow = req.body.isshowinput;
+
+//    if (!score)
+//        score = "-1";
+//    if (!size)
+//        size = "4";
+//    if (!isshow)
+//        isshow = "0";
+
+//    fs.readFile(
+//        './pages/leaderboard.html',
+//        { encoding: 'utf-8' },
+//        function(errf, data) {
+//            if (!errf) {
+//                //replace special tag
+//                data = data.replace(/{{{score}}}/gi, score);
+//                data = data.replace(/{{{size}}}/gi, size);
+//                data = data.replace(/{{{isshowinput}}}/gi, isshow);
+
+//                res.send(data);
+//                res.end();
+//            }
+//        }
+//    );
+
+//});
 
 app.get('/screenshot.html', function (req, res) {
     res.sendFile(__dirname + '/pages/screenshot.html');
@@ -140,9 +162,7 @@ app.get('/console', function (req, res) {
     res.sendFile(__dirname + '/pages/console.html');
 });
 
-app.get('/vuepage', function (req, res) {
-    res.sendFile(__dirname + '/pages/vue.html');
-});
+
 
 app.use('/pages', express.static('pages'));
 app.use('/css', express.static('css'));
@@ -156,21 +176,21 @@ app.use('/typings', express.static('typings'));
 
 var rooms = [];
 var countdown1Interval = 5;     //in sec
-var countdown2Interval = 60;   //in sec
+var countdown2Interval = 60;    //in sec
 
 io.on('connection', function (socket) {
-    socket.on('get_leaderboard', function (data) {
-        getLeaderboard(socket, data.rowCount, data.mapsize);
-    });
+    //socket.on('get_leaderboard', function (data) {
+    //    getLeaderboardBySocket(socket, data.rowCount, data.mapsize);
+    //});
 
-    socket.on('add_leaderboard', function (data) {
-        sql.addLeaderListItem(data, function (result) {
-            if (result.returnValue === 0) {
-                getLeaderboard(socket, data.querycount, data.mapsize);
-                send2Client(socket, 'add_leaderboard', undefined);
-            }
-        });
-    });
+    //socket.on('add_leaderboard', function (data) {
+    //    sql.addLeaderListItem(data, function (result) {
+    //        if (result.returnValue === 0) {
+    //            getLeaderboardBySocket(socket, data.querycount, data.mapsize);
+    //            send2Client(socket, 'add_leaderboard', undefined);
+    //        }
+    //    });
+    //});
 
     socket.on('add_screenshot', function (data) {
         sql.addScreenshotItem({
@@ -515,7 +535,7 @@ io.sockets.on('connection', function (socket) {
     });
 });
 
-function getLeaderboard(socket, rowcount, mapsize) {
+function getLeaderboardBySocket(socket, rowcount, mapsize) {
     sql.getLeaderList(
         {
             mapsize: mapsize,
@@ -525,6 +545,23 @@ function getLeaderboard(socket, rowcount, mapsize) {
         },
         function (rtndata) {
             send2Client(socket, 'get_leaderboard', rtndata[0]);
+        }
+    );
+}
+
+function getLeaderboard(response, rowcount, mapsize) {
+    sql.getLeaderList(
+        {
+            mapsize: mapsize,
+            sortType: 0,
+            startIndex: 1,
+            rowCount: rowcount
+        },
+        function (rtndata) {
+            if (rtndata !== undefined && rtndata !== null && rtndata.length > 0)
+                response.json({ data: rtndata[0] });
+            else
+                response.json({ data: undefined });
         }
     );
 }

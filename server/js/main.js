@@ -89,7 +89,7 @@ function GetRandNewItem(mapObj, isValueMust2) {
 var cookieName = "bestscore";
 var cookieDays = 30;
 
-function ReadBestScore() {
+function ReadPersonalBestScore() {
     var best = ReadCookie(cookieName);
     if (best === null || best === undefined)
         return 0;
@@ -97,7 +97,7 @@ function ReadBestScore() {
     return parseInt(best);
 }
 
-function WriteBestScore(score) {
+function WritePersonalBestScore(score) {
     CreateCookie(cookieName, score, cookieDays);
 }
 

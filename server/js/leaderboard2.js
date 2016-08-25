@@ -14,7 +14,7 @@ var vm = new Vue({
         },
 
         isshowinput : function() {
-            return true;
+            return false;
         }
     },
     methods: {
@@ -31,16 +31,18 @@ var vm = new Vue({
             if (serverdata !== undefined && serverdata !== null && serverdata.length > 0) {
                 serverdata.forEach(function (dt)  {
                     var lb = {
-                        rowid : -1,
+                        rank : -1,
+                        id : -1,
                         name: "",
-                        mapsize: -1,
+                        size: -1,
                         score: 0,
                         time: ""
                     };
         
-                    lb.rowid = dt.lbid;
+                    lb.rank = dt.rowid;
+                    lb.id = dt.lbid;
                     lb.name = dt.name;
-                    lb.mapsize = dt.mapsize;
+                    lb.size = dt.mapsize;
                     lb.score = dt.score;
                     lb.time = dt.lbdate;
         

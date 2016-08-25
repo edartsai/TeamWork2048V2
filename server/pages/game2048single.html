@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/game2048style.min.css">
 </head>
 <body>
-    <div id="fb-root"></div>
+    <!--<div id="fb-root"></div>-->
     <!--<script src="js/fb.js"></script>-->
 <script>
     var isCanClick = true;
@@ -39,9 +39,6 @@
         IsGameOver: false
     };
 
-    var defaultTimesLeft = 3;
-    var rollbackLeft = defaultTimesLeft;
-
     $(document).ready(function () {
         document.onkeydown = keyFunction;
 
@@ -54,38 +51,45 @@
     function moveLeft() {
         if (Move(mapObj, DIRECTION.LEFT, prevObj)) {
             boxsmove(mapObj, prevObj);      //動畫+重繪數字
-            SetRollbackBtn(rollbackLeft);   //「上一步」按鈕狀態控制
+            EnableRollbackButton();         //開啟「上一步」
+
+            if(mapObj.IsGameOver)
+                SetLeaderboardBtnVisibility();  //排行榜按鈕控制
         }
     }
 
     function moveRight() {
         if (Move(mapObj, DIRECTION.RIGHT, prevObj)) {
-            boxsmove(mapObj, prevObj);      //動畫+重繪數字
-            SetRollbackBtn(rollbackLeft);   //「上一步」按鈕狀態控制
+            boxsmove(mapObj, prevObj);          //動畫+重繪數字
+            EnableRollbackButton();             //開啟「上一步」
+
+            if (mapObj.IsGameOver)
+                SetLeaderboardBtnVisibility();  //排行榜按鈕控制
         }
     }
 
     function moveUp() {
         if (Move(mapObj, DIRECTION.UP, prevObj)) {
-            boxsmove(mapObj, prevObj);      //動畫+重繪數字
-            SetRollbackBtn(rollbackLeft);   //「上一步」按鈕狀態控制
+            boxsmove(mapObj, prevObj);          //動畫+重繪數字
+            EnableRollbackButton();             //開啟「上一步」
+
+            if (mapObj.IsGameOver)
+                SetLeaderboardBtnVisibility();  //排行榜按鈕控制
         }
     }
 
     function moveDown() {
         if (Move(mapObj, DIRECTION.DOWN, prevObj)) {
-            boxsmove(mapObj, prevObj);      //動畫+重繪數字
-            SetRollbackBtn(rollbackLeft);   //「上一步」按鈕狀態控制
+            boxsmove(mapObj, prevObj);          //動畫+重繪數字
+            EnableRollbackButton();             //開啟「上一步」
+
+            if (mapObj.IsGameOver)
+                SetLeaderboardBtnVisibility();  //排行榜按鈕控制
         }
     }
 
     function rollback() {
-    	if (rollbackLeft > 0)
-    		rollbackLeft--;
-        else
-            return;
-
-        Clone(prevObj, mapObj);     //將前一狀態倒回現在狀態
+    	Clone(prevObj, mapObj);     //將前一狀態倒回現在狀態
 
         MappingArrayData(mapObj);   //重繪Array
         HideGameOverMask();         //假如有 GameOver，則將 Mask 隱藏
@@ -95,7 +99,6 @@
     function reset() {
         var size = $("select#matrixSize").val();
         createMitrixDiv(size);          //畫上 Grid
-        resetRollbackTimes();           //重設 rollback time
         Init(mapObj, size);             //Init Data
         Clone(mapObj, prevObj);         //紀錄狀態
 
@@ -103,11 +106,8 @@
 
         SetBestLabel();                 //讀取最佳紀錄(from cookies)
         HideGameOverMask();             //關閉GameOver Mask
+        HideLeaderboardButton();        //關閉Leaderboard button
         DisableRollbackButton();        //關閉「上一步」
-    }
-
-    function resetRollbackTimes() {
-        rollbackLeft = defaultTimesLeft;
     }
 
     function keyFunction() {
@@ -184,26 +184,120 @@
     //    });
     //}
 
-    function openLeaderboard() {
-        $.post('inputleaderboard',
-            {
-                score: mapObj.Score,
-                size: mapObj.Size,
-                isshowinput: 1
-            },
-            function (data) {
-            var win = window.open('about:blank');
-            if (win == undefined) {
-                alert("請不要封鎖彈出式視窗");
-                return;
-            }
-            with (win.document) {
-                open();
-                write(data);
-                close();
+    function SetLeaderboardBtnVisibility() {
+        if (!mapObj.IsGameOver)
+            return;
+
+        var rowcount = 50;
+        var mapsize = $("select#matrixSize").val();
+
+        $.ajax({
+            url: '/getleaderboarddata',
+            datatype: "json",
+            method: "POST",
+            data: { rowcount: rowcount, mapsize: mapsize },
+            complete: function (response) {
+                console.log(response);
+                var result = false;
+                if (response.status === 200) {
+                    var data = response.responseJSON;
+                    
+                    if (data !== undefined && data !== null && data.data !== undefined && data.data !== null) {
+                        if (data.data.length < rowcount) //總筆數尚未到達 排行榜上限
+                            result = true;
+                        else {
+                            data.data.forEach(function(item) {
+                                if (mapObj.Score >= item.score) {
+                                    result = true;
+                                }
+                            });
+                        }
+                    }
+                }
+
+                if (result)
+                    ShowLeaderboardButton();
+                else
+                    HideLeaderboardButton();
             }
         });
     }
+
+    //function openLeaderboard() {
+    //    $.post('inputleaderboard',
+    //        {
+    //            score: mapObj.Score,
+    //            size: mapObj.Size,
+    //            isshowinput: 1
+    //        },
+    //        function (data) {
+    //        var win = window.open('about:blank');
+    //        if (win == undefined) {
+    //            alert("請不要封鎖彈出式視窗");
+    //            return;
+    //        }
+    //        with (win.document) {
+    //            open();
+    //            write(data);
+    //            close();
+    //        }
+    //    });
+    //}
+
+    function openInputName(warningSentence) {
+        var scoreSentence = "Your Score " + mapObj.Score;
+        var enterNameSentence = "Please enter name";
+        var sentences = scoreSentence + "\n" + enterNameSentence;
+        if (warningSentence !== undefined && warningSentence !== null && warningSentence !== "") {
+            sentences = warningSentence + "\n" + sentences;
+        }
+
+        var name = prompt( sentences, "Player");
+        if (name !== null) {
+            if (!validateName(name)) {
+                openInputName('Invalid Name');  //輸入非法字詞時，重新輸入
+                return;
+            }
+
+            $.ajax({
+                url: '/inputleaderboarddata',
+                datatype: "json",
+                method: "POST",
+                data: {
+                    score: mapObj.Score,
+                    size: mapObj.Size,
+                    name: name
+                },
+                complete: function (response) {
+                    console.log(response);
+                    if (response.status === 200) {
+                        var data = response.responseJSON;
+
+                        if (data !== undefined && data !== null) {
+                            if (data.result === true) {
+                                var win = window.open('/leaderboard?size=' + mapObj.Size);
+                                if (win == undefined) {
+                                    alert("請不要封鎖彈出式視窗");
+                                    return;
+                                }
+                            }
+                        }
+                    }
+
+                   
+                }
+            });
+        }
+    }
+
+    function validateName(name) {
+        //todo:
+        if (name === "")
+            return false;
+
+        return true;
+    }
+
 
     //選取尺寸
     function changeMatrixSize() {
@@ -216,7 +310,7 @@
 
     <div class="mask-body" id="mask-body" style="visibility: collapse">
         <p style="font-size: 40px;">Game Over</p>
-        <!--<button class="savescorebutton" onclick="openLeaderboard()">登入排行榜</button>-->
+        <button id="lbbtn" class="savescorebutton" onclick="openInputName('')">登入排行榜</button>
     </div>
 
     <div id="capture-range-div">
@@ -263,15 +357,15 @@
     <option value="6">6X6</option>
 </select>
 
-<div id="developing-div">
+<!--<div id="developing-div">
 	<br/>
 	<span> DEVELOPING </span> <br/>
-	<!--<button id="capturebtn" type="submit" onclick="capture()">
+	<button id="capturebtn" type="submit" onclick="capture()">
 		<span>UploadScreenshot</span>
 	</button>
 	<br/>
-	<span id="viewerTitle" style="display: none;">You're in Viewer Mode</span>-->
-</div>
+	<span id="viewerTitle" style="display: none;">You're in Viewer Mode</span>
+</div>-->
 
 </body>
 

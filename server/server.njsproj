@@ -149,7 +149,6 @@
     <Content Include="pages\leaderboard.html" />
     <Content Include="pages\leaderboard2.html" />
     <Content Include="pages\screenshot.html" />
-    <Content Include="pages\vue.html" />
     <Content Include="README.md" />
     <Content Include="typings.json" />
     <Content Include="typings\globals\express\typings.json" />

@@ -224,3 +224,8 @@ function FormatLength(str, length, paddingChar) {
 
     return rtnStr;
 }
+
+// 解析 url 的 get parameter key => 取出 value
+function getURLParameter(url, name) {
+    return (RegExp(name + '=' + '(.+?)(&|$)').exec(url) || [, null])[1];
+}
