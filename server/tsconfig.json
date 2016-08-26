@@ -6,12 +6,7 @@
     "sourceMap": false
   },
   "files": [
-    "ts/app.ts",
-    "ts/leaderboard2.ts"
-  ],
-  "types": [
-    "jquery",
-    "vue"
+   
   ]
 
 

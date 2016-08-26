@@ -42,37 +42,39 @@ app.get('/index3.html', function (req, res) {
 });
 
 app.get('/game2048single', function (req, res) {
-    var isBattleMode = "0";
-    fs.readFile(
-        './pages/game2048single.html',
-        { encoding: 'utf-8' },
-        function (errf, data) {
-            if (!errf) {
-                //replace special tag
-                data = data.replace(/{{{isbattlemode}}}/gi, isBattleMode);
+    //var isBattleMode = "0";
+    //fs.readFile(
+    //    './pages/game2048single.html',
+    //    { encoding: 'utf-8' },
+    //    function (errf, data) {
+    //        if (!errf) {
+    //            //replace special tag
+    //            data = data.replace(/{{{isbattlemode}}}/gi, isBattleMode);
 
-                res.send(data);
-                res.end();
-            }
-        }
-    );
+    //            res.send(data);
+    //            res.end();
+    //        }
+    //    }
+    //);
+    res.sendFile(__dirname + '/pages/game2048single.html');
 });
 
 app.get('/game2048battle', function(req, res) {
-    var isBattleMode = "1";
-    fs.readFile(
-        './pages/game2048.html',
-        { encoding: 'utf-8' },
-        function (errf, data) {
-            if (!errf) {
-                //replace special tag
-                data = data.replace(/{{{isbattlemode}}}/gi, isBattleMode);
+    //var isBattleMode = "1";
+    //fs.readFile(
+    //    './pages/game2048.html',
+    //    { encoding: 'utf-8' },
+    //    function (errf, data) {
+    //        if (!errf) {
+    //            //replace special tag
+    //            data = data.replace(/{{{isbattlemode}}}/gi, isBattleMode);
                 
-                res.send(data);
-                res.end();
-            }
-        }
-    );
+    //            res.send(data);
+    //            res.end();
+    //        }
+    //    }
+    //);
+    res.sendFile(__dirname + '/pages/game2048.html');
 });
 
 app.get('/game2048viewer', function(req, res) {
@@ -90,7 +92,7 @@ app.post('/getleaderboarddata', function(req, res) {
     getLeaderboard(res, rowcount, mapsize);
 });
 
-app.post('/inputleaderboarddata', function (req, res) {
+app.post('/addleaderboarddata', function (req, res) {
     var data = {
         score: parseInt(req.body.score),
         mapsize: parseInt(req.body.size),
@@ -100,15 +102,38 @@ app.post('/inputleaderboarddata', function (req, res) {
     };
     
     sql.addLeaderListItem(data, function (result) {
-        res.json({ result: (result.returnValue === 0) });
+        res.json({ result: result });
     });
 });
 
-app.get('/screenshot.html', function (req, res) {
-    res.sendFile(__dirname + '/pages/screenshot.html');
+//app.get('/screenshot.html', function (req, res) {
+//    res.sendFile(__dirname + '/pages/screenshot.html');
+//});
+
+app.post('/getscreenshot', function(req, res) {
+    var ssid = parseInt(req.body.ssid);
+
+    sql.getScreenshotByssid({
+        ssid: ssid
+    }, function(result) {
+        res.json({ result : result });
+    });
+
 });
 
+app.post('/addscreenshot', function(req, res) {
+    var lbid = parseInt(req.body.lbid);
+    var datatype = parseInt(req.body.datatype);
+    var data = req.body.data;
 
+    sql.addScreenshot({
+        lbid: lbid,
+        datatype: datatype,
+        data: data
+    }, function (result) {
+        res.json({ result : result });
+    });
+});
 
 
 app.use('/pages', express.static('pages'));
@@ -125,34 +150,34 @@ var rooms = [];
 var countdown1Interval = 5;     //in sec
 var countdown2Interval = 60;    //in sec
 
-io.on('connection', function (socket) {
+//io.on('connection', function (socket) {
    
-    socket.on('add_screenshot', function (data) {
-        sql.addScreenshotItem({
-            datatype: data.datatype,
-            data: data.data
-        }, function (result) {
-            socket.emit('add_screenshot', {
-                result: result, 
-                time: new Date()
-            });
-        });
-    });
+//    socket.on('add_screenshot', function (data) {
+//        sql.addScreenshotItem({
+//            datatype: data.datatype,
+//            data: data.data
+//        }, function (result) {
+//            socket.emit('add_screenshot', {
+//                result: result, 
+//                time: new Date()
+//            });
+//        });
+//    });
 
-    socket.on('get_screenshotdata', function (data) {
-        if (data.id.length > 0) {
-            var ssid = parseInt(data.id[0]);
-            sql.getScreenshotData({
-                ssid: ssid
-            }, function (result) {
-                if (result !== undefined) {
-                    socket.emit('get_screenshotdata', result);
-                }
-            });
-        }
-    });
+//    socket.on('get_screenshotdata', function (data) {
+//        if (data.id.length > 0) {
+//            var ssid = parseInt(data.id[0]);
+//            sql.getScreenshotData({
+//                ssid: ssid
+//            }, function (result) {
+//                if (result !== undefined) {
+//                    socket.emit('get_screenshotdata', result);
+//                }
+//            });
+//        }
+//    });
 
-});
+//});
 
 io.sockets.on('connection', function (socket) {
 
@@ -472,10 +497,10 @@ io.sockets.on('connection', function (socket) {
 function getLeaderboard(response, rowcount, mapsize) {
     sql.getLeaderList(
         {
-            mapsize: mapsize,
+            mapsize: parseInt(mapsize),
             sortType: 0,
             startIndex: 1,
-            rowCount: rowcount
+            rowCount: parseInt(rowcount)
         },
         function (rtndata) {
             if (rtndata !== undefined && rtndata !== null && rtndata.length > 0)
