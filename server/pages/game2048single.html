@@ -147,42 +147,56 @@
         }
     }
 
-    //function capture() {
-    //    var capturediv = document.getElementById("capture-range-div");  //capture 範圍
-    //    if (capturediv === null || capturediv === undefined)
-    //        return;
-    //    capturePhoto(capturediv, onCaptureCompleted);
-    //}
+    function capture(lbid) {
+        var capturediv = document.getElementById("capture-range-div");  //capture 範圍
+        if (capturediv === null || capturediv === undefined)
+            return;
+        capturePhoto(capturediv, lbid, onCaptureCompleted);
+    }
 
-    //function onCaptureCompleted(arg) {
-    //    if (arg === undefined || arg === null)
-    //        return;
+    function onCaptureCompleted(arg) {
+        if (arg === undefined || arg === null)
+            return;
 
-    //    var img = arg.detail.image;
+        var img = arg.detail.image;
 
-    //    if (img === undefined || img === null)
-    //        return;
+        if (img === undefined || img === null)
+            return;
 
-    //    //post to fb
-    //    //postToFbWall("Name", "Msg", "", img, "Caption", "Description");
+        var lbid = arg.detail.lbid;
 
-    //    //upload to sql
-    //    socket.emit('add_screenshot', {
-    //        datatype: 0,
-    //        data: img
-    //    });
+        //upload to sql
+        $.ajax({
+            url: '/addscreenshot',
+            datatype: "json",
+            method: "POST",
+            data: {
+                lbid: lbid,
+                datatype: 0,
+                data: img
+            },
+            complete: function (response) {
+                console.log(response);
+            }
+        });
 
-    //    socket.on('add_screenshot', function (result) {
-    //    	var r = result.result;
-    //    	if (r.length > 0 && r[0].length > 0) {
-    //    		var id = r[0][0][""];
-    //    		window.open('screenshot.html' + '?' + 'id=' + id);
-    //    		alert('上傳成功!');
-    //    	} else {
-    //    		alert('上傳失敗!');
-    //    	}
-    //    });
-    //}
+
+        //socket.emit('add_screenshot', {
+        //    datatype: 0,
+        //    data: img
+        //});
+
+        //socket.on('add_screenshot', function (result) {
+        //	var r = result.result;
+        //	if (r.length > 0 && r[0].length > 0) {
+        //		var id = r[0][0][""];
+        //		window.open('screenshot.html' + '?' + 'id=' + id);
+        //		alert('上傳成功!');
+        //	} else {
+        //		alert('上傳失敗!');
+        //	}
+        //});
+    }
 
     function SetLeaderboardBtnVisibility() {
         if (!mapObj.IsGameOver)
@@ -259,34 +273,33 @@
                 return;
             }
 
-            $.ajax({
-                url: '/inputleaderboarddata',
-                datatype: "json",
-                method: "POST",
-                data: {
+            $.post('/addleaderboarddata',
+                {
                     score: mapObj.Score,
                     size: mapObj.Size,
                     name: name
                 },
-                complete: function (response) {
-                    console.log(response);
-                    if (response.status === 200) {
-                        var data = response.responseJSON;
+                function (data) {
+                    console.log(data);
 
-                        if (data !== undefined && data !== null) {
-                            if (data.result === true) {
-                                var win = window.open('/leaderboard?size=' + mapObj.Size);
-                                if (win == undefined) {
-                                    alert("請不要封鎖彈出式視窗");
-                                    return;
-                                }
+                    if (data !== undefined && data !== null) {
+                        
+
+                        if (data.result.length > 0) {
+                            var lbid = data.result[0][0][""];
+
+                            //HideLeaderboardButton();
+                            UploadScreenshot(lbid);
+
+                            var win = window.open('/leaderboard?size=' + mapObj.Size);
+                            if (win == undefined) {
+                                alert("請不要封鎖彈出式視窗");
+                                return;
                             }
                         }
                     }
-
-                   
                 }
-            });
+            );
         }
     }
 
@@ -298,6 +311,9 @@
         return true;
     }
 
+    function UploadScreenshot(lbid) {
+        capture(lbid);
+    }
 
     //選取尺寸
     function changeMatrixSize() {
@@ -356,16 +372,6 @@
     <option value="5">5X5</option>
     <option value="6">6X6</option>
 </select>
-
-<!--<div id="developing-div">
-	<br/>
-	<span> DEVELOPING </span> <br/>
-	<button id="capturebtn" type="submit" onclick="capture()">
-		<span>UploadScreenshot</span>
-	</button>
-	<br/>
-	<span id="viewerTitle" style="display: none;">You're in Viewer Mode</span>
-</div>-->
 
 </body>
 

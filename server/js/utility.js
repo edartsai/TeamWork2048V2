@@ -140,7 +140,7 @@ function DeleteCookie(name) {
 
 
 //螢幕截圖
-function capturePhoto(obj, callback) {
+function capturePhoto(obj, lbid, callback) {
     // Assign an event to the object.
     document.body.addEventListener(captureEventName, callback, false);
 
@@ -149,6 +149,7 @@ function capturePhoto(obj, callback) {
             // canvas is the final rendered <canvas> element
             var img = canvas.toDataURL("image/png");
             captureCompletedEvent.detail.image = img;
+            captureCompletedEvent.detail.lbid = lbid;
             document.body.dispatchEvent(captureCompletedEvent);
             document.body.removeEventListener(captureCompletedEvent, false);
         }
@@ -161,7 +162,8 @@ var captureEventName = "CaptureCompletedEvent";
 var captureCompletedEvent = new CustomEvent(
     captureEventName, {
         detail: {
-            image: null
+            image: null,
+            lbid: -1
         },
         bubbles: true,
         cancelable: true

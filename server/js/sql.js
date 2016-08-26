@@ -82,31 +82,31 @@ module.exports = {
         });
     },
 
-    getScreenshotList: function (queryParams, callback) {
-        sql.connect(config, function (err) {
-            if (err) console.log(err);
+    //getScreenshotList: function (queryParams, callback) {
+    //    sql.connect(config, function (err) {
+    //        if (err) console.log(err);
 
-            var request = new sql.Request();
+    //        var request = new sql.Request();
 
-            if (queryParams.startindex === undefined || parseInt(queryParams.startindex) !== queryParams.startindex)
-                queryParams.startindex = -1;
+    //        if (queryParams.startindex === undefined || parseInt(queryParams.startindex) !== queryParams.startindex)
+    //            queryParams.startindex = -1;
 
-            if (queryParams.rowcount === undefined || parseInt(queryParams.rowcount) !== queryParams.rowcount)
-                queryParams.rowcount = -1;
+    //        if (queryParams.rowcount === undefined || parseInt(queryParams.rowcount) !== queryParams.rowcount)
+    //            queryParams.rowcount = -1;
 
-            request.input("startindex", sql.Int, queryParams.startindex)
-                   .input("rowcount", sql.Int, queryParams.rowcount)
-                   .execute("usp_getScreenshotList").then(function (recordsets) {
-                    callback(recordsets);
-                })
-                .catch(function (erro) {
-                    console.assert(erro);
-                });
+    //        request.input("startindex", sql.Int, queryParams.startindex)
+    //               .input("rowcount", sql.Int, queryParams.rowcount)
+    //               .execute("usp_getScreenshotList").then(function (recordsets) {
+    //                callback(recordsets);
+    //            })
+    //            .catch(function (erro) {
+    //                console.assert(erro);
+    //            });
 
-        });
-    },
+    //    });
+    //},
 
-    getScreenshotData: function (queryParams, callback) {
+    getScreenshotByssid: function (queryParams, callback) {
         sql.connect(config, function (err) {
             if (err) console.log(err);
 
@@ -116,7 +116,7 @@ module.exports = {
                 callback(undefined);
 
             request.input("ssid", sql.Int, queryParams.ssid)
-                   .execute("usp_getScreenshotData").then(function (recordsets) {
+                   .execute("usp_getScreenshot_ssid").then(function (recordsets) {
                     callback(recordsets);
                 })
                 .catch(function (erro) {
@@ -125,20 +125,53 @@ module.exports = {
 
         });
     },
+    
+    getScreenshotBylbid: function (queryParams, callback) {
+        sql.connect(config, function (err) {
+            if (err) console.log(err);
+            
+            var request = new sql.Request();
+            
+            if (queryParams.lbid === undefined || parseInt(queryParams.lbid) !== queryParams.lbid)
+                callback(undefined);
+            
+            request.input("lbid", sql.Int, queryParams.lbid)
+                   .execute("usp_getScreenshot_lbid").then(function (recordsets) {
+                callback(recordsets);
+            })
+                .catch(function (erro) {
+                console.assert(erro);
+            });
 
-    addScreenshotItem : function (queryParams, callback) {
+        });
+    },
+
+    addScreenshot : function (queryParams, callback) {
         sql.connect(config, function (err) {
             if (err) console.log(err);
 
             var request = new sql.Request();
 
-            if (queryParams.datatype === undefined || parseInt(queryParams.datatype) !== queryParams.datatype)
-                queryParams.datatype = 0;
+            if (queryParams.lbid === undefined || parseInt(queryParams.lbid) !== queryParams.lbid || queryParams.lbid === -1) {
+                console.log("lbid error");
+                callback(undefined);
+                return;
+            }
 
-            if (queryParams.data === undefined)
-                queryParams.data = "";
+            if (queryParams.datatype === undefined || parseInt(queryParams.datatype) !== queryParams.datatype) {
+                console.log("datatype error");
+                callback(undefined);
+                return;
+            }
 
-            request.input("data", sql.NVarChar, queryParams.data)
+            if (queryParams.data === undefined) {
+                console.log("data error");
+                callback(undefined);
+                return;
+            }
+
+            request.input("lbid", sql.Int, queryParams.lbid)
+                   .input("data", sql.NVarChar, queryParams.data)
                    .input("datatype", sql.Int, queryParams.datatype)
                     .execute("usp_addScreenshot").then(function (result) {
                     callback(result);

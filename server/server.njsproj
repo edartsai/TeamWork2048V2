@@ -151,6 +151,7 @@
     <Content Include="pages\leaderboard2.html" />
     <Content Include="pages\screenshot.html" />
     <Content Include="README.md" />
+    <Content Include="tsconfig.json" />
     <Content Include="typings.json" />
     <Content Include="typings\globals\express\typings.json" />
   </ItemGroup>
