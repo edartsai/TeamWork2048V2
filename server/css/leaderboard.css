@@ -1,0 +1,42 @@
+﻿ /* table */
+        .table {
+            display: table;
+            border-collapse: separate;
+            border: solid 1px #808080;
+        }
+
+        /* tr */
+        .row {
+            display: table-row;
+           
+        }
+
+        /* th */
+        .cell1 {
+            display: table-cell;
+            width: 180px;
+            height: 1.5em;
+            border-right: 1px solid #fff;
+            background: #fcd6d6;
+            text-align: center;
+        }
+
+
+        /* td */
+        .cell2 {
+            display: table-cell;
+            width: 180px;
+            height: 1.5em;
+            border: 1px solid #fff;
+            background: #eff8ff;
+            text-align: center;
+        }
+
+
+        .cell3 {
+            display: table-cell;
+            width: 180px;
+            height: 1em;
+            background: #effff0;
+            text-align: center;
+        }

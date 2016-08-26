@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="css/leaderboard.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<div id="lb2" class="table">
+    <img-component v-bind:src="imgpath"></img-component>
+
+    <div id="header" class="row" v-show="isshowheader">
+        <div v-for="value of lbs[0]" class="cell1"><span> {{ $key }} </span></div>
+    </div>
+
+    <template v-for="lb of lbs">
+        <div class="row">
+            <div v-for="value of lb" class="cell2"><span>{{ value }}</span></div>
+        </div>
+    </template>
+</div>
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+    <script src="js/leaderboard2.js"></script>
+    <script src="js/utility.js"></script>
+
+<script>
+    $(document).ready(() => {
+        var size = getURLParameter(window.href, "size");
+        if (size === undefined || size === null)
+            size = 4;
+
+
+        $.ajax({
+            url: '/getleaderboarddata',
+            datatype: "json",
+            method: "POST",
+            data: { rowcount: 50, mapsize: size },
+            complete: function (response) {
+                console.log(response);
+                if (response.status === 200) {
+                    var data = response.responseJSON;
+                    if (data !== undefined && data !== null && data.data !== undefined && data.data !== null)
+                        vm.restoreArray(data.data);
+                }
+            }
+        });
+    });
+
+
+</script>
+
+</body>
+</html>

@@ -26,12 +26,14 @@
     //判斷是否 GameOver
     if (mapObj.IsGameOver) {
         ShowGameOverMask(); //顯示 game over
-
-        var best = ReadBestScore(); //更新 best score
+        
+        var best = ReadPersonalBestScore(); //更新 personal best score (in cookie)
         if (mapObj.Score > best) {
-            WriteBestScore(mapObj.Score);
+            WritePersonalBestScore(mapObj.Score);
             SetBestLabel();
         }
+
+
     } else {
         HideGameOverMask();
     }
@@ -137,6 +139,14 @@ function HideGameOverMask() {
     document.getElementById("mask-body").style.visibility = "collapse";
 }
 
+function ShowLeaderboardButton() {
+    document.getElementById("lbbtn").style.visibility = "visible";
+}
+
+function HideLeaderboardButton() {
+    document.getElementById("lbbtn").style.visibility = "collapse";
+}
+
 function DisableRollbackButton() {
     document.getElementById("rollbackbtn").disabled = true;
 }
@@ -153,12 +163,12 @@ function EnableReadyButton() {
     document.getElementById("readybtn").disabled = false;
 }
 
-function SetRollbackBtn(times) {
-    if (times > 0)
-        EnableRollbackButton();
-    else
-        DisableRollbackButton();
-}
+//function SetRollbackBtn(times) {
+//    if (times > 0)
+//        EnableRollbackButton();
+//    else
+//        DisableRollbackButton();
+//}
 
 function DisableResetButton() {
     document.getElementById("resetbtn").disabled = true;
@@ -169,7 +179,7 @@ function EnableResetButton() {
 }
 
 function SetBestLabel() {
-    document.getElementById("best-score").innerHTML = ReadBestScore();
+    document.getElementById("best-score").innerHTML = ReadPersonalBestScore();
 }
 
 function setNickname_Oppo(nickname) {
