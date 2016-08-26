@@ -123,6 +123,9 @@
 
             //todo:data.time
             if (data.winner !== 0) {
+                var obj = Object.create(RainbowObj);
+                obj.init("殘念啦!!");
+
                 if (data.winner == "1") {
                     $('#titlestr').css("color", "#BB4444");
                     StartVictoryGo(1);
@@ -164,6 +167,21 @@
             else if (data.player === 2) {
                 $("#p2-name-p").text(data.nickname);
             }
+        });
+
+        $('#startbtn').click(function () {
+            var obj = Object.create(RainbowObj);
+            obj.init("edar");
+            document.getElementById("sectionlosemsg").style.visibility = "visible";
+            //$("#rainbow-text").css("text", "5555555555");
+            //document.getElementById("sectionlosemsg").style.visibility = "visible";
+            //$("#sectionlosemsg").css("visibility", "visible");
+        });
+        $('#stopbtn').click(function () {
+            var obj = Object.create(RainbowObj);
+            obj.init("edar5555");
+            //document.getElementById("sectionlosemsg").style.visibility = "collapse";
+            //$("#sectionlosemsg").css("visibility", "collapse");
         });
     }
 
@@ -221,14 +239,24 @@
     function getSelectedRoomId() {
         return $("select#select-rooms").val();;
     }
+
+        
     </script>
 
     <div class="main-contain">
         
+        <input id="startbtn" type="button" value="Start" />
+        <input id="stopbtn" type="button" value="Stop" />
+
         <h1 id="titlestr"></h1>
         <div id="timerviewer-div">
             <p id="gametimespanviewer">00:00</p>
         </div>
+
+        <div id="sectionlosemsg" style="visibility:collapse;z-index:100">
+            <h1 class="rainbow-text" id="rainbow-text" style="left:500px"></h1>
+        </div>
+
         <div id="play1viewerdivcss">
             <div id="player1viewer-scare">
                 <p class="score-title">SCORE</p>
@@ -291,7 +319,7 @@
             </div>
 
         </div>
-        <p style="float:left;margin-left:20px;margin-right:20px;margin-top:120px;font-size:larger;font-weight:bold">VS</p>
+        <p style="float:left;margin-left:20px;margin-right:20px;margin-top:120px;font-size:xx-large;font-weight:bold">VS</p>
         <div id="play2viewerdivcss">
             <div id="player2-scare">
                 <p class="score-title">SCORE</p>
@@ -359,6 +387,8 @@
 
         <div style="clear:both;"></div>
 
+        
+
         <div style="margin-top:10px;width:100%;height:200px;overflow:auto" id="gamemsgspan">
             <!--<span id="gamemsgspan" style="width:100%;height:200px"></span>-->
         </div>
@@ -375,6 +405,8 @@
             </div>
         </div>-->
     </div>
+
+    <script src="js/loseanimation.js"></script>
 </body>
 
 </html>

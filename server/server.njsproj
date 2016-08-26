@@ -52,6 +52,7 @@
     <Compile Include="js\iscando.js" />
     <Compile Include="js\leaderboard2.js" />
     <Compile Include="js\log.js" />
+    <Compile Include="js\loseanimation.js" />
     <Compile Include="js\main.js" />
     <Compile Include="js\merge.js" />
     <Compile Include="js\move.js" />
