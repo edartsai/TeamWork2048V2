@@ -152,7 +152,7 @@ app.use('/typings', express.static('typings'));
 
 var rooms = [];
 var countdown1Interval = 5;     //in sec
-var countdown2Interval = 60;   //in sec
+var countdown2Interval = 20;   //in sec
 
 io.on('connection', function (socket) {
     socket.on('get_leaderboard', function (data) {

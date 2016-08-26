@@ -14,6 +14,7 @@
     <script src="js/move.js"></script>
     <script src="js/main.js"></script>
     <script src="js/fireworks.js"></script>
+    
     <link rel="stylesheet" href="css/game2048battlestyle.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -206,8 +207,12 @@
         $('#readybtn').click(function () {
             $('#2048id').css("color", "black");
             $('#roomid').css("color", "black");
+            if (roomInfo.player == "1")
+                document.body.style.backgroundColor = "#FFDBDB";
+            else
+                document.body.style.backgroundColor = "#DBDBFF";
             StopVictoryGo();
-
+            document.getElementById("sectionlosemsg").style.visibility = "collapse";
             DisableReadyButton();
             reset();
             socket.emit('send_ready', { id: roomInfo.id, map: mapObj });
@@ -268,10 +273,19 @@
             
             if (data.winner !== 0) {
                 if (roomInfo.player == "1") {//player 1 玩家
-                    if (data.winner == "1") {
+                    if (data.winner == "1") {//
                         $('#2048id').css("color", "#BB4444");
                         $('#roomid').css("color", "#BB4444");
                         StartVictoryGo(0);
+                    }
+                    else {
+                        $('#2048id').css("color", "#BB4444");
+                        $('#roomid').css("color", "#BB4444");
+                        document.body.style.background = "black";
+                        document.getElementById("sectionlosemsg").style.visibility = "visible";
+                        var obj = Object.create(RainbowObj);
+                        obj.init("殘念啦!!");
+                        //$("#rainbow-text").css("text", "player2");
                     }
                 }
                 else {
@@ -279,6 +293,14 @@
                         $('#2048id').css("color", "#50798B");
                         $('#roomid').css("color", "#50798B");
                         StartVictoryGo(0);
+                    }
+                    else {
+                        $('#2048id').css("color", "#50798B");
+                        $('#roomid').css("color", "#50798B");
+                        document.body.style.background = "black";
+                        document.getElementById("sectionlosemsg").style.visibility = "visible";
+                        var obj = Object.create(RainbowObj);
+                        obj.init("殘念啦!!");
                     }
                 }
                 setMsg('winner is player' + data.winner + ' score:' + data.map[0].Score);
@@ -315,20 +337,35 @@
             setNickname_Oppo(data.nickname);
         });
 
-        $('#testbtn').click(function () {
-            if (roomInfo.player == "1") {//player 1 玩家
-                $('#2048id').css("color", "#BB4444");
-                $('#roomid').css("color", "#BB4444");
+        //$('#testbtn').click(function () {
+        //    if (roomInfo.player == "1") {//player 1 玩家
+        //        $('#2048id').css("color", "#BB4444");
+        //        $('#roomid').css("color", "#BB4444");
                 
-            }
+        //    }
             
-            StartVictoryGo(0);
-        });
-        $('#test2btn').click(function () {
-            $('#2048id').css("color", "black");
-            $('#roomid').css("color", "black");
-            StopVictoryGo();
-        });
+        //    StartVictoryGo(0);
+        //});
+        //$('#test2btn').click(function () {
+        //    $('#2048id').css("color", "black");
+        //    $('#roomid').css("color", "black");
+        //    StopVictoryGo();
+
+        //});
+        //$('#startbtn').click(function () {
+        //    var obj = Object.create(RainbowObj);
+        //    obj.init("edar");
+        //    document.getElementById("sectionlosemsg").style.visibility = "visible";
+        //    //$("#rainbow-text").css("text", "5555555555");
+        //    //document.getElementById("sectionlosemsg").style.visibility = "visible";
+        //    //$("#sectionlosemsg").css("visibility", "visible");
+        //});
+        //$('#stopbtn').click(function () {
+        //    var obj = Object.create(RainbowObj);
+        //    obj.init("edar5555");
+        //    //document.getElementById("sectionlosemsg").style.visibility = "collapse";
+        //    //$("#sectionlosemsg").css("visibility", "collapse");
+        //});
     }
 
     function sendMove(map) {
@@ -419,10 +456,20 @@
     <!--<div class="mask-body" id="mask-body" style="visibility: collapse">
         <p style="font-size: 40px">Game Over</p>
     </div>-->
+    <!--<section id="sectionlosemsg" style="visibility:visible;z-index:10">
+        <h1 class="rainbow-text" align="center" style="font-size:800%">殘念</h1>
+    </section>-->
+    
+    <!--<canvas style="position:absolute;top:0;left:0"></canvas>-->
 
-    <p id="2048id" style="font-size:50px;font-weight:bold">2048</p>
-    <p id="roomid" style="font-size:larger"></p>
-    <div id="capture-range-div">
+    <!--<input id="startbtn" type="button" value="Start" />
+    <input id="stopbtn" type="button" value="Stop" />-->
+
+        <p id="2048id" style="font-size:50px;font-weight:bold">2048</p>
+        <p id="roomid" style="font-size:larger"></p>
+        <div id="capture-range-div">
+            
+
             <div id="block1-detaildata" style="height: 56px">
                 <!--倒數計時器-->
                 <div id="timer-div">
@@ -435,9 +482,9 @@
                 </div>
                 <!--player 1-->
                 <!--<div id="player1-name">-->
-                    <input type="text" id="player1-name" size=2 placeholder="請輸入對戰暱稱" >
-                
-                
+                <input type="text" id="player1-name" size=2 placeholder="請輸入對戰暱稱">
+
+
                 <!--重玩-->
                 <button class="back-button" id="resetbtn" type="submit" onclick="clickreset()" style="float:right;margin-bottom:1px">
                     <img src="images/b_brefresh_20_n.png" alt="" />
@@ -452,10 +499,10 @@
                 <div class="mask-body" id="mask-body" style="visibility:collapse;margin-top:0;margin-left:0;align-content:stretch">
                     <p style="font-size: 40px;margin:0 Auto">Game Over</p>
                 </div>
-                
-                
+
+
                 <div id="play1-box-body">
-                    
+
 
                     <div class='box-row'>
                         <div class="play1-box-column-border"></div>
@@ -508,7 +555,7 @@
                     <div class="play1-box-column-border"></div>
                 </div>
 
-                
+
 
             </div>
 
@@ -578,16 +625,21 @@
 
                 </div>
             </div>
-    </div>
 
-    <div style="height:50px">
-        <div id="gamemsgspan" ></div>
-        <input id="readybtn" type="button" value="READY"/>
-    </div>
-    
+            <div id="sectionlosemsg" style="visibility:collapse;z-index:100">
+                <h1 class="rainbow-text" id="rainbow-text"></h1>
+            </div>
+        </div>
+
+        <div style="height:50px">
+            <div id="gamemsgspan"></div>
+            <input id="readybtn" type="button" value="READY" />
+        </div>
+
 
 </div>
 
+    <script src="js/loseanimation.js"></script>
 </body>
 
 </html>
