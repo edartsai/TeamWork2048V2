@@ -35,6 +35,23 @@
         selectedRoom = index;
     }
 
+
+    function clearViewRoom() {
+        $("#p1-name-p").text("");
+        $("#p2-name-p").text("");
+
+        var mapObj ={
+            Size : 4,
+            Items: [],
+            IdMax: 0,
+            Score: 0,
+            IsGameOver: false
+        };
+
+        MappingArrayData_viewmode("1", mapObj);
+        MappingArrayData_viewmode("2", mapObj);
+
+    }
     
     function initViewer() {
         socket.emit('init_viewer');
@@ -48,6 +65,7 @@
 
         $('#select-rooms').change(function () {
             var id = getSelectedRoomId();
+            //clearViewRoom();
             socket.emit('viewer_changeroom', { roomid:  id});
             $(this).blur();
             selectedRoom = id;
@@ -61,6 +79,9 @@
             else {
                 $('#titlestr').text("2048觀戰");
             }
+
+            $("#p1-name-p").text(data.p1name);
+            $("#p2-name-p").text(data.p2name);
             //todo:data.time
             //todo:data.roomid
             //todo:data.p1name
@@ -72,6 +93,7 @@
             //todo:data.time
             setMsg(data.time,'player' + data.player + ' is in room');
             StopVictoryGo();
+            document.getElementById("sectionlosemsg").style.visibility = "collapse";
             $('#titlestr').css("color", "black");
         });
 
@@ -79,6 +101,7 @@
         socket.on('send_ready_opposite', function (data) {
             //todo: data.time
             StopVictoryGo();
+            document.getElementById("sectionlosemsg").style.visibility = "collapse";
             $('#titlestr').css("color", "black");
             setMsg(data.time, 'player' + data.player + ' is ready');
             if (data.map !== undefined) {
@@ -125,14 +148,20 @@
             if (data.winner !== 0) {
                 var obj = Object.create(RainbowObj);
                 obj.init("殘念啦!!");
+                document.getElementById("sectionlosemsg").style.visibility = "visible";
 
                 if (data.winner == "1") {
+                    document.getElementsByClassName("rainbow-text")[0].style.left = "50%";
                     $('#titlestr').css("color", "#BB4444");
                     StartVictoryGo(1);
+                    
                 }
                 else if (data.winner == "2") {
+                    document.getElementsByClassName("rainbow-text")[0].style.left = "25%";
+                    
                     $('#titlestr').css("color", "#50798B");
                     StartVictoryGo(2);
+                    
                 }
                 else {
                     StartVictoryGo(0);
@@ -169,20 +198,19 @@
             }
         });
 
-        $('#startbtn').click(function () {
-            var obj = Object.create(RainbowObj);
-            obj.init("edar");
-            document.getElementById("sectionlosemsg").style.visibility = "visible";
-            //$("#rainbow-text").css("text", "5555555555");
-            //document.getElementById("sectionlosemsg").style.visibility = "visible";
-            //$("#sectionlosemsg").css("visibility", "visible");
-        });
-        $('#stopbtn').click(function () {
-            var obj = Object.create(RainbowObj);
-            obj.init("edar5555");
-            //document.getElementById("sectionlosemsg").style.visibility = "collapse";
-            //$("#sectionlosemsg").css("visibility", "collapse");
-        });
+        //$('#startbtn').click(function () {
+        //    var obj = Object.create(RainbowObj);
+        //    obj.init("edar");
+            
+        //    document.getElementById("sectionlosemsg").style.visibility = "visible";
+
+        //    document.getElementsByClassName("rainbow-text")[0].style.left = "50%";
+        //});
+        //$('#stopbtn').click(function () {
+        //    var obj = Object.create(RainbowObj);
+        //    obj.init("edar5555");
+        //    document.getElementsByClassName("rainbow-text")[0].style.left = "25%";
+        //});
     }
 
     function setMsg(msgtime, msg) {
@@ -216,8 +244,9 @@
         //add room options to #select-rooms
         $('#select-rooms').empty();
 
-        rooms.forEach(function(room) {
-            $("#select-rooms").append($("<option></option>").attr("value", room.id).text(room.id));
+        rooms.forEach(function (room) {
+            var roomid = parseInt(room.id) + 1;
+            $("#select-rooms").append($("<option></option>").attr("value", room.id).text(roomid));
         });
         $('#select-rooms')[0].selectedIndex = -1;
 
@@ -245,16 +274,16 @@
 
     <div class="main-contain">
         
-        <input id="startbtn" type="button" value="Start" />
-        <input id="stopbtn" type="button" value="Stop" />
+        <!--<input id="startbtn" type="button" value="Start" />
+        <input id="stopbtn" type="button" value="Stop" />-->
 
         <h1 id="titlestr"></h1>
         <div id="timerviewer-div">
             <p id="gametimespanviewer">00:00</p>
         </div>
 
-        <div id="sectionlosemsg" style="visibility:collapse;z-index:100">
-            <h1 class="rainbow-text" id="rainbow-text" style="left:500px"></h1>
+        <div id="sectionlosemsg" style="visibility:visible;z-index:100">
+            <h1 class="rainbow-text"></h1>
         </div>
 
         <div id="play1viewerdivcss">
