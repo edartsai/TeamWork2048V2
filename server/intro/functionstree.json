@@ -1,0 +1,142 @@
+﻿[
+  {
+    "name":"Game2048",
+    "parent":"null",
+    "children":[
+      {
+        "name":"展示網站",
+        "parent":"Game2048",
+        "children":[
+          {
+            "name":"RWD",
+            "parent": "展示網站",
+            "children": [
+              {
+                "name": "bootstrap",
+                "parent": "RWD",
+                "leafid": 0
+              }
+            ]
+
+          }
+        ]
+      },
+      {
+        "name": "單人模式",
+        "parent": "Game2048",
+        "children":[
+          {
+            "name": "遊戲規則",
+            "parent": "單人模式",
+            "children": [
+              {
+                "name": "javascript",
+                "parent": "遊戲規則",
+                "leafid": 1
+              }
+            ]
+          },
+          {
+            "name":"遊戲動畫",
+            "parent":"單人模式",
+            "children": [
+              {
+                "name": "jquery.keyframe",
+                "parent": "遊戲動畫",
+                "leafid": 2
+              },
+              {
+                "name": "css(scss)",
+                "parent": "遊戲動畫",
+                "leafid": 3
+              }
+            ]
+          },
+          {
+            "name":"高分排行榜",
+            "parent":"單人模式",
+            "children": [
+              {
+                "name": "node.js",
+                "parent": "高分排行榜",
+                "leafid": 4
+              },
+              {
+                "name": "ms-sql(stored procedure)",
+                "parent": "高分排行榜",
+                "leafid": 5
+              }
+            ]
+          },
+          {
+            "name":"遊戲截圖",
+            "parent":"單人模式",
+            "children": [
+              {
+                "name": "node.js",
+                "parent": "遊戲截圖",
+                "leafid": 6
+              },
+              {
+                "name": "ms-sql(stored procedure)",
+                "parent": "遊戲截圖",
+                "leafid": 7
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name":"對戰模式",
+        "parent":"Game2048",
+        "children": [
+          {
+            "name": "UI / 動畫 設計",
+            "parent": "對戰模式",
+            "children": [
+              {
+                "name": "jquery / css",
+                "parent": "UI / 動畫 設計",
+                "leafid": 8
+              },
+              {
+                "name": "css",
+                "parent": "UI / 動畫 設計",
+                  "leafid": 9
+              }
+            ]
+          },
+          {
+            "name": "Server溝通",
+            "parent": "對戰模式",
+            "children": [
+              {
+                "name": "node.js",
+                "parent": "Server溝通",
+                "leafid": 10
+              },
+              {
+                "name": "socket.io",
+                "parent": "Server溝通",
+                "leafid": 11
+              }
+            ]
+          },
+          {
+            "name": "觀戰模式",
+            "parent": "對戰模式",
+            "leafid": 12,
+            "children": [ ]
+          },
+          {
+            "name": "對戰房間機制",
+            "parent": "對戰模式",
+            "leafid": 13,
+            "children": [ ]
+          }
+
+        ]
+      }
+    ]
+  }
+]

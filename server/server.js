@@ -42,38 +42,10 @@ app.get('/index3.html', function (req, res) {
 });
 
 app.get('/game2048single', function (req, res) {
-    //var isBattleMode = "0";
-    //fs.readFile(
-    //    './pages/game2048single.html',
-    //    { encoding: 'utf-8' },
-    //    function (errf, data) {
-    //        if (!errf) {
-    //            //replace special tag
-    //            data = data.replace(/{{{isbattlemode}}}/gi, isBattleMode);
-
-    //            res.send(data);
-    //            res.end();
-    //        }
-    //    }
-    //);
     res.sendFile(__dirname + '/pages/game2048single.html');
 });
 
 app.get('/game2048battle', function(req, res) {
-    //var isBattleMode = "1";
-    //fs.readFile(
-    //    './pages/game2048.html',
-    //    { encoding: 'utf-8' },
-    //    function (errf, data) {
-    //        if (!errf) {
-    //            //replace special tag
-    //            data = data.replace(/{{{isbattlemode}}}/gi, isBattleMode);
-                
-    //            res.send(data);
-    //            res.end();
-    //        }
-    //    }
-    //);
     res.sendFile(__dirname + '/pages/game2048.html');
 });
 
@@ -106,10 +78,6 @@ app.post('/addleaderboarddata', function (req, res) {
     });
 });
 
-//app.get('/screenshot.html', function (req, res) {
-//    res.sendFile(__dirname + '/pages/screenshot.html');
-//});
-
 app.post('/getscreenshot', function(req, res) {
     var ssid = parseInt(req.body.ssid);
 
@@ -135,6 +103,9 @@ app.post('/addscreenshot', function(req, res) {
     });
 });
 
+app.post('/getfunctionstreedata', function (req, res) {
+    res.sendFile(__dirname + '/intro/functionstree.json');
+});
 
 app.use('/pages', express.static('pages'));
 app.use('/css', express.static('css'));
@@ -149,35 +120,6 @@ app.use('/typings', express.static('typings'));
 var rooms = [];
 var countdown1Interval = 5;     //in sec
 var countdown2Interval = 60;    //in sec
-
-//io.on('connection', function (socket) {
-   
-//    socket.on('add_screenshot', function (data) {
-//        sql.addScreenshotItem({
-//            datatype: data.datatype,
-//            data: data.data
-//        }, function (result) {
-//            socket.emit('add_screenshot', {
-//                result: result, 
-//                time: new Date()
-//            });
-//        });
-//    });
-
-//    socket.on('get_screenshotdata', function (data) {
-//        if (data.id.length > 0) {
-//            var ssid = parseInt(data.id[0]);
-//            sql.getScreenshotData({
-//                ssid: ssid
-//            }, function (result) {
-//                if (result !== undefined) {
-//                    socket.emit('get_screenshotdata', result);
-//                }
-//            });
-//        }
-//    });
-
-//});
 
 io.sockets.on('connection', function (socket) {
 
