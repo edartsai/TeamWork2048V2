@@ -2,13 +2,41 @@
   {
     "name":"Game2048",
     "parent":"null",
-    "children":[
+    "children": [
       {
-        "name":"展示網站",
-        "parent":"Game2048",
-        "children":[
+        "name": "協作平台",
+        "parent": "Game2048",
+        "children": [
           {
-            "name":"RWD",
+            "name": "ProjectManage",
+            "parent": "協作平台",
+            "children": [
+              {
+                "name": "VSTS",
+                "parent": "ProjectManage",
+                "leafid": 14
+              }
+            ]
+          },
+          {
+            "name": "版本控管",
+            "parent": "協作平台",
+            "children": [
+              {
+                "name": "Github",
+                "parent": "版本控管",
+                "leafid": 15
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "展示網站",
+        "parent": "Game2048",
+        "children": [
+          {
+            "name": "RWD",
             "parent": "展示網站",
             "children": [
               {
@@ -24,7 +52,7 @@
       {
         "name": "單人模式",
         "parent": "Game2048",
-        "children":[
+        "children": [
           {
             "name": "遊戲規則",
             "parent": "單人模式",
@@ -37,8 +65,8 @@
             ]
           },
           {
-            "name":"遊戲動畫",
-            "parent":"單人模式",
+            "name": "遊戲動畫",
+            "parent": "單人模式",
             "children": [
               {
                 "name": "jquery.keyframe",
@@ -53,8 +81,8 @@
             ]
           },
           {
-            "name":"高分排行榜",
-            "parent":"單人模式",
+            "name": "高分排行榜",
+            "parent": "單人模式",
             "children": [
               {
                 "name": "node.js",
@@ -69,8 +97,8 @@
             ]
           },
           {
-            "name":"遊戲截圖",
-            "parent":"單人模式",
+            "name": "遊戲截圖",
+            "parent": "單人模式",
             "children": [
               {
                 "name": "node.js",
@@ -87,22 +115,22 @@
         ]
       },
       {
-        "name":"對戰模式",
-        "parent":"Game2048",
+        "name": "對戰模式",
+        "parent": "Game2048",
         "children": [
           {
             "name": "UI / 動畫 設計",
             "parent": "對戰模式",
             "children": [
               {
-                "name": "jquery / css",
+                "name": "jquery",
                 "parent": "UI / 動畫 設計",
                 "leafid": 8
               },
               {
                 "name": "css",
                 "parent": "UI / 動畫 設計",
-                  "leafid": 9
+                "leafid": 9
               }
             ]
           },
