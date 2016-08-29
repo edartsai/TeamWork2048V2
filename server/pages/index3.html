@@ -1,209 +1,153 @@
 ﻿<!DOCTYPE html>
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8" />
-    <title>Game2048 v3</title>
-    <link rel="shortcut icon" href="images/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-
-    <!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=Sons-Of-Obsidian"></script>
-
-	<link href="css/bootstrap.css" rel="stylesheet" />
-
-    <link href="css/default3.css" rel="stylesheet" />
-
+	<meta charset="utf-8" />
+	<title>Game2048 v3</title>
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="css/bootstrap.css" rel="stylesheet"/>
+	<link href="css/sticky-footer-navbar.css" rel="stylesheet" />
+	<link href="css/default3.css" rel="stylesheet"/>
+	<link href="css/treediagram.css" rel="stylesheet" />
 </head>
 <body>
-    <style>
-        .main-menu-firstrow {
-            padding-top:5em;
-        }
-    </style>
 
-<script>
-    $(document).ready(function() {
-        $("#bs-navbar-1>ul>li>a").click(function() {
-            var href = $(this).attr("href");
-            href = href.substring(1);
-            showMainDiv(href);
-        });
 
-        navFromTag();
-    });
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">
+					<img src="images/2048-icon2.png" alt="" height="25" width="25"
+						 style="display: inline-block; border-radius:50%;" />
+				</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-navbar-1" style="font-weight: bolder;">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#homepage">HOME <span class="sr-only">(current)</span></a></li>
+					<li><a href="#aboutus">ABOUT US</a></li>
+					<li><a href="#features">FEATURES</a></li>
+					<li><a href="#technics">TECHNICS</a></li>
+					<li><a href="#problems">Q&amp;A</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<!--<li><a href="game2048single.html" target="_blank">DEMO</a></li>-->
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">DEMO <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="game2048single" target="_blank">單人模式</a></li>
+							<li class="divider"></li>
+							<li><a href="game2048battle" target="_blank">對戰模式</a></li>
+							<li><a href="game2048viewer" target="_blank">觀戰</a></li>
+						</ul>
+					</li>
 
-    function showMainDiv(id) {
-        hideMainDiv();
+				</ul>
+			</div>
+		</div>
+	</nav>
 
-        var objs = $(".main-menu[id=" + id + "]");
-        if (objs === undefined || objs === null || objs.length <= 0) {
-            return;
-        }
+	<div class="container" id="main">
+		<div id="homepage" class="main-menu">
 
-        objs.show();
-    }
+			<div class="row main-menu-firstrow">
+				<div class="col-lg-12">
+					<div id="banner">
+						<a href="game2048single" target="_blank">
+							<img src="images/game-2048-3.png" alt="" class="img-responsive" />
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="page-header">
+						<h2>緣起</h2>
+					</div>
+				</div>
+			</div>
+			<p>
+				<span style="font-size: larger;"><strong>訴求</strong></span> 儘量少用後端技術，以<span>方便前端展示、使用流暢</span>為目標。
+			</p>
+			<p>
+				<span style="font-size: larger;"><strong>決議</strong></span> 以無須Server提供資料的小遊戲為目標，因此找到 <span style="color: red; margin-right: 0;"><strong>2048</strong></span>。
+			</p>
+		</div>
+		<div id="aboutus" class="main-menu">
 
-    function hideMainDiv() {
-        $("#homepage").hide();
-        $("#aboutus").hide();
-        $("#features").hide();
-        $("#technics").hide();
-        $("#problems").hide();
-    }
+			<div class="row main-menu-firstrow">
+				<div class="col-lg-12">
+					<div class="page-header">
+						<h2>分工</h2>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6" style="font-size: larger;">
+					<h3>
+						<b>Edar.Tsai</b>
+					</h3>
+					<div class="panel panel-default">
+						<div class="panel-heading">視覺總監</div>
+						<div class="panel-body">
+							<ul>
+								<li>視覺風格設計</li>
+								<li>View 畫面製作</li>
+								<li>喇D賽</li>
+								<li>幫出國的人整理桌面</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6" style="font-size: larger;">
+					<h3>
+						<b>Jim.Liu</b>
+					</h3>
+					<div class="panel panel-default">
+						<div class="panel-heading">技術總監</div>
+						<div class="panel-body">
+							<ul>
+								<li>遊戲邏輯</li>
+								<li>網頁版型</li>
+								<li>喇D賽</li>
+								<li>幫扭蛋調整姿勢</li>
+								<li>早起晨跑</li>
+							</ul>
 
-    function navFromTag() {
-        var index = location.href.indexOf('#');
+						</div>
+					</div>
+				</div>
+			</div>
 
-        if (index > -1 && index < location.href.length) {
-            var href = location.href.substring(location.href.indexOf('#'));
-            href = href.substring(1);
-            showMainDiv(href);
-        } else {
-            $("#bs-navbar-1>ul>li>a:first").click();
-        }
-    }
+		</div>
+		<div id="features" class="main-menu">
 
-</script>
-    
-<nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">
-                    <img src="images/2048-icon2.png" alt="" height="25" width="25"
-                         style="display: inline-block; border-radius:50%;" />
-                </a>
-            </div>
+			<div class="row main-menu-firstrow">
+				<div class="col-lg-12">
+					<div class="page-header">
+						<h2>功能</h2>
+					</div>
+				</div>
+			</div>
 
-            <div class="collapse navbar-collapse" id="bs-navbar-1">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#homepage">HOME <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#aboutus">ABOUT US</a></li>
-                    <li><a href="#features">FEATURES</a></li>
-                    <li><a href="#technics">TECHNICS</a></li>
-                    <li><a href="#problems">Q&amp;A</a></li>
+			<div class="row" id="treediagramdiv"></div>
 
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="game2048single.html" target="_blank">DEMO</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container" id="main">
-        <div id="homepage" class="main-menu">
-
-            <div class="row main-menu-firstrow">
-                <div class="col-lg-12">
-                    <div id="banner">
-                        <a href="game2048single" target="_blank">
-                            <img src="images/game-2048-3.png" alt="" class="img-responsive" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="page-header">
-                        <h2>緣起</h2>
-                    </div>
-                </div>
-            </div>
-            <p>
-                <span style="font-size: larger;"><strong>訴求</strong></span> 儘量少用後端技術，以<span>方便前端展示、使用流暢</span>為目標。
-            </p>
-            <p>
-                <span style="font-size: larger;"><strong>決議</strong></span> 以無須Server提供資料的小遊戲為目標，因此找到 <span style="color: red; margin-right: 0;"><strong>2048</strong></span>。
-            </p>
-        </div>
-        <div id="aboutus" class="main-menu">
-
-            <div class="row main-menu-firstrow">
-                <div class="col-lg-12">
-                    <div class="page-header">
-                        <h2>分工</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                    <div class="col-lg-6">
-                        <h3><b>Edar.Tsai</b></h3>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">視覺總監</div>
-                            <div class="panel-body">
-                                <ul>
-                                    <li>視覺風格設計</li>
-                                    <li>View 畫面製作</li>
-                                    <li>喇D賽</li>
-                                    <li>幫出國的人整理桌面</li>
-                                </ul>
-                            </div>
-                        </div>
-                </div>
-                <div class="col-lg-6">
-                        <h3><b>Jim.Liu</b></h3>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">技術總監</div>
-                            <div class="panel-body">
-                                <ul>
-                                    <li>遊戲邏輯</li>
-                                    <li>網頁版型</li>
-                                    <li>喇D賽</li>
-                                    <li>幫扭蛋調整姿勢</li>
-                                    <li>早起晨跑</li>
-                                </ul>
-                                
-                            </div>
-                        </div>
-                </div>
-            </div>
-
-        </div>
-        <div id="features" class="main-menu">
-
-            <div class="row main-menu-firstrow">
-                <div class="col-lg-12">
-                    <div class="page-header">
-                        <h2>功能</h2>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                 <div class="col-lg-4">
-                     <!--<div class="jumbotron" >-->
-                     <h4>第一階段</h4>
-	                 <div class="panel panel-success">
-		                 <div class="panel-heading">
+			<!--<div class="row">
+				<div class="col-lg-4">
+					
+					<h4>第一階段</h4>
+					<div class="panel panel-success">
+						<div class="panel-heading">
 							<h3 class="panel-title">遊戲邏輯</h3>
-		                 </div>
-		                 <div class="panel-body">
-			                 <span>基礎遊戲邏輯，可以玩+可以計分就好。</span>
-		                 </div>
-		                 <div class="panel-footer" style="height: 2em;">
-					   		<div class="progress progress-striped  active">
-								<div class="progress-bar progress-bar-success" style="width: 100%;">
-		   							<span>100%</span>
-								</div>
-				   			</div>
-		                 </div>
-	                 </div>
-	                 <div class="panel panel-success">
-		                 <div class="panel-heading">
-			                 <h3 class="panel-title">遊戲畫面</h3>
-		                 </div>
-		                 <div class="panel-body">
-			                 <span>簡單俐落的畫面風格。</span>
-		                 </div>
+						</div>
+						<div class="panel-body">
+							<span>基礎遊戲邏輯，可以玩+可以計分就好。</span>
+						</div>
 						<div class="panel-footer" style="height: 2em;">
 							<div class="progress progress-striped  active">
 								<div class="progress-bar progress-bar-success" style="width: 100%;">
@@ -211,14 +155,14 @@
 								</div>
 							</div>
 						</div>
-	                 </div>
-	                 <!--<div class="panel panel-success">
-		                 <div class="panel-heading">
-			                 <h3 class="panel-title">最高分</h3>
-		                 </div>
-		                 <div class="panel-body">
-			                 <span>與最強的自己競爭!!</span>
-		                 </div>
+					</div>
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h3 class="panel-title">遊戲畫面</h3>
+						</div>
+						<div class="panel-body">
+							<span>簡單俐落的畫面風格。</span>
+						</div>
 						<div class="panel-footer" style="height: 2em;">
 							<div class="progress progress-striped  active">
 								<div class="progress-bar progress-bar-success" style="width: 100%;">
@@ -226,14 +170,15 @@
 								</div>
 							</div>
 						</div>
-	                 </div>-->
-	                 <div class="panel panel-success">
-		                 <div class="panel-heading">
-			                 <h3 class="panel-title">遊戲畫面截圖</h3>
-		                 </div>
-		                 <div class="panel-body">
-			                 <span>紀錄感動瞬間!!</span>
-		                 </div>
+					</div>
+					
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h3 class="panel-title">遊戲畫面截圖</h3>
+						</div>
+						<div class="panel-body">
+							<span>紀錄感動瞬間!!</span>
+						</div>
 						<div class="panel-footer" style="height: 2em;">
 							<div class="progress progress-striped  active">
 								<div class="progress-bar progress-bar-success" style="width: 100%;">
@@ -241,34 +186,14 @@
 								</div>
 							</div>
 						</div>
-	                 </div>
-				 	<div class="panel panel-success">
-				 		<div class="panel-heading">
+					</div>
+					<div class="panel panel-success">
+						<div class="panel-heading">
 							<h3 class="panel-title">展示網站</h3>
-				 		</div>
-						 <div class="panel-body">
-							 <span>無套版，無裝飾，最純真的年代!!</span>
-						 </div>
-				 	<div class="panel-footer" style="height: 2em;">
-				 		<div class="progress progress-striped  active">
-				 			<div class="progress-bar progress-bar-success" style="width: 100%;">
-				 				<span>100%</span>
-				 			</div>
-				 		</div>
-				 	</div>
-				 	</div>
-                     <!--</div>-->
-                 </div>
-                 <div class="col-lg-4">
-                    <!--<div class="jumbotron">-->
-	                 <h4>第二階段</h4>
-	                 <div class="panel panel-success">
-		                 <div class="panel-heading">
-			                 <h3 class="panel-title">動畫效果</h3>
-		                 </div>
-		                 <div class="panel-body">
-			                 <span>流暢華麗的遊戲體驗。</span>
-		                 </div>
+						</div>
+						<div class="panel-body">
+							<span>無套版，無裝飾，最純真的年代!!</span>
+						</div>
 						<div class="panel-footer" style="height: 2em;">
 							<div class="progress progress-striped  active">
 								<div class="progress-bar progress-bar-success" style="width: 100%;">
@@ -276,14 +201,19 @@
 								</div>
 							</div>
 						</div>
-	                 </div>
-	                 <div class="panel panel-success">
-		                 <div class="panel-heading">
-			                 <h3 class="panel-title">自訂陣列大小</h3>
-		                 </div>
-		                 <div class="panel-body">
-			                 <span>提供4X4，5X5，6X6三種陣列，增加遊戲可玩性!</span>
-		                 </div>
+					</div>
+					
+				</div>
+				<div class="col-lg-4">
+					
+					<h4>第二階段</h4>
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h3 class="panel-title">動畫效果</h3>
+						</div>
+						<div class="panel-body">
+							<span>流暢華麗的遊戲體驗。</span>
+						</div>
 						<div class="panel-footer" style="height: 2em;">
 							<div class="progress progress-striped  active">
 								<div class="progress-bar progress-bar-success" style="width: 100%;">
@@ -291,14 +221,14 @@
 								</div>
 							</div>
 						</div>
-	                 </div>
-	                 <div class="panel panel-success">
-		                 <div class="panel-heading">
-			                 <h3 class="panel-title">觀戰模式</h3>
-		                 </div>
-		                 <div class="panel-body">
-			                 <span>你累了嗎?看看別人怎麼玩吧。</span>
-		                 </div>
+					</div>
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h3 class="panel-title">自訂陣列大小</h3>
+						</div>
+						<div class="panel-body">
+							<span>提供4X4，5X5，6X6三種陣列，增加遊戲可玩性!</span>
+						</div>
 						<div class="panel-footer" style="height: 2em;">
 							<div class="progress progress-striped  active">
 								<div class="progress-bar progress-bar-success" style="width: 100%;">
@@ -306,14 +236,14 @@
 								</div>
 							</div>
 						</div>
-	                 </div>
-	                 <div class="panel panel-success">
-		                 <div class="panel-heading">
-			                 <h3 class="panel-title">螢幕截圖</h3>
-		                 </div>
-		                 <div class="panel-body">
-			                 <span>紀錄完美瞬間!</span>
-		                 </div>
+					</div>
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h3 class="panel-title">觀戰模式</h3>
+						</div>
+						<div class="panel-body">
+							<span>你累了嗎?看看別人怎麼玩吧。</span>
+						</div>
 						<div class="panel-footer" style="height: 2em;">
 							<div class="progress progress-striped  active">
 								<div class="progress-bar progress-bar-success" style="width: 100%;">
@@ -321,27 +251,42 @@
 								</div>
 							</div>
 						</div>
-	                 </div>
-				 	<div class="panel panel-success">
-				 		<div class="panel-heading">
-				 			<h3 class="panel-title">高分排行榜</h3>
-				 		</div>
-						 <div class="panel-body">
-							 <span>競爭!再競爭!</span>
-						 </div>
-				 	<div class="panel-footer" style="height: 2em;">
-				 		<div class="progress progress-striped  active">
-				 			<div class="progress-bar progress-bar-success" style="width: 70%;">
-				 				<span>70%</span>
-				 			</div>
-				 		</div>
-				 	</div>
-				 	</div>
-                    <!--</div>-->
-                </div>
-                <div class="col-lg-4">
-                     <!--<div class="jumbotron">-->
-	                <h4>第三階段</h4>
+					</div>
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h3 class="panel-title">螢幕截圖</h3>
+						</div>
+						<div class="panel-body">
+							<span>紀錄完美瞬間!</span>
+						</div>
+						<div class="panel-footer" style="height: 2em;">
+							<div class="progress progress-striped  active">
+								<div class="progress-bar progress-bar-success" style="width: 100%;">
+									<span>100%</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h3 class="panel-title">高分排行榜</h3>
+						</div>
+						<div class="panel-body">
+							<span>競爭!再競爭!</span>
+						</div>
+						<div class="panel-footer" style="height: 2em;">
+							<div class="progress progress-striped  active">
+								<div class="progress-bar progress-bar-success" style="width: 70%;">
+									<span>70%</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<div class="col-lg-4">
+					
+					<h4>第三階段</h4>
 					<div class="panel panel-primary">
 						<div class="panel-heading">
 							<h3 class="panel-title">FB分享</h3>
@@ -365,34 +310,34 @@
 							<span>一個人玩膩了嗎? 試試對戰模式，保證嗨翻天。</span>
 						</div>
 						<div class="panel-footer" style="height: 2em;">
-						<div class="progress progress-striped  active">
-							<div class="progress-bar progress-bar-primary" style="width: 100%;">
-								<span>100%</span>
+							<div class="progress progress-striped  active">
+								<div class="progress-bar progress-bar-primary" style="width: 100%;">
+									<span>100%</span>
+								</div>
 							</div>
 						</div>
 					</div>
+					
+				</div>
+			</div>-->
+
+			
+		</div>
+		<div id="technics" class="main-menu">
+
+			<div class="row main-menu-firstrow">
+				<div class="col-lg-12">
+					<div class="page-header">
+						<h2>技術</h2>
 					</div>
-                     <!--</div>-->
-                </div>
-            </div>
-
-
-        </div>
-        <div id="technics" class="main-menu">
-
-	        <div class="row main-menu-firstrow">
-		        <div class="col-lg-12">
-			        <div class="page-header">
-				        <h2>技術</h2>
-			        </div>
-		        </div>
-	        </div>
-	        <div class="row">
-		        <div class="col-lg-4">
-			        <h4>第一階段</h4>
-					<ul >
-						<li >
-							<p >
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-4">
+					<h4>第一階段</h4>
+					<ul>
+						<li>
+							<p>
 								<b>目標</b>
 							</p>
 							<p><span style="font-weight: bolder;">遊戲功能建置</span></p>
@@ -400,7 +345,7 @@
 							<p><span style="font-weight: bolder;">基礎語言學習</span></p>
 						</li>
 						<li>
-							<p >
+							<p>
 								<b>技術</b>
 							</p>
 							<p><span style="font-weight: bolder;">html</span></p>
@@ -408,13 +353,13 @@
 							<p><span style="font-weight: bolder;">css</span></p>
 						</li>
 					</ul>
-		        </div>
+				</div>
 
-		        <div class="col-lg-4">
-			        <h4>第二階段</h4>
-					<ul >
-						<li >
-							<p >
+				<div class="col-lg-4">
+					<h4>第二階段</h4>
+					<ul>
+						<li>
+							<p>
 								<b>目標</b>
 							</p>
 							<p><span style="font-weight: bolder;">遊戲動畫</span></p>
@@ -422,7 +367,7 @@
 							<p><span style="font-weight: bolder;">最高分排行榜</span></p>
 						</li>
 						<li>
-							<p >
+							<p>
 								<b>技術</b>
 							</p>
 							<p><span style="font-weight: bolder;">css/scss</span></p>
@@ -431,13 +376,13 @@
 							<p><span style="font-weight: bolder;">sql</span></p>
 						</li>
 					</ul>
-		        </div>
+				</div>
 
 				<div class="col-lg-4">
 					<h4>第三階段</h4>
 					<ul>
-						<li >
-							<p >
+						<li>
+							<p>
 								<b>目標</b>
 							</p>
 							<p><span style="font-weight: bolder;">RWD框架</span></p>
@@ -457,57 +402,57 @@
 					</ul>
 				</div>
 
-	        </div>
-        </div>
-        <div id="problems" class="main-menu">
-	        <div class="row main-menu-firstrow">
-		        <div class="col-lg-12">
-			        <div class="page-header">
-				        <h2>問題與解決</h2>
-			        </div>
-		        </div>
-	        </div>
-			<ul class="nav nav-tabs">
+			</div>
+		</div>
+		<div id="problems" class="main-menu" style="font-size: larger;">
+			<div class="row main-menu-firstrow">
+				<div class="col-lg-12">
+					<div class="page-header">
+						<h2>問題與解決</h2>
+					</div>
+				</div>
+			</div>
+			<ul class="nav nav-tabs" >
 				<li class="active"><a href="#problem-stage1" data-toggle="tab" aria-expanded="true">第一階段</a></li>
 				<li class=""><a href="#problem-stage2" data-toggle="tab" aria-expanded="false">第二階段</a></li>
 				<li class=""><a href="#problem-stage3" data-toggle="tab" aria-expanded="false">第三階段</a></li>
 			</ul>
-	        <div id="problem-tab-content" class="tab-content">
-		        <div id="problem-stage1" class="tab-pane fade active in">
-			        <ul >
-				        <li>
-					        <a href="javascript: return false;" data-toggle="modal" data-target="#problem-01">協作平台</a>
-				        </li>
-				        <li>
-					        <a href="javascript: return false;" data-toggle="modal" data-target="#problem-02">相對路徑</a>
-				        </li>
-				        <li>
-					        <a href="javascript: return false;" data-toggle="modal" data-target="#problem-03">置中</a>
-				        </li>
-				        <li>
-					        <a href="javascript: return false;" data-toggle="modal" data-target="#problem-04">動畫</a>
-				        </li>
-			        </ul>
-		        </div>
-		        <div id="problem-stage2" class="tab-pane fade">
-			        <ul >
-				        <li>
-					        <a href="javascript: return false;" data-toggle="modal" data-target="#problem-05">Mobile Swipe Solution</a>
-				        </li>
-				        <li>
-					        <a href="javascript: return false;" data-toggle="modal" data-target="#problem-06">中文輸入法 v.s. KeyPress</a>
-				        </li>
-				        <li>
-					        <a href="javascript: return false;" data-toggle="modal" data-target="#problem-07">Avoid CSS/js being Cached</a>
-				        </li>
-				        <li>
-					        <a href="javascript: return false;" data-toggle="modal" data-target="#problem-08">動畫效果的辛苦歷程</a>
-				        </li>
-			        </ul>
-		        </div>
-		        <div id="problem-stage3" class="tab-pane fade">
-		        </div>
-	        </div>
+			<div id="problem-tab-content" class="tab-content">
+				<div id="problem-stage1" class="tab-pane fade active in">
+					<ul>
+						<li>
+							<a href="javascript: return false;" data-toggle="modal" data-target="#problem-01">協作平台</a>
+						</li>
+						<li>
+							<a href="javascript: return false;" data-toggle="modal" data-target="#problem-02">相對路徑</a>
+						</li>
+						<li>
+							<a href="javascript: return false;" data-toggle="modal" data-target="#problem-03">置中</a>
+						</li>
+						<li>
+							<a href="javascript: return false;" data-toggle="modal" data-target="#problem-04">動畫</a>
+						</li>
+					</ul>
+				</div>
+				<div id="problem-stage2" class="tab-pane fade">
+					<ul>
+						<li>
+							<a href="javascript: return false;" data-toggle="modal" data-target="#problem-05">Mobile Swipe Solution</a>
+						</li>
+						<li>
+							<a href="javascript: return false;" data-toggle="modal" data-target="#problem-06">中文輸入法 v.s. KeyPress</a>
+						</li>
+						<li>
+							<a href="javascript: return false;" data-toggle="modal" data-target="#problem-07">Avoid CSS/js being Cached</a>
+						</li>
+						<li>
+							<a href="javascript: return false;" data-toggle="modal" data-target="#problem-08">動畫效果的辛苦歷程</a>
+						</li>
+					</ul>
+				</div>
+				<div id="problem-stage3" class="tab-pane fade">
+				</div>
+			</div>
 		</div>
 
 		<div class="modal fade" id="problem-01">
@@ -598,87 +543,87 @@
 			</div>
 		</div>
 
-        <div class="modal fade" id="problem-02">
-	    <div class="modal-dialog">
-		    <div class="modal-content">
-			    <div class="modal-header">
-				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				    <h4 class="modal-title">相對路徑</h4>
-			    </div>
-			    <div class="modal-body">
-				    <ul>
-					    <li><a href="#problems02tabs-1">1.發現問題</a></li>
-					    <li><a href="#problems02tabs-2">2.聚焦</a></li>
-					    <li><a href="#problems02tabs-3">3.觀察</a></li>
-					    <li><a href="#problems02tabs-4">4.推測</a></li>
-					    <li><a href="#problems02tabs-5">5.發現問題</a></li>
-					    <li><a href="#problems02tabs-6">6.解決</a></li>
-					    <li><a href="#problems02tabs-7">7.結論</a></li>
-				    </ul>
-				    <div id="problems02tabs-1">
-					    <img src="images/problems02_01.png" alt=""/>
-				    </div>
-				    <div id="problems02tabs-2">
-					    <img src="images/problems02_05.png" alt=""/>
-					    <p>找不到圖檔?? (其實一堆 js & css 都找不到)</p>
-				    </div>
-				    <div id="problems02tabs-3">
-					    <p>相對路徑寫錯??</p>
-					    <br/>
-					    <br/>
-					    <br/>
-					    <img src="images/problems02_03.png" alt=""/>
-					    <p>沒錯啊!</p>
-				    </div>
-				    <div id="problems02tabs-4">
-					    <p>保哥說:</p>
-					    <img src="images/problems02_06.png"/>
-					    <br/>
-					    <br/>
-					    <br/>
-					    <p style="font-size: larger; color: red;">但連 Button 圖片也出不來就不太對勁了。</p>
-				    </div>
-				    <div id="problems02tabs-5">
-					    <p>確認 Github 直接連結時可以看得到圖。</p>
-					    <img src="images/problems02_02.png" alt=""/>
-					    <br/>
-					    <p>
-						    神達叔:怎麼上下兩段網址裡的 <span style="color: red">View</span> 大小寫不同!!!
-					    </p>
-					    <img src="images/problems02_05.png" alt=""/>
-				    </div>
-				    <div id="problems02tabs-6">
-					    <p>
-						    原來， Github 的連結直接根據上傳時的檔案結構來產生，<br/>
-						    而 View 資料夾當初的建立是根據 ProjectName而來。
-					    </p>
-					    <img src="images/problems02_04.png" alt=""/>
-					    <br/>
-					    <br/>
-					    <br/>
-					    <p>....習慣 ProjectName 開頭大寫錯了嗎 !!??</p>
-				    </div>
-				    <div id="problems02tabs-7">
-					    <p>理解每個不同語言的 Coding Style 非常重要!!</p>
-					    <p>以免發生這種慘劇。</p>
-					    <br/>
-					    <p>提供參考資料:</p>
-					    <p>
-						    <a href="http://www.w3schools.com/js/js_conventions.asp" target="_blank" style="color: blue">
-							    JavaScript Style Guide and Coding Conventions
-						    </a>
-					    </p>
-					    <p>
-						    <a href="https://google.github.io/styleguide/javascriptguide.xml" target="_blank" style="color: blue">
-							    Google JavaScript Style Guide
-						    </a>
-					    </p>
-				    </div>
-			    </div>
-			    <div class="modal-footer"></div>
-		    </div>
-	    </div>
-    </div>
+		<div class="modal fade" id="problem-02">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">相對路徑</h4>
+					</div>
+					<div class="modal-body">
+						<ul>
+							<li><a href="#problems02tabs-1">1.發現問題</a></li>
+							<li><a href="#problems02tabs-2">2.聚焦</a></li>
+							<li><a href="#problems02tabs-3">3.觀察</a></li>
+							<li><a href="#problems02tabs-4">4.推測</a></li>
+							<li><a href="#problems02tabs-5">5.發現問題</a></li>
+							<li><a href="#problems02tabs-6">6.解決</a></li>
+							<li><a href="#problems02tabs-7">7.結論</a></li>
+						</ul>
+						<div id="problems02tabs-1">
+							<img src="images/problems02_01.png" alt="" />
+						</div>
+						<div id="problems02tabs-2">
+							<img src="images/problems02_05.png" alt="" />
+							<p>找不到圖檔?? (其實一堆 js & css 都找不到)</p>
+						</div>
+						<div id="problems02tabs-3">
+							<p>相對路徑寫錯??</p>
+							<br />
+							<br />
+							<br />
+							<img src="images/problems02_03.png" alt="" />
+							<p>沒錯啊!</p>
+						</div>
+						<div id="problems02tabs-4">
+							<p>保哥說:</p>
+							<img src="images/problems02_06.png" />
+							<br />
+							<br />
+							<br />
+							<p style="font-size: larger; color: red;">但連 Button 圖片也出不來就不太對勁了。</p>
+						</div>
+						<div id="problems02tabs-5">
+							<p>確認 Github 直接連結時可以看得到圖。</p>
+							<img src="images/problems02_02.png" alt="" />
+							<br />
+							<p>
+								神達叔:怎麼上下兩段網址裡的 <span style="color: red">View</span> 大小寫不同!!!
+							</p>
+							<img src="images/problems02_05.png" alt="" />
+						</div>
+						<div id="problems02tabs-6">
+							<p>
+								原來， Github 的連結直接根據上傳時的檔案結構來產生，<br />
+								而 View 資料夾當初的建立是根據 ProjectName而來。
+							</p>
+							<img src="images/problems02_04.png" alt="" />
+							<br />
+							<br />
+							<br />
+							<p>....習慣 ProjectName 開頭大寫錯了嗎 !!??</p>
+						</div>
+						<div id="problems02tabs-7">
+							<p>理解每個不同語言的 Coding Style 非常重要!!</p>
+							<p>以免發生這種慘劇。</p>
+							<br />
+							<p>提供參考資料:</p>
+							<p>
+								<a href="http://www.w3schools.com/js/js_conventions.asp" target="_blank" style="color: blue">
+									JavaScript Style Guide and Coding Conventions
+								</a>
+							</p>
+							<p>
+								<a href="https://google.github.io/styleguide/javascriptguide.xml" target="_blank" style="color: blue">
+									Google JavaScript Style Guide
+								</a>
+							</p>
+						</div>
+					</div>
+					<div class="modal-footer"></div>
+				</div>
+			</div>
+		</div>
 
 		<div class="modal fade" id="problem-03">
 			<div class="modal-dialog">
@@ -730,48 +675,48 @@
 			</div>
 		</div>
 
-    <div class="modal fade" id="problem-04">
-	    <div class="modal-dialog">
-		    <div class="modal-content">
-			    <div class="modal-header">
-				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				    <h4 class="modal-title">動畫</h4>
-			    </div>
-			    <div class="modal-body">
-				    <p style="margin-left: 1em;">下一個階段要加入的動畫效果，動畫部分由css負責，動畫需要帶入起始位置和終點位置，由於一開始開發沒考慮這點，所以邏輯判斷部分需做修改。</p>
-				    <p style="margin-left: 1em;">
-					    <a href="https://fiddle.jshell.net/quou5n69/3/" target="_blank" style="color: blue">
-						    css animation 動畫範例
-					    </a>
-				    </p>
+		<div class="modal fade" id="problem-04">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">動畫</h4>
+					</div>
+					<div class="modal-body">
+						<p style="margin-left: 1em;">下一個階段要加入的動畫效果，動畫部分由css負責，動畫需要帶入起始位置和終點位置，由於一開始開發沒考慮這點，所以邏輯判斷部分需做修改。</p>
+						<p style="margin-left: 1em;">
+							<a href="https://fiddle.jshell.net/quou5n69/3/" target="_blank" style="color: blue">
+								css animation 動畫範例
+							</a>
+						</p>
 
-			    </div>
-			    <div class="modal-footer"></div>
-		    </div>
-	    </div>
-    </div>
+					</div>
+					<div class="modal-footer"></div>
+				</div>
+			</div>
+		</div>
 
-    <div class="modal fade" id="problem-05">
-	    <div class="modal-dialog">
-		    <div class="modal-content">
-			    <div class="modal-header">
-				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				    <h4 class="modal-title">Mobile Swipe Solution</h4>
-			    </div>
-			    <div class="modal-body">
-					<p>
-						<b>1. 判斷是否使用 Mobile </b>
-					</p>
-					<pre class="prettyprint linenums">
+		<div class="modal fade" id="problem-05">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">Mobile Swipe Solution</h4>
+					</div>
+					<div class="modal-body">
+						<p>
+							<b>1. 判斷是否使用 Mobile </b>
+						</p>
+						<pre class="prettyprint linenums">
     //是否使用行動裝置
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
       //do something
     }
 </pre>
-					<p>
-						<b>2. Mobile 瀏覽器時載入 jquery-mobile</b>
-					</p>
-					<pre class="prettyprint linenums">
+						<p>
+							<b>2. Mobile 瀏覽器時載入 jquery-mobile</b>
+						</p>
+						<pre class="prettyprint linenums">
     //載入 jquery mobile
     $.getScript('https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js', function () {
         //載入 swipeup , swipedown 手勢
@@ -795,11 +740,11 @@
             });
         });
 </pre>
-			    </div>
-			    <div class="modal-footer"></div>
-		    </div>
-	    </div>
-    </div>
+					</div>
+					<div class="modal-footer"></div>
+				</div>
+			</div>
+		</div>
 
 		<div class="modal fade" id="problem-06">
 			<div class="modal-dialog">
@@ -854,66 +799,66 @@
 			</div>
 		</div>
 
-    <div class="modal fade" id="problem-07">
-	    <div class="modal-dialog">
-		    <div class="modal-content">
-			    <div class="modal-header">
-				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				    <h4 class="modal-title">Avoid CSS/js being Cached</h4>
-			    </div>
-			    <div class="modal-body">
-					<p>
-						<span> *.js / *.css 等靜態網頁檔案常會被 Browser Cache</span><br />
-						<span>若希望自行控制 *.js / *.css 的 Cache 狀態，</span><br />
-						<span>可以在每次改版時，*.css / *.js 路徑自行串入「日期」或「版號」</span><br />
-						<span>對 Browser 而言，因路徑已有差異，會重新進行 Cache</span><br />
-					</p>
-					<pre class="prettyprint linenums">
+		<div class="modal fade" id="problem-07">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">Avoid CSS/js being Cached</h4>
+					</div>
+					<div class="modal-body">
+						<p>
+							<span> *.js / *.css 等靜態網頁檔案常會被 Browser Cache</span><br />
+							<span>若希望自行控制 *.js / *.css 的 Cache 狀態，</span><br />
+							<span>可以在每次改版時，*.css / *.js 路徑自行串入「日期」或「版號」</span><br />
+							<span>對 Browser 而言，因路徑已有差異，會重新進行 Cache</span><br />
+						</p>
+						<pre class="prettyprint linenums">
     &lt;link href="css/subtabs.css<span class="nocode" style="color: red !important;">?201608101030</span>" rel="stylesheet" type="text/css"/&gt;
     &lt;link href="css/default.css<span class="nocode" style="color: red !important;">?201608101030</span>" rel="stylesheet" type="text/css"/&gt;
     &lt;script src="js/main.js<span class="nocode" style="color: red !important;">?201608101030</span>"&gt;&lt;/script&gt;
 </pre>
-			    </div>
-			    <div class="modal-footer"></div>
-		    </div>
-	    </div>
-    </div>
+					</div>
+					<div class="modal-footer"></div>
+				</div>
+			</div>
+		</div>
 
-    <div class="modal fade" id="problem-08">
-	    <div class="modal-dialog">
-		    <div class="modal-content">
-			    <div class="modal-header">
-				    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				    <h4 class="modal-title">動畫效果的辛苦歷程</h4>
-			    </div>
-			    <div class="modal-body">
-				    <ul class="nav nav-tabs">
-					    <li class="active"><a href="#problem08-stage1" data-toggle="tab" aria-expanded="true">第一階段</a></li>
-					    <li class=""><a href="#problem08-stage2" data-toggle="tab" aria-expanded="false">第二階段</a></li>
-					    <li class=""><a href="#problem08-stage3" data-toggle="tab" aria-expanded="false">第三階段</a></li>
-					    <li class=""><a href="#problem08-stage4" data-toggle="tab" aria-expanded="false">程式語法問題</a></li>
-					    <li class=""><a href="#problem08-stage5" data-toggle="tab" aria-expanded="false">產生動畫方式</a></li>
-				    </ul>
-				    <div id="problem08-subtab-content" class="tab-content">
-					    <div id="problem08-stage1" class="tab-pane fade active in">
-						    <p>
-							    <b>初步練習css animation的寫法</b>
-						    </p>
-						    <iframe width="100%" height="500" src="//fiddle.jshell.net/quou5n69/1/embedded/html,css,result" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
-					    </div>
-					    <div id="problem08-stage2" class="tab-pane fade">
-						    <p>
-							    <b>因為css animation無法動態產生，改用javascript產生動畫</b>
-						    </p>
-						    <iframe width="100%" height="500" src="//fiddle.jshell.net/quou5n69/7/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
-					    </div>
-					    <div id="problem08-stage3" class="tab-pane fade">
-						    <p>
-							    <b>發現只用 javascript還是無法達到我要的動態產生動畫效果，股溝大神說jquery可以做得到</b><br/>
-							    <a href="https://github.com/Keyframes/jQuery.Keyframes" target="_blank" style="color: blue">jQuery.Keyframes</a>
-						    </p>
-						    <p>Adding multiple frame styles</p>
-						    <pre class="prettyprint linenums">
+		<div class="modal fade" id="problem-08">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">動畫效果的辛苦歷程</h4>
+					</div>
+					<div class="modal-body">
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#problem08-stage1" data-toggle="tab" aria-expanded="true">第一階段</a></li>
+							<li class=""><a href="#problem08-stage2" data-toggle="tab" aria-expanded="false">第二階段</a></li>
+							<li class=""><a href="#problem08-stage3" data-toggle="tab" aria-expanded="false">第三階段</a></li>
+							<li class=""><a href="#problem08-stage4" data-toggle="tab" aria-expanded="false">程式語法問題</a></li>
+							<li class=""><a href="#problem08-stage5" data-toggle="tab" aria-expanded="false">產生動畫方式</a></li>
+						</ul>
+						<div id="problem08-subtab-content" class="tab-content">
+							<div id="problem08-stage1" class="tab-pane fade active in">
+								<p>
+									<b>初步練習css animation的寫法</b>
+								</p>
+								<iframe width="100%" height="500" src="//fiddle.jshell.net/quou5n69/1/embedded/html,css,result" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+							</div>
+							<div id="problem08-stage2" class="tab-pane fade">
+								<p>
+									<b>因為css animation無法動態產生，改用javascript產生動畫</b>
+								</p>
+								<iframe width="100%" height="500" src="//fiddle.jshell.net/quou5n69/7/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+							</div>
+							<div id="problem08-stage3" class="tab-pane fade">
+								<p>
+									<b>發現只用 javascript還是無法達到我要的動態產生動畫效果，股溝大神說jquery可以做得到</b><br />
+									<a href="https://github.com/Keyframes/jQuery.Keyframes" target="_blank" style="color: blue">jQuery.Keyframes</a>
+								</p>
+								<p>Adding multiple frame styles</p>
+								<pre class="prettyprint linenums">
     $.keyframe.define([
     {
         name: 'roll-clockwise',
@@ -925,8 +870,8 @@
         '100%': {'margin-left' : '600px','transform' : 'rotate(-360deg)'}
     }]);
                 </pre>
-						    <p>Playing an animation</p>
-						    <pre class="prettyprint linenums">
+								<p>Playing an animation</p>
+								<pre class="prettyprint linenums">
     $(selector).playKeyframe({
         name: 'trapdoor-sequence',	//name of the keyframe you want to bind to the selected element
         duration: '1s',				//[optional, default: 0, in ms] how long you want it to last in milliseconds
@@ -938,12 +883,12 @@
         complete: function(){}		//[optional] Function fired after the animation is complete. 
     });
                 </pre>
-					    </div>
-					    <div id="problem08-stage4" class="tab-pane fade">
-						    <p>
-							    <b>jquery語法不熟</b>
-						    </p>
-						    <pre class="prettyprint linenums">
+							</div>
+							<div id="problem08-stage4" class="tab-pane fade">
+								<p>
+									<b>jquery語法不熟</b>
+								</p>
+								<pre class="prettyprint linenums">
     $.keyframe.define([
     {
         name: 'roll-clockwise',
@@ -955,7 +900,7 @@
         '100%': {'margin-left' : '600px','transform' : 'rotate(-360deg)'}
     }]);
                 </pre>
-						    <pre class="prettyprint linenums">
+								<pre class="prettyprint linenums">
     var moveArray = new Array();
     moveArray.push({
         'name': "move" + mapObj.Items[i].Id,
@@ -964,20 +909,20 @@
     });
     $.keyframe.define(moveArray);
                 </pre>
-						    <p>
-							    <b>animation參數無作用</b>
-						    </p>
-						    <p>
-							    animation-fill-mode 動畫播放前後的狀態<br/>
-							    none ：回到未播放動畫效果前的狀態<br/>
-							    forwards ：停在動畫的最後一個狀態上<br/>
-							    <u>backwards ：停在動畫的第一個狀態上</u> <br/>
-							    both ：視 animation-direction 來決定停在哪一個狀態上。<br/>
-						    </p>
-						    <p>
-							    <b>jQuery.Keyframes中的complete有時會無效</b>
-						    </p>
-						    <pre class="prettyprint linenums">
+								<p>
+									<b>animation參數無作用</b>
+								</p>
+								<p>
+									animation-fill-mode 動畫播放前後的狀態<br />
+									none ：回到未播放動畫效果前的狀態<br />
+									forwards ：停在動畫的最後一個狀態上<br />
+									<u>backwards ：停在動畫的第一個狀態上</u> <br />
+									both ：視 animation-direction 來決定停在哪一個狀態上。<br />
+								</p>
+								<p>
+									<b>jQuery.Keyframes中的complete有時會無效</b>
+								</p>
+								<pre class="prettyprint linenums">
     $(selector).playKeyframe({
         name: 'trapdoor-sequence',	//name of the keyframe you want to bind to the selected element
         duration: '1s',				//[optional, default: 0, in ms] how long you want it to last in milliseconds
@@ -989,55 +934,139 @@
         complete: function(){}		//[optional] Function fired after the animation is complete. 
     });
 						    </pre>
-					    </div>
-					    <div id="problem08-stage5" class="tab-pane fade">
-						    <p>
-							    <b>動態產生div，做完動畫後移除。</b>
-						    </p>
-						    <p>放棄原因：因為complete不明原因沒有觸發，所以放棄。</p>
-						    <p>
-							    <b>同時產生2個陣列div，上下疊在一起。樓上的顯示目前狀態，樓下的是做動畫用，需要動畫時，將z-index設大一點，然後做動畫，動畫結束後回到原來位置。</b>
-						    </p>
-						    <p>放棄原因：css排版問題搞不定!</p>
-						    <p>
-							    <b>只做一層div物件組成陣列，物件移動後再回到原位置</b>
-						    </p>
-						    <p>最終做法</p>
-						    <div style="width: auto; float: left">
-							    <img src="images/problems08-01.jpg" alt=""/>
-							    <img src="images/problems08-02.jpg" alt=""/>
-						    </div>
-					    </div>
+							</div>
+							<div id="problem08-stage5" class="tab-pane fade">
+								<p>
+									<b>動態產生div，做完動畫後移除。</b>
+								</p>
+								<p>放棄原因：因為complete不明原因沒有觸發，所以放棄。</p>
+								<p>
+									<b>同時產生2個陣列div，上下疊在一起。樓上的顯示目前狀態，樓下的是做動畫用，需要動畫時，將z-index設大一點，然後做動畫，動畫結束後回到原來位置。</b>
+								</p>
+								<p>放棄原因：css排版問題搞不定!</p>
+								<p>
+									<b>只做一層div物件組成陣列，物件移動後再回到原位置</b>
+								</p>
+								<p>最終做法</p>
+								<div style="width: auto; float: left">
+									<img src="images/problems08-01.jpg" alt="" />
+									<img src="images/problems08-02.jpg" alt="" />
+								</div>
+							</div>
 
-				    </div>
+						</div>
 
 
 
-			    </div>
-			    <div class="modal-footer"></div>
-		    </div>
-	    </div>
-    </div>
-
-		<div id="copyright" class="jumbotron">
-			<span>
-				<b>
-					Edit By
-					<a href="mailto:edar@mitake.com.tw?Subject=aboutGame2048" target="_top">Edar #1021</a>
-					、
-					<a href="mailto:jim.liu@mitake.com.tw?Subject=aboutGame2048" target="_top">Jim #1025</a>
-				</b>
-			</span>
-			<span>
-				<b>
-					WEBSITE: <a href="http://10.1.4.226:8001/" target="_top">http://10.1.4.226:8001/</a><br />
-					GITHUB: &nbsp;<a href="https://github.com/edartsai/TeamWork2048V2/" target="_blank">https://github.com/edartsai/TeamWork2048V2/</a>
-				</b>
-			</span>
-			<!--<span>Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a></span>-->
-			<span><b>&copy; All rights reserved.</b></span>
+					</div>
+					<div class="modal-footer"></div>
+				</div>
+			</div>
 		</div>
 
-    </div>
+	
+	</div>
+
+
+
+
+	<footer class="footer">
+		<div class="container">
+			<!--<div class="row">
+				<div class="col-lg-12">-->
+					<p class="text-muted">
+
+						<b>EDITORS</b>
+							<a href="mailto:edar@mitake.com.tw?Subject=aboutGame2048" target="_top">Edar #1021</a>
+							、
+							<a href="mailto:jim.liu@mitake.com.tw?Subject=aboutGame2048" target="_top">Jim #1025</a>
+						
+						<br/>
+						<!--<b>WEBSITE</b>  <a href="http://10.1.4.150:9001/" target="_top">http://10.1.4.150:9001/</a>
+						、
+						<a href="http://10.1.4.226:9001/" target="_top">http://10.1.4.226:9001/</a>
+						<br />-->
+						<b>GITHUB</b> &nbsp;&nbsp;<a href="https://github.com/edartsai/TeamWork2048V2/" target="_blank">https://github.com/edartsai/TeamWork2048V2/</a>
+						<br/>
+						<b>&copy; All rights reserved.</b>
+					</p>
+				<!--</div>
+			</div>-->
+		</div>
+	</footer>
+
+
+
+
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=Sons-Of-Obsidian"></script>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="js/treediagram.js"></script>
+
+<script>
+	
+	$(document).ready(function () {
+		$("#bs-navbar-1>ul>li>a").click(function () {
+			var href = $(this).attr("href");
+			href = href.substring(1);
+			showMainDiv(href);
+		});
+
+		navFromTag();
+
+		getTreeData();
+		
+	});
+
+	function showMainDiv(id) {
+		hideMainDiv();
+
+		var objs = $(".main-menu[id=" + id + "]");
+		if (objs === undefined || objs === null || objs.length <= 0) {
+			return;
+		}
+
+		objs.show();
+	}
+
+	function hideMainDiv() {
+		$("#homepage").hide();
+		$("#aboutus").hide();
+		$("#features").hide();
+		$("#technics").hide();
+		$("#problems").hide();
+	}
+
+	function navFromTag() {
+		var index = location.href.indexOf('#');
+
+		if (index > -1 && index < location.href.length) {
+			var href = location.href.substring(location.href.indexOf('#'));
+			href = href.substring(1);
+			showMainDiv(href);
+		} else {
+			$("#bs-navbar-1>ul>li>a:first").click();
+		}
+	}
+
+	function getTreeData() {
+		$.ajax({
+			url: '/getfunctionstreedata',
+			datatype: "json",
+			method: "POST",
+			complete: function (response) {
+				console.log(response);
+				if (response.status === 200) {
+					var data = response.responseJSON;
+					if (data !== undefined && data !== null)
+						initTree(data, 1024, 500, "#treediagramdiv");
+				}
+			}
+		});
+
+		
+	}
+</script>
 </body>
 </html>
