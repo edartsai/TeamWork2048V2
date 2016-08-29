@@ -65,6 +65,7 @@
     <Compile Include="js_lib\jquery.keyframes.min.js" />
     <Compile Include="js_lib\jquery.mobile-1.4.5.min.js" />
     <Compile Include="server.js" />
+    <Compile Include="webpack.config.js" />
     <Content Include="compilerconfig.json" />
     <Content Include="compilerconfig.json.defaults">
       <SubType>Content</SubType>
