@@ -35,13 +35,13 @@
   border-radius: 4px;
   z-index: 1; }
 
-.base-border, .base-box-score, #player1-scare, #player2-scare, #player1viewer-scare, #player1-name, #player2-name, #player1viewer-name, #timerviewer-div, #player2viewer-name, #timer-div, #gamemsgspan {
+.base-border, .base-box-score, #player1-score, #player2-score, #player1viewer-score, #player1-name, #player2-name, #player1viewer-name, #timerviewer-div, #player2viewer-name, #timer-div, #gamemsgspan {
   border-width: 2px;
   border-style: solid;
   border-radius: 4px;
   height: 50px; }
 
-.base-box-score .score-title, #player1-scare .score-title, #player2-scare .score-title, #player1viewer-scare .score-title {
+.base-box-score .score-title, #player1-score .score-title, #player2-score .score-title, #player1viewer-score .score-title {
   height: 25px;
   line-height: 25px;
   font-size: 10px;
@@ -49,7 +49,7 @@
   margin: auto;
   color: white; }
 
-.base-box-score .score-content, #player1-scare .score-content, #player2-scare .score-content, #player1viewer-scare .score-content {
+.base-box-score .score-content, #player1-score .score-content, #player2-score .score-content, #player1viewer-score .score-content {
   height: 25px;
   margin: auto;
   font-weight: bold;
@@ -84,7 +84,7 @@
 #play1-box-body {
   border-color: #BB4444; }
 
-#player1-scare {
+#player1-score {
   background: #BB4444;
   border-color: #BB4444;
   float: left;
@@ -122,7 +122,7 @@
 #play2-box-body {
   border-color: #50798B; }
 
-#player2-scare {
+#player2-score {
   background: #50798B;
   border-color: #50798B;
   float: left;
@@ -195,7 +195,7 @@
   border-style: solid;
   position: relative; }
 
-#player1viewer-scare {
+#player1viewer-score {
   background: #BB4444;
   border-color: #BB4444;
   float: left;
@@ -358,7 +358,7 @@
   #timer-div {
     float: none;
     width: 98%; }
-  #player1-scare {
+  #player1-score {
     width: 41%; }
   #player1-name {
     width: 41%; }

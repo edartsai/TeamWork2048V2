@@ -135,7 +135,7 @@ html, body {
     border-color:$player1-main-color;
 }
 //player 1 分數
- #player1-scare{
+ #player1-score{
      @extend .base-box-score;
      background:$player1-main-color;
      border-color:$player1-main-color;
@@ -189,7 +189,7 @@ html, body {
     border-color:$player2-main-color;
 }
 //player 2 分數
- #player2-scare{
+ #player2-score{
      @extend .base-box-score;
      background:$player2-main-color;
      border-color:$player2-main-color;
@@ -280,7 +280,7 @@ html, body {
     border-style:solid;
     position:relative;
 }
-#player1viewer-scare{
+#player1viewer-score{
      @extend .base-box-score;
      background:$player1-main-color;
      border-color:$player1-main-color;
@@ -500,7 +500,7 @@ html, body {
     float:none;
     width:98%;
 }
-#player1-scare{
+#player1-score{
     width:41%;
 }
 #player1-name{

@@ -2,22 +2,80 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="js_lib/html2canvas.js"></script>
-    <script src="js_lib/jquery.keyframes.min.js"></script>
-    <script src="js/enum.js"></script>
-    <script src="js/view.js"></script>
-    <script src="js/utility.js"></script>
-    <script src="js/iscando.js"></script>
-    <script src="js/merge.js"></script>
-    <script src="js/move.js"></script>
-    <script src="js/main.js"></script>
-    <link rel="stylesheet" href="css/game2048style.min.css">
+	<title>Game2048 v3</title>
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	<link rel="stylesheet" href="css/game2048style.min.css">
 </head>
 <body>
     <!--<div id="fb-root"></div>-->
     <!--<script src="js/fb.js"></script>-->
-<script>
+
+
+<div class="main-contain">
+
+    <div class="mask-body" id="mask-body" style="visibility: collapse">
+        <p style="font-size: 40px;">Game Over</p>
+        <button id="lbbtn" class="savescorebutton" onclick="openInputName('')">登入排行榜</button>
+    </div>
+
+    <div id="capture-range-div">
+        <div class="box-header" style="height: 55px">
+            <span class="title">2048</span>
+            <!--分數-->
+            <div class="box-score">
+                <p class="score-title">SCORE</p>
+                <p class="score-content" id="score">0</p>
+            </div>
+            <!--重玩-->
+            <div class="replay-button" >
+                <button class="back-button" id="resetbtn" type="submit" onclick="reset()">
+                    <img src="images/b_brefresh_20_n.png" alt=""/>
+                </button>
+            </div>
+            <!--上一步-->
+            <div class="upstep-button" >
+                <button class="back-button" id="rollbackbtn" type="submit" onclick="rollback()">
+                    <img src="images/b_back_btn_20_p.png" alt=""/>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+        </div>
+    </div>
+</div>
+
+<div class="box-down">
+    <div class="FB-share">
+        <div class="FB-logo">F</div>
+        <p class="share-content">SHARE</p>
+    </div>
+    
+    <div class="Hight-scare">   
+        <div class="score-best-title">BEST</div>
+        <p class="score-best" id="best-score"></p>
+    </div>
+</div>
+
+<select id="matrixSize" onchange="changeMatrixSize()">
+    <option value="4" selected="selected">4X4</option>
+    <option value="5">5X5</option>
+    <option value="6">6X6</option>
+</select>
+
+
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="js_lib/html2canvas.js"></script>
+	<script src="js_lib/jquery.keyframes.min.js"></script>
+	<script src="js/enum.js"></script>
+	<script src="js/view.js"></script>
+	<script src="js/utility.js"></script>
+	<script src="js/iscando.js"></script>
+	<script src="js/merge.js"></script>
+	<script src="js/move.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/initmobile.js"></script>
+
+	<script>
     var isCanClick = true;
     var boxMoveTime = "100ms";
 
@@ -29,7 +87,7 @@
         Score: 0,
         IsGameOver: false
     };
-    
+
     //遊戲上一狀態
     var prevObj = {
         Size: 4,
@@ -123,28 +181,34 @@
     }
 
     function InitMobile() {
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            $.getScript('https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js', function() {
-                $.getScript('js/initmobile.js', function() {
-                    $.mobile.loading().hide();
+    	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    		$(document).on("swipeleft", function () {
+    			if (isCanSendKey()) {
+    				moveLeft();
+    			}
+    		});
 
-                    $(document).on("swipeleft", function() {
-                        moveLeft();
-                    });
+    		$(document).on("swiperight", function () {
+    			if (isCanSendKey()) {
+    				moveRight();
+    			}
+    		});
 
-                    $(document).on("swiperight", function() {
-                        moveRight();
-                    });
+    		$(document).on("swipeup", function () {
+    			if (isCanSendKey()) {
+    				moveUp();
+    			}
+    		});
+    		$(document).on("swipedown", function () {
+    			if (isCanSendKey()) {
+    				moveDown();
+   				}
+   			});
+   		}
+   	}
 
-                    $(document).on("swipeup", function() {
-                        moveUp();
-                    });
-                    $(document).on("swipedown", function() {
-                        moveDown();
-                    });
-                });
-            });
-        }
+    function isCanSendKey() {
+    	return isCanClick && isAnimationComplete;
     }
 
     function capture(lbid) {
@@ -180,22 +244,6 @@
             }
         });
 
-
-        //socket.emit('add_screenshot', {
-        //    datatype: 0,
-        //    data: img
-        //});
-
-        //socket.on('add_screenshot', function (result) {
-        //	var r = result.result;
-        //	if (r.length > 0 && r[0].length > 0) {
-        //		var id = r[0][0][""];
-        //		window.open('screenshot.html' + '?' + 'id=' + id);
-        //		alert('上傳成功!');
-        //	} else {
-        //		alert('上傳失敗!');
-        //	}
-        //});
     }
 
     function SetLeaderboardBtnVisibility() {
@@ -215,7 +263,7 @@
                 var result = false;
                 if (response.status === 200) {
                     var data = response.responseJSON;
-                    
+
                     if (data !== undefined && data !== null && data.data !== undefined && data.data !== null) {
                         if (data.data.length < rowcount) //總筆數尚未到達 排行榜上限
                             result = true;
@@ -236,27 +284,6 @@
             }
         });
     }
-
-    //function openLeaderboard() {
-    //    $.post('inputleaderboard',
-    //        {
-    //            score: mapObj.Score,
-    //            size: mapObj.Size,
-    //            isshowinput: 1
-    //        },
-    //        function (data) {
-    //        var win = window.open('about:blank');
-    //        if (win == undefined) {
-    //            alert("請不要封鎖彈出式視窗");
-    //            return;
-    //        }
-    //        with (win.document) {
-    //            open();
-    //            write(data);
-    //            close();
-    //        }
-    //    });
-    //}
 
     function openInputName(warningSentence) {
         var scoreSentence = "Your Score " + mapObj.Score;
@@ -283,7 +310,7 @@
                     console.log(data);
 
                     if (data !== undefined && data !== null) {
-                        
+
 
                         if (data.result.length > 0) {
                             var lbid = data.result[0][0][""];
@@ -304,7 +331,6 @@
     }
 
     function validateName(name) {
-        //todo:
         if (name === "")
             return false;
 
@@ -320,58 +346,7 @@
         this.blur();
         reset();
     }
-</script>
-
-<div class="main-contain">
-
-    <div class="mask-body" id="mask-body" style="visibility: collapse">
-        <p style="font-size: 40px;">Game Over</p>
-        <button id="lbbtn" class="savescorebutton" onclick="openInputName('')">登入排行榜</button>
-    </div>
-
-    <div id="capture-range-div">
-        <div class="box-header" style="height: 55px">
-            <span class="title">2048</span>
-            <!--分數-->
-            <div class="box-score">
-                <p class="score-title">SCORE</p>
-                <p class="score-content" id="score">0</p>
-            </div>
-            <!--重玩-->
-            <div class="replay-button" >
-                <button class="back-button" id="resetbtn" type="submit" onclick="reset()">
-                    <img src="images/b_brefresh_20_n.png" alt=""/>
-                </button>
-            </div>
-            <!--上一步-->
-            <div class="upstep-button" >
-                <button class="back-button" id="rollbackbtn" type="submit" onclick="rollback()">
-                    <img src="images/b_back_btn_20_p.png" alt=""/>
-                </button>
-            </div>
-        </div>
-        <div class="box-body">
-        </div>
-    </div>
-</div>
-
-<div class="box-down">
-    <div class="FB-share">
-        <div class="FB-logo">F</div>
-        <p class="share-content">SHARE</p>
-    </div>
-    
-    <div class="Hight-scare">   
-        <div class="score-best-title">BEST</div>
-        <p class="score-best" id="best-score"></p>
-    </div>
-</div>
-
-<select id="matrixSize" onchange="changeMatrixSize()">
-    <option value="4" selected="selected">4X4</option>
-    <option value="5">5X5</option>
-    <option value="6">6X6</option>
-</select>
+	</script>
 
 </body>
 

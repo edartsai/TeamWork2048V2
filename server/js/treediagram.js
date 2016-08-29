@@ -145,7 +145,11 @@ function click(source, tree, diagonal, svg, root) {
         source._children = null;
 
         if (source.leafid !== undefined && source.leafid !== null) {
-	        var id = source.leafid;
+            var id = source.leafid;
+
+            if (id === 11) {
+                window.open('/images/flowchart.png');
+            }
         }
     }
     updateTree(tree, diagonal, svg, root, source);
