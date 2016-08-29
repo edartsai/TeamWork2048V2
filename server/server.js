@@ -11,8 +11,8 @@ var sql = require(__dirname + '/js/sql.js');
 var clog = require(__dirname + '/js/log.js');
 
 
-server.listen(9001, function() {
-    clog.consoleLog(1, 'listen', 'ready on port 9001');
+server.listen(8787, function() {
+    clog.consoleLog(1, 'listen', 'ready on port 8787');
 });
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -116,6 +116,50 @@ app.use('/js', express.static('js'));
 app.use('/js_lib', express.static('js_lib'));
 app.use('/js_out', express.static('js_out'));
 app.use('/typings', express.static('typings'));
+
+
+// room 架構
+// var room = {
+//      id:int,                         //房間id (key)
+//      player1:socket                  //player1 socket data
+//      {
+//          socket.nickname:string      //player1 nickname    
+//      },      
+//      player2:socket                  //player2 socket data
+//      {
+//          socket.nickname:string      //player2 nickname    
+//      },     
+//      viewers:array[socket],          //觀戰者 socket data
+//      gamestatus:自訂物件              //game status                
+//      {
+//          starting:boolean,           //此房是否正在遊戲中
+//          p1ready:boolean,            //player1 是否已按下 ready
+//          p1map:自訂物件               //player1 遊戲內容狀態、分數   
+//          { 
+//              Size:int,               //遊戲 n*n size
+//              Items:array[自訂物件]    //畫面上有數字的區塊狀態  
+//              {
+//                  Id:int,             //此區塊物件id
+//                  X:int,              //現在位置之x座標
+//                  Y:int,              //現在位置之y座標
+//                  Value:int,          //區塊的數值(合併後會增加)
+//                  PreId:int,          //此區塊當下步驟若有合併其他區塊，則PreId=被合併(消失)之區塊id
+//                  ToDel:boolean       //若為被合併(需消失)之區塊，會被標註為true，執行完計算後移除此欄為 true 之 item
+//              }, 
+//              IdMax:int,              //區塊排序key值
+//              Score:int,              //分數
+//              IsGameOver:boolean      //是否已無可動
+//          },
+//          p1agreenext:boolean,        //player1 是否已同意下一場
+//          p2ready:boolean,            //player2 是否已按下 ready
+//          p2map:自訂物件(同p1map){  }, //player2 遊戲內容狀態、分數       
+//          p2agreenext:boolean,        //player2 是否已同意下一場
+//          starttime:date              //紀錄p1 & p2 均按下 ready 之時間
+//          countdown1:date             //紀錄遊戲開始前倒數的 deadline
+//          countdown2:date             //紀錄遊戲結束的 deadline
+//      }
+//};
+
 
 var rooms = [];
 var countdown1Interval = 5;     //in sec
@@ -394,7 +438,9 @@ io.sockets.on('connection', function (socket) {
 
         var p1Nickname = (nroom.player1 === undefined || nroom.player1.nickname === undefined) ? "" : nroom.player1.nickname;
         var p2Nickname = (nroom.player2 === undefined || nroom.player2.nickname === undefined) ? "" : nroom.player2.nickname;
-        socket.emit('viewer_changeroom_suc', { roomid: nroom.id, p1name: p1Nickname, p2name: p2Nickname, time: new Date() });
+        var p1Map = (nroom.player1 === undefined || nroom.gamestatus.p1map === undefined) ? undefined : nroom.gamestatus.p1map;
+        var p2Map = (nroom.player2 === undefined || nroom.gamestatus.p2map === undefined) ? undefined : nroom.gamestatus.p2map;
+        socket.emit('viewer_changeroom_suc', { roomid: nroom.id, p1name: p1Nickname, p1map: p1Map, p2name: p2Nickname, p2map: p2Map, time: new Date() });
     });
 
     socket.on('send_nickname', function(data) {

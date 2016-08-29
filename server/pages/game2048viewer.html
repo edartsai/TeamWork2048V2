@@ -40,9 +40,7 @@
 
         // server 回傳 rooms
         socket.on('send_rooms', function (result) {
-            //todo:result.time
             updateDDL(result.rooms);
-            
         });
 
         $('#select-rooms').change(function () {
@@ -54,7 +52,7 @@
         });
 
         socket.on('viewer_changeroom_suc', function (data) {
-            if (data.roomid != "-1") {
+            if (data.roomid !== "-1") {
                 var value = parseInt(data.roomid, 10) + 1;
                 $('#titlestr').text("2048第" + value + "房觀戰");
             }
@@ -64,15 +62,15 @@
 
             $("#p1-name-p").text(data.p1name);
             $("#p2-name-p").text(data.p2name);
-            //todo:data.time
-            //todo:data.roomid
-            //todo:data.p1name
-            //todo:data.p2name
+
+            if(data.p1map !== undefined)
+                MappingArrayData_viewmode(1, data.p1map);
+            if (data.p2map !== undefined)
+                MappingArrayData_viewmode(2, data.p2map);
         });
 
         // server 回傳 player進入房間
         socket.on('init_room_opposite', function (data) {
-            //todo:data.time
             setMsg(data.time,'player' + data.player + ' is in room');
             StopVictoryGo();
             document.getElementById("sectionlosemsg").style.visibility = "collapse";
@@ -81,32 +79,27 @@
 
         // server 回傳 player 已ready
         socket.on('send_ready_opposite', function (data) {
-            //todo: data.time
             StopVictoryGo();
             document.getElementById("sectionlosemsg").style.visibility = "collapse";
             $('#titlestr').css("color", "black");
             setMsg(data.time, 'player' + data.player + ' is ready');
             if (data.map !== undefined) {
-                //todo:
                 MappingArrayData_viewmode(data.player, data.map);
             }
         });
 
         // server 回傳 第一階段倒數
         socket.on('send_countdown1', function (data) {
-            //todo:data.time
             var secs = data.secs;
             $('#gametimespanviewer').text(ConvertSeconds2String(secs));
         });
 
         // server 回傳 第一階段倒數結束 (遊戲開始可操作)
         socket.on('send_countdown1_over', function (data) {
-            //todo:data.time
         });
 
         // server 回傳 第二階段倒數
         socket.on('send_countdown2', function (data) {
-            //todo: data.time
             var secs = data.secs;
             if (secs === undefined)
                 return;
@@ -116,7 +109,6 @@
 
         // server 回傳 第二階段倒數
         socket.on('send_countdown2_over', function (data) {
-            //todo:data.time
             setMsg(data.time, 'Game Over!!');
 
         });
@@ -126,7 +118,6 @@
             if (data === undefined || data === null)
                 return;
 
-            //todo:data.time
             if (data.winner !== 0) {
                 var obj = Object.create(RainbowObj);
                 obj.init("殘念啦!!");
@@ -138,7 +129,7 @@
                     StartVictoryGo(1);
                     
                 }
-                else if (data.winner == "2") {
+                else if (data.winner === "2") {
                     document.getElementsByClassName("rainbow-text")[0].style.left = "25%";
                     
                     $('#titlestr').css("color", "#50798B");
@@ -155,15 +146,12 @@
         });
 
         socket.on('send_map', function (data) {
-            //todo:data.time
-    	    if (data !== undefined) {
-                //todo:
+    	    if (data !== undefined && data !== null) {
     	        MappingArrayData_viewmode(data.player, data.map);
     	    }
     	});
 
         socket.on('disconnect_opposite', function (data) {
-            //todo:data.time
             setMsg(data.time, "player" + data.player + "is left");
     	});
 
@@ -171,7 +159,6 @@
             if (data === undefined || data === null)
                 return;
 
-            //todo:data.time
             if (data.player === 1) {
                 $("#p1-name-p").text(data.nickname);
             }
