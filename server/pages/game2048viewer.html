@@ -35,24 +35,6 @@
         selectedRoom = index;
     }
 
-
-    function clearViewRoom() {
-        $("#p1-name-p").text("");
-        $("#p2-name-p").text("");
-
-        var mapObj ={
-            Size : 4,
-            Items: [],
-            IdMax: 0,
-            Score: 0,
-            IsGameOver: false
-        };
-
-        MappingArrayData_viewmode("1", mapObj);
-        MappingArrayData_viewmode("2", mapObj);
-
-    }
-    
     function initViewer() {
         socket.emit('init_viewer');
 
@@ -214,11 +196,6 @@
     }
 
     function setMsg(msgtime, msg) {
-        //var d = new Date(msgtime);
-        //var timStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
-        //var aa = new Date();
-        //var bb = aa.format("m/dd/yy");
-
         var trdiv = $(document.createElement("div")).addClass("css_tr");
         var timdiv = $(document.createElement("div")).addClass("css_td").append("<span>" + timeMsgStr(msgtime) + "</span>");
         var msgdiv = $(document.createElement("div")).addClass("css_td").append("<span>" + msg + "</span>");

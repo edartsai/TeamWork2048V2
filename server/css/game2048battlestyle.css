@@ -332,7 +332,8 @@
   display: table-row; }
 
 .css_td {
-  display: table-cell; }
+  display: table-cell;
+  text-align: left; }
 
 .css_td span {
   margin-right: 1em; }
