@@ -351,6 +351,10 @@
   transform: translateY(-50%); }
 
 @media only screen and (max-width: 480px) {
+  #Str2048id {
+    margin: 0px; }
+  .Str2048id {
+    margin: 0px; }
   #timer-div {
     float: none;
     width: 98%; }
