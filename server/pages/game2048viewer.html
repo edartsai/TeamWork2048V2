@@ -35,24 +35,6 @@
         selectedRoom = index;
     }
 
-
-    function clearViewRoom() {
-        $("#p1-name-p").text("");
-        $("#p2-name-p").text("");
-
-        var mapObj ={
-            Size : 4,
-            Items: [],
-            IdMax: 0,
-            Score: 0,
-            IsGameOver: false
-        };
-
-        MappingArrayData_viewmode("1", mapObj);
-        MappingArrayData_viewmode("2", mapObj);
-
-    }
-    
     function initViewer() {
         socket.emit('init_viewer');
 
