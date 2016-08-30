@@ -1,7 +1,7 @@
 ﻿[
   {
-    "name":"Game2048",
-    "parent":"null",
+    "name": "Game2048",
+    "parent": "null",
     "children": [
       {
         "name": "協作平台",
@@ -131,6 +131,11 @@
                 "name": "css",
                 "parent": "UI / 動畫 設計",
                 "leafid": 9
+              },
+              {
+                "name": "RWD",
+                "parent": "UI / 動畫 設計",
+                "leafid": 14
               }
             ]
           },
@@ -154,7 +159,18 @@
             "name": "觀戰模式",
             "parent": "對戰模式",
             "leafid": 12,
-            "children": [ ]
+            "children": [
+              {
+                "name": "jquery",
+                "parent": "觀戰模式",
+                "leafid": 15
+              },
+              {
+                "name": "css",
+                "parent": "觀戰模式",
+                "leafid": 16
+              }
+            ]
           },
           {
             "name": "對戰房間機制",
