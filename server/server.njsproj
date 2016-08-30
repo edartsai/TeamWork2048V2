@@ -115,7 +115,6 @@
     <Content Include="images\L3Design-2.jpg" />
     <Content Include="images\problems08-01.jpg" />
     <Content Include="images\problems08-02.jpg" />
-    <Content Include="images\QRCodeBattle.jpg" />
     <Content Include="intro\functionstree.json" />
     <Content Include="pages\console.html" />
     <Content Include="pages\game2048.html" />
