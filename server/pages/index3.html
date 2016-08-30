@@ -13,7 +13,7 @@
 <body>
 
 
-	<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-1">
@@ -32,18 +32,19 @@
 					<li class="active"><a href="#homepage">HOME <span class="sr-only">(current)</span></a></li>
 					<li><a href="#aboutus">ABOUT US</a></li>
 					<li><a href="#features">FEATURES</a></li>
-					<li><a href="#technics">TECHNICS</a></li>
-					<li><a href="#problems">Q&amp;A</a></li>
+					<!--<li><a href="#technics">TECHNICS</a></li>-->
+				    <li><a href="#problems">Q&amp;A</a></li>
+                    <li><a href="#try">THAT'S TRY!</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<!--<li><a href="game2048single.html" target="_blank">DEMO</a></li>-->
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">DEMO <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="game2048single" target="_blank">單人模式</a></li>
+							<li><a href="http://114.34.8.41:9001/game2048single" target="_blank">單人模式</a></li>
 							<li class="divider"></li>
-							<li><a href="game2048battle" target="_blank">對戰模式</a></li>
-							<li><a href="game2048viewer" target="_blank">觀戰</a></li>
+							<li><a href="http://114.34.8.41:9001/game2048battle" target="_blank">對戰模式</a></li>
+							<li><a href="http://114.34.8.41:9001/game2048viewer" target="_blank">觀戰</a></li>
 						</ul>
 					</li>
 
@@ -58,9 +59,7 @@
 			<div class="row main-menu-firstrow">
 				<div class="col-lg-12">
 					<div id="banner">
-						<a href="game2048single" target="_blank">
-							<img src="images/game-2048-3.png" alt="" class="img-responsive" />
-						</a>
+					    <img src="images/game-2048-3.png" alt="" class="img-responsive" />
 					</div>
 				</div>
 			</div>
@@ -323,7 +322,7 @@
 
 			
 		</div>
-		<div id="technics" class="main-menu">
+		<!--<div id="technics" class="main-menu">
 
 			<div class="row main-menu-firstrow">
 				<div class="col-lg-12">
@@ -403,7 +402,7 @@
 				</div>
 
 			</div>
-		</div>
+		</div>-->
 		<div id="problems" class="main-menu" style="font-size: larger;">
 			<div class="row main-menu-firstrow">
 				<div class="col-lg-12">
@@ -454,8 +453,39 @@
 				</div>
 			</div>
 		</div>
+	<div id="try" class="main-menu">
+	    <div class="row main-menu-firstrow">
+	        <div class="col-lg-12">
+	            <div class="page-header">
+	                <h2>一起試試看吧!!</h2>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="row">
+	        <div class="col-lg-4">
+                <div>
+                    單人模式
+                </div>
+	            <img src="images/qr-game2048single.png" class="img-responsive"/>
+	        </div>
+	        <div class="col-lg-4">
+                <div>
+                    對戰模式
+                </div>
+	            <img src="images/qr-game2048battle.png" class="img-responsive"/>
+	        </div>
+	        <div class="col-lg-4">
 
-		<div class="modal fade" id="problem-01">
+                <div>
+                    觀戰
+                </div>
+	            <img src="images/qr-game2048viewer.png" class="img-responsive"/>
+	        </div>
+	    </div>
+	</div>
+
+
+	<div class="modal fade" id="problem-01">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -969,10 +999,7 @@
 			<p class="text-muted">
 
 				<b>EDITORS</b>
-					<a href="mailto:edar@mitake.com.tw?Subject=aboutGame2048" target="_top">Edar #1021</a>
-					、
-					<a href="mailto:jim.liu@mitake.com.tw?Subject=aboutGame2048" target="_top">Jim #1025</a>
-				
+					<a href="mailto:edar@mitake.com.tw?Subject=aboutGame2048" target="_top">Edar #1021</a>、<a href="mailto:jim.liu@mitake.com.tw?Subject=aboutGame2048" target="_top">Jim #1025</a>
 				<br/>
 				<b>GITHUB</b> &nbsp;&nbsp;<a href="https://github.com/edartsai/TeamWork2048V2/" target="_blank">https://github.com/edartsai/TeamWork2048V2/</a>
 				<br/>
@@ -1002,7 +1029,6 @@
 		navFromTag();
 
 		getTreeData();
-		
 	});
 
 	function showMainDiv(id) {
@@ -1022,6 +1048,7 @@
 		$("#features").hide();
 		$("#technics").hide();
 		$("#problems").hide();
+		$("#try").hide();
 	}
 
 	function navFromTag() {
@@ -1053,6 +1080,7 @@
 
 		
 	}
+
 </script>
 </body>
 </html>
