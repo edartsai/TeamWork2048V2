@@ -449,8 +449,22 @@
 						</li>
 					</ul>
 				</div>
-				<div id="problem-stage3" class="tab-pane fade">
-				</div>
+			    <div id="problem-stage3" class="tab-pane fade">
+                    <ul>
+                        <li>
+                            <a href="javascript: return false;" data-toggle="modal" data-target="#problem-09">Leaving Page @ Socket.io</a>
+                        </li>
+                        <li>
+                            <a href="javascript: return false;" data-toggle="modal" data-target="#problem-10">Vue.js</a>
+                        </li>
+                        <li>
+                            <a href="javascript: return false;" data-toggle="modal" data-target="#problem-11">Avoid CSS/js being Cached</a>
+                        </li>
+                        <li>
+                            <a href="javascript: return false;" data-toggle="modal" data-target="#problem-12">動畫效果的辛苦歷程</a>
+                        </li>
+                    </ul>
+			    </div>
 			</div>
 		</div>
 	<div id="try" class="main-menu">
@@ -568,7 +582,7 @@
 							</tr>
 						</table>
 					</div>
-					<div class="modal-footer"></div>
+					<!--<div class="modal-footer"></div>-->
 				</div>
 			</div>
 		</div>
@@ -650,7 +664,7 @@
 							</p>
 						</div>
 					</div>
-					<div class="modal-footer"></div>
+					<!--<div class="modal-footer"></div>-->
 				</div>
 			</div>
 		</div>
@@ -700,7 +714,7 @@
 							<img src="images/center.jpg" alt="" />
 						</div>
 					</div>
-					<div class="modal-footer"></div>
+					<!--<div class="modal-footer"></div>-->
 				</div>
 			</div>
 		</div>
@@ -721,7 +735,7 @@
 						</p>
 
 					</div>
-					<div class="modal-footer"></div>
+					<!--<div class="modal-footer"></div>-->
 				</div>
 			</div>
 		</div>
@@ -734,19 +748,22 @@
 						<h4 class="modal-title">Mobile Swipe Solution</h4>
 					</div>
 					<div class="modal-body">
-						<p>
-							<b>1. 判斷是否使用 Mobile </b>
-						</p>
-						<pre class="prettyprint linenums">
+					    <p>
+					        <b>1. 判斷是否使用 Mobile </b>
+					    </p>
+                        <script src="https://gist.github.com/jimliu7434/b84f5c73b6d01695b95b89b125710246.js?file=isMobile.js"></script>
+						<!--<pre class="prettyprint linenums">
     //是否使用行動裝置
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
       //do something
     }
-</pre>
-						<p>
-							<b>2. Mobile 瀏覽器時載入 jquery-mobile</b>
-						</p>
-						<pre class="prettyprint linenums">
+</pre>-->
+					    <p>
+					        <b>2. Mobile 瀏覽器時載入 jquery-mobile</b>
+					    </p>
+
+                        <script src="https://gist.github.com/jimliu7434/7c55ed45a169caa0465f57644c8cb0ac.js?file=LazyImportJqueryMobile.js"></script>
+					    <!--<pre class="prettyprint linenums">
     //載入 jquery mobile
     $.getScript('https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js', function () {
         //載入 swipeup , swipedown 手勢
@@ -769,9 +786,9 @@
                 });
             });
         });
-</pre>
+</pre>-->
 					</div>
-					<div class="modal-footer"></div>
+					<!--<div class="modal-footer"></div>-->
 				</div>
 			</div>
 		</div>
@@ -784,18 +801,21 @@
 						<h4 class="modal-title">中文輸入法 v.s. KeyPress</h4>
 					</div>
 					<div class="modal-body">
-						<p>
-							撰寫
-							<b style="font-size: inherit;">輸入 Id 逐字 Validation</b> 時，<br />
-							發生 <b style="font-size: inherit;">中文輸入時，無法觸發 jQuery KEYPRESS Event</b> 問題<br />
-							<img src="images/inputEvent01.png" alt="" />
-						</p>
-						<pre class="prettyprint linenums">
+					    <p>
+					        撰寫
+					        <b style="font-size: inherit;">輸入 Id 逐字 Validation</b> 時，<br/>
+					        發生 <b style="font-size: inherit;">中文輸入時，無法觸發 jQuery KEYPRESS Event</b> 問題<br/>
+					        <img src="images/inputEvent01.png" alt=""/>
+					    </p>
+
+                        <script src="https://gist.github.com/jimliu7434/050d2737897ae8b74432d91355f565ca.js?file=keypressNoEventTrigger.js"></script>
+
+					    <!--<pre class="prettyprint linenums">
     $("#txtTest").bind("keypress", function (e) {
         //使用中文輸入法時，不會觸發此事件!!!!
     });
-</pre>
-						<br />
+</pre
+					    <br />
 						<p>
 							<span>ANS1 :</span>
 						</p>
@@ -822,9 +842,9 @@
         //可取得目前的文字內容
     });
 </pre>
-						</p>
+						</p>-->
 					</div>
-					<div class="modal-footer"></div>
+					<!--<div class="modal-footer"></div>-->
 				</div>
 			</div>
 		</div>
@@ -837,58 +857,60 @@
 						<h4 class="modal-title">Avoid CSS/js being Cached</h4>
 					</div>
 					<div class="modal-body">
-						<p>
-							<span> *.js / *.css 等靜態網頁檔案常會被 Browser Cache</span><br />
-							<span>若希望自行控制 *.js / *.css 的 Cache 狀態，</span><br />
-							<span>可以在每次改版時，*.css / *.js 路徑自行串入「日期」或「版號」</span><br />
-							<span>對 Browser 而言，因路徑已有差異，會重新進行 Cache</span><br />
-						</p>
-						<pre class="prettyprint linenums">
+					    <p>
+					        <span> *.js / *.css 等靜態網頁檔案常會被 Browser Cache</span><br/>
+					        <span>若希望自行控制 *.js / *.css 的 Cache 狀態，</span><br/>
+					        <span>可以在每次改版時，*.css / *.js 路徑自行串入「日期」或「版號」</span><br/>
+					        <span>對 Browser 而言，因路徑已有差異，會重新進行 Cache</span><br/>
+					    </p>
+                        <script src="https://gist.github.com/jimliu7434/42f9dcb32873884a6a69e2eafd53b94e.js?file=linkimport.html"></script>
+						<!--<pre class="prettyprint linenums">
     &lt;link href="css/subtabs.css<span class="nocode" style="color: red !important;">?201608101030</span>" rel="stylesheet" type="text/css"/&gt;
     &lt;link href="css/default.css<span class="nocode" style="color: red !important;">?201608101030</span>" rel="stylesheet" type="text/css"/&gt;
     &lt;script src="js/main.js<span class="nocode" style="color: red !important;">?201608101030</span>"&gt;&lt;/script&gt;
-</pre>
+</pre>-->
 					</div>
-					<div class="modal-footer"></div>
+					<!--<div class="modal-footer"></div>-->
 				</div>
 			</div>
 		</div>
 
-		<div class="modal fade" id="problem-08">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">動畫效果的辛苦歷程</h4>
-					</div>
-					<div class="modal-body">
-						<ul class="nav nav-tabs">
-							<li class="active"><a href="#problem08-stage1" data-toggle="tab" aria-expanded="true">第一階段</a></li>
-							<li class=""><a href="#problem08-stage2" data-toggle="tab" aria-expanded="false">第二階段</a></li>
-							<li class=""><a href="#problem08-stage3" data-toggle="tab" aria-expanded="false">第三階段</a></li>
-							<li class=""><a href="#problem08-stage4" data-toggle="tab" aria-expanded="false">程式語法問題</a></li>
-							<li class=""><a href="#problem08-stage5" data-toggle="tab" aria-expanded="false">產生動畫方式</a></li>
-						</ul>
-						<div id="problem08-subtab-content" class="tab-content">
-							<div id="problem08-stage1" class="tab-pane fade active in">
-								<p>
-									<b>初步練習css animation的寫法</b>
-								</p>
-								<iframe width="100%" height="500" src="//fiddle.jshell.net/quou5n69/1/embedded/html,css,result" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
-							</div>
-							<div id="problem08-stage2" class="tab-pane fade">
-								<p>
-									<b>因為css animation無法動態產生，改用javascript產生動畫</b>
-								</p>
-								<iframe width="100%" height="500" src="//fiddle.jshell.net/quou5n69/7/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
-							</div>
-							<div id="problem08-stage3" class="tab-pane fade">
-								<p>
-									<b>發現只用 javascript還是無法達到我要的動態產生動畫效果，股溝大神說jquery可以做得到</b><br />
-									<a href="https://github.com/Keyframes/jQuery.Keyframes" target="_blank" style="color: blue">jQuery.Keyframes</a>
-								</p>
-								<p>Adding multiple frame styles</p>
-								<pre class="prettyprint linenums">
+	<div class="modal fade" id="problem-08">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title">動畫效果的辛苦歷程</h4>
+	            </div>
+	            <div class="modal-body">
+	                <ul class="nav nav-tabs">
+	                    <li class="active"><a href="#problem08-stage1" data-toggle="tab" aria-expanded="true">第一階段</a></li>
+	                    <li class=""><a href="#problem08-stage2" data-toggle="tab" aria-expanded="false">第二階段</a></li>
+	                    <li class=""><a href="#problem08-stage3" data-toggle="tab" aria-expanded="false">第三階段</a></li>
+	                    <li class=""><a href="#problem08-stage4" data-toggle="tab" aria-expanded="false">程式語法問題</a></li>
+	                    <li class=""><a href="#problem08-stage5" data-toggle="tab" aria-expanded="false">產生動畫方式</a></li>
+	                </ul>
+	                <div id="problem08-subtab-content" class="tab-content">
+	                    <div id="problem08-stage1" class="tab-pane fade active in">
+	                        <p>
+	                            <b>初步練習css animation的寫法</b>
+	                        </p>
+	                        <iframe width="100%" height="500" src="//fiddle.jshell.net/quou5n69/1/embedded/html,css,result" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+	                    </div>
+	                    <div id="problem08-stage2" class="tab-pane fade">
+	                        <p>
+	                            <b>因為css animation無法動態產生，改用javascript產生動畫</b>
+	                        </p>
+	                        <iframe width="100%" height="500" src="//fiddle.jshell.net/quou5n69/7/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+	                    </div>
+	                    <div id="problem08-stage3" class="tab-pane fade">
+	                        <p>
+	                            <b>發現只用 javascript還是無法達到我要的動態產生動畫效果，股溝大神說jquery可以做得到</b><br/>
+	                            <a href="https://github.com/Keyframes/jQuery.Keyframes" target="_blank" style="color: blue">jQuery.Keyframes</a>
+	                        </p>
+	                        <p>Adding multiple frame styles</p>
+	                        <script src="https://gist.github.com/jimliu7434/fb0d0244d93c104c666eb2c0e7fe1ceb.js?file=keyFrameDefine.js"></script>
+	                        <!--<pre class="prettyprint linenums">
     $.keyframe.define([
     {
         name: 'roll-clockwise',
@@ -899,9 +921,10 @@
         '0%': {'margin-left' : '0px','background-color' : 'red','transform' : 'rotate(0deg)'},
         '100%': {'margin-left' : '600px','transform' : 'rotate(-360deg)'}
     }]);
-                </pre>
-								<p>Playing an animation</p>
-								<pre class="prettyprint linenums">
+                </pre>-->
+	                        <p>Playing an animation</p>
+	                        <script src="https://gist.github.com/jimliu7434/247b5bdb41aef5c57c1115e2742fdf16.js?file=playKeyframe.js"></script>
+	                        <!--<pre class="prettyprint linenums">
     $(selector).playKeyframe({
         name: 'trapdoor-sequence',	//name of the keyframe you want to bind to the selected element
         duration: '1s',				//[optional, default: 0, in ms] how long you want it to last in milliseconds
@@ -912,13 +935,15 @@
         fillMode: 'forwards',		//[optional, default: 'forward']  how to apply the styles outside the animation time
         complete: function(){}		//[optional] Function fired after the animation is complete. 
     });
-                </pre>
-							</div>
-							<div id="problem08-stage4" class="tab-pane fade">
-								<p>
-									<b>jquery語法不熟</b>
-								</p>
-								<pre class="prettyprint linenums">
+                </pre>-->
+	                    </div>
+	                    <div id="problem08-stage4" class="tab-pane fade">
+	                        <p>
+	                            <b>jquery語法不熟</b>
+	                        </p>
+	                        <script src="https://gist.github.com/jimliu7434/fb0d0244d93c104c666eb2c0e7fe1ceb.js?file=keyFrameDefine.js"></script>
+
+	                        <!--<pre class="prettyprint linenums">
     $.keyframe.define([
     {
         name: 'roll-clockwise',
@@ -929,8 +954,10 @@
         '0%': {'margin-left' : '0px','background-color' : 'red','transform' : 'rotate(0deg)'},
         '100%': {'margin-left' : '600px','transform' : 'rotate(-360deg)'}
     }]);
-                </pre>
-								<pre class="prettyprint linenums">
+                </pre>-->
+
+	                        <script src="https://gist.github.com/jimliu7434/426188b62f13d28517ab459254569286.js?file=moveArray.js"></script>
+	                        <!--<pre class="prettyprint linenums">
     var moveArray = new Array();
     moveArray.push({
         'name': "move" + mapObj.Items[i].Id,
@@ -938,21 +965,22 @@
         '100%': {'margin-left' : '600px','transform' : 'rotate(-360deg)'}
     });
     $.keyframe.define(moveArray);
-                </pre>
-								<p>
-									<b>animation參數無作用</b>
-								</p>
-								<p>
-									animation-fill-mode 動畫播放前後的狀態<br />
-									none ：回到未播放動畫效果前的狀態<br />
-									forwards ：停在動畫的最後一個狀態上<br />
-									<u>backwards ：停在動畫的第一個狀態上</u> <br />
-									both ：視 animation-direction 來決定停在哪一個狀態上。<br />
-								</p>
-								<p>
-									<b>jQuery.Keyframes中的complete有時會無效</b>
-								</p>
-								<pre class="prettyprint linenums">
+                </pre>-->
+	                        <p>
+	                            <b>animation參數無作用</b>
+	                        </p>
+	                        <p>
+	                            animation-fill-mode 動畫播放前後的狀態<br/>
+	                            none ：回到未播放動畫效果前的狀態<br/>
+	                            forwards ：停在動畫的最後一個狀態上<br/>
+	                            <u>backwards ：停在動畫的第一個狀態上</u> <br/>
+	                            both ：視 animation-direction 來決定停在哪一個狀態上。<br/>
+	                        </p>
+	                        <p>
+	                            <b>jQuery.Keyframes中的complete有時會無效</b>
+	                        </p>
+	                        <script src="https://gist.github.com/jimliu7434/247b5bdb41aef5c57c1115e2742fdf16.js?file=playKeyframe.js"></script>
+	                        <!--<pre class="prettyprint linenums">
     $(selector).playKeyframe({
         name: 'trapdoor-sequence',	//name of the keyframe you want to bind to the selected element
         duration: '1s',				//[optional, default: 0, in ms] how long you want it to last in milliseconds
@@ -963,32 +991,121 @@
         fillMode: 'forwards',		//[optional, default: 'forward']  how to apply the styles outside the animation time
         complete: function(){}		//[optional] Function fired after the animation is complete. 
     });
-						    </pre>
-							</div>
-							<div id="problem08-stage5" class="tab-pane fade">
-								<p>
-									<b>動態產生div，做完動畫後移除。</b>
-								</p>
-								<p>放棄原因：因為complete不明原因沒有觸發，所以放棄。</p>
-								<p>
-									<b>同時產生2個陣列div，上下疊在一起。樓上的顯示目前狀態，樓下的是做動畫用，需要動畫時，將z-index設大一點，然後做動畫，動畫結束後回到原來位置。</b>
-								</p>
-								<p>放棄原因：css排版問題搞不定!</p>
-								<p>
-									<b>只做一層div物件組成陣列，物件移動後再回到原位置</b>
-								</p>
-								<p>最終做法</p>
-								<div style="width: auto; float: left">
-									<img src="images/problems08-01.jpg" alt="" />
-									<img src="images/problems08-02.jpg" alt="" />
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer"></div>
-				</div>
-			</div>
-		</div>
+						    </pre>-->
+	                    </div>
+	                    <div id="problem08-stage5" class="tab-pane fade">
+	                        <p>
+	                            <b>動態產生div，做完動畫後移除。</b>
+	                        </p>
+	                        <p>放棄原因：因為complete不明原因沒有觸發，所以放棄。</p>
+	                        <p>
+	                            <b>同時產生2個陣列div，上下疊在一起。樓上的顯示目前狀態，樓下的是做動畫用，需要動畫時，將z-index設大一點，然後做動畫，動畫結束後回到原來位置。</b>
+	                        </p>
+	                        <p>放棄原因：css排版問題搞不定!</p>
+	                        <p>
+	                            <b>只做一層div物件組成陣列，物件移動後再回到原位置</b>
+	                        </p>
+	                        <p>最終做法</p>
+	                        <div style="width: auto; float: left">
+	                            <img src="images/problems08-01.jpg" alt=""/>
+	                            <img src="images/problems08-02.jpg" alt=""/>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <!--<div class="modal-footer"></div>-->
+	        </div>
+	    </div>
+	</div>
+
+        <div class="modal fade" id="problem-09">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Leaving Page @ Socket.io</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">Click [X]</h5>
+                            </div>
+                            <div class="panel-body">
+                                註冊 $(window).unload，若user直接關閉瀏覽器時不會發送事件
+                            </div>
+                        </div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">Socket.io Heartbeat</h5>
+                            </div>
+                            <div class="panel-body">
+                                Socket.io 內建 heartbeat，直接監聽 'disconnect' 事件即可偵測所有 Client 離開頁面
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">Socket.io Setting</h5>
+                            </div>
+                            <div class="panel-body">
+                                可以自行設定
+                                <ul>
+                                    <li>heartbeat interval</li>
+                                    <li>heartbeat timeout</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="modal-footer"></div>-->
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="problem-10">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Vue.js</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">Version</h5>
+                            </div>
+                            <div class="panel-body">
+                                <ul>
+                                    <li>Stable version: <b>v1.0.26</b></li>
+                                    <li>Alpha version: <b>v2.0</b></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">Key words</h5>
+                            </div>
+                            <div class="panel-body">
+                                <ul>
+                                    <li>View Layer Only</li>
+                                    <li>Data Binding</li>
+                                    <li>Components</li>
+                                    <li>Virtual DOM(v2.0)</li>
+                                    <li>JSX Support(v2.0)</li>
+                                    <li>Server-Side-Render(v2.0)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">10sec Example</h5>
+                            </div>
+                            <div class="panel-body">
+                                <iframe width="100%" height="300" src="//jsfiddle.net/jimliu7434/4oanmmav/embedded/js,html,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+                            </div>
+                        </div>
+                        <!--<div class="modal-footer"></div>-->
+                    </div>
+            </div>
+        </div>
 	</div>
 
 
@@ -1013,7 +1130,7 @@
 
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=Sons-Of-Obsidian"></script>
+<!--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=Sons-Of-Obsidian"></script>-->
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script src="js/treediagram.js"></script>
 
