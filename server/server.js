@@ -11,8 +11,8 @@ var sql = require(__dirname + '/js/sql.js');
 var clog = require(__dirname + '/js/log.js');
 
 
-server.listen(8787, function() {
-    clog.consoleLog(1, 'listen', 'ready on port 8787');
+server.listen(9001, function() {
+    clog.consoleLog(1, 'listen', 'ready on port 9001');
 });
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -307,51 +307,51 @@ io.sockets.on('connection', function (socket) {
     // 每秒檢查所有 rooms 的遊戲狀態，並發出倒數事件
     setInterval(function () {
         rooms.forEach(function (room) {
-            if (room.gamestatus.p1ready && room.gamestatus.p2ready) {
-                var nDate = new Date();
-                var interval1, interval2;
+            if (room.player1 !== undefined && room.player2 !== undefined &&
+                room.gamestatus.p1ready && room.gamestatus.p2ready) {
+			        var nDate = new Date();
+			        var interval1, interval2;
 
-                if (!room.gamestatus.starting) {  //遊戲未開始
-                    room.gamestatus.starttime = nDate;
-                    room.gamestatus.countdown1 = new Date(room.gamestatus.starttime.getTime() + countdown1Interval * 1000);
-                    room.gamestatus.countdown2 = new Date(room.gamestatus.starttime.getTime() + (countdown1Interval + countdown2Interval) * 1000);
-                    room.gamestatus.starting = true;
+			        if (!room.gamestatus.starting) { //遊戲未開始
+				        room.gamestatus.starttime = nDate;
+				        room.gamestatus.countdown1 = new Date(room.gamestatus.starttime.getTime() + countdown1Interval * 1000);
+				        room.gamestatus.countdown2 = new Date(room.gamestatus.starttime.getTime() + (countdown1Interval + countdown2Interval) * 1000);
+				        room.gamestatus.starting = true;
 
-                    interval1 = room.gamestatus.countdown1.getTime() - nDate.getTime();
-                    sendPlayersEvent(room, 'send_countdown1', { secs: Math.ceil(interval1 / 1000), time: new Date() });
-                    clog.consoleLog(1, 'send_countdown1', 'room:' + room.id + ' game started');
-                }
-                else { //遊戲已開始
-                    interval1 = room.gamestatus.countdown1.getTime() - nDate.getTime(); //in msecond
-                    interval2 = room.gamestatus.countdown2.getTime() - nDate.getTime(); //in msecond
+				        interval1 = room.gamestatus.countdown1.getTime() - nDate.getTime();
+				        sendPlayersEvent(room, 'send_countdown1', { secs: Math.ceil(interval1 / 1000), time: new Date() });
+				        clog.consoleLog(1, 'send_countdown1', 'room:' + room.id + ' game is starting');
+			        } else { //遊戲已開始
+				        interval1 = room.gamestatus.countdown1.getTime() - nDate.getTime(); //in msecond
+				        interval2 = room.gamestatus.countdown2.getTime() - nDate.getTime(); //in msecond
 
-                    if (interval1 >= 0) { //倒數準備開始
-                        sendPlayersEvent(room, 'send_countdown1', { secs: Math.ceil(interval1 / 1000), time: new Date() });
-                        if (interval1 >= 0 && interval1 < 1000 ) { // game start!! 
-                            sendPlayersEvent(room, 'send_countdown1_over', { time: new Date() });
-                        }
-                    }
-                    else if (interval1 < 0 && interval2 >= 0) { //遊戲中
-                        sendPlayersEvent(room, 'send_countdown2', { secs: Math.ceil(interval2 / 1000), time: new Date() });
-                    } else { //countdown2 <= 0  // 遊戲時間到
-                        room.gamestatus.p1ready = false;
-                        room.gamestatus.p2ready = false;
-                        room.gamestatus.starting = false;
-                        sendPlayersEvent(room, 'send_countdown2', {secs:0, time: new Date()});
-                        sendPlayersEvent(room, 'send_countdown2_over', { time: new Date()});
-                        clog.consoleLog(1 ,'send_countdown2_over', 'room:' + room.id );
+				        if (interval1 >= 0) { //倒數準備開始
+					        sendPlayersEvent(room, 'send_countdown1', { secs: Math.ceil(interval1 / 1000), time: new Date() });
+					        if (interval1 >= 0 && interval1 < 500) { // game start!! 
+						        sendPlayersEvent(room, 'send_countdown1_over', { time: new Date() });
+						        clog.consoleLog(1, 'send_countdown1_over', 'room:' + room.id + ' game started!');
+					        }
+				        } else if (interval1 < 0 && interval2 >= 0) { //遊戲中
+					        sendPlayersEvent(room, 'send_countdown2', { secs: Math.ceil(interval2 / 1000), time: new Date() });
+				        } else { //countdown2 <= 0  // 遊戲時間到
+					        room.gamestatus.p1ready = false;
+					        room.gamestatus.p2ready = false;
+					        room.gamestatus.starting = false;
+					        sendPlayersEvent(room, 'send_countdown2', { secs: 0, time: new Date() });
+					        sendPlayersEvent(room, 'send_countdown2_over', { time: new Date() });
+					        clog.consoleLog(1, 'send_countdown2_over', 'room:' + room.id);
 
-                        var winnerData = getWinner(room);
-                        sendPlayersEvent(room, 'send_winner', winnerData);
-                        if (winnerData === undefined || winnerData === null)
-                            clog.consoleLog(1, 'send_winner', 'room:' + room.id + ' winner: error');
-                        else
-                            clog.consoleLog(1, 'send_winner', 'room:' + room.id + ' winner:' + winnerData.winner + ' score:' + winnerData.map[0].Score);
-                    }
-                }
-            }
+					        var winnerData = getWinner(room);
+					        sendPlayersEvent(room, 'send_winner', winnerData);
+					        if (winnerData === undefined || winnerData === null)
+						        clog.consoleLog(1, 'send_winner', 'room:' + room.id + ' winner: error');
+					        else
+						        clog.consoleLog(1, 'send_winner', 'room:' + room.id + ' winner:' + winnerData.winner + ' score:' + winnerData.map[0].Score);
+				        }
+			        }
+		        }
         });
-    }, 1000);
+    }, 500);
 
 
     // add console user

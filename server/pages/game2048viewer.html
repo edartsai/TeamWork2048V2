@@ -2,405 +2,414 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <script src="socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<title>Game2048 v3</title>
+	<link rel="shortcut icon" href="images/favicon.ico" />
 
-    <script src="js_lib/jquery.keyframes.min.js"></script>
-    <script src="js/enum.js"></script>
-    <script src="js/view.js"></script>
-    <script src="js/utility.js"></script>
-    <script src="js/iscando.js"></script>
-    <script src="js/merge.js"></script>
-    <script src="js/move.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/fireworks.js"></script>
-    <link rel="stylesheet" href="css/game2048battlestyle.min.css">
+
+	<link rel="stylesheet" href="css/game2048battlestyle.min.css">
 </head>
 <body>
+	<div class="main-contain">
 
-    <script>
-        var socket = io();
-        //var socket = io.connect('http://10.99.0.104', { path: '/2048/socket.io' });
-    var boxMoveTime = "100ms";
-    var selectedRoom = undefined;
+		<!--<input id="startbtn" type="button" value="Start" />
+		<input id="stopbtn" type="button" value="Stop" />-->
 
-    $(document).ready(function () {
-        //var size = 4;
-        //createMitrixDiv(size);          //畫上 Grid
-        initViewer();
+		<h1 id="titlestr"></h1>
+		<div id="timerviewer-div">
+			<p id="gametimespanviewer">00:00</p>
+		</div>
 
-    });
+		<div id="sectionlosemsg" style="visibility:visible;z-index:100">
+			<h1 class="rainbow-text"></h1>
+		</div>
 
-    function gotoRoom(index) {
-        socket.emit('viewer_changeroom', { roomid: index });
-        selectedRoom = index;
-    }
+		<div id="play1viewerdivcss">
+			<div id="player1viewer-score">
+				<p class="score-title">SCORE</p>
+				<p class="score-content" id="score1view">0</p>
+			</div>
+			<div id="player1viewer-name">
+				<p id="p1-name-p">NAME</p>
+			</div>
+			<div style="clear:both;"></div>
+			<div id="play1-box-body">
+				<div class='box-row'>
+					<div class="play1viewer-box-column-border"></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+				</div>
+				<div class='box-row'>
+					<div class="play1viewer-box-column-border"></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+				</div>
+				<div class='box-row'>
+					<div class="play1viewer-box-column-border"></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+				</div>
+				<div class='box-row'>
+					<div class="play1viewer-box-column-border"></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+					<div class="box1viewer"><p class='box1view-number'></p></div>
+					<div class="play1viewer-box-row-border"></div>
+				</div>
+				<div class="play1viewer-box-column-border"></div>
+			</div>
 
-    function initViewer() {
-        socket.emit('init_viewer');
+		</div>
+		<p style="float:left;margin-left:20px;margin-right:20px;margin-top:120px;font-size:xx-large;font-weight:bold">VS</p>
+		<div id="play2viewerdivcss">
+			<div id="player2-score">
+				<p class="score-title">SCORE</p>
+				<p class="score-content" id="score2view">0</p>
+			</div>
+			<div id="player2viewer-name">
+				<p id="p2-name-p">NAME</p>
+			</div>
+			<div style="clear:both;"></div>
 
-        // server 回傳 rooms
-        socket.on('send_rooms', function (result) {
-            updateDDL(result.rooms);
-        });
+			<div id="play2-box-body">
+				<div class='box-row'>
+					<div class="play2viewer-box-column-border"></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+				</div>
+				<div class='box-row'>
+					<div class="play2viewer-box-column-border"></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+				</div>
+				<div class='box-row'>
+					<div class="play2viewer-box-column-border"></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+				</div>
+				<div class='box-row'>
+					<div class="play2viewer-box-column-border"></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+					<div class='box2viewer'><p class='box2view-number'></p></div>
+					<div class="play2viewer-box-row-border"></div>
+				</div>
+				<div class="play2viewer-box-column-border"></div>
+			</div>
 
-        $('#select-rooms').change(function () {
-            var id = getSelectedRoomId();
-            //clearViewRoom();
-            socket.emit('viewer_changeroom', { roomid:  id});
-            $(this).blur();
-            selectedRoom = id;
-        });
-
-        socket.on('viewer_changeroom_suc', function (data) {
-            if (data.roomid !== "-1") {
-                var value = parseInt(data.roomid, 10) + 1;
-                $('#titlestr').text("2048第" + value + "房觀戰");
-            }
-            else {
-                $('#titlestr').text("2048觀戰");
-            }
-
-            $("#p1-name-p").text(data.p1name);
-            $("#p2-name-p").text(data.p2name);
-
-            if(data.p1map !== undefined)
-                MappingArrayData_viewmode(1, data.p1map);
-            if (data.p2map !== undefined)
-                MappingArrayData_viewmode(2, data.p2map);
-        });
-
-        // server 回傳 player進入房間
-        socket.on('init_room_opposite', function (data) {
-            setMsg(data.time,'player' + data.player + ' is in room');
-            StopVictoryGo();
-            document.getElementById("sectionlosemsg").style.visibility = "collapse";
-            $('#titlestr').css("color", "black");
-        });
-
-        // server 回傳 player 已ready
-        socket.on('send_ready_opposite', function (data) {
-            StopVictoryGo();
-            document.getElementById("sectionlosemsg").style.visibility = "collapse";
-            $('#titlestr').css("color", "black");
-            setMsg(data.time, 'player' + data.player + ' is ready');
-            if (data.map !== undefined) {
-                MappingArrayData_viewmode(data.player, data.map);
-            }
-        });
-
-        // server 回傳 第一階段倒數
-        socket.on('send_countdown1', function (data) {
-            var secs = data.secs;
-            $('#gametimespanviewer').text(ConvertSeconds2String(secs));
-        });
-
-        // server 回傳 第一階段倒數結束 (遊戲開始可操作)
-        socket.on('send_countdown1_over', function (data) {
-        });
-
-        // server 回傳 第二階段倒數
-        socket.on('send_countdown2', function (data) {
-            var secs = data.secs;
-            if (secs === undefined)
-                return;
-            var ss = ConvertSeconds2String(secs);
-            $('#gametimespanviewer').text(ss);
-        });
-
-        // server 回傳 第二階段倒數
-        socket.on('send_countdown2_over', function (data) {
-            setMsg(data.time, 'Game Over!!');
-
-        });
-
-        // server 回傳 比賽結果(game over)
-        socket.on('send_winner', function (data) {
-            if (data === undefined || data === null)
-                return;
-
-            if (data.winner !== 0) {
-                var obj = Object.create(RainbowObj);
-                obj.init("殘念啦!!");
-                document.getElementById("sectionlosemsg").style.visibility = "visible";
-
-                if (data.winner == "1") {
-                    document.getElementsByClassName("rainbow-text")[0].style.left = "50%";
-                    $('#titlestr').css("color", "#BB4444");
-                    StartVictoryGo(1);
-                    
-                }
-                else if (data.winner === "2") {
-                    document.getElementsByClassName("rainbow-text")[0].style.left = "25%";
-                    
-                    $('#titlestr').css("color", "#50798B");
-                    StartVictoryGo(2);
-                    
-                }
-                else {
-                    StartVictoryGo(0);
-                }
-                setMsg(data.time, 'winner is player' + data.winner + ' score:' + data.map[0].Score);
-            }
-            else
-                setMsg(data.time, 'game is tie ,score:' + data.map[0].Score);
-        });
-
-        socket.on('send_map', function (data) {
-    	    if (data !== undefined && data !== null) {
-    	        MappingArrayData_viewmode(data.player, data.map);
-    	    }
-    	});
-
-        socket.on('disconnect_opposite', function (data) {
-            setMsg(data.time, "player" + data.player + "is left");
-    	});
-
-        socket.on('send_nickname_opposite', function(data) {
-            if (data === undefined || data === null)
-                return;
-
-            if (data.player === 1) {
-                $("#p1-name-p").text(data.nickname);
-            }
-            else if (data.player === 2) {
-                $("#p2-name-p").text(data.nickname);
-            }
-        });
-
-        //$('#startbtn').click(function () {
-        //    var obj = Object.create(RainbowObj);
-        //    obj.init("edar");
-            
-        //    document.getElementById("sectionlosemsg").style.visibility = "visible";
-
-        //    document.getElementsByClassName("rainbow-text")[0].style.left = "50%";
-        //});
-        //$('#stopbtn').click(function () {
-        //    var obj = Object.create(RainbowObj);
-        //    obj.init("edar5555");
-        //    document.getElementsByClassName("rainbow-text")[0].style.left = "25%";
-        //});
-    }
-
-    function setMsg(msgtime, msg) {
-        var trdiv = $(document.createElement("div")).addClass("css_tr");
-        var timdiv = $(document.createElement("div")).addClass("css_td").append("<span>" + timeMsgStr(msgtime) + "</span>");
-        var msgdiv = $(document.createElement("div")).addClass("css_td").append("<span>" + msg + "</span>");
-        trdiv.append(timdiv, msgdiv);
-
-        $('#gamemsgspan').prepend(trdiv);
-    }
-    function timeMsgStr(msgtime) {
-        var date = new Date(msgtime);
-        
-        var yyyy = date.toLocaleDateString().slice(0,4)
-        var MM = (date.getMonth()+1<10 ? '0' : '')+(date.getMonth()+1);
-        var dd = (date.getDate()<10 ? '0' : '')+date.getDate();
-        var h = (date.getHours()<10 ? '0' : '')+date.getHours();
-        var m = (date.getMinutes()<10 ? '0' : '')+date.getMinutes();
-        var s = (date.getSeconds()<10 ? '0' : '')+date.getSeconds(); 
-        //yyyy + "" + MM + "" + dd + "" + 
-        return h + ":" + m + ":" + s;
-    }
-
-    
-    function updateDDL(rooms) {
-        //add room options to #select-rooms
-        $('#select-rooms').empty();
-
-        rooms.forEach(function (room) {
-            var roomid = parseInt(room.id) + 1;
-            $("#select-rooms").append($("<option></option>").attr("value", room.id).text(roomid));
-        });
-        $('#select-rooms')[0].selectedIndex = -1;
-
-        if (selectedRoom !== undefined) {
-            var prevSelected = $("#select-rooms option[value=" + selectedRoom + "]");
-            if (prevSelected != undefined && prevSelected.length > 0) {
-                prevSelected.selected = true;
-            } else {
-                $("#select-rooms option")[0].selected = true;
-            }
-        }
-        else {
-            $("#select-rooms option")[0].selected = true;
-        }
-
-        $('#select-rooms').change();
-    }
-
-    function getSelectedRoomId() {
-        return $("select#select-rooms").val();;
-    }
-
-        
-    </script>
-
-    <div class="main-contain">
-        
-        <!--<input id="startbtn" type="button" value="Start" />
-        <input id="stopbtn" type="button" value="Stop" />-->
-
-        <h1 id="titlestr"></h1>
-        <div id="timerviewer-div">
-            <p id="gametimespanviewer">00:00</p>
-        </div>
-
-        <div id="sectionlosemsg" style="visibility:visible;z-index:100">
-            <h1 class="rainbow-text"></h1>
-        </div>
-
-        <div id="play1viewerdivcss">
-            <div id="player1viewer-scare">
-                <p class="score-title">SCORE</p>
-                <p class="score-content" id="score1view">0</p>
-            </div>
-            <div id="player1viewer-name">
-                <p id="p1-name-p">NAME</p>
-            </div>
-            <div style="clear:both;"></div>
-            <div id="play1-box-body">
-                <div class='box-row'>
-                    <div class="play1viewer-box-column-border"></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                </div>
-                <div class='box-row'>
-                    <div class="play1viewer-box-column-border"></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                </div>
-                <div class='box-row'>
-                    <div class="play1viewer-box-column-border"></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                </div>
-                <div class='box-row'>
-                    <div class="play1viewer-box-column-border"></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                    <div class="box1viewer"><p class='box1view-number'></p></div>
-                    <div class="play1viewer-box-row-border"></div>
-                </div>
-                <div class="play1viewer-box-column-border"></div>
-            </div>
-
-        </div>
-        <p style="float:left;margin-left:20px;margin-right:20px;margin-top:120px;font-size:xx-large;font-weight:bold">VS</p>
-        <div id="play2viewerdivcss">
-            <div id="player2-scare">
-                <p class="score-title">SCORE</p>
-                <p class="score-content" id="score2view">0</p>
-            </div>
-            <div id="player2viewer-name">
-                <p id="p2-name-p">NAME</p>
-            </div>
-            <div style="clear:both;"></div>
-
-            <div id="play2-box-body">
-                <div class='box-row'>
-                    <div class="play2viewer-box-column-border"></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                </div>
-                <div class='box-row'>
-                    <div class="play2viewer-box-column-border"></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                </div>
-                <div class='box-row'>
-                    <div class="play2viewer-box-column-border"></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                </div>
-                <div class='box-row'>
-                    <div class="play2viewer-box-column-border"></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                    <div class='box2viewer'><p class='box2view-number'></p></div>
-                    <div class="play2viewer-box-row-border"></div>
-                </div>
-                <div class="play2viewer-box-column-border"></div>
-            </div>
-
-        </div>
+		</div>
 
 
-        <div style="clear:both;"></div>
+		<div style="clear:both;"></div>
 
-        
 
-        <div style="margin-top:10px;width:100%;height:100px;overflow:auto" id="gamemsgspan">
-            <!--<span id="gamemsgspan" style="width:100%;height:200px"></span>-->
-        </div>
 
-        <select id="select-rooms"></select>
-        <!--<div id="developing-div">
-            <br/>
-            <span> DEVELOPING </span> <br/>
-            <div>
-                <span id="gametimespan"></span>
-            </div>
-            <div>
-                <span id="gamemsgspan"></span>
-            </div>
-        </div>-->
-    </div>
+		<div style="margin-top:10px;width:100%;height:100px;overflow:auto" id="gamemsgspan">
+			<!--<span id="gamemsgspan" style="width:100%;height:200px"></span>-->
+		</div>
 
-    <script src="js/loseanimation.js"></script>
+		<select id="select-rooms"></select>
+		<!--<div id="developing-div">
+			<br/>
+			<span> DEVELOPING </span> <br/>
+			<div>
+				<span id="gametimespan"></span>
+			</div>
+			<div>
+				<span id="gamemsgspan"></span>
+			</div>
+		</div>-->
+	</div>
+	<script src="socket.io/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+	<script src="js_lib/jquery.keyframes.min.js"></script>
+	<script src="js/enum.js"></script>
+	<script src="js/view.js"></script>
+	<script src="js/utility.js"></script>
+	<script src="js/iscando.js"></script>
+	<script src="js/merge.js"></script>
+	<script src="js/move.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/fireworks.js"></script>
+	<script src="js/loseanimation.js"></script>
+
+	<script>
+		var socket = io();
+		//var socket = io.connect('http://10.99.0.104', { path: '/2048/socket.io' });
+		var boxMoveTime = "100ms";
+		var selectedRoom = undefined;
+		var isSendCd1Over = false;
+
+		$(document).ready(function () {
+			//var size = 4;
+			//createMitrixDiv(size);          //畫上 Grid
+			initViewer();
+
+		});
+
+		function gotoRoom(index) {
+			socket.emit('viewer_changeroom', { roomid: index });
+			selectedRoom = index;
+		}
+
+		function initViewer() {
+			socket.emit('init_viewer');
+
+			// server 回傳 rooms
+			socket.on('send_rooms', function (result) {
+				updateDDL(result.rooms);
+			});
+
+			$('#select-rooms').change(function () {
+				var id = getSelectedRoomId();
+				//clearViewRoom();
+				socket.emit('viewer_changeroom', { roomid: id });
+				$(this).blur();
+				selectedRoom = id;
+			});
+
+			socket.on('viewer_changeroom_suc', function (data) {
+				if (data.roomid !== "-1") {
+					var value = parseInt(data.roomid, 10) + 1;
+					$('#titlestr').text("2048第" + value + "房觀戰");
+				}
+				else {
+					$('#titlestr').text("2048觀戰");
+				}
+
+				$("#p1-name-p").text(data.p1name);
+				$("#p2-name-p").text(data.p2name);
+
+				if (data.p1map !== undefined)
+					MappingArrayData_viewmode(1, data.p1map);
+				if (data.p2map !== undefined)
+					MappingArrayData_viewmode(2, data.p2map);
+			});
+
+			// server 回傳 player進入房間
+			socket.on('init_room_opposite', function (data) {
+				setMsg(data.time, 'player' + data.player + ' is in room');
+				StopVictoryGo();
+				document.getElementById("sectionlosemsg").style.visibility = "collapse";
+				$('#titlestr').css("color", "black");
+			});
+
+			// server 回傳 player 已ready
+			socket.on('send_ready_opposite', function (data) {
+				StopVictoryGo();
+				document.getElementById("sectionlosemsg").style.visibility = "collapse";
+				$('#titlestr').css("color", "black");
+				setMsg(data.time, 'player' + data.player + ' is ready');
+				if (data.map !== undefined) {
+					MappingArrayData_viewmode(data.player, data.map);
+				}
+			});
+
+			// server 回傳 第一階段倒數
+			socket.on('send_countdown1', function (data) {
+				var secs = data.secs;
+				$('#gametimespanviewer').text(ConvertSeconds2String(secs));
+			});
+
+			// server 回傳 第一階段倒數結束 (遊戲開始可操作)
+			socket.on('send_countdown1_over', function(data) {
+				if (!isSendCd1Over) {
+					setMsg(data.time, 'Game Start!!');
+					isSendCd1Over = true;
+				}
+			});
+
+			// server 回傳 第二階段倒數
+			socket.on('send_countdown2', function (data) {
+				var secs = data.secs;
+				if (secs === undefined)
+					return;
+				var ss = ConvertSeconds2String(secs);
+				$('#gametimespanviewer').text(ss);
+			});
+
+			// server 回傳 第二階段倒數
+			socket.on('send_countdown2_over', function (data) {
+				setMsg(data.time, 'Game Over!!');
+				if (isSendCd1Over)
+					isSendCd1Over = false;
+
+			});
+
+			// server 回傳 比賽結果(game over)
+			socket.on('send_winner', function (data) {
+				if (data === undefined || data === null)
+					return;
+
+				if (data.winner !== 0) {
+					var obj = Object.create(RainbowObj);
+					obj.init("殘念啦!!");
+					document.getElementById("sectionlosemsg").style.visibility = "visible";
+
+					if (data.winner == "1") {
+						document.getElementsByClassName("rainbow-text")[0].style.left = "50%";
+						$('#titlestr').css("color", "#BB4444");
+						StartVictoryGo(1);
+
+					}
+					else if (data.winner === "2") {
+						document.getElementsByClassName("rainbow-text")[0].style.left = "25%";
+
+						$('#titlestr').css("color", "#50798B");
+						StartVictoryGo(2);
+
+					}
+					else {
+						StartVictoryGo(0);
+					}
+					setMsg(data.time, 'winner is player' + data.winner + ' score:' + data.map[0].Score);
+				}
+				else
+					setMsg(data.time, 'game is tie ,score:' + data.map[0].Score);
+			});
+
+			socket.on('send_map', function (data) {
+				if (data !== undefined && data !== null) {
+					MappingArrayData_viewmode(data.player, data.map);
+				}
+			});
+
+			socket.on('disconnect_opposite', function (data) {
+				setMsg(data.time, "player" + data.player + "is left");
+			});
+
+			socket.on('send_nickname_opposite', function (data) {
+				if (data === undefined || data === null)
+					return;
+
+				if (data.player === 1) {
+					$("#p1-name-p").text(data.nickname);
+				}
+				else if (data.player === 2) {
+					$("#p2-name-p").text(data.nickname);
+				}
+			});
+
+			//$('#startbtn').click(function () {
+			//    var obj = Object.create(RainbowObj);
+			//    obj.init("edar");
+
+			//    document.getElementById("sectionlosemsg").style.visibility = "visible";
+
+			//    document.getElementsByClassName("rainbow-text")[0].style.left = "50%";
+			//});
+			//$('#stopbtn').click(function () {
+			//    var obj = Object.create(RainbowObj);
+			//    obj.init("edar5555");
+			//    document.getElementsByClassName("rainbow-text")[0].style.left = "25%";
+			//});
+		}
+
+		function setMsg(msgtime, msg) {
+			var trdiv = $(document.createElement("div")).addClass("css_tr");
+			var timdiv = $(document.createElement("div")).addClass("css_td").append("<span>" + timeMsgStr(msgtime) + "</span>");
+			var msgdiv = $(document.createElement("div")).addClass("css_td").append("<span>" + msg + "</span>");
+			trdiv.append(timdiv, msgdiv);
+
+			$('#gamemsgspan').prepend(trdiv);
+		}
+		function timeMsgStr(msgtime) {
+			var date = new Date(msgtime);
+
+			var yyyy = date.toLocaleDateString().slice(0, 4)
+			var MM = (date.getMonth() + 1 < 10 ? '0' : '') + (date.getMonth() + 1);
+			var dd = (date.getDate() < 10 ? '0' : '') + date.getDate();
+			var h = (date.getHours() < 10 ? '0' : '') + date.getHours();
+			var m = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+			var s = (date.getSeconds() < 10 ? '0' : '') + date.getSeconds();
+			//yyyy + "" + MM + "" + dd + "" +
+			return h + ":" + m + ":" + s;
+		}
+
+
+		function updateDDL(rooms) {
+			//add room options to #select-rooms
+			$('#select-rooms').empty();
+
+			rooms.forEach(function (room) {
+				var roomid = parseInt(room.id) + 1;
+				$("#select-rooms").append($("<option></option>").attr("value", room.id).text(roomid));
+			});
+			$('#select-rooms')[0].selectedIndex = -1;
+
+			if (selectedRoom !== undefined) {
+				var prevSelected = $("#select-rooms option[value=" + selectedRoom + "]");
+				if (prevSelected != undefined && prevSelected.length > 0) {
+					prevSelected.selected = true;
+				} else {
+					$("#select-rooms option")[0].selected = true;
+				}
+			}
+			else {
+				$("#select-rooms option")[0].selected = true;
+			}
+
+			$('#select-rooms').change();
+		}
+
+		function getSelectedRoomId() {
+			return $("select#select-rooms").val();;
+		}
+
+
+	</script>
 </body>
 
 </html>

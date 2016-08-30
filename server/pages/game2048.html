@@ -2,475 +2,22 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <script src="socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-
-    <script src="js_lib/jquery.keyframes.min.js"></script>
-    <script src="js/enum.js"></script>
-    <script src="js/view.js"></script>
-    <script src="js/utility.js"></script>
-    <script src="js/iscando.js"></script>
-    <script src="js/merge.js"></script>
-    <script src="js/move.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/fireworks.js"></script>
-    
+	<title>Game2048 v3</title>
+	<link rel="shortcut icon" href="images/favicon.ico"/>
+   
     <link rel="stylesheet" href="css/game2048battlestyle.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
     <div id="fb-root"></div>
 <!--<script src="js/fb.js"></script>-->
-<script>
-    //var socket = io.connect('http://localhost', { path: '/2048/socket.io' });
-    //var socket = io.connect('http://fdev.mitake.com.tw', { path: '/2048/socket.io' });
-
-    var socket = io();
-    //var socket = io.connect('http://10.99.0.104', { path: '/2048/socket.io' });
-    
-    var isCanClick = true;
-    var isAnimationComplete = true;
-    var boxMoveTime = "100ms";
-
-    //遊戲目前狀態
-    var mapObj = {
-        Size: 4,
-        Items: [],
-        IdMax: 0,
-        Score: 0,
-        IsGameOver: false
-    };
-    
-    //遊戲上一狀態
-    var prevObj = {
-        Size: 4,
-        Items: [],
-        IdMax: 0,
-        Score: 0,
-        IsGameOver: false
-    };
-
-    var roomInfo = {
-    	id: -1,
-    	player: 0
-    };
-
-    $(document).ready(function () {
-        document.onkeydown = keyFunction;
-
-        //使用行動裝置
-        InitMobile();
-
-        initBattle();
-
-        var canvas = $('canvas:first');
-        if (canvas) {
-
-            canvas[0].width = window.innerWidth;
-            canvas[0].height = window.innerHeight;
-        }
-       
-    });
-
-    function moveLeft() {
-        if (Move(mapObj, DIRECTION.LEFT, prevObj)) {
-            boxsmove(mapObj, prevObj);      //動畫+重繪數字
-            EnableRollbackButton();         //「上一步」按鈕狀態控制
-            sendMove(mapObj);               //send move obj to server
-        }
-    }
-
-    function moveRight() {
-        if (Move(mapObj, DIRECTION.RIGHT, prevObj)) {
-            boxsmove(mapObj, prevObj);      //動畫+重繪數字
-            EnableRollbackButton();         //「上一步」按鈕狀態控制
-            sendMove(mapObj);               //send move obj to server
-        }
-    }
-
-    function moveUp() {
-        if (Move(mapObj, DIRECTION.UP, prevObj)) {
-            boxsmove(mapObj, prevObj);      //動畫+重繪數字
-            EnableRollbackButton();         //「上一步」按鈕狀態控制
-            sendMove(mapObj);               //send move obj to server
-        }
-    }
-
-    function moveDown() {
-        if (Move(mapObj, DIRECTION.DOWN, prevObj)) {
-            boxsmove(mapObj, prevObj);      //動畫+重繪數字
-            EnableRollbackButton();         //「上一步」按鈕狀態控制
-            sendMove(mapObj);               //send move obj to server
-        }
-    }
-
-    function rollback() {
-        Clone(prevObj, mapObj);     //將前一狀態倒回現在狀態
-        sendMove(mapObj);           //send move obj to server
-
-        MappingArrayData(mapObj);   //重繪Array
-        HideGameOverMask();         //假如有 GameOver，則將 Mask 隱藏
-        DisableRollbackButton();    //關閉「上一步」
-    }
-
-    function clickreset() {
-        reset();
-        sendMove(mapObj);
-    }
-
-    function reset() {
-        var size = 4;
-        //createMitrixDiv(size);        //畫上 Grid
-        Init(mapObj, size);             //Init Data
-        Clone(mapObj, prevObj);         //紀錄狀態
-        
-        MappingArrayData(mapObj);       //重繪數字
-
-        HideGameOverMask();             //關閉GameOver Mask
-        DisableRollbackButton();        //關閉「上一步」
-    }
-
-    function keyFunction() {
-        if (isCanSendKey()) {
-            if (event.keyCode === 37 ) {
-            moveLeft();
-            } else if (event.keyCode === 38 ) {
-            moveUp();
-            } else if (event.keyCode === 39 ) {
-            moveRight();
-            } else if (event.keyCode === 40 ) {
-            moveDown();
-        }
-    }
-    }
-
-    function InitMobile() {
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            $.getScript('https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js', function() {
-                $.getScript('js/initmobile.js', function() {
-                    $.mobile.loading().hide();
-
-                    $(document).on("swipeleft", function() {
-                        moveLeft();
-                    });
-
-                    $(document).on("swiperight", function() {
-                        moveRight();
-                    });
-
-                    $(document).on("swipeup", function() {
-                        moveUp();
-                    });
-                    $(document).on("swipedown", function() {
-                        moveDown();
-                    });
-                });
-        });
-    }
-    }
-
-    function initBattle() {
-        isCanClick = false;     // 關閉 keycode 控制
-        DisableResetButton();   // 關閉 Button
-        DisableRollbackButton();// 關閉 Button
-        DisableReadyButton();   // 關閉 Button
-
-    	socket.emit('init_room');
-
-        // server 回傳安排的 room & player
-    	socket.on('init_room', function (result) {
-            //todo: result.time
-            roomInfo.id = result.id;
-            roomInfo.player = result.player;
-            setPlayColorMode(result.player);
-            
-            if (roomInfo.id != "-1") {
-                var value = parseInt(roomInfo.id, 10) + 1;
-                
-                $('#roomid').text("第" + value  + "對戰房");
-            }
-
-        });
-
-        // server 回傳 對手進入房間
-        socket.on('init_room_opposite', function (data) {
-            //todo: data.time
-            setMsg('Opposite is in room');
-        });
-
-        // server 回傳 滿房
-        socket.on('init_room_full', function (data) {
-            //todo: data.time
-            socket.emit('init_game', roomInfo);
-        });
-
-        // server 回傳 已可點擊 Ready btn
-        socket.on('init_ready', function (data) {
-            //todo: data.time
-
-            isCanClick = false;     // 關閉 keycode 控制
-            DisableResetButton();   // 關閉 Button
-            DisableRollbackButton();// 關閉 Button
-
-            //unlock ready btn
-            EnableReadyButton();
-        });
-
-        // 點擊送出 ready 
-        $('#readybtn').click(function () {
-            $('#2048id').css("color", "black");
-            $('#roomid').css("color", "black");
-            if (roomInfo.player == "1")
-                document.body.style.backgroundColor = "#FFDBDB";
-            else
-                document.body.style.backgroundColor = "#DBDBFF";
-            StopVictoryGo();
-            document.getElementById("sectionlosemsg").style.visibility = "collapse";
-            DisableReadyButton();
-            reset();
-            socket.emit('send_ready', { id: roomInfo.id, map: mapObj });
-        });
-
-        // server 回傳 對手 已ready
-        socket.on('send_ready_opposite', function (data) {
-            //todo:data.time
-
-            var oppoInitMap = data.map;
-            setMsg('opposite is ready');
-            if (oppoInitMap !== undefined) {
-                MappingArrayData_Oppo(oppoInitMap); 
-            }
-        });
-
-        // server 回傳 第一階段倒數
-        socket.on('send_countdown1', function (data) {
-            //todo: data.time
-            var secs = data.secs;
-            $('#gametimespan').text(ConvertSeconds2String(secs));
-        });
-
-        // server 回傳 第一階段倒數結束 (遊戲開始可操作)
-        socket.on('send_countdown1_over', function (data) {
-            //todo: data.time
-            isCanClick = true;      // 開啟 keycode 控制
-            EnableResetButton();    // 開啟 Button
-            EnableRollbackButton(); // 開啟 Button
-        });
-
-        // server 回傳 第二階段倒數
-        socket.on('send_countdown2', function (data) {
-            //todo:data.time
-            var secs = data.secs;
-            if (secs === undefined)
-                return;
-            var ss = ConvertSeconds2String(secs);
-            $('#gametimespan').text(ss);
-        });
-
-        // server 回傳 第二階段倒數
-        socket.on('send_countdown2_over', function (data) {
-            //todo:data.time
-            setMsg('Game Over!!');
-
-            isCanClick = false;     // 關閉 keycode 控制
-            DisableResetButton();   // 關閉 Button
-            DisableRollbackButton();// 關閉 Button
-
-            EnableReadyButton();
-        });
-
-        // server 回傳 比賽結果(game over)
-        socket.on('send_winner', function (data) {
-            if (data === undefined || data === null)
-                return;
-            
-            if (data.winner !== 0) {
-                if (roomInfo.player == "1") {//player 1 玩家
-                    if (data.winner == "1") {//
-                        $('#2048id').css("color", "#BB4444");
-                        $('#roomid').css("color", "#BB4444");
-                        StartVictoryGo(0);
-                    }
-                    else {
-                        $('#2048id').css("color", "#BB4444");
-                        $('#roomid').css("color", "#BB4444");
-                        document.body.style.background = "black";
-                        document.getElementById("sectionlosemsg").style.visibility = "visible";
-                        var obj = Object.create(RainbowObj);
-                        obj.init("殘念啦!!");
-                        //$("#rainbow-text").css("text", "player2");
-                    }
-                }
-                else {
-                    if (data.winner == "2") {
-                        $('#2048id').css("color", "#50798B");
-                        $('#roomid').css("color", "#50798B");
-                        StartVictoryGo(0);
-                    }
-                    else {
-                        $('#2048id').css("color", "#50798B");
-                        $('#roomid').css("color", "#50798B");
-                        document.body.style.background = "black";
-                        document.getElementById("sectionlosemsg").style.visibility = "visible";
-                        var obj = Object.create(RainbowObj);
-                        obj.init("殘念啦!!");
-                    }
-                }
-                //setMsg('winner is player' + data.winner + ' score:' + data.map[0].Score);
-                setMsg('winner is player' + data.winner);
-            }
-            else
-                setMsg('game is tie ,score:' + data.map[0].Score);
-        });
-
-        // make a move
-        socket.on('send_map', function (data) {
-            //todo:data.time
-            var oppoMap = data.map;
-    	    if (oppoMap !== undefined) {
-    	        MappingArrayData_Oppo(oppoMap);
-    	    }
-    	});
-
-        socket.on('disconnect_opposite', function (data) {
-            //todo:data.time
-            setMsg('Opposite leaved');
-        });
-
-        // on nickname changed
-        $('#player1-name').blur(function() {
-
-            var nickename = $('#player1-name').val();
-            socket.emit('send_nickname', { id: roomInfo.id, nickname: nickename });
-
-        });
-
-        // when oppo change nickname
-        socket.on('send_nickname_opposite', function (data) {
-            //todo:data.time
-            setNickname_Oppo(data.nickname);
-        });
-
-        //$('#testbtn').click(function () {
-        //    if (roomInfo.player == "1") {//player 1 玩家
-        //        $('#2048id').css("color", "#BB4444");
-        //        $('#roomid').css("color", "#BB4444");
-                
-        //    }
-            
-        //    StartVictoryGo(0);
-        //});
-        //$('#test2btn').click(function () {
-        //    $('#2048id').css("color", "black");
-        //    $('#roomid').css("color", "black");
-        //    StopVictoryGo();
-
-        //});
-        //$('#startbtn').click(function () {
-        //    var obj = Object.create(RainbowObj);
-        //    obj.init("edar");
-        //    document.getElementById("sectionlosemsg").style.visibility = "visible";
-        //    //$("#rainbow-text").css("text", "5555555555");
-        //    //document.getElementById("sectionlosemsg").style.visibility = "visible";
-        //    //$("#sectionlosemsg").css("visibility", "visible");
-        //});
-        //$('#stopbtn').click(function () {
-        //    var obj = Object.create(RainbowObj);
-        //    obj.init("edar5555");
-        //    //document.getElementById("sectionlosemsg").style.visibility = "collapse";
-        //    //$("#sectionlosemsg").css("visibility", "collapse");
-        //});
-    }
-
-    function sendMove(map) {
-        socket.emit('send_map', { id: roomInfo.id, map: map });
-    }
-
-    function isCanSendKey() {
-        return isCanClick && isAnimationComplete;
-    }
-
-    function setPlayColorMode(player) {
-        //var player1maincolor = "#BB4444";
-        //var player2maincolor = "#50798B";
-
-        var maincolor;
-        var secondcolor;
-
-
-        if (player == 1) {
-            maincolor = "#BB4444";
-            secondcolor = "#50798B";
-            document.body.style.backgroundColor = "#FFDBDB";
-        }
-        else {
-            maincolor = "#50798B";
-            secondcolor = "#BB4444";
-            document.body.style.backgroundColor = "#DBDBFF";
-        }
-        //player 1 
-        var columnborder = document.getElementsByClassName("play1-box-column-border");
-        for (var t = 0; t < columnborder.length; t++) {
-            columnborder[t].style.background = maincolor;
-        }
-
-        var rowborder = document.getElementsByClassName("play1-box-row-border");
-        for (var t = 0; t < rowborder.length; t++) {
-            rowborder[t].style.background = maincolor;
-        }
-
-        var boxbody = document.getElementById("play1-box-body")
-        boxbody.style.borderColor = maincolor;
-        //分數
-        var player1scare = document.getElementById("player1-scare")
-        player1scare.style.borderColor = maincolor;
-        player1scare.style.background = maincolor;
-        //暱稱
-        var player1name = document.getElementById("player1-name")
-        player1name.style.borderColor = maincolor;
-        player1name.style.background = maincolor;
-        //重玩，上一步 button
-        var backbutton = document.getElementsByClassName("back-button");
-        for (var t = 0; t < backbutton.length; t++) {
-            backbutton[t].style.background = maincolor;
-            backbutton[t].style.borderColor = maincolor;
-        }
-
-
-
-        //player 2 
-        var play2columnborder = document.getElementsByClassName("play2-box-column-border");
-        for (var t = 0; t < play2columnborder.length; t++) {
-            play2columnborder[t].style.background = secondcolor;
-        }
-
-        var play2rowborder = document.getElementsByClassName("play2-box-row-border");
-        for (var t = 0; t < play2rowborder.length; t++) {
-            play2rowborder[t].style.background = secondcolor;
-        }
-
-        var play2boxbody = document.getElementById("play2-box-body")
-        play2boxbody.style.borderColor = secondcolor;
-        //分數
-        var player2scare = document.getElementById("player2-scare")
-        player2scare.style.borderColor = secondcolor;
-        player2scare.style.background = secondcolor;
-        //暱稱
-        var player2name = document.getElementById("player2-name")
-        player2name.style.borderColor = secondcolor;
-        player2name.style.background = secondcolor;
-        
-        
-    }
-
-</script>
 
 <div class="main-contain" >
     <!--<input id="startbtn" type="button" value="Start" />
     <input id="stopbtn" type="button" value="Stop" />-->
 
         <h1 id="Str2048id" class="Str2048id" style="font-weight:bold">2048</h1>
-        <p id="roomid" class="roomid" style="font-size:larger"></p>
+        <p id="roomid" style="font-size:larger"></p>
         <div id="capture-range-div">
             
 
@@ -480,7 +27,7 @@
                     <p id="gametimespan">00:00</p>
                 </div>
                 <!--分數-->
-                <div id="player1-scare">
+                <div id="player1-score">
                     <p class="score-title">SCORE</p>
                     <p class="score-content" id="score">0</p>
                 </div>
@@ -566,7 +113,7 @@
             <div id="play2divcss">
                 <div>
                     <!--分數-->
-                    <div id="player2-scare">
+                    <div id="player2-score">
                         <p class="score-title">SCORE</p>
                         <p class="score-content" id="score2">0</p>
                     </div>
@@ -637,13 +184,462 @@
 
         <div style="height:50px">
             <div id="gamemsgspan"></div>
-            <input id="readybtn" type="button" value="READY" />
+            <input id="readybtn" type="button" value="READY" data-mini="true" />
         </div>
 
 
 </div>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="socket.io/socket.io.js"></script>
+	<script src="js_lib/jquery.keyframes.min.js"></script>
 
-    <script src="js/loseanimation.js"></script>
+	<script src="js/enum.js"></script>
+	<script src="js/view.js"></script>
+	<script src="js/utility.js"></script>
+	<script src="js/iscando.js"></script>
+	<script src="js/merge.js"></script>
+	<script src="js/move.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/fireworks.js"></script>
+	<script src="js/initmobile.js"></script>
+	<script src="js/loseanimation.js"></script>
+
+	<script>
+    var socket = io();
+    //var socket = io.connect('http://localhost', { path: '/2048/socket.io' });
+    //var socket = io.connect('http://fdev.mitake.com.tw', { path: '/2048/socket.io' });
+    //var socket = io.connect('http://10.99.0.104', { path: '/2048/socket.io' });
+
+    var isCanClick = true;
+    var isAnimationComplete = true;
+    var boxMoveTime = "100ms";
+
+    //遊戲目前狀態
+    var mapObj = {
+        Size: 4,
+        Items: [],
+        IdMax: 0,
+        Score: 0,
+        IsGameOver: false
+    };
+
+    //遊戲上一狀態
+    var prevObj = {
+        Size: 4,
+        Items: [],
+        IdMax: 0,
+        Score: 0,
+        IsGameOver: false
+    };
+
+    var roomInfo = {
+    	id: -1,
+    	player: 0
+    };
+
+    $(document).ready(function () {
+        document.onkeydown = keyFunction;
+
+        //使用行動裝置
+        InitMobile();
+
+        initBattle();
+
+        var canvas = $('canvas:first');
+        if (canvas) {
+
+            canvas[0].width = window.innerWidth;
+            canvas[0].height = window.innerHeight;
+        }
+
+    });
+
+    function moveLeft() {
+        if (Move(mapObj, DIRECTION.LEFT, prevObj)) {
+            boxsmove(mapObj, prevObj);      //動畫+重繪數字
+            EnableRollbackButton();         //「上一步」按鈕狀態控制
+            sendMove(mapObj);               //send move obj to server
+        }
+    }
+
+    function moveRight() {
+        if (Move(mapObj, DIRECTION.RIGHT, prevObj)) {
+            boxsmove(mapObj, prevObj);      //動畫+重繪數字
+            EnableRollbackButton();         //「上一步」按鈕狀態控制
+            sendMove(mapObj);               //send move obj to server
+        }
+    }
+
+    function moveUp() {
+        if (Move(mapObj, DIRECTION.UP, prevObj)) {
+            boxsmove(mapObj, prevObj);      //動畫+重繪數字
+            EnableRollbackButton();         //「上一步」按鈕狀態控制
+            sendMove(mapObj);               //send move obj to server
+        }
+    }
+
+    function moveDown() {
+        if (Move(mapObj, DIRECTION.DOWN, prevObj)) {
+            boxsmove(mapObj, prevObj);      //動畫+重繪數字
+            EnableRollbackButton();         //「上一步」按鈕狀態控制
+            sendMove(mapObj);               //send move obj to server
+        }
+    }
+
+    function rollback() {
+        Clone(prevObj, mapObj);     //將前一狀態倒回現在狀態
+        sendMove(mapObj);           //send move obj to server
+
+        MappingArrayData(mapObj);   //重繪Array
+        HideGameOverMask();         //假如有 GameOver，則將 Mask 隱藏
+        DisableRollbackButton();    //關閉「上一步」
+    }
+
+    function clickreset() {
+        reset();
+        sendMove(mapObj);
+    }
+
+    function reset() {
+        var size = 4;
+        //createMitrixDiv(size);        //畫上 Grid
+        Init(mapObj, size);             //Init Data
+        Clone(mapObj, prevObj);         //紀錄狀態
+
+        MappingArrayData(mapObj);       //重繪數字
+
+        HideGameOverMask();             //關閉GameOver Mask
+        DisableRollbackButton();        //關閉「上一步」
+    }
+
+    function keyFunction() {
+        if (isCanSendKey()) {
+            if (event.keyCode === 37 ) {
+            moveLeft();
+            } else if (event.keyCode === 38 ) {
+            moveUp();
+            } else if (event.keyCode === 39 ) {
+            moveRight();
+            } else if (event.keyCode === 40 ) {
+            moveDown();
+        }
+    }
+    }
+
+    function InitMobile() {
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            $(document).on("swipeleft", function () {
+	            if (isCanSendKey()) {
+		            moveLeft();
+	            }
+            });
+
+            $(document).on("swiperight", function () {
+	            if (isCanSendKey()) {
+		            moveRight();
+	            }
+            });
+
+            $(document).on("swipeup", function () {
+	            if (isCanSendKey()) {
+		            moveUp();
+	            }
+            });
+            $(document).on("swipedown", function () {
+	            if (isCanSendKey()) {
+		            moveDown();
+	            }
+            });
+		}
+    }
+
+    function initBattle() {
+        isCanClick = false;     // 關閉 keycode 控制
+        DisableResetButton();   // 關閉 Button
+        DisableRollbackButton();// 關閉 Button
+        DisableReadyButton();   // 關閉 Button
+
+    	socket.emit('init_room');
+
+        // server 回傳安排的 room & player
+    	socket.on('init_room', function (result) {
+            roomInfo.id = result.id;
+            roomInfo.player = result.player;
+            setPlayColorMode(result.player);
+
+            if (roomInfo.id !== "-1") {
+                var value = parseInt(roomInfo.id, 10) + 1;
+
+                $('#roomid').text("第" + value  + "對戰房");
+            }
+
+        });
+
+        // server 回傳 對手進入房間
+        socket.on('init_room_opposite', function (data) {
+            //todo: data.time
+            setMsg('Opposite is in room');
+        });
+
+        // server 回傳 滿房
+        socket.on('init_room_full', function (data) {
+            //todo: data.time
+            socket.emit('init_game', roomInfo);
+        });
+
+        // server 回傳 已可點擊 Ready btn
+        socket.on('init_ready', function (data) {
+            //todo: data.time
+
+            isCanClick = false;     // 關閉 keycode 控制
+            DisableResetButton();   // 關閉 Button
+            DisableRollbackButton();// 關閉 Button
+
+            //unlock ready btn
+            EnableReadyButton();
+        });
+
+        // 點擊送出 ready
+        $('#readybtn').click(function () {
+            $('#2048id').css("color", "black");
+            $('#roomid').css("color", "black");
+            if (roomInfo.player === "1")
+                document.body.style.backgroundColor = "#FFDBDB";
+            else
+                document.body.style.backgroundColor = "#DBDBFF";
+            StopVictoryGo();
+            document.getElementById("sectionlosemsg").style.visibility = "collapse";
+            DisableReadyButton();
+            reset();
+            socket.emit('send_ready', { id: roomInfo.id, map: mapObj });
+        });
+
+        // server 回傳 對手 已ready
+        socket.on('send_ready_opposite', function (data) {
+            var oppoInitMap = data.map;
+            setMsg('opposite is ready');
+            if (oppoInitMap !== undefined) {
+                MappingArrayData_Oppo(oppoInitMap);
+            }
+        });
+
+        // server 回傳 第一階段倒數
+        socket.on('send_countdown1', function (data) {
+            var secs = data.secs;
+            $('#gametimespan').text(ConvertSeconds2String(secs));
+        });
+
+        // server 回傳 第一階段倒數結束 (遊戲開始可操作)
+        socket.on('send_countdown1_over', function (data) {
+            isCanClick = true;      // 開啟 keycode 控制
+            EnableResetButton();    // 開啟 Button
+            EnableRollbackButton(); // 開啟 Button
+        });
+
+        // server 回傳 第二階段倒數
+        socket.on('send_countdown2', function (data) {
+            var secs = data.secs;
+            if (secs === undefined)
+                return;
+            var ss = ConvertSeconds2String(secs);
+            $('#gametimespan').text(ss);
+        });
+
+        // server 回傳 第二階段倒數
+        socket.on('send_countdown2_over', function (data) {
+            setMsg('Game Over!!');
+
+            isCanClick = false;     // 關閉 keycode 控制
+            DisableResetButton();   // 關閉 Button
+            DisableRollbackButton();// 關閉 Button
+
+            EnableReadyButton();
+        });
+
+        // server 回傳 比賽結果(game over)
+        socket.on('send_winner', function (data) {
+            if (data === undefined || data === null)
+                return;
+	        var obj;
+            if (data.winner !== 0) {
+                if (roomInfo.player === "1") {//player 1 玩家
+                    if (data.winner === "1") {//
+                        $('#2048id').css("color", "#BB4444");
+                        $('#roomid').css("color", "#BB4444");
+                        StartVictoryGo(0);
+                    }
+                    else {
+                        $('#2048id').css("color", "#BB4444");
+                        $('#roomid').css("color", "#BB4444");
+                        document.body.style.background = "black";
+                        document.getElementById("sectionlosemsg").style.visibility = "visible";
+                        obj = Object.create(RainbowObj);
+                        obj.init("殘念啦!!");
+                        //$("#rainbow-text").css("text", "player2");
+                    }
+                }
+                else {
+                    if (data.winner === "2") {
+                        $('#2048id').css("color", "#50798B");
+                        $('#roomid').css("color", "#50798B");
+                        StartVictoryGo(0);
+                    }
+                    else {
+                        $('#2048id').css("color", "#50798B");
+                        $('#roomid').css("color", "#50798B");
+                        document.body.style.background = "black";
+                        document.getElementById("sectionlosemsg").style.visibility = "visible";
+                        obj = Object.create(RainbowObj);
+                        obj.init("殘念啦!!");
+                    }
+                }
+                //setMsg('winner is player' + data.winner + ' score:' + data.map[0].Score);
+                setMsg('winner is player' + data.winner);
+            }
+            else
+                setMsg('game is tie ,score:' + data.map[0].Score);
+        });
+
+        // make a move
+        socket.on('send_map', function (data) {
+            var oppoMap = data.map;
+    	    if (oppoMap !== undefined) {
+    	        MappingArrayData_Oppo(oppoMap);
+    	    }
+    	});
+
+        socket.on('disconnect_opposite', function (data) {
+            setMsg('Opposite leaved');
+        });
+
+        // on nickname changed
+        $('#player1-name').blur(function() {
+
+            var nickename = $('#player1-name').val();
+            socket.emit('send_nickname', { id: roomInfo.id, nickname: nickename });
+
+        });
+
+        // when oppo change nickname
+        socket.on('send_nickname_opposite', function (data) {
+            setNickname_Oppo(data.nickname);
+        });
+
+        //$('#testbtn').click(function () {
+        //    if (roomInfo.player == "1") {//player 1 玩家
+        //        $('#2048id').css("color", "#BB4444");
+        //        $('#roomid').css("color", "#BB4444");
+
+        //    }
+
+        //    StartVictoryGo(0);
+        //});
+        //$('#test2btn').click(function () {
+        //    $('#2048id').css("color", "black");
+        //    $('#roomid').css("color", "black");
+        //    StopVictoryGo();
+
+        //});
+        //$('#startbtn').click(function () {
+        //    var obj = Object.create(RainbowObj);
+        //    obj.init("edar");
+        //    document.getElementById("sectionlosemsg").style.visibility = "visible";
+        //    //$("#rainbow-text").css("text", "5555555555");
+        //    //document.getElementById("sectionlosemsg").style.visibility = "visible";
+        //    //$("#sectionlosemsg").css("visibility", "visible");
+        //});
+        //$('#stopbtn').click(function () {
+        //    var obj = Object.create(RainbowObj);
+        //    obj.init("edar5555");
+        //    //document.getElementById("sectionlosemsg").style.visibility = "collapse";
+        //    //$("#sectionlosemsg").css("visibility", "collapse");
+        //});
+    }
+
+    function sendMove(map) {
+        socket.emit('send_map', { id: roomInfo.id, map: map });
+    }
+
+    function isCanSendKey() {
+        return isCanClick && isAnimationComplete;
+    }
+
+    function setPlayColorMode(player) {
+        //var player1maincolor = "#BB4444";
+        //var player2maincolor = "#50798B";
+
+        var maincolor;
+        var secondcolor;
+
+
+        if (player === 1) {
+            maincolor = "#BB4444";
+            secondcolor = "#50798B";
+            document.body.style.backgroundColor = "#FFDBDB";
+        }
+        else {
+            maincolor = "#50798B";
+            secondcolor = "#BB4444";
+            document.body.style.backgroundColor = "#DBDBFF";
+        }
+    	//player 1
+	    var t;
+        var columnborder = document.getElementsByClassName("play1-box-column-border");
+        for (t = 0; t < columnborder.length; t++) {
+            columnborder[t].style.background = maincolor;
+        }
+
+        var rowborder = document.getElementsByClassName("play1-box-row-border");
+        for (t = 0; t < rowborder.length; t++) {
+            rowborder[t].style.background = maincolor;
+        }
+
+	    var boxbody = document.getElementById("play1-box-body");
+        boxbody.style.borderColor = maincolor;
+        //分數
+	    var player1Score = document.getElementById("player1-score");
+        player1Score.style.borderColor = maincolor;
+        player1Score.style.background = maincolor;
+        //暱稱
+	    var player1Name = document.getElementById("player1-name");
+        player1Name.style.borderColor = maincolor;
+        player1Name.style.background = maincolor;
+        //重玩，上一步 button
+        var backbutton = document.getElementsByClassName("back-button");
+        for (t = 0; t < backbutton.length; t++) {
+            backbutton[t].style.background = maincolor;
+            backbutton[t].style.borderColor = maincolor;
+        }
+
+
+
+        //player 2
+        var play2columnborder = document.getElementsByClassName("play2-box-column-border");
+        for (t = 0; t < play2columnborder.length; t++) {
+            play2columnborder[t].style.background = secondcolor;
+        }
+
+        var play2rowborder = document.getElementsByClassName("play2-box-row-border");
+        for (t = 0; t < play2rowborder.length; t++) {
+            play2rowborder[t].style.background = secondcolor;
+        }
+
+	    var play2boxbody = document.getElementById("play2-box-body");
+        play2boxbody.style.borderColor = secondcolor;
+        //分數
+	    var player2score = document.getElementById("player2-score");
+        player2score.style.borderColor = secondcolor;
+        player2score.style.background = secondcolor;
+        //暱稱
+	    var player2name = document.getElementById("player2-name");
+        player2name.style.borderColor = secondcolor;
+        player2name.style.background = secondcolor;
+
+
+    }
+
+	</script>
+
 </body>
 
 </html>
