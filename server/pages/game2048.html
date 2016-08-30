@@ -22,10 +22,11 @@
     <div id="fb-root"></div>
 <!--<script src="js/fb.js"></script>-->
 <script>
-    //var socket = io();
     //var socket = io.connect('http://localhost', { path: '/2048/socket.io' });
     //var socket = io.connect('http://fdev.mitake.com.tw', { path: '/2048/socket.io' });
-    var socket = io.connect('http://10.99.0.104', { path: '/2048/socket.io' });
+
+    var socket = io();
+    //var socket = io.connect('http://10.99.0.104', { path: '/2048/socket.io' });
     
     var isCanClick = true;
     var isAnimationComplete = true;
@@ -469,7 +470,7 @@
     <input id="stopbtn" type="button" value="Stop" />-->
 
         <h1 id="Str2048id" class="Str2048id" style="font-weight:bold">2048</h1>
-        <p id="roomid" style="font-size:larger"></p>
+        <p id="roomid" class="roomid" style="font-size:larger"></p>
         <div id="capture-range-div">
             
 

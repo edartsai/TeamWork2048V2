@@ -108,8 +108,11 @@
     <Content Include="images\flowchart.png" />
     <Content Include="images\game-2048-3.png" />
     <Content Include="images\inputEvent01.png" />
+    <Content Include="images\L3Design-1.jpg" />
+    <Content Include="images\L3Design-2.jpg" />
     <Content Include="images\problems08-01.jpg" />
     <Content Include="images\problems08-02.jpg" />
+    <Content Include="images\QRCodeBattle.jpg" />
     <Content Include="intro\functionstree.json" />
     <Content Include="pages\console.html" />
     <Content Include="pages\game2048.html" />

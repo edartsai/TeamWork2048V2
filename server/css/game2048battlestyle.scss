@@ -330,7 +330,6 @@ html, body {
 .box-row{
     z-index:2;
   text-align:center;
-  display: table-row;
   background-color:#CDC1B4;
   &:after {
       content: "";
@@ -484,17 +483,12 @@ html, body {
 }
  //縮放到480px以下，UI調整
  @media only screen and (max-width: 480px){
-     #Str2048id{
-     
+ #Str2048id{
      margin:0px;
  }
-
-     .Str2048id{
-     
+ #roomid{
      margin:0px;
  }
-
-     
 
 #timer-div{
     float:none;
