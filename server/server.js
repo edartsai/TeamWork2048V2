@@ -11,8 +11,8 @@ var sql = require(__dirname + '/js/sql.js');
 var clog = require(__dirname + '/js/log.js');
 
 
-server.listen(9001, function() {
-    clog.consoleLog(1, 'listen', 'ready on port 9001');
+server.listen(8080, function() {
+    clog.consoleLog(1, 'listen', 'ready on port 8080');
 });
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
