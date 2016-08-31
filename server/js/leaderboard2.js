@@ -97,7 +97,8 @@ var vm = new Vue({
                     //lb.維度 = dt.mapsize;
                     lb.分數 = dt.score.toString();
                     lb.截圖 = dt.ssid;
-                    lb.時間 = dt.lbdate;
+                    var date = new Date(dt.lbdate);
+                    lb.時間 = date.toLocaleString();;
         
                     if (lbdata.indexOf(lb) <= -1) {
                         lbdata.$set(lbdata.length, lb);
