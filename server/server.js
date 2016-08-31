@@ -163,7 +163,7 @@ app.use('/typings', express.static('typings'));
 
 var rooms = [];
 var countdown1Interval = 5;     //in sec
-var countdown2Interval = 60;    //in sec
+var countdown2Interval = 30;    //in sec
 
 io.sockets.on('connection', function (socket) {
 
