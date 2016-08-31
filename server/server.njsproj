@@ -108,9 +108,6 @@
     <Content Include="images\flowchart.png" />
     <Content Include="images\game-2048-3.png" />
     <Content Include="images\qr-battle.png" />
-    <Content Include="images\qr-game2048battle.png" />
-    <Content Include="images\qr-game2048single.png" />
-    <Content Include="images\qr-game2048viewer.png" />
     <Content Include="images\inputEvent01.png" />
     <Content Include="images\L3Design-1.jpg" />
     <Content Include="images\L3Design-2.jpg" />

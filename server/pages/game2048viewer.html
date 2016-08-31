@@ -186,8 +186,8 @@
 	<script src="js/loseanimation.js"></script>
 
 	<script>
-		var socket = io();
-		//var socket = io.connect('http://10.99.0.104', { path: '/2048/socket.io' });
+		//var socket = io();
+		var socket = io.connect('http://10.99.0.104', { path: '/2048/socket.io' });
 		var boxMoveTime = "100ms";
 		var selectedRoom = undefined;
 		var isSendCd1Over = false;
