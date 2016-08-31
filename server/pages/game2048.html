@@ -8,204 +8,23 @@
     <link rel="stylesheet" href="css/game2048battlestyle.min.css">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-</head>
-<body>
-    <div id="fb-root"></div>
-<!--<script src="js/fb.js"></script>-->
 
-<div class="main-contain" >
-    <!--<input id="startbtn" type="button" value="Start" />
-    <input id="stopbtn" type="button" value="Stop" />-->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="socket.io/socket.io.js"></script>
+    <script src="js_lib/jquery.keyframes.min.js"></script>
 
-        <h1 id="Str2048id" class="Str2048id" style="font-weight:bold">2048</h1>
-        <p id="roomid" style="font-size:larger"></p>
-        <div id="capture-range-div">
-            
+    <script src="js/enum.js"></script>
+    <script src="js/view.js"></script>
+    <script src="js/utility.js"></script>
+    <script src="js/iscando.js"></script>
+    <script src="js/merge.js"></script>
+    <script src="js/move.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/fireworks.js"></script>
+    <script src="js/initmobile.js"></script>
+    <script src="js/loseanimation.js"></script>
 
-            <div id="block1-detaildata" style="height: 56px">
-                <!--倒數計時器-->
-                <div id="timer-div">
-                    <p id="gametimespan">00:00</p>
-                </div>
-                <!--分數-->
-                <div id="player1-score">
-                    <p class="score-title">SCORE</p>
-                    <p class="score-content" id="score">0</p>
-                </div>
-                <!--player 1-->
-                <!--<div id="player1-name">-->
-                <input type="text" id="player1-name" size=2 placeholder="請輸入暱稱">
-
-
-                <!--重玩-->
-                <button class="back-button" id="resetbtn" type="submit" onclick="clickreset()" style="float:right;margin-bottom:1px">
-                    <img src="images/b_brefresh_20_n.png" alt="" />
-                </button>
-                <!--上一步-->
-                <button class="back-button" id="rollbackbtn" type="submit" onclick="rollback()" style="float:right">
-                    <img src="images/b_back_btn_20_p.png" alt="" />
-                </button>
-            </div>
-
-            <div id="play1divcss">
-                <div class="mask-body" id="mask-body" style="visibility:collapse;margin-top:0;margin-left:0;align-content:stretch">
-                    <p style="font-size: 40px;margin:0 Auto">Game Over</p>
-                </div>
-
-
-                <div id="play1-box-body">
-
-
-                    <div class='box-row'>
-                        <div class="play1-box-column-border"></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                    </div>
-                    <div class='box-row'>
-                        <div class="play1-box-column-border"></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                    </div>
-                    <div class='box-row'>
-                        <div class="play1-box-column-border"></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                    </div>
-                    <div class='box-row'>
-                        <div class="play1-box-column-border"></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                        <div class='box'><p class='box-number'></p></div>
-                        <div class="play1-box-row-border"></div>
-                    </div>
-                    <div class="play1-box-column-border"></div>
-                </div>
-
-
-
-            </div>
-
-            <div id="play2divcss">
-                <div>
-                    <!--分數-->
-                    <div id="player2-score">
-                        <p class="score-title">SCORE</p>
-                        <p class="score-content" id="score2">0</p>
-                    </div>
-                    <div id="player2-name">
-                        <p id="player2-name-p">NAME</p>
-                    </div>
-                    <div style="clear:both;"></div>
-
-                    <div id="play2-box-body">
-                        <div class='box-row'>
-                            <div class="play2-box-column-border"></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                        </div>
-                        <div class='box-row'>
-                            <div class="play2-box-column-border"></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                        </div>
-                        <div class='box-row'>
-                            <div class="play2-box-column-border"></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                        </div>
-                        <div class='box-row'>
-                            <div class="play2-box-column-border"></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                            <div class='box2'><p class='box2-number'></p></div>
-                            <div class="play2-box-row-border"></div>
-                        </div>
-                        <div class="play2-box-column-border"></div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div id="sectionlosemsg" style="visibility:collapse;z-index:100">
-                <h1 class="rainbow-text" id="rainbow-text"></h1>
-            </div>
-        </div>
-
-        <div style="height:50px">
-            <div id="gamemsgspan"></div>
-            <input id="readybtn" type="button" value="READY" data-mini="true" />
-        </div>
-
-
-</div>
-	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-	<script src="socket.io/socket.io.js"></script>
-	<script src="js_lib/jquery.keyframes.min.js"></script>
-
-	<script src="js/enum.js"></script>
-	<script src="js/view.js"></script>
-	<script src="js/utility.js"></script>
-	<script src="js/iscando.js"></script>
-	<script src="js/merge.js"></script>
-	<script src="js/move.js"></script>
-	<script src="js/main.js"></script>
-	<script src="js/fireworks.js"></script>
-	<script src="js/initmobile.js"></script>
-	<script src="js/loseanimation.js"></script>
-
-	<script>
+    <script>
     var socket = io();
     //var socket = io.connect('http://localhost', { path: '/2048/socket.io' });
     //var socket = io.connect('http://fdev.mitake.com.tw', { path: '/2048/socket.io' });
@@ -404,7 +223,7 @@
         $('#readybtn').click(function () {
             $('#2048id').css("color", "black");
             $('#roomid').css("color", "black");
-            if (roomInfo.player === "1")
+            if (roomInfo.player === 1)
                 document.body.style.backgroundColor = "#FFDBDB";
             else
                 document.body.style.backgroundColor = "#DBDBFF";
@@ -463,8 +282,8 @@
                 return;
 	        var obj;
             if (data.winner !== 0) {
-                if (roomInfo.player === "1") {//player 1 玩家
-                    if (data.winner === "1") {//
+                if (roomInfo.player === 1) {//player 1 玩家
+                    if (data.winner === 1) {//
                         $('#2048id').css("color", "#BB4444");
                         $('#roomid').css("color", "#BB4444");
                         StartVictoryGo(0);
@@ -480,7 +299,7 @@
                     }
                 }
                 else {
-                    if (data.winner === "2") {
+                    if (data.winner === 2) {
                         $('#2048id').css("color", "#50798B");
                         $('#roomid').css("color", "#50798B");
                         StartVictoryGo(0);
@@ -639,7 +458,190 @@
 
     }
 
-	</script>
+    </script>
+</head>
+<body>
+    <div id="fb-root"></div>
+<!--<script src="js/fb.js"></script>-->
+
+<div class="main-contain" >
+    <!--<input id="startbtn" type="button" value="Start" />
+    <input id="stopbtn" type="button" value="Stop" />-->
+
+        <h1 id="Str2048id" class="Str2048id" style="font-weight:bold">2048</h1>
+        <p id="roomid" style="font-size:larger"></p>
+        <div id="capture-range-div">
+            
+
+            <div id="block1-detaildata" style="height: 56px">
+                <!--倒數計時器-->
+                <div id="timer-div">
+                    <p id="gametimespan">00:00</p>
+                </div>
+                <!--分數-->
+                <div id="player1-score">
+                    <p class="score-title">SCORE</p>
+                    <p class="score-content" id="score">0</p>
+                </div>
+                <!--player 1-->
+                <!--<div id="player1-name">-->
+                <input type="text" id="player1-name" size=2 placeholder="請輸入暱稱">
+
+
+                <!--重玩-->
+                <button class="back-button" id="resetbtn" type="submit" onclick="clickreset()" style="float:right;margin-bottom:1px">
+                    <img src="images/b_brefresh_20_n.png" alt="" />
+                </button>
+                <!--上一步-->
+                <button class="back-button" id="rollbackbtn" type="submit" onclick="rollback()" style="float:right">
+                    <img src="images/b_back_btn_20_p.png" alt="" />
+                </button>
+            </div>
+
+            <div id="play1divcss">
+                <div class="mask-body" id="mask-body" style="visibility:collapse;margin-top:0;margin-left:0;align-content:stretch">
+                    <p style="font-size: 40px;margin:0 Auto">Game Over</p>
+                </div>
+
+
+                <div id="play1-box-body">
+
+
+                    <div class='box-row'>
+                        <div class="play1-box-column-border"></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                    </div>
+                    <div class='box-row'>
+                        <div class="play1-box-column-border"></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                    </div>
+                    <div class='box-row'>
+                        <div class="play1-box-column-border"></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                    </div>
+                    <div class='box-row'>
+                        <div class="play1-box-column-border"></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                        <div class='box'><p class='box-number'></p></div>
+                        <div class="play1-box-row-border"></div>
+                    </div>
+                    <div class="play1-box-column-border"></div>
+                </div>
+
+
+
+            </div>
+
+            <div id="play2divcss">
+                <div>
+                    <!--分數-->
+                    <div id="player2-score">
+                        <p class="score-title">SCORE</p>
+                        <p class="score-content" id="score2">0</p>
+                    </div>
+                    <div id="player2-name">
+                        <p id="player2-name-p">NAME</p>
+                    </div>
+                    <div style="clear:both;"></div>
+
+                    <div id="play2-box-body">
+                        <div class='box-row'>
+                            <div class="play2-box-column-border"></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                        </div>
+                        <div class='box-row'>
+                            <div class="play2-box-column-border"></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                        </div>
+                        <div class='box-row'>
+                            <div class="play2-box-column-border"></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                        </div>
+                        <div class='box-row'>
+                            <div class="play2-box-column-border"></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                            <div class='box2'><p class='box2-number'></p></div>
+                            <div class="play2-box-row-border"></div>
+                        </div>
+                        <div class="play2-box-column-border"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="sectionlosemsg" style="visibility:collapse;z-index:100">
+                <h1 class="rainbow-text" id="rainbow-text"></h1>
+            </div>
+        </div>
+
+        <div style="height:50px">
+            <div id="gamemsgspan"></div>
+            <input id="readybtn" type="button" value="READY" data-mini="true" />
+        </div>
+
+
+</div>
+	
 
 </body>
 
