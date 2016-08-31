@@ -221,7 +221,7 @@
 
         // 點擊送出 ready
         $('#readybtn').click(function () {
-            $('#2048id').css("color", "black");
+            $('#Str2048id').css("color", "black");
             $('#roomid').css("color", "black");
             if (roomInfo.player === 1)
                 document.body.style.backgroundColor = "#FFDBDB";
@@ -284,12 +284,12 @@
             if (data.winner !== 0) {
                 if (roomInfo.player === 1) {//player 1 玩家
                     if (data.winner === 1) {//
-                        $('#2048id').css("color", "#BB4444");
+                        $('#Str2048id').css("color", "#BB4444");
                         $('#roomid').css("color", "#BB4444");
                         StartVictoryGo(0);
                     }
                     else {
-                        $('#2048id').css("color", "#BB4444");
+                        $('#Str2048id').css("color", "#BB4444");
                         $('#roomid').css("color", "#BB4444");
                         document.body.style.background = "black";
                         document.getElementById("sectionlosemsg").style.visibility = "visible";
@@ -300,12 +300,12 @@
                 }
                 else {
                     if (data.winner === 2) {
-                        $('#2048id').css("color", "#50798B");
+                        $('#Str2048id').css("color", "#50798B");
                         $('#roomid').css("color", "#50798B");
                         StartVictoryGo(0);
                     }
                     else {
-                        $('#2048id').css("color", "#50798B");
+                        $('#Str2048id').css("color", "#50798B");
                         $('#roomid').css("color", "#50798B");
                         document.body.style.background = "black";
                         document.getElementById("sectionlosemsg").style.visibility = "visible";
