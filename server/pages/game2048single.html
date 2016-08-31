@@ -318,11 +318,14 @@
                             //HideLeaderboardButton();
                             UploadScreenshot(lbid);
 
-                            var win = window.open('/leaderboard?size=' + mapObj.Size);
-                            if (win == undefined) {
-                                alert("請不要封鎖彈出式視窗");
-                                return;
-                            }
+                            // 等待一秒鐘再開新窗，避免 screenshot 尚未存入 sql
+                            setTimeout(function() {
+                                var win = window.open('/leaderboard?size=' + mapObj.Size);
+                                if (win == undefined) {
+                                    alert("請不要封鎖彈出式視窗");
+                                    return;
+                                }
+                            }, 1000);
                         }
                     }
                 }
