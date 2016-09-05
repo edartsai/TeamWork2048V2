@@ -105,6 +105,8 @@ app.post('/addscreenshot', function(req, res) {
 
 app.post('/getfunctionstreedata', function (req, res) {
     res.sendFile(__dirname + '/intro/functionstree.json');
+    
+    
 });
 
 app.use('/pages', express.static('pages'));
